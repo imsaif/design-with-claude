@@ -6,18 +6,72 @@ A comprehensive collection of specialized design agents for Claude, empowering d
 
 This repository contains 28 specialized design agents organized into 7 categories, each tailored to specific design disciplines and workflows. These agents can be used with Claude to enhance design capabilities, streamline workflows, and ensure best practices across all design activities.
 
+## Prerequisites
+
+- **Claude Access**: Claude CLI (`claude-code`) or Claude AI web interface
+- **Git**: For cloning the repository (optional)
+
 ## Installation
 
-### User-wide Installation
-Place agents in your home directory:
+### Option 1: Clone and Use Directly
+Clone the repository and reference agents from the location:
 ```bash
+git clone https://github.com/imsaif/design-with-claude.git
+cd design-with-claude
+```
+
+### Option 2: Install to Claude's Agent Directory
+
+#### User-wide Installation
+Make agents available for all your projects:
+```bash
+# Clone the repository
+git clone https://github.com/imsaif/design-with-claude.git
+cd design-with-claude
+
+# Copy agents to your home Claude directory
 cp -r agents/* ~/.claude/agents/
 ```
 
-### Project-specific Installation
-Place agents in your project directory:
+#### Project-specific Installation
+Install agents for a specific project only:
 ```bash
-cp -r agents/* .claude/agents/
+# Navigate to your project
+cd your-project
+
+# Copy agents to project's Claude directory
+cp -r path/to/design-with-claude/agents/* .claude/agents/
+```
+
+### Option 3: Use with Claude Web Interface
+Simply copy the content of any agent file and paste it at the beginning of your Claude conversation to give Claude that agent's expertise.
+
+## Quick Start
+
+After installation, you can immediately start using agents:
+
+### With Claude CLI
+```bash
+# Start a new Claude session with a specific agent
+claude --agent ui-designer "Help me design a landing page"
+
+# Or within an existing Claude session
+> @ui-designer Create a responsive navigation menu
+```
+
+### With Claude Web Interface
+1. Open any agent file (e.g., `agents/core-design/ui-designer.md`)
+2. Copy the entire content
+3. Paste it at the start of your Claude conversation
+4. Ask your design question
+
+### Verify Installation (Claude CLI)
+```bash
+# List available agents
+ls ~/.claude/agents/
+
+# Or for project-specific
+ls .claude/agents/
 ```
 
 ## Agent Categories
@@ -80,26 +134,64 @@ Domain-specific design expertise.
 
 ## Usage Examples
 
-### Using an Agent
-Simply invoke the agent by name when working with Claude:
+### Using Agents with Claude CLI
 
-```
+Invoke agents using the @ symbol followed by the agent name:
+
+```bash
+# UI/UX Design
 @ui-designer Help me design a landing page for a SaaS product
-```
 
-```
+# User Research
 @ux-researcher Plan a user research study for our mobile app
-```
 
-```
+# Brand Strategy
 @brand-strategist Develop a brand positioning for a sustainable fashion startup
+
+# Accessibility Review
+@accessibility-specialist Review my design for WCAG compliance
 ```
 
-### Combining Agents
+### Using Agents with Claude Web Interface
+
+When using the web interface, paste the agent content at the start of your conversation, then ask your questions normally:
+
+```
+[Paste agent content from agents/core-design/ui-designer.md]
+
+User: Help me design a landing page for a SaaS product
+Claude: [Responds with UI designer expertise]
+```
+
+### Combining Multiple Agents
+
 Agents can work together for comprehensive solutions:
 
-```
+```bash
+# For holistic design solutions
 @design-strategist and @product-designer Help me plan a new feature rollout
+
+# For visual and motion design
+@visual-designer and @motion-designer Create an animated hero section
+
+# For research and architecture
+@ux-researcher and @information-architect Optimize our navigation structure
+```
+
+### Real-World Scenarios
+
+```bash
+# Design System Creation
+@design-system-architect Create a token system for our startup
+
+# Mobile App Design
+@mobile-designer Design an iOS app following Apple's HIG
+
+# Dashboard Creation  
+@dashboard-designer Create a analytics dashboard with key metrics
+
+# Brand Identity
+@logo-designer Create logo concepts for a tech startup
 ```
 
 ## Agent Structure
