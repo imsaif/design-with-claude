@@ -1,103 +1,154 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [currentView, setCurrentView] = useState('home');
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const HomeView = () => (
+    <>
+      {/* Terminal-style title */}
+      <h1 className="terminal-title">
+        <span className="prompt">&gt;</span> Design with Claude<span className="blinking-cursor"></span>
+      </h1>
+      
+      {/* Subtitle */}
+      <p className="hero-subtitle">
+        Specialized AI agents for every design challenge. From UI/UX to brand strategy, get expert assistance powered by Claude AI.
+      </p>
+      
+      {/* CTA Buttons */}
+      <div className="cta-buttons">
+        <button 
+          onClick={() => setCurrentView('install')} 
+          className="btn-primary"
+        >
+          Install Instructions
+        </button>
+        <a href="https://github.com/imsaif/design-with-claude" className="btn-secondary">
+          View on GitHub
+        </a>
+      </div>
+      
+      {/* Code Example */}
+      <div className="code-example">
+        <div className="code-line">
+          <span className="prompt">$</span>
+          <span className="command">git clone github.com/design-with-claude</span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div className="code-line">
+          <span className="prompt">$</span>
+          <span className="command">cp -r agents/* ~/.claude/agents/</span>
+        </div>
+        <div className="code-line">
+          <span className="prompt">$</span>
+          <span className="command">@ui-designer Create a modern dashboard</span>
+        </div>
+      </div>
+    </>
+  );
+
+  const InstallView = () => (
+    <>
+      {/* Back button */}
+      <div className="install-header">
+        <button 
+          onClick={() => setCurrentView('home')} 
+          className="btn-back"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          ← Back to Terminal
+        </button>
+      </div>
+      
+      {/* Installation title */}
+      <h2 className="install-title">Installation Instructions</h2>
+      
+      {/* Installation sections */}
+      <div className="install-sections">
+        <div className="install-section">
+          <h3 className="install-section-title">Clone and Use</h3>
+          <div className="code-example">
+            <div className="code-line">
+              <span className="prompt">$</span>
+              <span className="command">git clone https://github.com/imsaif/design-with-claude.git</span>
+            </div>
+            <div className="code-line">
+              <span className="prompt">$</span>
+              <span className="command">cd design-with-claude</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="install-section">
+          <h3 className="install-section-title">User-wide Installation</h3>
+          <div className="code-example">
+            <div className="code-line">
+              <span className="prompt">$</span>
+              <span className="command">git clone https://github.com/imsaif/design-with-claude.git</span>
+            </div>
+            <div className="code-line">
+              <span className="prompt">$</span>
+              <span className="command">cd design-with-claude</span>
+            </div>
+            <div className="code-line">
+              <span className="prompt">$</span>
+              <span className="command">cp -r agents/* ~/.claude/agents/</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="install-section">
+          <h3 className="install-section-title">Project-specific Installation</h3>
+          <div className="code-example">
+            <div className="code-line">
+              <span className="prompt">$</span>
+              <span className="command">cd your-project</span>
+            </div>
+            <div className="code-line">
+              <span className="prompt">$</span>
+              <span className="command">cp -r path/to/design-with-claude/agents/* .claude/agents/</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="install-section">
+          <h3 className="install-section-title">Web Interface</h3>
+          <p className="install-description">
+            Simply copy the content of any agent file and paste it at the beginning of your Claude conversation.
+          </p>
+        </div>
+
+        <div className="install-section">
+          <h3 className="install-section-title">Verify Installation</h3>
+          <div className="code-example">
+            <div className="code-line">
+              <span className="prompt">$</span>
+              <span className="command">ls ~/.claude/agents/</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  return (
+    <div className="hero-section">
+      <div className="terminal-window">
+        {/* Terminal Header */}
+        <div className="terminal-header">
+          <div className="terminal-dots">
+            <div className="terminal-dot red"></div>
+            <div className="terminal-dot yellow"></div>
+            <div className="terminal-dot green"></div>
+          </div>
+          <div className="terminal-window-title">design-with-claude — ~/terminal</div>
+        </div>
+        
+        {/* Terminal Content - Switches between views */}
+        <div className="terminal-content">
+          {currentView === 'home' ? <HomeView /> : <InstallView />}
+        </div>
+      </div>
     </div>
   );
 }
