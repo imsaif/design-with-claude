@@ -145,7 +145,7 @@ export default function Home() {
         </div>
         
         {/* Terminal Content - Switches between views */}
-        <div className="terminal-content">
+        <div className={`terminal-content ${currentView === 'install' ? 'install-view' : ''}`}>
           {currentView === 'home' ? <HomeView /> : <InstallView />}
         </div>
       </div>
