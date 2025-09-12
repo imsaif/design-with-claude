@@ -25,7 +25,7 @@ export default function Home() {
         >
           Install Instructions
         </button>
-        <a href="https://github.com/imsaif/design-with-claude" className="btn-secondary">
+        <a href="https://github.com/imsaif/design-with-claude" className="btn-secondary" target="_blank" rel="noopener noreferrer">
           View on GitHub
         </a>
       </div>

@@ -31,6 +31,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.6;
+  display: flex;
+  flex-direction: column;
 }
 
 code {
@@ -130,7 +132,7 @@ html {
 
 /* Terminal-style hero section */
 .hero-section {
-  min-height: 100vh;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -411,4 +413,28 @@ html {
   .install-title {
     font-size: 1.5rem;
   }
+}
+
+/* Simple Footer */
+.simple-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  height: auto;
+  font-size: 0.875rem;
+  color: #888;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.simple-footer a {
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.simple-footer a:hover {
+  color: #fff;
 }
