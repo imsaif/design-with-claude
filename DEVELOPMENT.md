@@ -152,12 +152,115 @@ This agent provides:
 - [x] Documentation complete and accurate
 - [x] Ready for Phase 1 Day 2
 
+## Agent-CLI Integration Roadmap
+
+Visual timeline showing how design agents will integrate with the CLI tool:
+
+```
+Phase 1 ✅ CLI Foundation (COMPLETE)
+   │
+   ├── ✅ Commander.js framework
+   ├── ✅ Project initialization
+   ├── ✅ Development environment
+   └── ✅ Basic command structure
+   │
+Phase 2 🔄 Agent Integration (Week 2)
+   │
+   ├── 🔄 AgentLoader - Parse all 28 agent files
+   │    └── Extract expertise, patterns, best practices
+   │
+   ├── 🔄 AgentSelector - Intelligent agent selection
+   │    └── Primary + supporting agent combinations
+   │
+   ├── 🔄 BriefParser - Understand user intent
+   │    └── Style detection, component identification
+   │
+   └── 🔄 Generation Pipeline - Agent-guided output
+        └── Combine agent knowledge with templates
+   │
+Phase 3 ⏳ Export with Agent Review (Week 3)
+   │
+   ├── ⏳ Agent Validation - Quality assurance
+   │    └── Agents review generated output
+   │
+   ├── ⏳ Multi-format Export - HTML, React, Vue
+   │    └── Agent-specific optimizations per format
+   │
+   └── ⏳ Preview Server - Live development
+        └── Agent feedback in development mode
+   │
+Phase 4 ⏳ Full AI Orchestration (Week 4)
+   │
+   ├── ⏳ Figma Integration - Design-to-code sync
+   │    └── Agents guide Figma export process
+   │
+   ├── ⏳ Multi-agent Collaboration
+   │    └── Complex tasks use multiple agents
+   │
+   └── ⏳ Continuous Learning
+        └── Agent knowledge updates and improvements
+```
+
+### Agent Integration Benefits
+
+```
+Traditional CLI:           Agent-Powered CLI:
+═══════════════           ═══════════════════
+
+Input  → Code             Input → Agent Analysis → Expert Code
+                                    │
+Generic Output            Professional Output
+                                    │
+No Context                Context-Aware
+                                    │
+Basic Templates           Best Practices Applied
+                                    │
+Manual Quality            Automated Quality Review
+```
+
+### Integration Implementation Status
+
+| Component | Status | Agent Integration |
+|-----------|---------|-------------------|
+| **CLI Commands** | ✅ Complete | Ready for agent connection |
+| **Project Init** | ✅ Complete | Will use design-system-architect |
+| **Brief Parser** | ⏳ Phase 2 | Multi-agent analysis |
+| **Component Gen** | ⏳ Phase 2 | ui-designer + specialists |
+| **Token Gen** | ⏳ Phase 2 | design-system-architect |
+| **Export System** | ⏳ Phase 3 | Agent review + optimization |
+| **Figma Export** | ⏳ Phase 4 | visual-designer guidance |
+
+### Agent Selection Examples
+
+Real examples of how the system will choose agents:
+
+```javascript
+// Command: design-create from-brief "Healthcare dashboard"
+selectedAgents: {
+  primary: 'dashboard-designer',
+  supporting: ['healthcare-ux', 'accessibility-specialist', 'ui-designer']
+}
+
+// Command: design-create component navigation --mobile
+selectedAgents: {
+  primary: 'mobile-designer',
+  supporting: ['ui-designer', 'accessibility-specialist']
+}
+
+// Command: design-create tokens --brand fintech
+selectedAgents: {
+  primary: 'design-system-architect',
+  supporting: ['brand-strategist', 'visual-designer']
+}
+```
+
 ### Documentation Status
 - ✅ **Complete Documentation Created** - All planning documents ready
 - ✅ **Specialized Guide Agent** - Implementation assistant available
 - ✅ **Technical Specifications** - Detailed implementation guides ready
 - ✅ **Version Control** - All documentation committed and pushed
 - ✅ **Phase 1 Day 1** - Implementation completed and documented
+- ✅ **Agent Integration Plan** - Visual roadmap and technical specs ready
 
 ## Getting Started
 

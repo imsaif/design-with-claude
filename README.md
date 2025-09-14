@@ -6,6 +6,97 @@ A dual-purpose design toolkit that includes:
 
 Transform design ideas into working implementations or get expert AI guidance for any design challenge.
 
+## 🧠 How It Works: Intelligent Agent-Powered Generation
+
+Our toolkit combines the expertise of 28 design agents with an intelligent CLI that generates actual code:
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                   DESIGN WITH CLAUDE                          │
+├────────────────────────┬─────────────────────────────────────┤
+│   GUIDANCE & ADVICE    │      ACTUAL GENERATION              │
+│                        │                                      │
+│   28 Design Agents     │    CLI Implementation Tool          │
+│   ├── UI Designer      │    ├── design-create init          │
+│   ├── UX Researcher    │    ├── design-create from-brief    │
+│   ├── Brand Strategist │    ├── design-create component     │
+│   └── 25 more agents   │    └── design-create export        │
+│                        │                                      │
+│   OUTPUT: Expertise    │    OUTPUT: Real Files & Code       │
+└────────────────────────┴─────────────────────────────────────┘
+```
+
+### The Magic: Agent-Guided Generation
+
+When you run a command, here's what happens behind the scenes:
+
+```
+USER: "design-create from-brief 'Modern SaaS landing page'"
+                            │
+                            ▼
+┌───────────────────────────────────────────────────────────┐
+│                    BRIEF PARSER                            │
+│  Analyzes: "Modern SaaS landing page"                      │
+│  Identifies: • Style: Modern • Type: Landing • Industry: SaaS │
+└───────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌───────────────────────────────────────────────────────────┐
+│                  AI ORCHESTRATOR                           │
+│  Selects Agents: → web-designer (primary)                 │
+│                  → ui-designer (components)                │
+│                  → brand-strategist (style)                │
+└───────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌───────────────────────────────────────────────────────────┐
+│                  AGENT CONSULTATION                        │
+│  web-designer: "Use hero-features-pricing structure"       │
+│  ui-designer: "Implement card-based feature sections"      │
+│  brand-strategist: "Apply modern, minimal color palette"   │
+└───────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌───────────────────────────────────────────────────────────┐
+│                     GENERATORS                             │
+│  • Token Generator → Creates colors.css, typography.css    │
+│  • Component Gen → Creates Button.jsx, Card.jsx, Hero.jsx  │
+│  • Layout Gen → Creates landing-page.html                  │
+└───────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌───────────────────────────────────────────────────────────┐
+│                    FINAL OUTPUT                            │
+│  ✅ tokens/colors.css       - Design tokens               │
+│  ✅ components/Hero.jsx     - React components            │
+│  ✅ layouts/landing.html    - Complete layout             │
+│  ✅ exports/figma/          - Figma file (Phase 4)        │
+└───────────────────────────────────────────────────────────┘
+```
+
+**Key Insight**: The CLI doesn't just generate code mechanically—it uses the collective knowledge of 28 design experts to create thoughtful, professional implementations.
+
+### Agent Selection Matrix
+
+Different commands automatically select the right experts:
+
+| Command | Primary Agent | Supporting Agents | Output |
+|---------|---------------|-------------------|--------|
+| `from-brief "landing page"` | web-designer | ui-designer, brand-strategist | Complete landing page |
+| `component button` | ui-designer | design-system-architect | Button with variants |
+| `tokens --style modern` | design-system-architect | brand-strategist | Design token files |
+| `export figma` | ui-designer | visual-designer | Figma design file |
+
+### Visual Legend
+```
+SYMBOLS USED:
+━━━━━━━━━━━━━
+→  Data flow        ✅  Completed
+▼  Process step     🔄  In Progress
+│  Connection       ⏳  Planned
+└  Branch/End       🧠  AI Decision
+```
+
 ## 🚀 Design Implementation Tool (CLI)
 
 **NEW**: The `design-create` CLI tool turns design briefs into actual implementations - code, components, and Figma files.
