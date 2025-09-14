@@ -1,16 +1,56 @@
 {
-  "name": "design-with-claude",
+  "name": "design-create",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "AI-powered design implementation tool that generates actual code, components, and Figma files from design briefs",
+  "main": "src/index.js",
+  "bin": {
+    "design-create": "./bin/design-create.js"
+  },
   "directories": {
     "doc": "docs",
     "example": "examples"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bin/design-create.js",
+    "dev": "nodemon bin/design-create.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/ bin/ --fix",
+    "format": "prettier --write src/ bin/ *.md"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "keywords": [
+    "design",
+    "ai",
+    "code-generation",
+    "figma",
+    "cli",
+    "components",
+    "design-system",
+    "react",
+    "vue",
+    "html"
+  ],
+  "author": "Design Implementation Tool",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "commander": "^9.4.1",
+    "handlebars": "^4.7.8",
+    "fs-extra": "^11.1.1",
+    "chalk": "^4.1.2",
+    "inquirer": "^9.2.8",
+    "joi": "^17.9.2",
+    "axios": "^1.5.0",
+    "glob": "^10.3.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "eslint": "^8.48.0",
+    "prettier": "^3.0.3",
+    "@types/jest": "^29.5.5"
+  }
 }

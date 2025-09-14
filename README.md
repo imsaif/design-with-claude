@@ -1,26 +1,121 @@
-# Design with Claude - AI-Powered Design Agents Collection
+# Design with Claude - AI-Powered Design Tools & Agents
 
-A comprehensive collection of specialized design agents for Claude, empowering designers with AI-assisted tools for every aspect of the design process. From UI/UX to brand strategy, these agents provide expert guidance and support for design professionals.
+A dual-purpose design toolkit that includes:
+1. **Design Implementation Tool (CLI)** - Generate actual code, components, and Figma files from design briefs
+2. **Design Agents Collection** - 28 specialized Claude agents for comprehensive design guidance
 
-## Overview
+Transform design ideas into working implementations or get expert AI guidance for any design challenge.
 
-This repository contains 28 specialized design agents organized into 7 categories, each tailored to specific design disciplines and workflows. These agents can be used with Claude to enhance design capabilities, streamline workflows, and ensure best practices across all design activities.
+## 🚀 Design Implementation Tool (CLI)
+
+**NEW**: The `design-create` CLI tool turns design briefs into actual implementations - code, components, and Figma files.
+
+### Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Initialize a new design project
+node bin/design-create.js init my-project
+
+# Navigate to your project
+cd my-project
+
+# Generate from brief (coming in Phase 2)
+design-create from-brief "Modern SaaS landing page with pricing section"
+
+# Generate specific components (coming in Phase 2)
+design-create component button --variants primary,secondary
+
+# Export to different formats (coming in Phase 3)
+design-create export react
+design-create export figma --figma-token YOUR_TOKEN
+```
+
+### Available Commands
+
+- ✅ `design-create init [project-name]` - Initialize new design project
+- 🔄 `design-create from-brief <brief>` - Generate from design brief *(Phase 2)*
+- 🔄 `design-create component <name>` - Generate specific component *(Phase 2)*
+- 🔄 `design-create tokens` - Generate design tokens *(Phase 2)*
+- 🔄 `design-create export <format>` - Export to HTML/React/Vue/Figma *(Phase 3)*
+
+### Implementation Status
+
+- ✅ **Phase 1 Day 1 Complete**: CLI framework, project initialization
+- 🔄 **Phase 2**: Component & token generation *(Week 2)*
+- 🔄 **Phase 3**: Multi-format export system *(Week 3)*
+- 🔄 **Phase 4**: Figma integration *(Week 4)*
+
+### Generated Project Structure
+
+When you run `design-create init`, you get:
+
+```
+my-project/
+├── .design-project/          # Configuration and state
+│   ├── config.json          # Project configuration
+│   ├── state.json           # Generation state tracking
+│   └── templates/           # Custom templates
+├── src/                     # Generated source files
+│   ├── components/          # Generated components
+│   ├── layouts/             # Generated layouts
+│   └── assets/              # Generated assets
+├── tokens/                  # Design tokens (colors, typography, spacing)
+├── exports/                 # Export outputs
+│   ├── html/               # HTML/CSS exports
+│   ├── react/              # React components
+│   ├── vue/                # Vue components
+│   └── figma/              # Figma export data
+├── README.md               # Project documentation
+└── .gitignore             # Git ignore rules
+```
+
+---
+
+## 🎨 Design Agents Collection
+
+A comprehensive collection of 28 specialized design agents for Claude, providing expert guidance for every aspect of the design process. From UI/UX to brand strategy, these agents offer professional insights and best practices.
 
 ## Prerequisites
 
+### For Design Implementation Tool
+- **Node.js**: v16.0.0 or higher
+- **npm**: Package manager
+
+### For Design Agents Collection
 - **Claude Access**: Claude CLI (`claude-code`) or Claude AI web interface
 - **Git**: For cloning the repository (optional)
 
 ## Installation
 
-### Option 1: Clone and Use Directly
+### Design Implementation Tool Setup
+```bash
+# Clone the repository
+git clone https://github.com/imsaif/design-with-claude.git
+cd design-with-claude
+
+# Install dependencies
+npm install
+
+# Test CLI (should show help)
+node bin/design-create.js --help
+
+# Create your first project
+node bin/design-create.js init my-first-project
+```
+
+### Design Agents Collection Setup
+
+#### Option 1: Clone and Use Directly
 Clone the repository and reference agents from the location:
 ```bash
 git clone https://github.com/imsaif/design-with-claude.git
 cd design-with-claude
 ```
 
-### Option 2: Install to Claude's Agent Directory
+#### Option 2: Install to Claude's Agent Directory
 
 #### User-wide Installation
 Make agents available for all your projects:
