@@ -138,7 +138,7 @@ html {
   justify-content: center;
   background: #000000;
   color: white;
-  padding: 0 2rem;
+  padding: 1rem;
 }
 
 .hero-content {
@@ -235,13 +235,13 @@ html {
   border: 1px solid #00FFFF;
   border-radius: 12px;
   padding: 0;
-  margin: 2rem auto;
+  margin: 1rem auto;
   max-width: 1000px;
-  width: 90%;
+  width: 95%;
   min-height: 70vh;
-  height: 70vh;
+  height: auto;
   font-family: var(--font-geist-mono), monospace;
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(0, 255, 255, 0.3),
     0 0 40px rgba(0, 255, 255, 0.1),
     inset 0 0 20px rgba(0, 255, 255, 0.05);
@@ -270,6 +270,7 @@ html {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .terminal-header-left {
@@ -333,6 +334,7 @@ html {
   font-family: var(--font-geist-mono), monospace;
   text-align: left;
   margin-top: 2rem;
+  overflow-x: auto;
 }
 
 .code-line {
@@ -410,22 +412,160 @@ html {
   margin-bottom: 1rem;
 }
 
-@media (max-width: 768px) {
+/* Mobile Styles */
+@media (max-width: 640px) {
+  .hero-section {
+    padding: 0.5rem;
+    min-height: 100vh;
+  }
+
+  .terminal-window {
+    width: 98%;
+    margin: 0.5rem auto;
+    border-radius: 8px;
+    min-height: 85vh;
+    height: auto;
+  }
+
+  .terminal-header {
+    padding: 0.5rem 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .terminal-window-title {
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+  }
+
+  .terminal-github-link {
+    font-size: 10px !important;
+    padding: 3px 6px !important;
+  }
+
+  .terminal-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .terminal-content.install-view {
+    padding: 1rem;
+  }
+
   .terminal-title {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
   }
-  
+
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    max-width: 100%;
   }
-  
+
   .cta-buttons {
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .code-example {
+    max-width: 100%;
+    padding: 0.75rem;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    overflow-x: auto;
+  }
+
+  .code-line {
+    white-space: nowrap;
+    font-size: 0.8rem;
   }
 
   .install-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    text-align: left;
+    margin-bottom: 1rem;
+  }
+
+  .install-sections {
+    max-width: 100%;
+  }
+
+  .install-section {
+    margin-bottom: 1.25rem;
+  }
+
+  .install-section-title {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .install-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .btn-back {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Tablet Styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-section {
+    padding: 1rem;
+  }
+
+  .terminal-window {
+    width: 92%;
+    margin: 1rem auto;
+  }
+
+  .terminal-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .terminal-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .code-example {
+    max-width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .install-title {
+    font-size: 1.6rem;
+  }
+}
+
+/* Large Desktop Styles */
+@media (min-width: 1200px) {
+  .terminal-window {
+    max-width: 1200px;
+  }
+
+  .terminal-title {
+    font-size: 3rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 700px;
   }
 }
 
