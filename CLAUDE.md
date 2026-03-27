@@ -39,6 +39,13 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 
 ## Recent Sessions
 
+### Session 2026-03-27 21:21 (MacBook)
+- **Pattern:** Skills directory page
+- **Status:** Complete
+- **Files Changed:** 15
+- **Tests Added/Modified:** 0
+- **Notes:** Built browsable skills directory as the new homepage. 29 skill cards with category filtering (7 categories), expand/collapse install commands with click-to-copy, ecosystem cross-links to aiuxdesign.guide and gist.design. Replaced old terminal-themed landing page. DM Serif/Sans/Mono fonts, lime accent (#c8f07a) design system. Removed legacy components (GettingStarted, Header, StatsBanner). Added @/ path alias to tsconfig.
+
 ### Session 2026-03-09 17:45 (MacBook)
 - **Pattern:** SEO and discoverability
 - **Status:** Complete

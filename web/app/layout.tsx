@@ -1,15 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Serif_Display, DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
+import "./skills.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSerif = DM_Serif_Display({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-dm-serif",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const dmSans = DM_Sans({
+  weight: ["300", "400", "500"],
   subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
+
+const dmMono = DM_Mono({
+  weight: ["300", "400", "500"],
+  subsets: ["latin"],
+  variable: "--font-dm-mono",
+  display: "swap",
 });
 
 const siteUrl = "https://designwithclaude.com";
@@ -76,7 +88,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#000000',
+  themeColor: "#0c0c0e",
 };
 
 export default function RootLayout({
@@ -87,7 +99,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`skills-page ${dmSerif.variable} ${dmSans.variable} ${dmMono.variable}`}
       >
         <script
           type="application/ld+json"
@@ -114,15 +126,6 @@ export default function RootLayout({
           }}
         />
         {children}
-        <footer className="simple-footer">
-          <span>Built with ☕ by Imran</span>
-          <span>·</span>
-          <a href="https://www.imranaidesign.com" target="_blank" rel="noopener noreferrer">Portfolio</a>
-          <span>·</span>
-          <a href="https://github.com/imsaif" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <span>·</span>
-          <a href="https://linkedin.com/in/imsaif" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </footer>
       </body>
     </html>
   );
