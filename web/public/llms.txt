@@ -1,0 +1,95 @@
+# Design with Claude
+
+> 37 specialist design agents as Claude Code slash commands. No runtime, no dependencies — just expert design guidance in your coding workflow.
+
+## What This Is
+
+Design with Claude is a collection of 37 markdown-based design agent files, each a specialist in a specific design domain. Install them as a Claude Code plugin or standalone commands, and get expert-level design guidance directly in your terminal.
+
+Each agent contains structured domain knowledge: WCAG specifics, token architecture patterns, motion timing curves, healthcare UX compliance rules, checkout conversion best practices. This isn't generic prompting — it's deep, opinionated expertise.
+
+## How It Works
+
+Each command file is a markdown document containing a specialized design agent's complete knowledge. When you invoke a command, Claude loads that agent as context. There's no code running, no API calls, no build step.
+
+## Install
+
+### As a Plugin (recommended)
+```
+/plugin marketplace add imsaif/design-with-claude
+/plugin install design-with-claude@design-with-claude
+```
+
+### As Standalone Commands
+```
+git clone https://github.com/imsaif/design-with-claude.git ~/.design-with-claude
+cp -r ~/.design-with-claude/commands/ ~/.claude/commands/
+```
+
+## Available Skills (38 total)
+
+### Master Command
+- design-brief: Takes a natural language brief, identifies relevant agents, outputs comprehensive design guidance
+
+### Core Design
+- visual-hierarchy-specialist: Layout, hierarchy, spacing, focal points
+- interaction-designer: User flows, states, gestures, feedback
+- design-system-architect: Tokens, component APIs, theming
+- accessibility-specialist: WCAG compliance, ARIA, keyboard nav
+
+### Visual Design
+- typography-specialist: Type scales, font pairing, vertical rhythm
+- color-specialist: Color systems, palettes, semantic colors
+- spacing-layout-specialist: Grid systems, spacing scales, density
+- icon-illustration-specialist: Icon grids, sizing, illustration style, SVG accessibility
+
+### Interaction Design
+- motion-designer: Transitions, timing curves, micro-interactions
+- form-designer: Input layout, validation, multi-step forms
+- navigation-specialist: Nav patterns, wayfinding, menus
+- notification-designer: Push notifications, toasts, badges, notification center
+- drag-drop-specialist: Drag affordances, drop zones, reordering, canvas
+
+### Product Design
+- dashboard-designer: Data display, charts, KPI cards
+- mobile-specialist: iOS/Android patterns, touch, thumb zones
+- responsive-design-specialist: Breakpoints, fluid layouts, adaptive patterns
+- landing-page-specialist: Hero sections, CTAs, conversion layout
+- settings-designer: Settings pages, preferences, toggle patterns
+- auth-security-ux-specialist: Login flows, 2FA/passkey, session management
+
+### Content & IA
+- content-strategist: Microcopy, tone of voice, content hierarchy
+- information-architect: Navigation, taxonomy, content structure
+- conversational-ui-designer: Chat interfaces, voice UI
+
+### Industry
+- healthcare-ux-specialist: Clinical workflows, HIPAA, medical UI
+- b2b-saas-specialist: Enterprise patterns, multi-tenant, admin UIs
+- ecommerce-specialist: Product pages, cart, checkout flows
+- checkout-specialist: Cart UX, payment forms, trust signals
+
+### Specialized
+- dark-mode-specialist: Dark theme tokens, surface hierarchy
+- error-handling-specialist: Error states, empty states, recovery flows
+- onboarding-specialist: First-run experience, progressive onboarding
+- performance-specialist: Skeleton screens, loading states, perceived speed
+- data-visualization-specialist: Chart types, axis design, data-ink ratio
+- table-designer: Data tables, sorting, filtering, pagination
+- search-specialist: Search UX, filters, faceted navigation
+- brand-designer: Visual identity, brand systems
+- empty-loading-states-specialist: Skeleton screens, empty states, loading patterns
+- i18n-designer: RTL layouts, locale-aware UI, string expansion
+- print-export-designer: PDF generation, print stylesheets, export UX
+
+## Links
+
+- Website: https://designwithclaude.com
+- GitHub: https://github.com/imsaif/design-with-claude
+- AI UX Patterns: https://aiuxdesign.guide
+- Gist Design: https://gist.design
+- Author: https://www.imranaidesign.com
+
+## License
+
+MIT
