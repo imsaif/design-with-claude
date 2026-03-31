@@ -207,12 +207,6 @@ Copy commands into a single project:
 cp -r ~/.design-with-claude/commands/ your-project/.claude/commands/
 ```
 
-## Submit to Official Marketplace
-
-This plugin can be submitted to the official Anthropic marketplace at:
-- [claude.ai/settings/plugins/submit](https://claude.ai/settings/plugins/submit)
-- [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit)
-
 ## Contributing
 
 ### Adding a new skill
