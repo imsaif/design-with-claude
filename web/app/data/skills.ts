@@ -33,6 +33,15 @@ export const CATEGORIES: Category[] = [
 const ICONS = ["✦", "⬡", "◈", "⊞", "⬚", "✎", "◎", "⇄", "⌖", "◐", "⌤", "⊙", "⋯", "⊛", "⊕", "⊗", "⬧", "◉", "⊜", "⌘", "⊘", "⊡", "◫", "⌂", "⊿", "◬", "⊚", "⊞", "◈"];
 
 export const SKILLS: Skill[] = [
+  // Master Command
+  {
+    slug: "design-brief",
+    name: "Design Brief",
+    description: "Master command — takes a brief, identifies relevant design domains, routes to the right specialists",
+    category: "core",
+    icon: "⊛",
+  },
+
   // Core Design
   {
     slug: "visual-hierarchy-specialist",
@@ -249,6 +258,62 @@ export const SKILLS: Skill[] = [
     category: "specialized",
     icon: ICONS[28],
   },
+  {
+    slug: "notification-designer",
+    name: "Notification Designer",
+    description: "Push notifications, in-app alerts, badges, toasts, notification center, priority levels",
+    category: "interaction",
+    icon: "🔔",
+  },
+  {
+    slug: "empty-loading-states-specialist",
+    name: "Empty & Loading States Specialist",
+    description: "Skeleton screens, empty states, first-use experience, loading patterns, progressive content",
+    category: "specialized",
+    icon: "◌",
+  },
+  {
+    slug: "settings-designer",
+    name: "Settings & Preferences Designer",
+    description: "Settings pages, preference architecture, toggle patterns, defaults strategy, account management",
+    category: "product",
+    icon: "⚙",
+  },
+  {
+    slug: "icon-illustration-specialist",
+    name: "Icon & Illustration Specialist",
+    description: "Icon grids, sizing systems, icon meaning, illustration style, SVG accessibility",
+    category: "visual",
+    icon: "✿",
+  },
+  {
+    slug: "i18n-designer",
+    name: "Internationalization Designer",
+    description: "RTL layouts, string expansion, locale-aware UI, date/number formats, cultural adaptation",
+    category: "specialized",
+    icon: "🌐",
+  },
+  {
+    slug: "auth-security-ux-specialist",
+    name: "Auth & Security UX Specialist",
+    description: "Login flows, password UX, 2FA/passkey, session management, permission prompts, trust signals",
+    category: "product",
+    icon: "🔐",
+  },
+  {
+    slug: "drag-drop-specialist",
+    name: "Drag & Drop Specialist",
+    description: "Drag affordances, drop zones, reordering, canvas interactions, multi-select, direct manipulation",
+    category: "interaction",
+    icon: "⤭",
+  },
+  {
+    slug: "print-export-designer",
+    name: "Print & Export Designer",
+    description: "PDF generation, print stylesheets, export formatting, receipt design, download UX",
+    category: "specialized",
+    icon: "🖨",
+  },
 ];
 
 export function getSkillsByCategory(categoryId: CategoryId): Skill[] {
@@ -260,7 +325,7 @@ export function getCategoryLabel(categoryId: CategoryId): string {
 }
 
 export function getInstallCommand(slug: string): string {
-  return `npx skills add imsaif/design-with-claude/${slug}`;
+  return `curl -sL https://raw.githubusercontent.com/imsaif/design-with-claude/main/commands/${slug}.md -o .claude/commands/${slug}.md`;
 }
 
 export function getGithubUrl(slug: string): string {

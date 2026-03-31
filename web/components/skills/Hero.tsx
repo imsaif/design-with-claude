@@ -6,9 +6,9 @@ export function Hero() {
       <p className="skills-hero-eyebrow">Design Skills for Claude Code</p>
       <h1>Skills built for designers, not just developers.</h1>
       <p className="skills-hero-sub">
-        SkillsMP has 87,000+ skills. None are made for design work. This is the
-        curated set — agents that understand wireframes, accessibility, handoff,
-        copy, and the way designers actually think.
+        AI coding tools have thousands of skills. None are made for design work.
+        This is the curated set — agents that understand wireframes,
+        accessibility, handoff, copy, and the way designers actually think.
       </p>
       <div className="skills-hero-stats">
         <span>

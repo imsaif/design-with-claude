@@ -39,6 +39,13 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 
 ## Recent Sessions
 
+### Session 2026-03-31 15:57 (MacBook)
+- **Pattern:** General updates
+- **Status:** Work in progress
+- **Files Changed:** 22
+- **Tests Added/Modified:** 4
+- **Notes:** Added custom DWC icon (Claude hand + paint palette SVG) as favicon with prefers-color-scheme support and inline nav component. Added 8 new design skills: notification-designer, empty-loading-states-specialist, settings-designer, icon-illustration-specialist, i18n-designer, auth-security-ux-specialist, drag-drop-specialist, print-export-designer (29→37 specialists). Replaced unicode skill card icons with Heroicons (individual imports to avoid webpack issues). Fixed outdated website: install command (npx skills→curl), missing design-brief listing, stale SkillsMP copy, SKILL.md references. Updated README with new skill counts and tables.
+
 ### Session 2026-03-27 21:21 (MacBook)
 - **Pattern:** Skills directory page
 - **Status:** Complete

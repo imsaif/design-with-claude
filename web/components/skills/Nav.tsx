@@ -1,9 +1,11 @@
 import Link from "next/link";
+import DwcIcon from "@/components/DwcIcon";
 
 export function Nav() {
   return (
     <nav className="skills-nav">
-      <Link href="/" className="skills-nav-logo">
+      <Link href="/" className="skills-nav-logo" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <DwcIcon className="h-6 w-auto" />
         design<span>with</span>claude
       </Link>
       <div className="skills-nav-links">

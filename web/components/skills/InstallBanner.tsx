@@ -28,15 +28,15 @@ export function InstallBanner() {
               Use in Claude Code
             </div>
             <div className="skills-install-step-desc">
-              Skill appears in .claude/skills/ — Claude picks it up
+              Skill appears in .claude/commands/ — Claude picks it up
               automatically
             </div>
           </div>
         </div>
         <p className="skills-install-footer">
           Skills are plain markdown files. No dependencies, no configuration.
-          Compatible with Claude Code, Cursor, and any agent that reads SKILL.md
-          format.
+          Compatible with Claude Code, Cursor, and any agent that supports
+          custom commands.
         </p>
       </div>
     </section>

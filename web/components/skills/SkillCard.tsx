@@ -8,6 +8,7 @@ import {
   getInstallCommand,
   getGithubUrl,
 } from "@/app/data/skills";
+import { SkillIcon } from "./SkillIcons";
 
 interface SkillCardProps {
   skill: Skill;
@@ -44,8 +45,10 @@ export function SkillCard({ skill, isExpanded, onToggle }: SkillCardProps) {
       }}
     >
       <div className="skill-card-header">
-        <div className="skill-card-icon">{skill.icon}</div>
-        <span className="skill-card-badge">skill.md</span>
+        <div className="skill-card-icon">
+          <SkillIcon slug={skill.slug} className="h-5 w-5" />
+        </div>
+        <span className="skill-card-badge">.md</span>
       </div>
       <div className="skill-card-slug">{skill.slug}</div>
       <div className="skill-card-desc">{skill.description}</div>

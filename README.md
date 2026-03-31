@@ -1,6 +1,6 @@
 # Design with Claude
 
-29 specialist agents + 1 master command — 30 design experts as Claude Code commands. Bring senior design expertise into every coding session.
+37 specialist agents + 1 master command — 38 design experts as Claude Code commands. Bring senior design expertise into every coding session.
 
 No runtime. No dependencies. No API keys. Just markdown files that give Claude deep design knowledge.
 
@@ -8,7 +8,7 @@ No runtime. No dependencies. No API keys. Just markdown files that give Claude d
 
 ## What This Is
 
-A collection of 29 design agent files — each one a specialist in a specific design domain (accessibility, motion design, color theory, checkout flows, etc). Install them as a Claude Code plugin, and you get expert-level design guidance directly in your coding workflow.
+A collection of 37 design agent files — each one a specialist in a specific design domain (accessibility, motion design, color theory, checkout flows, etc). Install them as a Claude Code plugin, and you get expert-level design guidance directly in your coding workflow.
 
 Each agent contains structured domain knowledge: WCAG specifics, token architecture patterns, motion timing curves, healthcare UX compliance rules, checkout conversion best practices. This isn't generic "help me design" prompting — it's deep, opinionated expertise.
 
@@ -46,7 +46,7 @@ This gives you `/design-brief`, `/accessibility-specialist`, etc. directly.
 /design-brief Build a SaaS analytics dashboard with dark mode and accessibility focus
 ```
 
-The master command analyzes your brief, identifies the relevant design domains (out of 29), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
+The master command analyzes your brief, identifies the relevant design domains (out of 37), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
 
 When invoked inside a code project, commands are context-aware: they detect your stack, read your existing files, and generate output that matches your conventions.
 
@@ -58,7 +58,7 @@ When invoked inside a code project, commands are context-aware: they detect your
 Product type: B2B SaaS dashboard
 Key requirements: data visualization, dark theme, WCAG AA compliance
 
-## Relevant Domains (7 of 29)
+## Relevant Domains (7 of 37)
 1. Dashboard Designer — KPI cards, chart layout, data density
 2. Dark Mode Specialist — surface hierarchy, elevation tokens, contrast
 3. Accessibility Specialist — WCAG AA, focus management, screen readers
@@ -113,6 +113,7 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `typography-specialist` | Type scales, font pairing, vertical rhythm |
 | `color-specialist` | Color systems, palettes, semantic colors |
 | `spacing-layout-specialist` | Grid systems, spacing scales, density |
+| `icon-illustration-specialist` | Icon grids, sizing, illustration style, SVG accessibility |
 
 ### Interaction Design
 
@@ -121,6 +122,8 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `motion-designer` | Transitions, timing curves, micro-interactions |
 | `form-designer` | Input layout, validation, multi-step forms |
 | `navigation-specialist` | Nav patterns, wayfinding, menus |
+| `notification-designer` | Push notifications, toasts, badges, notification center |
+| `drag-drop-specialist` | Drag affordances, drop zones, reordering, canvas |
 
 ### Product Design
 
@@ -130,6 +133,8 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `mobile-specialist` | iOS/Android patterns, touch, thumb zones |
 | `responsive-design-specialist` | Breakpoints, fluid layouts, adaptive patterns |
 | `landing-page-specialist` | Hero sections, CTAs, conversion layout |
+| `settings-designer` | Settings pages, preferences, toggle patterns |
+| `auth-security-ux-specialist` | Login flows, 2FA/passkey, session management |
 
 ### Specialized
 
@@ -150,6 +155,9 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `content-strategist` | Microcopy, tone of voice, content hierarchy |
 | `information-architect` | Navigation, taxonomy, content structure |
 | `conversational-ui-designer` | Chat interfaces, voice UI |
+| `empty-loading-states-specialist` | Skeleton screens, empty states, loading patterns |
+| `i18n-designer` | RTL layouts, locale-aware UI, string expansion |
+| `print-export-designer` | PDF generation, print stylesheets, export UX |
 
 ## Examples
 
