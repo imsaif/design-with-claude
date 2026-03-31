@@ -136,25 +136,35 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `settings-designer` | Settings pages, preferences, toggle patterns |
 | `auth-security-ux-specialist` | Login flows, 2FA/passkey, session management |
 
+### Content & IA
+
+| Command | Use when... |
+|---|---|
+| `content-strategist` | Microcopy, tone of voice, content hierarchy |
+| `information-architect` | Navigation, taxonomy, content structure |
+| `conversational-ui-designer` | Chat interfaces, voice UI |
+
+### Industry
+
+| Command | Use when... |
+|---|---|
+| `healthcare-ux-specialist` | Clinical workflows, HIPAA, medical UI |
+| `b2b-saas-specialist` | Enterprise patterns, multi-tenant, admin UIs |
+| `ecommerce-specialist` | Product pages, cart, checkout flows |
+| `checkout-specialist` | Cart UX, payment forms, trust signals |
+
 ### Specialized
 
 | Command | Use when... |
 |---|---|
 | `dark-mode-specialist` | Dark theme tokens, surface hierarchy |
-| `error-handling-specialist` | Error states, empty states, recovery flows |
+| `error-handling-specialist` | Error states, recovery flows |
 | `onboarding-specialist` | First-run experience, progressive onboarding |
 | `performance-specialist` | Skeleton screens, loading states, perceived speed |
 | `data-visualization-specialist` | Chart types, axis design, data-ink ratio |
 | `table-designer` | Data tables, sorting, filtering, pagination |
 | `search-specialist` | Search UX, filters, faceted navigation |
-| `healthcare-ux-specialist` | Clinical workflows, HIPAA, medical UI |
-| `b2b-saas-specialist` | Enterprise patterns, multi-tenant, admin UIs |
-| `ecommerce-specialist` | Product pages, cart, checkout flows |
-| `checkout-specialist` | Cart UX, payment forms, trust signals |
 | `brand-designer` | Visual identity, brand systems |
-| `content-strategist` | Microcopy, tone of voice, content hierarchy |
-| `information-architect` | Navigation, taxonomy, content structure |
-| `conversational-ui-designer` | Chat interfaces, voice UI |
 | `empty-loading-states-specialist` | Skeleton screens, empty states, loading patterns |
 | `i18n-designer` | RTL layouts, locale-aware UI, string expansion |
 | `print-export-designer` | PDF generation, print stylesheets, export UX |
@@ -175,6 +185,12 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 /form-designer Multi-step onboarding form with file uploads
 /color-specialist Define a semantic color system for light and dark themes
 /checkout-specialist Guest checkout flow for a subscription product
+
+# New skills
+/notification-designer Design a notification system for a team collaboration app
+/settings-designer Redesign our settings page — it's a mess
+/auth-security-ux-specialist Passkey login flow with 2FA fallback
+/drag-drop-specialist Kanban board with drag between columns and keyboard support
 ```
 
 ## How It Works
@@ -199,10 +215,10 @@ This plugin can be submitted to the official Anthropic marketplace at:
 
 ## Contributing
 
-### Adding a new agent
+### Adding a new skill
 
-1. Create `agents/your-agent-name.md` following the structure of existing agents
-2. Convert to a command in `commands/` with YAML frontmatter, role statement using `$ARGUMENTS`, expertise sections, response format, and clarifying questions
+1. Create `commands/your-skill-name.md` with YAML frontmatter (`description` field) and a role statement using `$ARGUMENTS`
+2. Follow the structure of existing commands: Expertise, Design Principles, Guidelines, Checklist, Anti-patterns, How to respond, What to ask if unclear
 3. Add to the command table in this README and to `commands/design-brief.md`
 
 ## License
