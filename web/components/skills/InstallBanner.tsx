@@ -28,7 +28,7 @@ export function InstallBanner() {
               Use in Claude Code
             </div>
             <div className="skills-install-step-desc">
-              Skill appears in .claude/commands/ — Claude picks it up
+              Skill appears in .claude/commands/ and Claude picks it up
               automatically
             </div>
           </div>

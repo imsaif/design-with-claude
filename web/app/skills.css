@@ -34,14 +34,15 @@
 }
 
 .skills-nav-logo {
-  font-family: var(--font-dm-mono), monospace;
-  font-size: 1.125rem;
+  font-family: var(--font-dm-serif), serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
   color: var(--text);
   text-decoration: none;
   letter-spacing: -0.02em;
 }
 
-.skills-nav-logo span {
+.skills-nav-logo-accent {
   color: var(--accent);
 }
 
@@ -67,7 +68,7 @@
 .skills-hero {
   text-align: center;
   padding: 5rem 2rem 3rem;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -82,10 +83,11 @@
 
 .skills-hero h1 {
   font-family: var(--font-dm-serif), serif;
-  font-size: 3.75rem;
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-size: 5rem;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  word-spacing: 0.08em;
   color: var(--text);
   margin-bottom: 1.5rem;
 }
@@ -134,9 +136,11 @@
 }
 
 .skills-install-title {
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 1.375rem;
-  font-weight: 500;
+  font-family: var(--font-dm-serif), serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  word-spacing: 0.08em;
   color: var(--text);
   margin-bottom: 2rem;
   text-align: center;
@@ -162,9 +166,11 @@
 }
 
 .skills-install-step-title {
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 1.0625rem;
-  font-weight: 500;
+  font-family: var(--font-dm-serif), serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  word-spacing: 0.08em;
   color: var(--text);
   margin-bottom: 0.5rem;
 }
@@ -185,6 +191,54 @@
   color: var(--text-dim);
   text-align: center;
   line-height: 1.6;
+}
+
+/* Learn CTA */
+.skills-learn-cta {
+  max-width: 960px;
+  margin: 0 auto 3rem;
+  padding: 0 2rem;
+}
+
+.skills-learn-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.skills-learn-cta-label {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.skills-learn-cta-desc {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.skills-learn-cta-btn {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0.875rem 1.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.skills-learn-cta-btn:hover {
+  opacity: 0.9;
 }
 
 /* Filter */
@@ -441,9 +495,11 @@
 }
 
 .skills-eco-banner-text h3 {
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 1.125rem;
-  font-weight: 500;
+  font-family: var(--font-dm-serif), serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  word-spacing: 0.08em;
   color: var(--text);
   margin-bottom: 0.35rem;
 }
@@ -468,6 +524,155 @@
 
 .skills-eco-banner-link:hover {
   border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Newsletter */
+.skills-newsletter {
+  max-width: 960px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+}
+
+.skills-newsletter-inner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.skills-newsletter-text {
+  margin-bottom: 1.5rem;
+}
+
+.skills-newsletter-text h3 {
+  font-family: var(--font-dm-serif), serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  word-spacing: 0.08em;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.skills-newsletter-text p {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.skills-newsletter-text a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.skills-newsletter-text a:hover {
+  opacity: 0.8;
+}
+
+.skills-newsletter-form {
+  position: relative;
+}
+
+.skills-newsletter-row {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.skills-newsletter-input {
+  flex: 1;
+  padding: 0.875rem 1.25rem;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.skills-newsletter-input::placeholder {
+  color: var(--text-dim);
+}
+
+.skills-newsletter-input:focus {
+  border-color: var(--accent);
+}
+
+.skills-newsletter-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.skills-newsletter-btn {
+  padding: 0.875rem 1.5rem;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+}
+
+.skills-newsletter-btn:hover {
+  opacity: 0.9;
+}
+
+.skills-newsletter-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.skills-newsletter-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.skills-newsletter-spinner {
+  width: 18px;
+  height: 18px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.skills-newsletter-error {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.875rem;
+  color: #f87171;
+  margin-top: 0.75rem;
+}
+
+.skills-newsletter-disclaimer {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.8125rem;
+  color: var(--text-dim);
+  margin-top: 0.75rem;
+}
+
+.skills-newsletter-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1rem;
   color: var(--accent);
 }
 
@@ -517,7 +722,7 @@
   }
 
   .skills-hero h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
 
   .skills-hero-sub {
@@ -528,6 +733,16 @@
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
+  }
+
+  .skills-learn-cta {
+    padding: 0 1.25rem;
+  }
+
+  .skills-learn-cta-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
   }
 
   .skills-install {
@@ -563,6 +778,18 @@
     align-items: flex-start;
     gap: 1rem;
     padding: 1.25rem;
+  }
+
+  .skills-newsletter {
+    padding: 0 1.25rem;
+  }
+
+  .skills-newsletter-inner {
+    padding: 1.5rem;
+  }
+
+  .skills-newsletter-row {
+    flex-direction: column;
   }
 
   .skills-footer {

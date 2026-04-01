@@ -6,7 +6,7 @@ export function Nav() {
     <nav className="skills-nav">
       <Link href="/" className="skills-nav-logo" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
         <DwcIcon className="h-6 w-auto" />
-        design<span>with</span>claude
+        <span>design<span className="skills-nav-logo-accent">with</span>claude</span>
       </Link>
       <div className="skills-nav-links">
         <a href="#install">How to install</a>
