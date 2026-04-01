@@ -1,18 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Serif_Display, DM_Sans, DM_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { DM_Mono } from "next/font/google";
 import "./globals.css";
 import "./skills.css";
 
-const dmSerif = DM_Serif_Display({
-  weight: "400",
-  subsets: ["latin"],
+const bevellier = localFont({
+  src: [
+    { path: "../public/fonts/bevellier-regular.woff2", weight: "400" },
+    { path: "../public/fonts/bevellier-medium.woff2", weight: "500" },
+  ],
   variable: "--font-dm-serif",
   display: "swap",
 });
 
-const dmSans = DM_Sans({
-  weight: ["300", "400", "500"],
-  subsets: ["latin"],
+const satoshi = localFont({
+  src: [
+    { path: "../public/fonts/satoshi-400.woff2", weight: "400" },
+    { path: "../public/fonts/satoshi-500.woff2", weight: "500" },
+    { path: "../public/fonts/satoshi-700.woff2", weight: "700" },
+  ],
   variable: "--font-dm-sans",
   display: "swap",
 });
@@ -98,7 +104,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`skills-page ${dmSerif.variable} ${dmSans.variable} ${dmMono.variable}`}
+        className={`skills-page ${bevellier.variable} ${satoshi.variable} ${dmMono.variable}`}
       >
         <script
           type="application/ld+json"

@@ -40,6 +40,13 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 ## Recent Sessions
 
 ### Session 2026-03-31 15:57 (MacBook)
+### Session 2026-04-01 19:10 (MacBook)
+- **Pattern:** Newsletter, fonts, and learning CTA
+- **Status:** Complete
+- **Files Changed:** 16
+- **Tests Added/Modified:** 0
+- **Notes:** Added email capture newsletter section (proxies to aiuxdesign.guide subscriber list with new 'design-with-claude' source, Resend + Beehiiv dual-write). Swapped fonts from DM Serif/DM Sans to self-hosted Bevellier (titles) + Satoshi (body), kept DM Mono for code. Added Claude Code learning path CTA below install section linking to aiuxdesign.guide/guides/claude-code-learning-path. Cleaned up em dashes across all copy. Applied consistent letter-spacing and word-spacing to Bevellier headings.
+
 - **Pattern:** General updates
 - **Status:** Work in progress
 - **Files Changed:** 22

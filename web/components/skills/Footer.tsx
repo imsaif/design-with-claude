@@ -2,7 +2,7 @@ export function Footer() {
   return (
     <footer className="skills-footer">
       <div className="skills-footer-left">
-        &copy; 2025 designwithclaude.com — open source, curated by hand
+        &copy; 2025 designwithclaude.com. Open source, curated by hand
       </div>
       <div className="skills-footer-links">
         <a
