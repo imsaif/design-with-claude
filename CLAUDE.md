@@ -40,6 +40,13 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 ## Recent Sessions
 
 ### Session 2026-03-31 15:57 (MacBook)
+### Session 2026-04-06 19:00 (MacBook)
+- **Pattern:** Technical wall commands
+- **Status:** Complete
+- **Files Changed:** 8
+- **Tests Added/Modified:** 0
+- **Notes:** Added 7 new technical setup commands for designers getting unstuck while building: setup-guide, code-explainer, database-setup, environment-setup, auth-implementation, deploy-to-vercel, debug-helper. Updated design-brief.md with new Technical Setup section and bumped agent count to 44.
+
 ### Session 2026-04-01 19:10 (MacBook)
 - **Pattern:** Newsletter, fonts, and learning CTA
 - **Status:** Complete
