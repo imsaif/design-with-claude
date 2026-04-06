@@ -40,6 +40,13 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 ## Recent Sessions
 
 ### Session 2026-03-31 15:57 (MacBook)
+### Session 2026-04-06 19:24 (MacBook)
+- **Pattern:** Hero copy cleanup
+- **Status:** Complete
+- **Files Changed:** 1
+- **Tests Added/Modified:** 0
+- **Notes:** Removed technical guides sentence from hero subtitle, keeping copy focused on design expertise only.
+
 ### Session 2026-04-06 19:15 (MacBook)
 - **Pattern:** Website and README updates
 - **Status:** Complete
