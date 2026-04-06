@@ -8,8 +8,7 @@ export function Hero() {
       <p className="skills-hero-sub">
         AI coding tools have thousands of skills. None are made for design work.
         This is the curated set. Agents that understand wireframes,
-        accessibility, handoff, copy — plus the technical guides to get you
-        unstuck with setup, debugging, and deployment.
+        accessibility, handoff, and copy.
       </p>
       <div className="skills-hero-stats">
         <span>
