@@ -5,7 +5,8 @@ export type CategoryId =
   | "product"
   | "content-ia"
   | "industry"
-  | "specialized";
+  | "specialized"
+  | "technical";
 
 export interface Category {
   id: CategoryId;
@@ -28,6 +29,7 @@ export const CATEGORIES: Category[] = [
   { id: "content-ia", label: "Content & IA" },
   { id: "industry", label: "Industry" },
   { id: "specialized", label: "Specialized" },
+  { id: "technical", label: "Technical Setup" },
 ];
 
 const ICONS = ["✦", "⬡", "◈", "⊞", "⬚", "✎", "◎", "⇄", "⌖", "◐", "⌤", "⊙", "⋯", "⊛", "⊕", "⊗", "⬧", "◉", "⊜", "⌘", "⊘", "⊡", "◫", "⌂", "⊿", "◬", "⊚", "⊞", "◈"];
@@ -313,6 +315,57 @@ export const SKILLS: Skill[] = [
     description: "PDF generation, print stylesheets, export formatting, receipt design, download UX",
     category: "specialized",
     icon: "🖨",
+  },
+
+  // Technical Setup
+  {
+    slug: "setup-guide",
+    name: "Setup Guide",
+    description: "Install Node, Claude Code, and create your first project — terminal walkthrough for designers",
+    category: "technical",
+    icon: "⌨",
+  },
+  {
+    slug: "code-explainer",
+    name: "Code Explainer",
+    description: "Paste any file or error — get a plain language explanation with no developer jargon",
+    category: "technical",
+    icon: "📖",
+  },
+  {
+    slug: "database-setup",
+    name: "Database Setup",
+    description: "Set up Supabase for your project — tables, queries, and connecting to your frontend",
+    category: "technical",
+    icon: "🗄",
+  },
+  {
+    slug: "environment-setup",
+    name: "Environment Setup",
+    description: "What .env files are, how to set them up, and what never to commit to GitHub",
+    category: "technical",
+    icon: "🔑",
+  },
+  {
+    slug: "auth-implementation",
+    name: "Auth Implementation",
+    description: "Implement working login and signup using Clerk or Supabase Auth — actual code, not just design guidance",
+    category: "technical",
+    icon: "🔓",
+  },
+  {
+    slug: "deploy-to-vercel",
+    name: "Deploy to Vercel",
+    description: "Deploy your project to Vercel, fix build errors, and set up a custom domain",
+    category: "technical",
+    icon: "🚀",
+  },
+  {
+    slug: "debug-helper",
+    name: "Debug Helper",
+    description: "Paste any error message — get a plain language explanation and exact fix",
+    category: "technical",
+    icon: "🔧",
   },
 ];
 

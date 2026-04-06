@@ -40,6 +40,13 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 ## Recent Sessions
 
 ### Session 2026-03-31 15:57 (MacBook)
+### Session 2026-04-06 19:15 (MacBook)
+- **Pattern:** Website and README updates
+- **Status:** Complete
+- **Files Changed:** 4
+- **Tests Added/Modified:** 0
+- **Notes:** Updated website with new "Technical Setup" category (8th category), 7 new skill cards with Heroicon mappings, and broadened hero subtitle copy. Updated README with new counts (37→44 agents, 45 total), Technical Setup command table, and technical guide usage examples.
+
 ### Session 2026-04-06 19:00 (MacBook)
 - **Pattern:** Technical wall commands
 - **Status:** Complete

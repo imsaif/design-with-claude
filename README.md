@@ -1,6 +1,6 @@
 # Design with Claude
 
-37 specialist agents + 1 master command — 38 design experts as Claude Code commands. Bring senior design expertise into every coding session.
+37 design specialists + 7 technical guides + 1 master command — 45 experts as Claude Code commands. Design expertise and hands-on technical help for designers who build.
 
 No runtime. No dependencies. No API keys. Just markdown files that give Claude deep design knowledge.
 
@@ -8,9 +8,9 @@ No runtime. No dependencies. No API keys. Just markdown files that give Claude d
 
 ## What This Is
 
-A collection of 37 design agent files — each one a specialist in a specific design domain (accessibility, motion design, color theory, checkout flows, etc). Install them as a Claude Code plugin, and you get expert-level design guidance directly in your coding workflow.
+A collection of 44 agent files — 37 design specialists and 7 technical guides for designers. Install them as a Claude Code plugin, and you get expert-level design guidance plus hands-on help with setup, debugging, and deployment directly in your coding workflow.
 
-Each agent contains structured domain knowledge: WCAG specifics, token architecture patterns, motion timing curves, healthcare UX compliance rules, checkout conversion best practices. This isn't generic "help me design" prompting — it's deep, opinionated expertise.
+The design agents contain structured domain knowledge: WCAG specifics, token architecture patterns, motion timing curves, healthcare UX compliance rules, checkout conversion best practices. The technical guides help designers get unstuck with common walls — environment setup, database connections, auth, deployment, and error debugging. This isn't generic prompting — it's deep, opinionated expertise.
 
 ## Install
 
@@ -46,7 +46,7 @@ This gives you `/design-brief`, `/accessibility-specialist`, etc. directly.
 /design-brief Build a SaaS analytics dashboard with dark mode and accessibility focus
 ```
 
-The master command analyzes your brief, identifies the relevant design domains (out of 37), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
+The master command analyzes your brief, identifies the relevant design domains (out of 44), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
 
 When invoked inside a code project, commands are context-aware: they detect your stack, read your existing files, and generate output that matches your conventions.
 
@@ -58,7 +58,7 @@ When invoked inside a code project, commands are context-aware: they detect your
 Product type: B2B SaaS dashboard
 Key requirements: data visualization, dark theme, WCAG AA compliance
 
-## Relevant Domains (7 of 37)
+## Relevant Domains (7 of 44)
 1. Dashboard Designer — KPI cards, chart layout, data density
 2. Dark Mode Specialist — surface hierarchy, elevation tokens, contrast
 3. Accessibility Specialist — WCAG AA, focus management, screen readers
@@ -169,6 +169,18 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `i18n-designer` | RTL layouts, locale-aware UI, string expansion |
 | `print-export-designer` | PDF generation, print stylesheets, export UX |
 
+### Technical Setup
+
+| Command | Use when... |
+|---|---|
+| `setup-guide` | Installing Node, Claude Code, creating first project |
+| `code-explainer` | Understanding any file or error in plain language |
+| `database-setup` | Setting up Supabase — tables, queries, frontend connection |
+| `environment-setup` | .env files, API keys, what never to commit |
+| `auth-implementation` | Adding login/signup with Clerk or Supabase Auth |
+| `deploy-to-vercel` | Getting your project live, fixing build errors |
+| `debug-helper` | Pasting any error, getting the exact fix |
+
 ## Examples
 
 ```bash
@@ -186,11 +198,20 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 /color-specialist Define a semantic color system for light and dark themes
 /checkout-specialist Guest checkout flow for a subscription product
 
-# New skills
+# New design skills
 /notification-designer Design a notification system for a team collaboration app
 /settings-designer Redesign our settings page — it's a mess
 /auth-security-ux-specialist Passkey login flow with 2FA fallback
 /drag-drop-specialist Kanban board with drag between columns and keyboard support
+
+# Technical guides — get unstuck
+/setup-guide I've never used a terminal before, help me set up Claude Code
+/debug-helper Error: Cannot read properties of undefined (reading 'map')
+/database-setup I need to store user submissions in a database
+/deploy-to-vercel My build is failing with "Module not found"
+/auth-implementation Add Google login to my Next.js app
+/environment-setup What's a .env file and why do I need one?
+/code-explainer What does this middleware.ts file do?
 ```
 
 ## How It Works

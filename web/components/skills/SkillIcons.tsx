@@ -36,6 +36,13 @@ import GlobeAltIcon from "@heroicons/react/24/outline/GlobeAltIcon";
 import LockClosedIcon from "@heroicons/react/24/outline/LockClosedIcon";
 import ArrowsUpDownIcon from "@heroicons/react/24/outline/ArrowsUpDownIcon";
 import PrinterIcon from "@heroicons/react/24/outline/PrinterIcon";
+import ComputerDesktopIcon from "@heroicons/react/24/outline/ComputerDesktopIcon";
+import BookOpenIcon from "@heroicons/react/24/outline/BookOpenIcon";
+import CircleStackIcon from "@heroicons/react/24/outline/CircleStackIcon";
+import KeyIcon from "@heroicons/react/24/outline/KeyIcon";
+import LockOpenIcon from "@heroicons/react/24/outline/LockOpenIcon";
+import CloudArrowUpIcon from "@heroicons/react/24/outline/CloudArrowUpIcon";
+import WrenchScrewdriverIcon from "@heroicons/react/24/outline/WrenchScrewdriverIcon";
 import { type ComponentType, type SVGProps } from "react";
 
 type HeroIcon = ComponentType<SVGProps<SVGSVGElement>>;
@@ -79,6 +86,13 @@ const SKILL_ICON_MAP: Record<string, HeroIcon> = {
   "auth-security-ux-specialist": LockClosedIcon,
   "drag-drop-specialist": ArrowsUpDownIcon,
   "print-export-designer": PrinterIcon,
+  "setup-guide": ComputerDesktopIcon,
+  "code-explainer": BookOpenIcon,
+  "database-setup": CircleStackIcon,
+  "environment-setup": KeyIcon,
+  "auth-implementation": LockOpenIcon,
+  "deploy-to-vercel": CloudArrowUpIcon,
+  "debug-helper": WrenchScrewdriverIcon,
 };
 
 export function SkillIcon({
