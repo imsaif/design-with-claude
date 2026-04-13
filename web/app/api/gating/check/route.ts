@@ -1,0 +1,65 @@
+import { NextRequest } from "next/server";
+import {
+  freeTierRemaining,
+  getOrCreateProfile,
+  isFreeTierExhausted,
+  LIMITS,
+} from "@/lib/dwc/store";
+import { isTokenShapeValid } from "@/lib/dwc/tokens";
+import type { GatingCheckResponse } from "@/lib/dwc/types";
+
+export const runtime = "nodejs";
+
+export async function POST(request: NextRequest) {
+  let body: { token?: string; toolName?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return Response.json(
+      { allowed: false, reason: "invalid_json" } satisfies GatingCheckResponse,
+      { status: 400 },
+    );
+  }
+
+  const token = body?.token?.trim();
+  const toolName = body?.toolName?.trim();
+
+  if (!isTokenShapeValid(token) || !toolName) {
+    return Response.json(
+      {
+        allowed: false,
+        reason: "invalid_token",
+        message: "Invalid or missing dwc token — rerun `npx designwithclaude setup`.",
+      } satisfies GatingCheckResponse,
+      { status: 200 },
+    );
+  }
+
+  const profile = getOrCreateProfile(token!);
+
+  if (profile.status === "cancelled") {
+    return Response.json({
+      allowed: false,
+      reason: "subscription_cancelled",
+      message:
+        "Your profile is frozen. Resubscribe at https://designwithclaude.com/upgrade to resume.",
+    } satisfies GatingCheckResponse);
+  }
+
+  if (profile.status === "paid") {
+    return Response.json({ allowed: true } satisfies GatingCheckResponse);
+  }
+
+  if (isFreeTierExhausted(profile.commandCount)) {
+    return Response.json({
+      allowed: false,
+      reason: "free_tier_exhausted",
+      message: `You've used ${LIMITS.FREE_TIER_LIMIT}/${LIMITS.FREE_TIER_LIMIT} free commands. Upgrade at https://designwithclaude.com/upgrade`,
+    } satisfies GatingCheckResponse);
+  }
+
+  return Response.json({
+    allowed: true,
+    remaining: freeTierRemaining(profile.commandCount),
+  } satisfies GatingCheckResponse);
+}

@@ -4,3 +4,7 @@ node_modules/
 *.log
 .env*
 .DS_Store
+web/lib/agents/commands/
+dist/
+tsconfig.tsbuildinfo
+.mcp.json

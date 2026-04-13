@@ -1,0 +1,54 @@
+{
+  "name": "designwithclaude",
+  "version": "2.0.0-alpha.1",
+  "description": "Make Claude Code your designer — MCP server that configures Claude Code for designers",
+  "type": "module",
+  "main": "./dist/server.js",
+  "bin": {
+    "designwithclaude": "./dist/bin/setup.js",
+    "dwc-mcp-server": "./dist/server.js"
+  },
+  "files": [
+    "dist",
+    "commands",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc && node scripts/chmod-bins.mjs",
+    "dev": "tsc --watch",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "test:mcp": "node scripts/test-mcp-handshake.mjs",
+    "test:setup": "node scripts/test-setup-dry-run.mjs",
+    "test:e2e": "node scripts/test-e2e-roundtrip.mjs",
+    "test:phase2": "node scripts/test-phase2-flow.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "claude-code",
+    "mcp",
+    "mcp-server",
+    "design",
+    "design-system",
+    "designer-tools"
+  ],
+  "author": "imsaif",
+  "license": "MIT",
+  "homepage": "https://designwithclaude.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imsaif/design-with-claude.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.6.0"
+  }
+}
