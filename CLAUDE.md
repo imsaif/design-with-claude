@@ -1,20 +1,37 @@
 # design-with-claude
 
 ## Project Overview
-29 specialized design agents packaged as Claude Code custom slash commands. Available as a Claude Code plugin or standalone commands — no runtime, no dependencies, no build step.
+**V2 (in progress, April 2026):** subscription product that configures Claude Code for designers via an MCP server, paired with a browser companion that renders command outputs live. See `/Users/imranmohammed/Desktop/00-product-brief.md` and `/Users/imranmohammed/Desktop/dwc-docs/PROGRESS.md` for the canonical plan.
+
+**V1 (still shipping):** 44 specialized design agents as Claude Code slash commands, available as a plugin or standalone. `commands/*.md` stays intact — the V2 MCP server reuses those files as role prompts.
 
 ## Architecture
-- **No code. Just markdown.** Each agent is a `.md` file with YAML frontmatter + structured design knowledge.
-- Distributed as a Claude Code plugin via `.claude-plugin/plugin.json` manifest.
-- Also installable standalone by copying `commands/` to `~/.claude/commands/`.
-- `/design-brief` is the master command that routes a natural language brief to the relevant agents.
+- **V2 MCP server (root):** TypeScript, ESM, `@modelcontextprotocol/sdk` over stdio. Tools live in `src/tools/`. Shared types in `src/tools/types.ts`. Six structured output kinds: palette, type-scale, spacing, component-spec, copy, markdown.
+- **V2 install flow:** `npx designwithclaude setup --token=imr_xxx [--scope=user|project]` writes the MCP entry. Uses `claude mcp add-json` when available, falls back to direct `~/.claude.json` edit with timestamped backup, or `.mcp.json` at the cwd for project scope.
+- **V2 gating:** Pre-call `/api/gating/check`, post-call `/api/gating/consume`. Fails open when `DWC_GATING` is off (dev/alpha default).
+- **V2 events:** Post-call emit to `/api/events`. Payload shape defined in `src/api-client.ts` → `EventPayload`. The browser companion (Phase 2) subscribes via Supabase Realtime.
+- **V1 plugin (unchanged):** `.claude-plugin/plugin.json` manifest; `commands/*.md` are the knowledge base for both V1 slash commands and V2 MCP tool role prompts. `/design-brief` is the master command.
 
 ## Key Files
-- `.claude-plugin/plugin.json` — Plugin manifest (name, version, metadata)
-- `.claude-plugin/marketplace.json` — Marketplace catalog for plugin distribution
-- `commands/*.md` — 29 agent commands + 1 master command (design-brief)
-- `README.md` — Install instructions, command reference, examples
-- `web/` — Landing page (designwithclaude.com)
+- `package.json` (root) — npm package `designwithclaude`, bins: `designwithclaude` (setup CLI) + `dwc-mcp-server` (server entry)
+- `src/server.ts` — MCP server main; registers all tools; wraps handlers with gating + event emission
+- `src/tools/index.ts` — tool registry
+- `src/tools/types.ts` — `ToolDefinition`, `ToolResult`, output payload types
+- `src/tools/loadPrompt.ts` — reads and caches `commands/*.md` role prompts
+- `src/bin/setup.ts` — `npx designwithclaude setup` install flow
+- `scripts/test-mcp-handshake.mjs` — stdio round-trip against `dist/server.js` (`npm run test:mcp`)
+- `scripts/test-setup-dry-run.mjs` — install/uninstall against a tmp project (`npm run test:setup`)
+- `.claude-plugin/plugin.json` — V1 plugin manifest (unchanged)
+- `.claude-plugin/marketplace.json` — V1 marketplace catalog (unchanged)
+- `commands/*.md` — role prompts, shared by V1 slash commands and V2 MCP tools
+- `README.md` — V1 install + command reference (still current for the plugin path)
+- `web/` — landing page; will become the V2 browser companion (Phase 2)
+- `web/lib/dwc/{types,tokens,store}.ts` — shared types + in-memory store (Symbol.for singleton survives HMR) that Phase 3 will port to Supabase
+- `web/app/api/tokens/validate`, `web/app/api/gating/{check,consume}`, `web/app/api/events`, `web/app/api/events/recent` — dwc API stubs consumed by the MCP server and the Phase 2 companion
+- `web/app/api/profile/route.ts` — POST mints `imr_` tokens + stores onboarding answers + returns generated CLAUDE.md; GET returns stored profile
+- `web/app/{start,profile,install,companion,upgrade}/page.tsx` — V2 companion flow pages (5 screens)
+- `web/components/companion/` — `Shell`, `CopyButton`, `StartWizard`, `CompanionView`, plus `renderers/{Palette,TypeScale,Spacing,ComponentSpec,Copy,Markdown}Renderer.tsx` + barrel `renderers/index.tsx`
+- `web/lib/claude-md-generator.ts` — extended with `tone_preference` for the V2 flow
 
 ## Command File Structure
 Each command follows this format:
@@ -38,6 +55,27 @@ Role statement with $ARGUMENTS placeholder
 Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-designer`, `form-designer`). No `design-` prefix except for `design-brief` (the master command) and `design-system-architect`.
 
 ## Recent Sessions
+
+### Session 2026-04-13 23:00 (MacBook)
+- **Pattern:** V2 Phase 2 browser companion — end-to-end
+- **Status:** Complete — full loop (onboarding → token → install → MCP tool call → live render) works
+- **Files Changed:** 18 new files in web/ (5 routes, 1 new API route, Shell + CopyButton + StartWizard + CompanionView components, 6 renderer components), lib/claude-md-generator.ts extended with tone_preference, 3 lib/dwc/* extensions, 1 new test script
+- **Tests Added/Modified:** 1 (test:phase2 — posts /api/profile, drives MCP with minted token, validates events match ToolOutputPayload shapes, curls all 5 routes for server-rendered content)
+- **Notes:** Built `/start` as a 5-step wizard (chips + textarea, not chat), `/profile` with meta tile + CLAUDE.md preview + copy button, `/install` with prefilled npx command, `/companion` with 2.5s polling of /api/events/recent + waiting/ready/feed states + "built so far" sidebar, `/upgrade` with retention-thesis copy + plan cards. 6 render components — PaletteRenderer (color grid with group tags), TypeScaleRenderer (ramp with live preview text), SpacingRenderer (horizontal bars), ComponentSpecRenderer, CopyRenderer, MarkdownRenderer (react-markdown + remark-gfm). New `POST /api/profile` mints imr_ tokens via `crypto.randomBytes(9).toString('base64url')`, generates CLAUDE.md via existing generator, stores onboarding answers. Polling chosen over Supabase Realtime for alpha — swap is Phase 3 work. Existing `/` landing page + `(app)/` routes intentionally untouched.
+
+### Session 2026-04-13 21:30 (MacBook)
+- **Pattern:** V2 Phase 1 dwc API stubs + end-to-end round-trip
+- **Status:** Complete — Phase 1 code-complete
+- **Files Changed:** 7 new files in web/ (3 lib/dwc + 5 API routes), 1 new e2e test script, PROGRESS.md, CLAUDE.md
+- **Tests Added/Modified:** 1 (test:e2e — boots Next dev on 3099, exercises 10-call free tier + block at 11)
+- **Notes:** Stubbed `/api/tokens/validate`, `/api/gating/check`, `/api/gating/consume`, `/api/events`, and `/api/events/recent` (debug polling) in the existing web/ Next app. In-memory store using `Symbol.for` singleton survives Next HMR. All API routes pin `runtime = "nodejs"` for `node:crypto` token hashing. E2E test confirms: MCP server → gating API enforces 10/10 free tier → blocks 11th call with upgrade copy → events stored and readable via GET /api/events/recent. Phase 2 companion can now poll /api/events/recent during scaffolding before Supabase Realtime is wired.
+
+### Session 2026-04-13 20:00 (MacBook)
+- **Pattern:** V2 Phase 1 MCP server scaffold
+- **Status:** Complete — alpha scaffold runs end-to-end
+- **Files Changed:** package.json, tsconfig.json, .gitignore, CLAUDE.md, 15 new files in src/, 3 scripts
+- **Tests Added/Modified:** 2 (test:mcp handshake, test:setup dry-run)
+- **Notes:** Built the dwc V2 MCP server from scratch: hello-world + 7 real tools (design-brief, design-system-architect, color-specialist with HSL seed palette, typography-specialist with clamp scale, spacing-specialist, setup-guide, debug-helper). Wired gating/events stubs that fail-open until the dwc API lands. `npx designwithclaude setup|uninstall` supports user + project scope, prefers `claude mcp add-json`, falls back to direct config edits with backups. `claude mcp list` confirms designwithclaude: ✓ Connected. See PROGRESS.md for the next blocker (API stubs in web/).
 
 ### Session 2026-03-31 15:57 (MacBook)
 ### Session 2026-04-06 19:24 (MacBook)
