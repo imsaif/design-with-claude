@@ -70,6 +70,9 @@ function formatRelative(iso: string): string {
 
 export function SystemCanvas({ events, onboarding }: Props) {
   const product = shortDescription(onboarding);
+  // Only one tile can be expanded at a time — keeps the grid readable and
+  // makes the "click again to collapse" behavior obvious.
+  const [expandedTileId, setExpandedTileId] = useState<string | null>(null);
   const tilesByCategory = useMemo(() => {
     const map = new Map<Tile["category"], Tile[]>();
     for (const cat of CATEGORIES) map.set(cat, []);
@@ -126,6 +129,10 @@ export function SystemCanvas({ events, onboarding }: Props) {
                     tile={tile}
                     filled={filled}
                     product={product}
+                    isExpanded={expandedTileId === tile.id}
+                    onToggleExpand={() =>
+                      setExpandedTileId((prev) => (prev === tile.id ? null : tile.id))
+                    }
                   />
                 );
               })}
@@ -184,27 +191,36 @@ function TileCard({
   tile,
   filled,
   product,
+  isExpanded,
+  onToggleExpand,
 }: {
   tile: Tile;
   filled: { event: StoredEvent; output: ToolOutputPayload } | null;
   product: string;
+  isExpanded: boolean;
+  onToggleExpand: () => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
   const isFilled = Boolean(filled);
   const isComingSoon = tile.status === "coming_soon" && !isFilled;
   const isActive = !isComingSoon;
+  const canExpand = isFilled;
+  const expanded = isExpanded && canExpand;
 
-  const border = isFilled
-    ? "1px solid rgba(200,240,122,0.35)"
-    : isComingSoon
-      ? "1px solid rgba(255,255,255,0.05)"
-      : "1px dashed rgba(255,255,255,0.14)";
+  const border = expanded
+    ? "1px solid rgba(200,240,122,0.55)"
+    : isFilled
+      ? "1px solid rgba(200,240,122,0.35)"
+      : isComingSoon
+        ? "1px solid rgba(255,255,255,0.05)"
+        : "1px dashed rgba(255,255,255,0.14)";
 
   const bg = isComingSoon
     ? "rgba(255,255,255,0.01)"
-    : isFilled
-      ? "rgba(200,240,122,0.04)"
-      : "rgba(255,255,255,0.02)";
+    : expanded
+      ? "#0a0a0b"
+      : isFilled
+        ? "rgba(200,240,122,0.04)"
+        : "rgba(255,255,255,0.02)";
 
   return (
     <article
@@ -212,13 +228,17 @@ function TileCard({
         border,
         background: bg,
         borderRadius: 12,
-        padding: "0.9rem 1rem",
-        minHeight: 132,
+        padding: expanded ? "1.25rem 1.5rem" : "0.9rem 1rem",
+        minHeight: expanded ? undefined : 132,
         display: "flex",
         flexDirection: "column",
         gap: "0.5rem",
         opacity: isComingSoon ? 0.55 : 1,
-        transition: "all 160ms ease",
+        // Span every column of the parent grid when expanded so the full
+        // renderer has real estate; tiles below reflow naturally.
+        gridColumn: expanded ? "1 / -1" : "auto",
+        transition: "border-color 160ms ease, background 160ms ease, padding 160ms ease",
+        boxShadow: expanded ? "0 12px 30px rgba(0,0,0,0.35)" : undefined,
       }}
     >
       <header style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -232,7 +252,14 @@ function TileCard({
             boxShadow: isFilled ? "0 0 8px rgba(200,240,122,0.6)" : "none",
           }}
         />
-        <h3 style={{ fontSize: "0.88rem", fontWeight: 600, color: "#fff", flex: 1 }}>
+        <h3
+          style={{
+            fontSize: expanded ? "1rem" : "0.88rem",
+            fontWeight: 600,
+            color: "#fff",
+            flex: 1,
+          }}
+        >
           {tile.label}
         </h3>
         {isComingSoon ? (
@@ -259,49 +286,48 @@ function TileCard({
         ) : null}
       </header>
 
-      <p
-        style={{
-          fontSize: "0.78rem",
-          color: "rgba(255,255,255,0.6)",
-          lineHeight: 1.4,
-          flex: 1,
-        }}
-      >
-        {tile.helper}
-      </p>
+      {!expanded ? (
+        <p
+          style={{
+            fontSize: "0.78rem",
+            color: "rgba(255,255,255,0.6)",
+            lineHeight: 1.4,
+            flex: 1,
+          }}
+        >
+          {tile.helper}
+        </p>
+      ) : null}
 
-      {isFilled ? (
-        <>
-          <TilePreview output={filled!.output} />
-          <button
-            type="button"
-            onClick={() => setExpanded((x) => !x)}
-            style={{
-              background: "transparent",
-              border: "none",
-              color: "#c8f07a",
-              fontSize: "0.72rem",
-              padding: 0,
-              cursor: "pointer",
-              textAlign: "left",
-              fontFamily: "inherit",
-            }}
-          >
-            {expanded ? "Collapse" : "Expand full view"}
-          </button>
-          {expanded ? (
-            <div
-              style={{
-                marginTop: "0.6rem",
-                paddingTop: "0.75rem",
-                borderTop: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              <RenderOutput output={filled!.output} />
-            </div>
-          ) : null}
-        </>
-      ) : isActive && tile.tool ? (
+      {isFilled && !expanded ? <TilePreview output={filled!.output} /> : null}
+
+      {canExpand ? (
+        <button
+          type="button"
+          onClick={onToggleExpand}
+          style={{
+            background: "transparent",
+            border: "none",
+            color: "#c8f07a",
+            fontSize: "0.72rem",
+            padding: 0,
+            cursor: "pointer",
+            textAlign: "left",
+            fontFamily: "inherit",
+            alignSelf: "flex-start",
+          }}
+        >
+          {expanded ? "← Collapse" : "Open full view →"}
+        </button>
+      ) : null}
+
+      {expanded && filled ? (
+        <div style={{ marginTop: "0.5rem" }}>
+          <RenderOutput output={filled.output} />
+        </div>
+      ) : null}
+
+      {!isFilled && isActive && tile.tool ? (
         <PromptChip
           prompt={`Use the ${tile.tool} tool from designwithclaude. Brief: ${product}`}
         />
