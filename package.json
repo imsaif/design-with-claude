@@ -5,8 +5,8 @@
   "type": "module",
   "main": "./dist/server.js",
   "bin": {
-    "designwithclaude": "./dist/bin/setup.js",
-    "dwc-mcp-server": "./dist/server.js"
+    "designwithclaude": "dist/bin/setup.js",
+    "dwc-mcp-server": "dist/server.js"
   },
   "files": [
     "dist",
@@ -38,7 +38,7 @@
   "homepage": "https://designwithclaude.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/imsaif/design-with-claude.git"
+    "url": "git+https://github.com/imsaif/design-with-claude.git"
   },
   "engines": {
     "node": ">=18"
