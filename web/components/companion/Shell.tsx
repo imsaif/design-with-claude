@@ -12,7 +12,7 @@ interface ShellProps {
 
 type StepN = 1 | 2 | 3 | 4 | 5;
 const STEPS: Array<{ n: StepN; label: string; path: string }> = [
-  { n: 1, label: "Start", path: "/start" },
+  { n: 1, label: "New project", path: "/start" },
   { n: 2, label: "Profile", path: "/profile" },
   { n: 3, label: "Install", path: "/install" },
   { n: 4, label: "Companion", path: "/companion" },
