@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Shell } from "@/components/companion/Shell";
-import { AddProjectForm } from "@/components/companion/AddProjectForm";
+import { AddProjectTile } from "@/components/companion/AddProjectTile";
 import { getAccountState } from "@/lib/dwc/store";
 import { isTokenShapeValid } from "@/lib/dwc/tokens";
 
@@ -54,7 +54,6 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
   const account = await getAccountState(token);
   const count = account.commandCount;
   const status = account.status;
-  const remaining = status === "free" ? Math.max(0, 10 - count) : null;
   const gateBlocked = status === "free" && count >= 10;
 
   return (
@@ -80,32 +79,6 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
         </p>
       </header>
 
-      {/* Account summary card */}
-      <section
-        style={{
-          background: "#0a0a0b",
-          border: "1px solid rgba(255,255,255,0.08)",
-          borderRadius: 12,
-          padding: "1.25rem 1.5rem",
-          marginBottom: "1.5rem",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-          gap: "1rem",
-        }}
-      >
-        <Meta label="Plan" value={status} capitalize />
-        <Meta
-          label="Commands"
-          value={
-            status === "free"
-              ? `${count} / 10 used${remaining !== null ? ` · ${remaining} left` : ""}`
-              : `${count} · unlimited`
-          }
-        />
-        <Meta label="Projects" value={`${account.projects.length}`} />
-        <Meta label="Last active" value={formatRelative(account.lastSeenAt)} />
-      </section>
-
       {gateBlocked ? (
         <div
           style={{
@@ -123,9 +96,7 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
             fontSize: "0.9rem",
           }}
         >
-          <span>
-            Free tier exhausted across all your projects. Upgrade to keep building.
-          </span>
+          <span>Free tier exhausted across all your projects. Upgrade to keep building.</span>
           <Link
             href={`/upgrade?token=${token}`}
             style={{
@@ -143,7 +114,7 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
         </div>
       ) : null}
 
-      <section style={{ marginBottom: "2.5rem" }}>
+      <section style={{ marginBottom: "3rem" }}>
         <h2
           style={{
             fontSize: "0.72rem",
@@ -156,53 +127,54 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
         >
           Projects ({account.projects.length})
         </h2>
-        {account.projects.length === 0 ? (
-          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.9rem" }}>
-            No projects yet — add your first one below.
-          </p>
-        ) : (
-          <div
-            style={{
-              display: "grid",
-              gap: "0.75rem",
-              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-            }}
-          >
-            {account.projects.map((p) => (
-              <ProjectCard key={p.slug} token={token} project={p} />
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section
-        style={{
-          background: "#0a0a0b",
-          border: "1px dashed rgba(255,255,255,0.12)",
-          borderRadius: 12,
-          padding: "1.5rem",
-        }}
-      >
-        <h2 style={{ fontSize: "1rem", fontWeight: 600, marginBottom: "0.35rem" }}>
-          Add a project
-        </h2>
-        <p
+        <div
           style={{
-            color: "rgba(255,255,255,0.55)",
-            fontSize: "0.85rem",
-            marginBottom: "1rem",
+            display: "grid",
+            gap: "0.75rem",
+            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
           }}
         >
-          Slug is how you&apos;ll refer to this project in <code>npx designwithclaude setup
-          --project=&lt;slug&gt;</code>. One slug per real project.
-        </p>
-        <AddProjectForm token={token} />
+          {account.projects.map((p) => (
+            <ProjectCard key={p.slug} token={token} project={p} />
+          ))}
+          <AddProjectTile token={token} />
+        </div>
+      </section>
+
+      {/* Account summary — demoted to a compact bar at the bottom of the page
+          since most of the time designers care about their projects, not the
+          account stats. */}
+      <section
+        aria-label="Account summary"
+        style={{
+          background: "rgba(255,255,255,0.015)",
+          border: "1px solid rgba(255,255,255,0.06)",
+          borderRadius: 10,
+          padding: "0.75rem 1.1rem",
+          display: "flex",
+          gap: "1.5rem",
+          flexWrap: "wrap",
+          alignItems: "center",
+          fontSize: "0.78rem",
+          color: "rgba(255,255,255,0.55)",
+        }}
+      >
+        <SummaryItem label="Plan" value={status} capitalize />
+        <SummaryItem
+          label="Commands"
+          value={status === "free" ? `${count}/10` : `${count} · unlimited`}
+        />
+        <SummaryItem label="Projects" value={String(account.projects.length)} />
+        <SummaryItem label="Last active" value={formatRelative(account.lastSeenAt)} />
+        <span style={{ marginLeft: "auto", color: "rgba(255,255,255,0.35)", fontSize: "0.72rem", fontFamily: "var(--font-geist-mono)" }}>
+          {token.slice(0, 8)}…
+        </span>
       </section>
     </Shell>
   );
 }
 
-function Meta({
+function SummaryItem({
   label,
   value,
   capitalize,
@@ -212,28 +184,26 @@ function Meta({
   capitalize?: boolean;
 }) {
   return (
-    <div>
-      <div
+    <div style={{ display: "flex", gap: "0.4rem", alignItems: "baseline" }}>
+      <span
         style={{
-          color: "rgba(255,255,255,0.45)",
-          fontSize: "0.68rem",
+          color: "rgba(255,255,255,0.35)",
           textTransform: "uppercase",
-          letterSpacing: "0.1em",
-          marginBottom: "0.25rem",
+          letterSpacing: "0.08em",
+          fontSize: "0.68rem",
         }}
       >
         {label}
-      </div>
-      <div
+      </span>
+      <span
         style={{
-          color: "#fff",
+          color: "rgba(255,255,255,0.8)",
           fontWeight: 500,
-          fontSize: "0.95rem",
           textTransform: capitalize ? "capitalize" : undefined,
         }}
       >
         {value}
-      </div>
+      </span>
     </div>
   );
 }
@@ -262,6 +232,7 @@ function ProjectCard({
         display: "flex",
         flexDirection: "column",
         gap: "0.75rem",
+        minHeight: 128,
       }}
     >
       <header style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
