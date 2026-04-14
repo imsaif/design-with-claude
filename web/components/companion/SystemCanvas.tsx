@@ -1,10 +1,9 @@
 "use client";
 import { useMemo, useState } from "react";
 import { RenderOutput } from "./renderers";
-import { EmptySection } from "./EmptySection";
+import { CopyButton } from "./CopyButton";
+import { CATEGORIES, TILES, type Tile } from "./canvasTiles";
 import type {
-  CopyData,
-  ComponentSpecData,
   MarkdownData,
   PaletteData,
   SpacingData,
@@ -21,10 +20,7 @@ interface StoredEvent {
 }
 
 interface OnboardingHint {
-  product_type?: string;
   product_description?: string;
-  tech_stack?: string[];
-  design_system?: string;
 }
 
 interface Props {
@@ -41,25 +37,27 @@ function isToolOutput(o: unknown): o is ToolOutputPayload {
   return typeof type === "string" && VALID_TYPES.includes(type as ValidType);
 }
 
-function latestOf<T extends ToolOutputPayload["type"]>(
+/** Find the latest event whose output matches a tile's expected output kind (and
+ *  optional shape-matcher). Returns both the event and the typed payload. */
+function latestForTile(
   events: StoredEvent[],
-  type: T,
-): { event: StoredEvent; output: Extract<ToolOutputPayload, { type: T }> } | null {
+  tile: Tile,
+): { event: StoredEvent; output: ToolOutputPayload } | null {
+  if (!tile.outputKind) return null;
   for (let i = events.length - 1; i >= 0; i--) {
     const e = events[i];
-    if (isToolOutput(e.output) && e.output.type === type) {
-      return { event: e, output: e.output as Extract<ToolOutputPayload, { type: T }> };
-    }
+    if (!isToolOutput(e.output)) continue;
+    if (e.output.type !== tile.outputKind) continue;
+    if (tile.matches && !tile.matches(e.output)) continue;
+    return { event: e, output: e.output };
   }
   return null;
 }
 
 function shortDescription(onboarding?: OnboardingHint): string {
   const desc = onboarding?.product_description?.trim();
-  if (desc) {
-    return desc.length > 90 ? desc.slice(0, 88) + "…" : desc;
-  }
-  return "your product";
+  if (!desc) return "your product";
+  return desc.length > 80 ? desc.slice(0, 78) + "…" : desc;
 }
 
 function formatRelative(iso: string): string {
@@ -71,144 +69,344 @@ function formatRelative(iso: string): string {
 }
 
 export function SystemCanvas({ events, onboarding }: Props) {
-  const palette = useMemo(() => latestOf(events, "palette"), [events]);
-  const typescale = useMemo(() => latestOf(events, "type-scale"), [events]);
-  const spacing = useMemo(() => latestOf(events, "spacing"), [events]);
+  const product = shortDescription(onboarding);
+  const tilesByCategory = useMemo(() => {
+    const map = new Map<Tile["category"], Tile[]>();
+    for (const cat of CATEGORIES) map.set(cat, []);
+    for (const tile of TILES) map.get(tile.category)!.push(tile);
+    return map;
+  }, []);
 
-  // "Decisions & notes" — markdown + component-spec + copy, chronological,
-  // newest first. These don't replace each other; guidance accumulates.
-  const decisions = useMemo(() => {
+  // Narrative outputs (markdown, component-spec, copy) that don't map to a
+  // specific tile accumulate in a single "Decisions & notes" section below.
+  // We exclude the architecture tile's markdown so it doesn't show up twice.
+  const narrative = useMemo(() => {
+    const archTile = TILES.find((t) => t.id === "architecture");
     return events
-      .filter(
-        (e) =>
-          isToolOutput(e.output) &&
-          (e.output.type === "markdown" ||
-            e.output.type === "component-spec" ||
-            e.output.type === "copy"),
-      )
+      .filter((e) => {
+        if (!isToolOutput(e.output)) return false;
+        const payload = e.output;
+        if (payload.type === "markdown" && archTile?.matches?.(payload)) return false;
+        return payload.type === "markdown" || payload.type === "component-spec" || payload.type === "copy";
+      })
       .slice()
       .reverse();
   }, [events]);
 
-  const product = shortDescription(onboarding);
-
   return (
-    <div style={{ display: "grid", gap: "1.25rem" }}>
-      <Section
-        title="Color"
-        meta={palette ? `${palette.output.data.name} · updated ${formatRelative(palette.event.receivedAt)}` : null}
-        latestId={palette?.event.id}
-      >
-        {palette ? (
-          <RenderOutput output={palette.output} />
-        ) : (
-          <EmptySection
-            label="Color palette"
-            helper="Your primary, neutral, and semantic colors will live here once your color specialist runs."
-            promptHint={`Use the color-specialist tool from designwithclaude. Brief: ${product}`}
-          />
-        )}
-      </Section>
+    <div style={{ display: "grid", gap: "2rem" }}>
+      {CATEGORIES.map((cat) => {
+        const tiles = tilesByCategory.get(cat) ?? [];
+        return (
+          <section key={cat}>
+            <h2
+              style={{
+                fontSize: "0.72rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.16em",
+                color: "rgba(255,255,255,0.55)",
+                fontWeight: 600,
+                marginBottom: "0.85rem",
+              }}
+            >
+              {cat}
+            </h2>
+            <div
+              style={{
+                display: "grid",
+                gap: "0.75rem",
+                gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+              }}
+            >
+              {tiles.map((tile) => {
+                const filled = latestForTile(events, tile);
+                return (
+                  <TileCard
+                    key={tile.id}
+                    tile={tile}
+                    filled={filled}
+                    product={product}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
 
-      <Section
-        title="Typography"
-        meta={typescale ? `${typescale.output.data.name} · updated ${formatRelative(typescale.event.receivedAt)}` : null}
-        latestId={typescale?.event.id}
-      >
-        {typescale ? (
-          <RenderOutput output={typescale.output} />
+      <section>
+        <h2
+          style={{
+            fontSize: "0.72rem",
+            textTransform: "uppercase",
+            letterSpacing: "0.16em",
+            color: "rgba(255,255,255,0.55)",
+            fontWeight: 600,
+            marginBottom: "0.85rem",
+          }}
+        >
+          Decisions & notes
+        </h2>
+        {narrative.length === 0 ? (
+          <div
+            style={{
+              border: "1px dashed rgba(255,255,255,0.1)",
+              borderRadius: 12,
+              padding: "1.25rem 1.5rem",
+              background: "rgba(255,255,255,0.015)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "0.7rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                color: "rgba(255,255,255,0.45)",
+                marginBottom: "0.4rem",
+              }}
+            >
+              Briefs, components, copy · nothing yet
+            </div>
+            <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.9rem", marginBottom: "0.75rem" }}>
+              Output from design-brief, component specs, and copy accumulates here. Newest on top.
+            </p>
+            <PromptChip prompt={`Use the design-brief tool from designwithclaude. Brief: ${product}`} />
+          </div>
         ) : (
-          <EmptySection
-            label="Type system"
-            helper="A fluid scale with clamp() values, line-heights, and weights — rendered in live preview text."
-            promptHint={`Use the typography-specialist tool from designwithclaude. Brief: ${product}`}
-          />
+          <DecisionsList items={narrative} />
         )}
-      </Section>
-
-      <Section
-        title="Spacing"
-        meta={spacing ? `${spacing.output.data.name} · updated ${formatRelative(spacing.event.receivedAt)}` : null}
-        latestId={spacing?.event.id}
-      >
-        {spacing ? (
-          <RenderOutput output={spacing.output} />
-        ) : (
-          <EmptySection
-            label="Spacing scale"
-            helper="A non-linear scale that keeps rhythm without bloat — drop straight into Tailwind or CSS vars."
-            promptHint={`Use the spacing-specialist tool from designwithclaude. Brief: ${product}`}
-          />
-        )}
-      </Section>
-
-      <Section
-        title="Decisions & notes"
-        meta={decisions.length ? `${decisions.length} entr${decisions.length === 1 ? "y" : "ies"}` : null}
-      >
-        {decisions.length === 0 ? (
-          <EmptySection
-            label="Briefs, components, copy"
-            helper="Output from design-brief, component specs, and copy lives here as it accumulates. Newest on top."
-            promptHint={`Use the design-brief tool from designwithclaude. Brief: ${product}`}
-          />
-        ) : (
-          <DecisionsList items={decisions} />
-        )}
-      </Section>
+      </section>
     </div>
   );
 }
 
-function Section({
-  title,
-  meta,
-  latestId,
-  children,
+function TileCard({
+  tile,
+  filled,
+  product,
 }: {
-  title: string;
-  meta: string | null;
-  latestId?: string;
-  children: React.ReactNode;
+  tile: Tile;
+  filled: { event: StoredEvent; output: ToolOutputPayload } | null;
+  product: string;
 }) {
+  const [expanded, setExpanded] = useState(false);
+  const isFilled = Boolean(filled);
+  const isComingSoon = tile.status === "coming_soon" && !isFilled;
+  const isActive = !isComingSoon;
+
+  const border = isFilled
+    ? "1px solid rgba(200,240,122,0.35)"
+    : isComingSoon
+      ? "1px solid rgba(255,255,255,0.05)"
+      : "1px dashed rgba(255,255,255,0.14)";
+
+  const bg = isComingSoon
+    ? "rgba(255,255,255,0.01)"
+    : isFilled
+      ? "rgba(200,240,122,0.04)"
+      : "rgba(255,255,255,0.02)";
+
   return (
-    <section
+    <article
       style={{
-        background: "#0a0a0b",
-        border: latestId ? "1px solid rgba(200,240,122,0.18)" : "1px solid rgba(255,255,255,0.08)",
+        border,
+        background: bg,
         borderRadius: 12,
-        padding: "1.25rem 1.5rem",
-        transition: "border-color 200ms ease",
+        padding: "0.9rem 1rem",
+        minHeight: 132,
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
+        opacity: isComingSoon ? 0.55 : 1,
+        transition: "all 160ms ease",
       }}
     >
-      <header
-        style={{
-          display: "flex",
-          alignItems: "baseline",
-          justifyContent: "space-between",
-          gap: "1rem",
-          marginBottom: "1rem",
-          paddingBottom: "0.6rem",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        <h2
+      <header style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <span
+          aria-hidden
           style={{
-            fontSize: "0.78rem",
-            textTransform: "uppercase",
-            letterSpacing: "0.16em",
-            color: "rgba(255,255,255,0.85)",
-            fontWeight: 600,
+            width: 8,
+            height: 8,
+            borderRadius: "50%",
+            background: isFilled ? "#c8f07a" : isComingSoon ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.35)",
+            boxShadow: isFilled ? "0 0 8px rgba(200,240,122,0.6)" : "none",
           }}
-        >
-          {title}
-        </h2>
-        {meta ? (
-          <span style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.4)" }}>{meta}</span>
+        />
+        <h3 style={{ fontSize: "0.88rem", fontWeight: 600, color: "#fff", flex: 1 }}>
+          {tile.label}
+        </h3>
+        {isComingSoon ? (
+          <span
+            style={{
+              fontSize: "0.62rem",
+              color: "rgba(255,255,255,0.45)",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            soon
+          </span>
+        ) : isFilled ? (
+          <span
+            style={{
+              fontSize: "0.65rem",
+              color: "#c8f07a",
+              fontFamily: "var(--font-geist-mono)",
+            }}
+          >
+            {formatRelative(filled!.event.receivedAt)}
+          </span>
         ) : null}
       </header>
-      {children}
-    </section>
+
+      <p
+        style={{
+          fontSize: "0.78rem",
+          color: "rgba(255,255,255,0.6)",
+          lineHeight: 1.4,
+          flex: 1,
+        }}
+      >
+        {tile.helper}
+      </p>
+
+      {isFilled ? (
+        <>
+          <TilePreview output={filled!.output} />
+          <button
+            type="button"
+            onClick={() => setExpanded((x) => !x)}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: "#c8f07a",
+              fontSize: "0.72rem",
+              padding: 0,
+              cursor: "pointer",
+              textAlign: "left",
+              fontFamily: "inherit",
+            }}
+          >
+            {expanded ? "Collapse" : "Expand full view"}
+          </button>
+          {expanded ? (
+            <div
+              style={{
+                marginTop: "0.6rem",
+                paddingTop: "0.75rem",
+                borderTop: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              <RenderOutput output={filled!.output} />
+            </div>
+          ) : null}
+        </>
+      ) : isActive && tile.tool ? (
+        <PromptChip
+          prompt={`Use the ${tile.tool} tool from designwithclaude. Brief: ${product}`}
+        />
+      ) : null}
+    </article>
+  );
+}
+
+function TilePreview({ output }: { output: ToolOutputPayload }) {
+  if (output.type === "palette") {
+    const tokens = (output.data as PaletteData).tokens.slice(0, 8);
+    return (
+      <div style={{ display: "flex", gap: 4, marginTop: "0.1rem" }}>
+        {tokens.map((t, i) => (
+          <span
+            key={i}
+            title={`${t.name} · ${t.hex}`}
+            style={{
+              width: 18,
+              height: 18,
+              borderRadius: 4,
+              background: t.hex,
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+  if (output.type === "type-scale") {
+    const scale = (output.data as TypeScaleData).scale;
+    const display = scale.find((s) => s.role === "display") ?? scale[0];
+    const body = scale.find((s) => s.role === "body") ?? scale[scale.length - 1];
+    return (
+      <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+        <span style={{ fontSize: display.clamp, fontWeight: display.weight, color: "#fff" }}>
+          Aa
+        </span>
+        <span style={{ fontSize: body.clamp, color: "rgba(255,255,255,0.6)" }}>abc</span>
+      </div>
+    );
+  }
+  if (output.type === "spacing") {
+    const steps = (output.data as SpacingData).steps;
+    const max = Math.max(...steps.map((s) => s.px), 1);
+    const sample = [steps[2], steps[4], steps[6], steps[8]].filter(Boolean);
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        {sample.map((s, i) => (
+          <span
+            key={i}
+            title={`${s.name} · ${s.px}px`}
+            style={{
+              height: 6,
+              width: `${Math.max(6, (s.px / max) * 56)}px`,
+              background: "rgba(200,240,122,0.45)",
+              borderRadius: 2,
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+  if (output.type === "markdown") {
+    const md = output.data as MarkdownData;
+    return (
+      <p
+        style={{
+          fontSize: "0.72rem",
+          color: "rgba(255,255,255,0.6)",
+          overflow: "hidden",
+          display: "-webkit-box",
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
+          margin: 0,
+        }}
+      >
+        {md.title}
+      </p>
+    );
+  }
+  return null;
+}
+
+function PromptChip({ prompt }: { prompt: string }) {
+  return (
+    <div
+      style={{
+        background: "#0F0F10",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: 8,
+        padding: "0.55rem 0.6rem",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        gap: "0.5rem",
+        fontFamily: "var(--font-geist-mono), SF Mono, monospace",
+        fontSize: "0.68rem",
+        color: "rgba(255,255,255,0.7)",
+        lineHeight: 1.5,
+      }}
+    >
+      <span style={{ flex: 1, minWidth: 0 }}>{prompt}</span>
+      <CopyButton text={prompt} label="Copy" compact />
+    </div>
   );
 }
 
@@ -219,14 +417,21 @@ function DecisionsList({ items }: { items: StoredEvent[] }) {
       {items.map((item) => {
         const output = item.output as ToolOutputPayload;
         const isOpen = expandedId === item.id;
-        const summary = decisionSummary(output);
+        let summary: string = output.type;
+        if (output.type === "markdown") {
+          summary = output.data.title || output.data.content.slice(0, 80);
+        } else if (output.type === "component-spec") {
+          summary = output.data.name || "Component spec";
+        } else if (output.type === "copy") {
+          summary = `${output.data.context || "Copy"} (${output.data.tone || "tone"})`;
+        }
         return (
           <article
             key={item.id}
             style={{
               border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: 10,
-              background: "#0F0F10",
+              background: "#0a0a0b",
               overflow: "hidden",
             }}
           >
@@ -248,16 +453,7 @@ function DecisionsList({ items }: { items: StoredEvent[] }) {
                 fontFamily: "inherit",
               }}
             >
-              <span
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  fontSize: "0.85rem",
-                  color: "#fff",
-                  minWidth: 0,
-                }}
-              >
+              <span style={{ display: "flex", alignItems: "center", gap: "0.6rem", minWidth: 0 }}>
                 <span
                   style={{
                     fontSize: "0.65rem",
@@ -272,6 +468,7 @@ function DecisionsList({ items }: { items: StoredEvent[] }) {
                 <span
                   style={{
                     color: "rgba(255,255,255,0.85)",
+                    fontSize: "0.85rem",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
@@ -292,12 +489,7 @@ function DecisionsList({ items }: { items: StoredEvent[] }) {
               </span>
             </button>
             {isOpen ? (
-              <div
-                style={{
-                  padding: "0 1rem 1rem",
-                  borderTop: "1px solid rgba(255,255,255,0.05)",
-                }}
-              >
+              <div style={{ padding: "0 1rem 1rem", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
                 <div style={{ paddingTop: "0.85rem" }}>
                   <RenderOutput output={output} />
                 </div>
@@ -308,22 +500,4 @@ function DecisionsList({ items }: { items: StoredEvent[] }) {
       })}
     </div>
   );
-}
-
-function decisionSummary(output: ToolOutputPayload): string {
-  if (output.type === "markdown") {
-    const md = output.data as MarkdownData;
-    return md.title || md.content.slice(0, 80);
-  }
-  if (output.type === "component-spec") {
-    const cs = output.data as ComponentSpecData;
-    return cs.name || "Component spec";
-  }
-  if (output.type === "copy") {
-    const c = output.data as CopyData;
-    return `${c.context || "Copy"} (${c.tone || "tone"})`;
-  }
-  // The other branches are filtered out before they reach this list.
-  const fallbackPalette = output.data as PaletteData | TypeScaleData | SpacingData;
-  return (fallbackPalette as { name?: string }).name ?? output.type;
 }
