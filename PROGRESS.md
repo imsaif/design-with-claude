@@ -1,7 +1,9 @@
 # dwc V2 — Build Progress
 
 **Last updated:** April 14, 2026
-**Overall status:** Alpha shipped and live. Full loop (onboarding → token → CLAUDE.md → install → MCP tool call → live render) works end-to-end on production with Supabase persistence. npm package published. Shareable URL: https://www.designwithclaude.com/start
+**Overall status:** Multi-project alpha shipped. `designwithclaude@2.0.0-alpha.2` is live on npm. Full loop (onboarding → token → per-project CLAUDE.md → install → MCP tool call → live canvas + sticky status sidebar) works end-to-end on production. One designer, many projects, isolated design systems, per-designer free-tier gating across projects. Shareable URL: https://www.designwithclaude.com/start
+
+**For testing / onboarding new contributors:** see `TESTING.md` at repo root — plain-language walkthrough of the live flow, add-a-project, share-with-friends, and common break-fixes.
 
 ---
 
