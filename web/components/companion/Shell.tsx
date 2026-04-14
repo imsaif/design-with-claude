@@ -20,8 +20,12 @@ const STEPS: Array<{ n: StepN; label: string; path: string }> = [
 ];
 
 function stepHref(n: StepN, path: string, token?: string): string | null {
-  // Step 1 is always reachable (restart wizard).
-  if (n === 1) return path;
+  if (n === 1) {
+    // Preserve the token when we have one so the returning-designer flow
+    // (Start wizard is also how you add a project) keeps context. /start
+    // with a token but no project redirects to /account — see app/start/page.tsx.
+    return token ? `${path}?token=${token}` : path;
+  }
   // Steps 2-5 need a token; without one, leave as non-link (disabled).
   if (!token) return null;
   return `${path}?token=${token}`;
