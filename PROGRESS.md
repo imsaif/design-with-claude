@@ -147,16 +147,28 @@ Add `visual-hierarchy-specialist`, `landing-page-specialist`, `navigation-design
 
 ---
 
+## Multi-project (alpha.2) — shipped April 14, 2026
+
+- [x] Supabase migration applied (`projects`, `project_profiles`, `project_id` on events)
+- [x] API backward-compat rollout (every endpoint accepts `project`; defaults to `default` when missing)
+- [x] MCP server + setup CLI speak `DWC_PROJECT_ID` / `--project=<slug>`
+- [x] `designwithclaude@2.0.0-alpha.2` published to npm under `latest`
+- [x] Web UX: `/account` dashboard, `+` tile inline add, sample-card orientation, per-project companion, "Welcome back" banner, step-1 back-out
+- [x] Live smoke test: one designer, two projects, isolated profiles + events on prod
+- [ ] Flip `DWC_ALLOW_IMPLICIT_PROJECT` off once existing alpha.1 installs have been upgraded
+
 ## Launch gates
 
 Before public launch:
 - [x] Phases 1 + 2 Done
 - [x] Phase 3 persistence Done (payments still pending)
 - [x] npm package published
-- [ ] Self-polish pass on live UX
+- [x] Multi-project architecture live
+- [ ] Self-polish pass on live UX (continuous)
 - [ ] At least 12 of 39 commands shipped (enough for "Start your project" + "Build your first page" missions)
 - [ ] Dodo Payments integrated and tested
 - [ ] End-to-end test: new user → onboarding → install → 10 commands → upgrade gate → payment → unlimited
+- [ ] V2 homepage replacing the V1 skills-directory at `/`
 - [ ] Anthropic plugin directory approval (submitted ~March 5, 2026; awaiting)
 
 ---
