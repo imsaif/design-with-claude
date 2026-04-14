@@ -5,7 +5,7 @@ import { isTokenShapeValid } from "@/lib/dwc/tokens";
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
-  let body: { token?: string; toolName?: string };
+  let body: { token?: string; toolName?: string; project?: string };
   try {
     body = await request.json();
   } catch {
@@ -19,6 +19,9 @@ export async function POST(request: NextRequest) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 200 });
   }
 
-  const count = await incrementCommandCount(token!);
-  return Response.json({ ok: true, commandCount: count });
+  const { accountCount, projectCount } = await incrementCommandCount(
+    token!,
+    body?.project?.trim() || undefined,
+  );
+  return Response.json({ ok: true, commandCount: accountCount, projectCommandCount: projectCount });
 }

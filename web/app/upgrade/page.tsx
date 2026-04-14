@@ -4,7 +4,7 @@ import { getProfile } from "@/lib/dwc/store";
 import { isTokenShapeValid } from "@/lib/dwc/tokens";
 
 interface UpgradePageProps {
-  searchParams: Promise<{ token?: string }>;
+  searchParams: Promise<{ token?: string; project?: string }>;
 }
 
 export const metadata = {
@@ -12,9 +12,9 @@ export const metadata = {
 };
 
 export default async function UpgradePage({ searchParams }: UpgradePageProps) {
-  const { token = "" } = await searchParams;
+  const { token = "", project } = await searchParams;
   const hasToken = isTokenShapeValid(token);
-  const profile = hasToken ? await getProfile(token) : undefined;
+  const profile = hasToken ? await getProfile(token, project) : undefined;
 
   const summary = profile?.onboarding
     ? `${profile.onboarding.product_type} · ${profile.onboarding.tech_stack.join(", ")}`

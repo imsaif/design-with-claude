@@ -95,12 +95,20 @@ try {
     ok("CLAUDE.md contains the product description");
   }
 
-  step("GET /api/profile?token=… returns the stored profile…");
-  const getProfile = await (await fetch(`${BASE}/api/profile?token=${token}`)).json();
-  if (!getProfile.ok || !getProfile.profile?.onboarding?.tone_preference) {
-    fail("GET profile missing fields", getProfile);
+  step("GET /api/profile?token=… (no project) returns AccountState with the minted project…");
+  const accountRes = await (await fetch(`${BASE}/api/profile?token=${token}`)).json();
+  if (!accountRes.ok || !accountRes.account?.projects?.some((p) => p.slug === "default")) {
+    fail("AccountState missing default project", accountRes);
   } else {
-    ok(`profile.tone_preference = ${getProfile.profile.onboarding.tone_preference}`);
+    ok(`account has ${accountRes.account.projects.length} project(s)`);
+  }
+
+  step("GET /api/profile?token=&project=default returns scoped ProfileState…");
+  const scopedRes = await (await fetch(`${BASE}/api/profile?token=${token}&project=default`)).json();
+  if (!scopedRes.ok || !scopedRes.profile?.onboarding?.tone_preference) {
+    fail("scoped profile missing onboarding", scopedRes);
+  } else {
+    ok(`project=default · tone=${scopedRes.profile.onboarding.tone_preference}`);
   }
 
   step("spawning MCP server bound to minted token…");
@@ -183,7 +191,7 @@ try {
     { url: "/start", must: ["What are you building", "of 5"] },
     { url: `/profile?token=${token}`, must: ["CLAUDE.md", "This is what Claude will know"] },
     { url: `/install?token=${token}`, must: [`--token=${token}`, "Install the MCP server"] },
-    { url: `/companion?token=${token}`, must: ["Live companion", "Every tool call"] },
+    { url: `/companion?token=${token}`, must: ["Your design system", "Compounding here"] },
     { url: `/upgrade?token=${token}`, must: ["Keep what you", "Subscriber"] },
   ];
   for (const r of routes) {

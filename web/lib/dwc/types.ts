@@ -4,6 +4,7 @@
 export interface GatingCheckRequest {
   token: string;
   toolName: string;
+  project?: string;
 }
 
 export interface GatingCheckResponse {
@@ -63,6 +64,7 @@ export interface EventPayload {
   input: unknown;
   output: unknown;
   timestamp: string;
+  project?: string;
 }
 
 export interface StoredEvent extends EventPayload {
@@ -90,4 +92,29 @@ export interface ProfileState {
   connected: boolean;
   onboarding?: OnboardingAnswers;
   claudeMd?: string;
+  /** Slug of the project this ProfileState is scoped to — present in per-project reads. */
+  project?: string;
+  projectId?: string;
+  projectDisplayName?: string;
 }
+
+export interface ProjectRef {
+  slug: string;
+  displayName: string | null;
+  commandCount: number;
+  connected: boolean;
+  createdAt: string;
+  lastSeenAt: string;
+}
+
+/** Account-level summary returned when GET /api/profile?token=... is called without a project. */
+export interface AccountState {
+  status: SubscriptionStatus;
+  commandCount: number;
+  createdAt: string;
+  lastSeenAt: string;
+  projects: ProjectRef[];
+}
+
+export const DEFAULT_PROJECT_SLUG = "default";
+export const PROJECT_SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,31}$/;
