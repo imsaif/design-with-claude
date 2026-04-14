@@ -19,7 +19,7 @@ export default async function InstallPage({ searchParams }: InstallPageProps) {
     : `npx designwithclaude setup --token=imr_yourTokenHere`;
 
   return (
-    <Shell step={3}>
+    <Shell step={3} token={valid ? token : undefined}>
       <header style={{ marginBottom: "2.5rem" }}>
         <p
           style={{

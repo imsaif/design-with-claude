@@ -21,7 +21,7 @@ export default async function UpgradePage({ searchParams }: UpgradePageProps) {
     : null;
 
   return (
-    <Shell step={5}>
+    <Shell step={5} token={hasToken ? token : undefined}>
       <header style={{ marginBottom: "2rem" }}>
         <p
           style={{

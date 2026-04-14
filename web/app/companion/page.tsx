@@ -42,7 +42,7 @@ export default async function CompanionPage({ searchParams }: CompanionPageProps
   }
 
   return (
-    <Shell step={4}>
+    <Shell step={4} token={token}>
       <header style={{ marginBottom: "1.5rem" }}>
         <p
           style={{

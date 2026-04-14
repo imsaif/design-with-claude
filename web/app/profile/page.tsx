@@ -72,7 +72,7 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
   const { onboarding, claudeMd } = profile;
 
   return (
-    <Shell step={2}>
+    <Shell step={2} token={token}>
       <header style={{ marginBottom: "2rem" }}>
         <p
           style={{
