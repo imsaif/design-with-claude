@@ -378,21 +378,37 @@ export function StartWizard({ initialToken, initialProject }: StartWizardProps =
       ) : null}
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <button
-          type="button"
-          onClick={() => setStep((s) => (s > 1 ? ((s - 1) as Step) : s))}
-          disabled={step === 1}
-          style={{
-            background: "transparent",
-            border: "none",
-            color: step === 1 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.7)",
-            cursor: step === 1 ? "not-allowed" : "pointer",
-            fontSize: "0.9rem",
-            fontFamily: "inherit",
-          }}
-        >
-          ← Back
-        </button>
+        {step === 1 ? (
+          // On step 1 the back button exits the wizard rather than dead-ending.
+          // If the designer already has a token (adding to existing account),
+          // send them to /account — otherwise back to the landing page.
+          <Link
+            href={initialToken ? `/account?token=${initialToken}` : "/"}
+            style={{
+              color: "rgba(255,255,255,0.7)",
+              fontSize: "0.9rem",
+              textDecoration: "none",
+              fontFamily: "inherit",
+            }}
+          >
+            ← {initialToken ? "My projects" : "Home"}
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setStep((s) => (s - 1) as Step)}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: "rgba(255,255,255,0.7)",
+              cursor: "pointer",
+              fontSize: "0.9rem",
+              fontFamily: "inherit",
+            }}
+          >
+            ← Back
+          </button>
+        )}
         {step < 5 ? (
           <button
             type="button"
