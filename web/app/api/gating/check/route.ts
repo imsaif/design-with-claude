@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import {
+  ensureAccount,
   freeTierRemaining,
-  getOrCreateProfile,
   isFreeTierExhausted,
   LIMITS,
 } from "@/lib/dwc/store";
@@ -10,8 +10,13 @@ import type { GatingCheckResponse } from "@/lib/dwc/types";
 
 export const runtime = "nodejs";
 
+/**
+ * Per-designer gate (10 commands total across all projects). The project slug
+ * is accepted but not used in the gating math — it's logged for traceability
+ * via /api/gating/consume's RPC call, not here.
+ */
 export async function POST(request: NextRequest) {
-  let body: { token?: string; toolName?: string };
+  let body: { token?: string; toolName?: string; project?: string };
   try {
     body = await request.json();
   } catch {
@@ -35,9 +40,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const profile = await getOrCreateProfile(token!);
+  const account = await ensureAccount(token!);
 
-  if (profile.status === "cancelled") {
+  if (account.status === "cancelled") {
     return Response.json({
       allowed: false,
       reason: "subscription_cancelled",
@@ -46,11 +51,11 @@ export async function POST(request: NextRequest) {
     } satisfies GatingCheckResponse);
   }
 
-  if (profile.status === "paid") {
+  if (account.status === "paid") {
     return Response.json({ allowed: true } satisfies GatingCheckResponse);
   }
 
-  if (isFreeTierExhausted(profile.commandCount)) {
+  if (isFreeTierExhausted(account.commandCount)) {
     return Response.json({
       allowed: false,
       reason: "free_tier_exhausted",
@@ -60,6 +65,6 @@ export async function POST(request: NextRequest) {
 
   return Response.json({
     allowed: true,
-    remaining: freeTierRemaining(profile.commandCount),
+    remaining: freeTierRemaining(account.commandCount),
   } satisfies GatingCheckResponse);
 }

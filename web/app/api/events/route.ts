@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { recordEvent } from "@/lib/dwc/store";
 import { isTokenShapeValid } from "@/lib/dwc/tokens";
+import { isValidSlug } from "@/lib/dwc/projects";
 import type { EventPayload } from "@/lib/dwc/types";
 
 export const runtime = "nodejs";
@@ -19,13 +20,30 @@ export async function POST(request: NextRequest) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 200 });
   }
 
-  const stored = await recordEvent({
+  const rawProject = body?.project?.trim();
+  if (rawProject && !isValidSlug(rawProject)) {
+    return Response.json({ ok: false, reason: "invalid_project_slug" }, { status: 400 });
+  }
+
+  const { stored, projectAutoCreated } = await recordEvent({
     token,
     toolName,
     input: body.input ?? {},
     output: body.output ?? {},
     timestamp: body.timestamp ?? new Date().toISOString(),
+    project: rawProject || undefined,
   });
 
-  return Response.json({ ok: true, id: stored.id });
+  const headers = new Headers({ "Content-Type": "application/json" });
+  if (projectAutoCreated) headers.set("X-Dwc-Project-Auto-Created", "1");
+
+  return new Response(
+    JSON.stringify({
+      ok: true,
+      id: stored.id,
+      project: stored.project,
+      projectAutoCreated,
+    }),
+    { status: 200, headers },
+  );
 }

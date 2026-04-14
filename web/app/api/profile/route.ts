@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server";
 import { generateClaudeMd } from "@/lib/claude-md-generator";
-import { setOnboarding, getProfile } from "@/lib/dwc/store";
+import { setOnboarding, getProfile, getAccountState } from "@/lib/dwc/store";
 import { isTokenShapeValid, mintToken } from "@/lib/dwc/tokens";
+import { isValidSlug, normalizeSlug } from "@/lib/dwc/projects";
 import type { OnboardingAnswers } from "@/lib/dwc/types";
 
 export const runtime = "nodejs";
@@ -10,8 +11,6 @@ const VALID_EXPERIENCE = ["beginner", "intermediate", "advanced"] as const;
 const VALID_TONE = ["concise", "explanatory", "encouraging"] as const;
 
 function pickAnswers(input: Record<string, unknown>): OnboardingAnswers | null {
-  // product_type is optional — if the designer's product doesn't fit any chip,
-  // they can describe it in product_description and we default to "Custom".
   const product_type =
     typeof input.product_type === "string" && input.product_type.trim()
       ? input.product_type.trim()
@@ -53,6 +52,16 @@ function pickAnswers(input: Record<string, unknown>): OnboardingAnswers | null {
   };
 }
 
+/**
+ * POST /api/profile
+ *
+ * Body shape:
+ *   { token?, project?, product_type, product_description, tech_stack, design_system, experience_level, tone_preference }
+ *
+ * - If `token` is missing, mint a new one (first-ever onboarding).
+ * - If `token` is present, reuse it (adding a new project to an existing designer).
+ * - `project` slug is optional; defaults to "default" for backward compat with alpha.1.
+ */
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>;
   try {
@@ -69,7 +78,28 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const token = mintToken();
+  // Token: reuse if provided (valid), mint otherwise.
+  const rawToken = typeof body.token === "string" ? body.token.trim() : "";
+  let token: string;
+  if (rawToken) {
+    if (!isTokenShapeValid(rawToken)) {
+      return Response.json({ ok: false, reason: "invalid_token" }, { status: 400 });
+    }
+    token = rawToken;
+  } else {
+    token = mintToken();
+  }
+
+  // Project: optional; defaults to "default" via normalizeSlug.
+  const rawProject = typeof body.project === "string" ? body.project.trim() : undefined;
+  if (rawProject && !isValidSlug(rawProject)) {
+    return Response.json({ ok: false, reason: "invalid_project_slug" }, { status: 400 });
+  }
+  const projectSlug = normalizeSlug(rawProject) ?? undefined;
+  if (!projectSlug) {
+    return Response.json({ ok: false, reason: "project_required" }, { status: 400 });
+  }
+
   const claudeMd = generateClaudeMd({
     product_description: answers.product_description,
     design_system: answers.design_system,
@@ -78,11 +108,12 @@ export async function POST(request: NextRequest) {
     tone_preference: answers.tone_preference,
   });
 
-  await setOnboarding(token, answers, claudeMd);
+  const profile = await setOnboarding(token, projectSlug, answers, claudeMd);
 
   return Response.json({
     ok: true,
     token,
+    project: profile.project,
     claudeMd,
     profile: {
       product_type: answers.product_type,
@@ -92,12 +123,31 @@ export async function POST(request: NextRequest) {
   });
 }
 
+/**
+ * GET /api/profile?token=imr_xxx[&project=<slug>]
+ *
+ * Two modes:
+ * - with `project`: returns scoped ProfileState (onboarding + claudeMd + counters).
+ * - without `project`: returns AccountState (status + list of the designer's projects).
+ */
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token")?.trim() ?? "";
   if (!isTokenShapeValid(token)) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 400 });
   }
-  const profile = await getProfile(token);
+
+  const rawProject = request.nextUrl.searchParams.get("project")?.trim();
+  if (rawProject && !isValidSlug(rawProject)) {
+    return Response.json({ ok: false, reason: "invalid_project_slug" }, { status: 400 });
+  }
+
+  if (!rawProject) {
+    // Account-summary mode — used by /account dashboard.
+    const account = await getAccountState(token);
+    return Response.json({ ok: true, account });
+  }
+
+  const profile = await getProfile(token, rawProject);
   if (!profile) {
     return Response.json({ ok: false, reason: "not_found" }, { status: 404 });
   }
@@ -111,6 +161,8 @@ export async function GET(request: NextRequest) {
       claudeMd: profile.claudeMd,
       createdAt: profile.createdAt,
       lastSeenAt: profile.lastSeenAt,
+      project: profile.project,
+      projectDisplayName: profile.projectDisplayName,
     },
   });
 }

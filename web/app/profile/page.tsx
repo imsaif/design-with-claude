@@ -5,7 +5,7 @@ import { getProfile } from "@/lib/dwc/store";
 import { isTokenShapeValid } from "@/lib/dwc/tokens";
 
 interface ProfilePageProps {
-  searchParams: Promise<{ token?: string }>;
+  searchParams: Promise<{ token?: string; project?: string }>;
 }
 
 export const metadata = {
@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 export default async function ProfilePage({ searchParams }: ProfilePageProps) {
-  const { token = "" } = await searchParams;
+  const { token = "", project } = await searchParams;
 
   if (!isTokenShapeValid(token)) {
     return (
@@ -41,7 +41,7 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
     );
   }
 
-  const profile = await getProfile(token);
+  const profile = await getProfile(token, project);
   if (!profile || !profile.onboarding || !profile.claudeMd) {
     return (
       <Shell step={2}>
