@@ -53,10 +53,10 @@ export default async function CompanionPage({ searchParams }: CompanionPageProps
             marginBottom: "0.5rem",
           }}
         >
-          Live companion
+          Your design system
         </p>
         <h1 style={{ fontSize: "1.75rem", fontWeight: 600, lineHeight: 1.2 }}>
-          Every tool call renders here as it happens.
+          Compounding here as you work.
         </h1>
       </header>
       <CompanionView token={token} />

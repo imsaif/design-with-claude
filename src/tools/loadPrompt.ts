@@ -44,6 +44,12 @@ export function composeRolePrompt(args: {
   for (const s of args.sections) {
     parts.push(`## ${s.heading}`, "", s.body.trim(), "");
   }
-  parts.push("---", "", args.closingInstruction.trim());
+  parts.push(
+    "---",
+    "",
+    args.closingInstruction.trim(),
+    "",
+    "End your response with a `## What to do next` section: 2–3 specific next moves a senior designer would suggest based on what you just generated and what's still missing from this designer's system. Frame them as momentum, not a checklist.",
+  );
   return parts.join("\n");
 }

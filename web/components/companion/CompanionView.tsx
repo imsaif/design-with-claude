@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { RenderOutput } from "./renderers";
-import type { ToolOutputPayload } from "@/lib/dwc/types";
+import { SystemCanvas } from "./SystemCanvas";
+import { HistoryPanel } from "./HistoryPanel";
 
 interface StoredEvent {
   id: string;
@@ -14,25 +14,26 @@ interface StoredEvent {
   timestamp: string;
 }
 
+interface OnboardingHint {
+  product_type: string;
+  product_description: string;
+  tech_stack: string[];
+  design_system: string;
+  experience_level: string;
+  tone_preference: string;
+}
+
 interface ProfileSummary {
   status: "free" | "paid" | "cancelled";
   commandCount: number;
   connected: boolean;
+  onboarding?: OnboardingHint;
 }
 
 interface RecentResponse {
   ok: boolean;
   profile?: ProfileSummary | null;
   events?: StoredEvent[];
-}
-
-const VALID_TYPES = ["palette", "type-scale", "spacing", "component-spec", "copy", "markdown"] as const;
-type ValidType = (typeof VALID_TYPES)[number];
-
-function isToolOutput(o: unknown): o is ToolOutputPayload {
-  if (!o || typeof o !== "object") return false;
-  const type = (o as { type?: unknown }).type;
-  return typeof type === "string" && VALID_TYPES.includes(type as ValidType);
 }
 
 const POLL_MS = 2500;
@@ -42,7 +43,6 @@ export function CompanionView({ token }: { token: string }) {
   const [profile, setProfile] = useState<ProfileSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [lastPollAt, setLastPollAt] = useState<number | null>(null);
-  const seenIds = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     let active = true;
@@ -55,9 +55,7 @@ export function CompanionView({ token }: { token: string }) {
         if (!active) return;
         if (body.ok) {
           setProfile(body.profile ?? null);
-          const next = body.events ?? [];
-          setEvents(next);
-          for (const e of next) seenIds.current.add(e.id);
+          setEvents(body.events ?? []);
           setError(null);
           setLastPollAt(Date.now());
         } else {
@@ -79,35 +77,26 @@ export function CompanionView({ token }: { token: string }) {
     () => events.filter((e) => e.toolName !== "__mcp.connected__"),
     [events],
   );
-  const latest = toolEvents[toolEvents.length - 1];
-  const isConnected = Boolean(profile?.connected) || events.some((e) => e.toolName === "__mcp.connected__");
+  const isConnected =
+    Boolean(profile?.connected) || events.some((e) => e.toolName === "__mcp.connected__");
   const gateBlocked = profile && profile.status === "free" && profile.commandCount >= 10;
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 300px", gap: "2rem" }}>
-      <section>
-        <ConnectionHeader
-          isConnected={isConnected}
-          profile={profile}
-          error={error}
-          lastPollAt={lastPollAt}
-        />
+    <div>
+      <ConnectionHeader
+        isConnected={isConnected}
+        profile={profile}
+        error={error}
+        lastPollAt={lastPollAt}
+      />
 
-        {gateBlocked ? (
-          <UpgradeBanner token={token} count={profile!.commandCount} />
-        ) : null}
+      {gateBlocked ? <UpgradeBanner token={token} count={profile!.commandCount} /> : null}
 
-        {!isConnected && toolEvents.length === 0 ? (
-          <WaitingForInstall token={token} />
-        ) : toolEvents.length === 0 ? (
-          <ReadyToBuild />
-        ) : (
-          <EventFeed events={toolEvents} latestId={latest?.id} />
-        )}
-      </section>
-      <aside>
-        <BuiltSoFar events={toolEvents} />
-      </aside>
+      {!isConnected && toolEvents.length === 0 ? <WaitingForInstall token={token} /> : null}
+
+      <SystemCanvas events={toolEvents} onboarding={profile?.onboarding} />
+
+      <HistoryPanel events={events} />
     </div>
   );
 }
@@ -130,7 +119,7 @@ function ConnectionHeader({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom: "1.5rem",
+        marginBottom: "1.25rem",
         padding: "0.9rem 1.1rem",
         background: "#0a0a0b",
         border: "1px solid rgba(255,255,255,0.08)",
@@ -171,87 +160,33 @@ function WaitingForInstall({ token }: { token: string }) {
         background: "#0a0a0b",
         border: "1px dashed rgba(255,255,255,0.12)",
         borderRadius: 12,
-        padding: "2.5rem 2rem",
+        padding: "1.5rem",
         textAlign: "center",
+        marginBottom: "1.5rem",
       }}
     >
       <div
         style={{
-          width: 56,
-          height: 56,
+          width: 32,
+          height: 32,
           borderRadius: "50%",
-          border: "3px solid rgba(200,240,122,0.2)",
+          border: "2px solid rgba(200,240,122,0.2)",
           borderTopColor: "#c8f07a",
-          margin: "0 auto 1.25rem",
+          margin: "0 auto 0.85rem",
           animation: "dwc-spin 1s linear infinite",
         }}
       />
-      <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "0.5rem" }}>
-        Waiting for your install
-      </h2>
-      <p style={{ color: "rgba(255,255,255,0.55)", marginBottom: "1.25rem", maxWidth: 420, margin: "0 auto 1.25rem" }}>
-        Run the setup command in your terminal. The moment it pings home, this page flips to live.
+      <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.92rem", marginBottom: "0.5rem" }}>
+        Waiting for Claude Code to connect — run the install command in your terminal and we&apos;ll
+        flip live.
       </p>
       <Link
         href={`/install?token=${token}`}
-        style={{
-          color: "#c8f07a",
-          textDecoration: "none",
-          fontSize: "0.88rem",
-          fontWeight: 500,
-        }}
+        style={{ color: "#c8f07a", textDecoration: "none", fontSize: "0.85rem", fontWeight: 500 }}
       >
         Show me the install command →
       </Link>
       <style>{`@keyframes dwc-spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  );
-}
-
-function ReadyToBuild() {
-  return (
-    <div
-      style={{
-        background: "linear-gradient(180deg, rgba(200,240,122,0.1) 0%, rgba(200,240,122,0.02) 100%)",
-        border: "1px solid rgba(200,240,122,0.25)",
-        borderRadius: 12,
-        padding: "2rem",
-      }}
-    >
-      <p
-        style={{
-          fontSize: "0.72rem",
-          color: "#c8f07a",
-          textTransform: "uppercase",
-          letterSpacing: "0.12em",
-          marginBottom: "0.75rem",
-        }}
-      >
-        Ready to build
-      </p>
-      <h2 style={{ fontSize: "1.4rem", fontWeight: 600, marginBottom: "0.75rem" }}>
-        Your first command
-      </h2>
-      <p style={{ color: "rgba(255,255,255,0.7)", marginBottom: "1.25rem" }}>
-        In Claude Code, ask for something like:
-      </p>
-      <code
-        style={{
-          display: "block",
-          padding: "0.9rem 1rem",
-          background: "#0F0F10",
-          border: "1px solid rgba(255,255,255,0.08)",
-          borderRadius: 8,
-          fontFamily: "var(--font-geist-mono)",
-          fontSize: "0.9rem",
-          color: "rgba(255,255,255,0.9)",
-        }}
-      >
-        Use the color-specialist tool from designwithclaude. Brief: calm productivity app for indie designers.
-      </code>
-      <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.8rem", marginTop: "1rem" }}>
-        Results render here in real time.
-      </p>
     </div>
   );
 }
@@ -264,7 +199,7 @@ function UpgradeBanner({ token, count }: { token: string; count: number }) {
         border: "1px solid rgba(255,180,80,0.24)",
         padding: "1rem 1.25rem",
         borderRadius: 10,
-        marginBottom: "1.5rem",
+        marginBottom: "1.25rem",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -289,135 +224,6 @@ function UpgradeBanner({ token, count }: { token: string; count: number }) {
       >
         Upgrade →
       </Link>
-    </div>
-  );
-}
-
-function EventFeed({ events, latestId }: { events: StoredEvent[]; latestId: string | undefined }) {
-  const reversed = [...events].reverse();
-  return (
-    <div style={{ display: "grid", gap: "1rem" }}>
-      {reversed.map((e) => (
-        <EventCard key={e.id} event={e} isLatest={e.id === latestId} />
-      ))}
-    </div>
-  );
-}
-
-function EventCard({ event, isLatest }: { event: StoredEvent; isLatest: boolean }) {
-  const output = event.output;
-  const renderable = isToolOutput(output);
-
-  return (
-    <article
-      style={{
-        background: "#0a0a0b",
-        border: isLatest ? "1px solid rgba(200,240,122,0.45)" : "1px solid rgba(255,255,255,0.08)",
-        borderRadius: 12,
-        padding: "1.25rem 1.5rem",
-        boxShadow: isLatest ? "0 0 0 3px rgba(200,240,122,0.08)" : "none",
-        transition: "box-shadow 200ms ease",
-      }}
-    >
-      <header
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "1rem",
-          fontSize: "0.78rem",
-          color: "rgba(255,255,255,0.5)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <span
-            style={{
-              padding: "0.15rem 0.55rem",
-              borderRadius: 999,
-              background: "rgba(200,240,122,0.1)",
-              color: "#c8f07a",
-              fontSize: "0.7rem",
-              fontWeight: 500,
-            }}
-          >
-            {event.toolName}
-          </span>
-          {renderable ? (
-            <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.72rem" }}>
-              {(output as ToolOutputPayload).type}
-            </span>
-          ) : null}
-        </div>
-        <time style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.72rem" }}>
-          {new Date(event.timestamp).toLocaleTimeString()}
-        </time>
-      </header>
-      {renderable ? (
-        <RenderOutput output={output as ToolOutputPayload} />
-      ) : (
-        <pre style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.6)", overflowX: "auto" }}>
-          {JSON.stringify(output, null, 2)}
-        </pre>
-      )}
-    </article>
-  );
-}
-
-function BuiltSoFar({ events }: { events: StoredEvent[] }) {
-  const byType = new Map<string, number>();
-  for (const e of events) {
-    if (!isToolOutput(e.output)) continue;
-    const t = (e.output as ToolOutputPayload).type;
-    byType.set(t, (byType.get(t) ?? 0) + 1);
-  }
-
-  return (
-    <div
-      style={{
-        position: "sticky",
-        top: "1.5rem",
-        background: "#0a0a0b",
-        border: "1px solid rgba(255,255,255,0.08)",
-        borderRadius: 10,
-        padding: "1.25rem",
-      }}
-    >
-      <h3
-        style={{
-          fontSize: "0.7rem",
-          textTransform: "uppercase",
-          letterSpacing: "0.12em",
-          color: "rgba(255,255,255,0.5)",
-          marginBottom: "1rem",
-        }}
-      >
-        Built so far
-      </h3>
-      {events.length === 0 ? (
-        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.85rem" }}>
-          Nothing yet. Run a command in Claude Code and it&apos;ll show up here.
-        </p>
-      ) : (
-        <ul style={{ listStyle: "none", padding: 0, display: "grid", gap: "0.4rem", fontSize: "0.85rem" }}>
-          {[...byType.entries()].map(([type, count]) => (
-            <li
-              key={type}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "0.35rem 0",
-                borderBottom: "1px solid rgba(255,255,255,0.05)",
-              }}
-            >
-              <span style={{ color: "rgba(255,255,255,0.75)" }}>{type}</span>
-              <span style={{ color: "#c8f07a", fontFamily: "var(--font-geist-mono)" }}>×{count}</span>
-            </li>
-          ))}
-          <li style={{ paddingTop: "0.5rem", fontSize: "0.78rem", color: "rgba(255,255,255,0.45)" }}>
-            {events.length} total event{events.length === 1 ? "" : "s"}
-          </li>
-        </ul>
-      )}
     </div>
   );
 }

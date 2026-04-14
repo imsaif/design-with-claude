@@ -29,6 +29,7 @@ export async function GET(request: NextRequest) {
           connected: profile.connected,
           createdAt: profile.createdAt,
           lastSeenAt: profile.lastSeenAt,
+          onboarding: profile.onboarding,
         }
       : null,
     events,
