@@ -6,6 +6,8 @@ interface ShellProps {
   children: ReactNode;
   step?: 1 | 2 | 3 | 4 | 5;
   token?: string;
+  /** Widen the main container — only meaningful for the canvas-heavy /companion page. */
+  wide?: boolean;
 }
 
 type StepN = 1 | 2 | 3 | 4 | 5;
@@ -25,7 +27,7 @@ function stepHref(n: StepN, path: string, token?: string): string | null {
   return `${path}?token=${token}`;
 }
 
-export function Shell({ children, step, token }: ShellProps) {
+export function Shell({ children, step, token, wide }: ShellProps) {
   return (
     <div
       style={{
@@ -117,7 +119,15 @@ export function Shell({ children, step, token }: ShellProps) {
           </ol>
         ) : null}
       </nav>
-      <main style={{ flex: 1, padding: "3rem 2rem", maxWidth: 960, width: "100%", margin: "0 auto" }}>
+      <main
+        style={{
+          flex: 1,
+          padding: "3rem 2rem",
+          maxWidth: wide ? 1280 : 960,
+          width: "100%",
+          margin: "0 auto",
+        }}
+      >
         {children}
       </main>
     </div>
