@@ -186,15 +186,21 @@ export function StartWizard({ initialToken, initialProject }: StartWizardProps =
           }}
         >
           <span style={{ color: "rgba(255,255,255,0.8)" }}>
-            Adding{" "}
-            <strong style={{ color: "#fff" }}>
-              {initialProject ? (
-                <code style={{ fontFamily: "var(--font-geist-mono)" }}>{initialProject}</code>
-              ) : (
-                "a new project"
-              )}
-            </strong>{" "}
-            to your account — this won&apos;t overwrite what you already have.
+            New project{" "}
+            {initialProject ? (
+              <code
+                style={{
+                  fontFamily: "var(--font-geist-mono)",
+                  color: "#fff",
+                  background: "rgba(255,255,255,0.08)",
+                  padding: "0.1rem 0.4rem",
+                  borderRadius: 4,
+                }}
+              >
+                {initialProject}
+              </code>
+            ) : null}{" "}
+            — added to your existing account, nothing else gets overwritten.
           </span>
           <Link
             href={`/account?token=${initialToken}`}
@@ -220,7 +226,7 @@ export function StartWizard({ initialToken, initialProject }: StartWizardProps =
             marginBottom: "0.75rem",
           }}
         >
-          Question {step} of 5
+          {initialToken ? "New project" : "Your first project"} · question {step} of 5
         </p>
         <h1 style={{ fontSize: "2rem", fontWeight: 600, lineHeight: 1.2, marginBottom: "0.5rem" }}>
           {step === 1 && "What are you building?"}
