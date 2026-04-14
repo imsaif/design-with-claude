@@ -1,7 +1,7 @@
 # dwc V2 — Build Progress
 
-**Last updated:** April 13, 2026
-**Overall status:** Phases 1 + 2 code-complete for the alpha path. Full loop works: onboarding → token → install → MCP tool call → live-render in the companion. Phase 3 (Supabase) + command library expansion are the open fronts.
+**Last updated:** April 14, 2026
+**Overall status:** Alpha shipped and live. Full loop (onboarding → token → CLAUDE.md → install → MCP tool call → live render) works end-to-end on production with Supabase persistence. npm package published. Shareable URL: https://www.designwithclaude.com/start
 
 ---
 
@@ -18,143 +18,155 @@ Read at session start. Update at session end if anything moved.
 
 ## Phase 1 — MCP Server
 
-**Status:** Code-complete (pending npm publish)
+**Status:** Shipped — `designwithclaude@2.0.0-alpha.1` live on npm
 **Spec:** `01-mcp-server.md`
 
 ### In progress
-- Publish `designwithclaude@2.0.0-alpha.1` to npm (user decision — private tag recommended until Phase 3 hardens payments + persistence)
+- _(nothing)_
 
 ### Done
 - Repo scaffolded as a real npm package at the root (package.json, tsconfig.json, type: module)
 - `@modelcontextprotocol/sdk@^1.29.0` + zod wired in; McpServer over stdio
 - `dist/server.js` with shebang and exec bit (postbuild `chmod-bins.mjs`)
 - `hello-world` tool round-trips end-to-end (`npm run test:mcp`)
-- Server auto-discovered by Claude Code via project `.mcp.json` (machine-local, gitignored); `claude mcp list` → ✓ Connected
+- Server auto-discovered by Claude Code via project `.mcp.json`; `claude mcp list` → ✓ Connected
 - `src/config.ts` reads `DWC_TOKEN`, `DWC_API_URL`, `DWC_GATING`, `DWC_EVENTS`, `DWC_COMMANDS_DIR`
 - `src/api-client.ts` with `gatingCheck`, `gatingConsume`, `emitEvent` (fail-open when API 404s)
 - `src/gating.ts` with pre-call check; blocks with clear upgrade copy on `free_tier_exhausted` / `subscription_cancelled`
 - `src/events.ts` emits structured events post-call (token-gated)
 - Logger writes to stderr so stdio transport isn't corrupted
-- 7 real tools implemented: `design-brief`, `design-system-architect`, `color-specialist` (deterministic HSL seed palette), `typography-specialist` (clamp scale), `spacing-specialist` (non-linear scale), `setup-guide`, `debug-helper`
-- Each tool loads its role prompt from `commands/*.md` (frontmatter stripped, cached)
+- 7 real tools implemented: `design-brief`, `design-system-architect`, `color-specialist`, `typography-specialist`, `spacing-specialist`, `setup-guide`, `debug-helper`
+- Each tool loads its role prompt from `commands/*.md`
 - `src/bin/setup.ts` CLI: `setup` + `uninstall` with `--scope=user|project`, `--token`, `--api`, `--skip-validate`
 - Setup prefers `claude mcp add-json`; falls back to direct `~/.claude.json` edit (with timestamped backup) or project `.mcp.json`
-- Dry-run covering install + uninstall + env propagation passes (`npm run test:setup`)
-- dwc API stubs shipped inside `web/` Next.js app:
-  - `POST /api/tokens/validate` — shape-checks `imr_*`, returns profile summary
-  - `POST /api/gating/check` — enforces 10-command free tier
-  - `POST /api/gating/consume` — increments command count on successful tool call
-  - `POST /api/events` — ingests `EventPayload`, detects `__mcp.connected__` to flip the profile's `connected` flag
-  - `GET /api/events/recent?token=imr_xxx&limit=N` — debug polling endpoint (Phase 2 companion polls this until Supabase Realtime lands)
-- Shared types + in-memory store at `web/lib/dwc/{types,tokens,store}.ts`; `Symbol.for` singleton survives Next HMR
-- All API routes pin `runtime = "nodejs"` (needed for `node:crypto` token hashing + minting)
+- dwc API stubs inside `web/`: `/api/tokens/validate`, `/api/gating/{check,consume}`, `/api/events`, `/api/events/recent`, `/api/profile`
+- All API routes pin `runtime = "nodejs"`
 - `npm run test:e2e` verifies 10-call free tier + block at 11 + event storage
+- **Published** as `designwithclaude@2.0.0-alpha.1` under `latest` tag (user: `imrandwc`, 2FA: auth-only)
+- `npx designwithclaude help` from a clean directory downloads + runs successfully
 
 ### Blockers
 - None
 
 ### Next action
-Decide: publish alpha to npm (enables external testers to run `npx designwithclaude setup`) or push straight to Phase 3 Supabase migration.
+First polish pass after self-testing the live flow — friction points, copy, layout glitches.
 
 ---
 
 ## Phase 2 — Browser Companion
 
-**Status:** Code-complete for alpha
+**Status:** Shipped — live at https://www.designwithclaude.com
 **Spec:** `02-browser-companion.md`
 
 ### In progress
-- _(nothing — Supabase Realtime swap is Phase 3 work)_
+- _(nothing)_
 
 ### Done
-- Wireframes (`dwc-wireframes-v1.html`, 7 screens) locked the visual spec
-- `POST /api/profile` mints `imr_` tokens (9 random bytes → base64url), stores onboarding answers, generates CLAUDE.md, returns `{token, claudeMd, profile}`
-- `GET /api/profile?token=xxx` returns the stored profile for server-side rendering
-- `/start` — 5-step wizard (not chat): product type → stack → design system → experience level → tone. On submit posts to `/api/profile` and redirects to `/profile?token=xxx`
-- `/profile?token=xxx` — the "it knows me" payoff screen. Meta summary tile + CLAUDE.md code block with copy button. CTA → `/install`
-- `/install?token=xxx` — prefilled `npx designwithclaude setup --token=imr_xxx` with copy button, plain-English breakdown, how-to-undo, and "I&apos;ve installed → companion" CTA
-- `/companion?token=xxx` — polls `/api/events/recent` every 2.5s; states: waiting-for-install → ready-to-build → live feed with latest event highlighted; "built so far" sidebar counts events by output kind
-- 6 render components (`components/companion/renderers/*`): `PaletteRenderer` (color grid), `TypeScaleRenderer` (ramp with live preview text), `SpacingRenderer` (horizontal bars), `ComponentSpecRenderer` (structured sections), `CopyRenderer` (tone tag + blocks), `MarkdownRenderer` (`react-markdown` + `remark-gfm`)
-- `/upgrade?token=xxx` — retention-thesis copy ("Keep what you&apos;ve built") + Free vs Subscriber plan cards + link-back to companion (Dodo checkout placeholder)
-- `claude-md-generator.ts` extended with `tone_preference` for the new 5-question flow
-- `Shell` component with step indicator (1→5) ensures consistent nav across the journey
-- `CopyButton` with clipboard fallback works in modern browsers + older
-- `npm run test:phase2` boots web dev server, posts onboarding, drives MCP with the minted token, fires 4 tool calls (palette/type-scale/spacing/markdown), asserts stored events match `ToolOutputPayload` shapes, and curls all 5 routes to verify server-rendered HTML contains expected content
+- Wireframes (`dwc-wireframes-v1.html`, 7 screens)
+- `POST /api/profile` mints `imr_` tokens (9 random bytes → base64url), stores onboarding answers, generates CLAUDE.md
+- `GET /api/profile?token=xxx` returns stored profile for server-side rendering
+- `/start` — 5-step wizard (product type → stack → design system → experience level → tone)
+- `/profile?token=xxx` — "it knows me" payoff screen with CLAUDE.md code block + copy button
+- `/install?token=xxx` — prefilled `npx designwithclaude setup --token=imr_xxx` + plain-English breakdown
+- `/companion?token=xxx` — 2.5s polling of `/api/events/recent`, waiting/ready/feed states, latest-event highlight, "built so far" sidebar
+- `/upgrade?token=xxx` — retention-thesis copy + Free vs Subscriber plan cards (Dodo placeholder)
+- 6 render components: PaletteRenderer (color grid), TypeScaleRenderer (ramp w/ live preview), SpacingRenderer (bars), ComponentSpecRenderer, CopyRenderer, MarkdownRenderer
+- `claude-md-generator.ts` extended with `tone_preference`
+- `Shell` + `CopyButton` reusable components
+- `npm run test:phase2` — full loop + HTML smoke check on all 5 routes
+- Live deployment verified on Vercel: `https://www.designwithclaude.com/start` renders, API routes respond, MCP round-trip confirmed against prod
 
 ### Blockers
 - None
 
 ### Next action
-Begin Phase 3: Supabase schema + swap in-memory store for real persistence; then Dodo webhook for upgrade/cancel/resubscribe. Alternatively expand command library to 12+ tools (more renderables = more visual payoff on the companion).
+Self-test the live flow as a first-time designer would. Note copy friction, layout bugs, missed empty-states.
 
 ### Deferred
-- Supabase Realtime swap — polling is good enough for alpha; realtime is Phase 3
-- Landing page (`/`) redesign — existing skills directory stays; companion flow is the new product surface
-- Dodo Payments integration on `/upgrade` — placeholder CTA for now
-- Magic-link email recovery for lost tokens
-- Non-contiguous `## Tone` heading in generated CLAUDE.md — the tone guide text appears as a bare paragraph between experience and design system sections. Reads fine; polish later.
+- Landing page (`/`) redesign — existing skills directory still serves `/`. Companion flow lives on `/start`.
+- Supabase Realtime swap — polling works for alpha. Switch once traffic justifies.
+- Dodo Payments on `/upgrade` — placeholder CTA; wire when payments are approved.
+- Magic-link email recovery for lost tokens.
+- Mobile responsive polish.
 
 ---
 
 ## Phase 3 — Profile, Gating, Retention
 
-**Status:** Not started
+**Status:** Persistence shipped; payments deferred
 **Spec:** `03-profile-and-gating.md`
 
 ### In progress
-- _(nothing yet)_
+- _(nothing)_
 
 ### Done
-- _(nothing yet)_
+- Supabase project created + schema applied (`web/supabase/schema.sql`): `profiles`, `companion_events`, `increment_command_count` RPC
+- `web/lib/dwc/supabase.ts` — lazy singleton client using service_role key
+- `web/lib/dwc/store.ts` — async functions dispatching to Supabase when `DWC_SUPABASE_URL` + `DWC_SUPABASE_SERVICE_ROLE_KEY` are set; in-memory Map fallback for local dev/tests
+- All API routes + server pages (`/profile`, `/upgrade`) updated to `await` store calls
+- Vercel env vars set (Production)
+- Live smoke test passed: POST `/api/profile` → GET returns same profile across serverless instances; gating counter increments atomically; MCP events land and persist
+- `web/supabase/SETUP.md` — 5-step setup doc
 
 ### Blockers
-- None (Phase 2 companion is rendering from in-memory store — Phase 3 just ports the store)
+- None
 
 ### Next action
-Create Supabase tables + RLS (`profiles`, `command_history`, `design_artifacts`, `companion_events`). Port `web/lib/dwc/store.ts` one function at a time (`getOrCreateProfile`, `incrementCommandCount`, `recordEvent`, `getRecentEvents`). Companion can swap from polling to Supabase Realtime subscription once `companion_events` has realtime enabled.
+Dodo Payments integration (upgrade/cancel/resubscribe webhook) — unblocks real monetisation. After that, port `command_history` + `design_artifacts` if the companion needs deeper retention UI.
+
+### Deferred
+- `command_history` table — `profiles.command_count` is enough for gating
+- `design_artifacts` table — events are sufficient for now
+- Dodo webhook — user needs to create a Dodo account + connect HDFC payout
+- Row-Level Security policies — we use `service_role` server-side only, so RLS blocks anon access (safe default)
+- Supabase Realtime subscription from companion — polling good enough for alpha
 
 ---
 
 ## Command library
 
-**Status:** MVP (7/39) shipped alongside Phase 1
+**Status:** MVP (7/39) shipped
 **Spec:** `04-command-library.md`
 
 ### In progress
-- Extend to the 12 "core design" tools in priority order
-- Add deterministic seed generators for `visual-hierarchy-specialist`, `landing-page-specialist`, `form-designer`, `navigation-designer`, `dashboard-designer` so the companion always has `component-spec` output to render
+- _(nothing)_
 
 ### Done
 - Library defined (39 tools: 32 design + 7 technical)
 - Output types defined (6 kinds: palette, type-scale, spacing, component-spec, copy, markdown)
 - Shared `ToolDefinition` + `ToolResult` types (`src/tools/types.ts`)
 - 7 tools shipped end-to-end over MCP: `design-brief`, `design-system-architect`, `color-specialist`, `typography-specialist`, `spacing-specialist`, `setup-guide`, `debug-helper`
-- Role prompts sourced from existing `commands/*.md` via `loadPrompt.ts` — no duplicate knowledge base
-- Companion renderers for all 6 output kinds — every future tool can target one of them
+- Role prompts sourced from existing `commands/*.md` via `loadPrompt.ts`
+- Companion renderers for all 6 output kinds
 
 ### Blockers
 - None
 
 ### Next action
-Add `visual-hierarchy-specialist`, `landing-page-specialist`, `navigation-designer`, `form-designer`, `auth-security-ux` + matching structured `component-spec` seeds.
+Add `visual-hierarchy-specialist`, `landing-page-specialist`, `navigation-designer`, `form-designer`, `auth-security-ux` + matching `component-spec` seeds so `/companion` has richer renderables.
 
 ---
 
 ## Launch gates
 
 Before public launch:
-- [ ] Phases 1 + 2 + 3 all Done
-- [ ] At least 12 of 39 commands shipped (enough to complete "Start your project" and "Build your first page" missions)
-- [ ] Dodo Payments integrated and tested (upgrade → cancel → resubscribe cycle)
+- [x] Phases 1 + 2 Done
+- [x] Phase 3 persistence Done (payments still pending)
+- [x] npm package published
+- [ ] Self-polish pass on live UX
+- [ ] At least 12 of 39 commands shipped (enough for "Start your project" + "Build your first page" missions)
+- [ ] Dodo Payments integrated and tested
 - [ ] End-to-end test: new user → onboarding → install → 10 commands → upgrade gate → payment → unlimited
-- [ ] Anthropic plugin directory approval (submitted ~March 5, 2026; awaiting response)
+- [ ] Anthropic plugin directory approval (submitted ~March 5, 2026; awaiting)
 
 ---
 
 ## Parked / deferred
 
-- Mission runner as its own MCP tool (can start with tool chains orchestrated by `design-brief`)
-- Remote-hosted MCP server (stdio is sufficient for now)
-- Magic link email as token recovery (Phase 3+ polish)
-- Migrate the 44 existing `commands/*.md` markdown plugin files out of the repo once V2 MCP tools replace them one-to-one (keep both distributions live through the alpha)
-- Gating race condition: `consumeGate` is fire-and-forget in `src/server.ts`. Two concurrent tool calls could both pass the check before either consume lands. Not observable in practice because MCP is request-response and Claude Code serialises tool calls. Phase 3 Supabase transaction will make this airtight.
+- Mission runner as its own MCP tool
+- Remote-hosted MCP server (stdio sufficient)
+- Magic link email as token recovery
+- Migrate the 44 existing `commands/*.md` markdown plugin files out of the repo once V2 MCP tools fully replace them
+- Gating race condition: `consumeGate` fire-and-forget; negligible in practice
+- Update README.md on npm — currently shows V1 markdown-plugin era content. Refresh in `2.0.0-alpha.2` once UX polish settles.
+- Re-tighten npm 2FA to "Authorization and writes" once alpha publishes settle down. Currently set to `auth-only` for iteration speed.
