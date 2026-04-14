@@ -1,165 +1,144 @@
 "use client";
-import { useState } from "react";
 
 /**
- * First-run orientation card. Drops into the /account project grid alongside
- * real project cards and shows what each visual element on a real card means.
- * Non-interactive (no navigation, no API calls) — it's a visual key, not a
- * working project.
+ * Orientation card for /account. Shows what a real project card's anatomy
+ * looks like. Explicitly non-interactive — CTAs are labelled dimmed and a
+ * clear "Example only" header + a pointer to the + tile for the real action
+ * prevent the "wait, what do I click?" problem.
  */
 export function SampleProjectCard() {
-  const [showGuide, setShowGuide] = useState(true);
-
   return (
     <article
-      aria-label="Sample project card — not a real project"
+      aria-label="Sample project card — orientation only, not a real project"
       style={{
-        background: "rgba(200,240,122,0.025)",
+        background: "rgba(200,240,122,0.03)",
         border: "1px dashed rgba(200,240,122,0.3)",
         borderRadius: 12,
-        padding: "1rem 1.1rem",
+        padding: "0 0 1rem",
         display: "flex",
         flexDirection: "column",
         gap: "0.75rem",
         minHeight: 128,
-        position: "relative",
+        overflow: "hidden",
       }}
     >
-      {/* EXAMPLE pill */}
+      {/* Top banner — replaces the absolute pill so it can't collide with anything */}
       <div
         style={{
-          position: "absolute",
-          top: "0.65rem",
-          right: "0.7rem",
-          fontSize: "0.58rem",
+          background: "rgba(200,240,122,0.12)",
+          borderBottom: "1px dashed rgba(200,240,122,0.3)",
+          padding: "0.35rem 1.1rem",
+          fontSize: "0.62rem",
           textTransform: "uppercase",
           letterSpacing: "0.14em",
           color: "#c8f07a",
-          background: "rgba(200,240,122,0.1)",
-          border: "1px solid rgba(200,240,122,0.28)",
-          padding: "0.15rem 0.45rem",
-          borderRadius: 999,
           fontWeight: 600,
-        }}
-      >
-        Example
-      </div>
-
-      <header style={{ display: "flex", alignItems: "center", gap: "0.5rem", paddingRight: "4rem" }}>
-        <span
-          title="Lime dot = Claude Code is currently connected to this project"
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: "50%",
-            background: "#c8f07a",
-            boxShadow: "0 0 8px rgba(200,240,122,0.6)",
-          }}
-        />
-        <h3
-          style={{
-            fontSize: "0.95rem",
-            fontWeight: 600,
-            color: "#fff",
-            fontFamily: "var(--font-geist-mono), monospace",
-            flex: 1,
-          }}
-        >
-          your-project
-        </h3>
-        <span
-          title="Tool calls run in this project — 10 free per designer across all projects"
-          style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-geist-mono)" }}
-        >
-          × 7 cmds
-        </span>
-      </header>
-
-      <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>
-        This is what a real project card looks like.
-      </p>
-
-      <div
-        style={{
           display: "flex",
-          gap: "0.6rem",
-          fontSize: "0.78rem",
+          justifyContent: "space-between",
           alignItems: "center",
-          marginTop: "auto",
-          opacity: 0.75,
         }}
       >
-        <span style={{ color: "#c8f07a", fontWeight: 500 }}>Open companion →</span>
-        <span style={{ color: "rgba(255,255,255,0.25)" }}>·</span>
-        <span style={{ color: "rgba(255,255,255,0.5)" }}>Install command</span>
+        <span>Example — what your cards will look like</span>
       </div>
 
-      {showGuide ? (
+      <div style={{ padding: "0 1.1rem", display: "flex", flexDirection: "column", gap: "0.55rem" }}>
+        <header style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <span
+            title="Lime dot = Claude Code is currently connected to this project"
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              background: "#c8f07a",
+              boxShadow: "0 0 8px rgba(200,240,122,0.6)",
+            }}
+          />
+          <h3
+            style={{
+              fontSize: "0.95rem",
+              fontWeight: 600,
+              color: "#fff",
+              fontFamily: "var(--font-geist-mono), monospace",
+              flex: 1,
+            }}
+          >
+            your-project
+          </h3>
+          <span
+            title="Tool calls run in this project — 10 free across all your projects"
+            style={{
+              fontSize: "0.72rem",
+              color: "rgba(255,255,255,0.5)",
+              fontFamily: "var(--font-geist-mono)",
+            }}
+          >
+            × 7 cmds
+          </span>
+        </header>
+
+        <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>
+          A short description of what you&apos;re building.
+        </p>
+
         <div
           style={{
-            marginTop: "0.25rem",
-            paddingTop: "0.75rem",
-            borderTop: "1px dashed rgba(200,240,122,0.22)",
             display: "grid",
-            gap: "0.35rem",
-            fontSize: "0.72rem",
-            color: "rgba(255,255,255,0.65)",
+            gap: "0.3rem",
+            fontSize: "0.7rem",
+            color: "rgba(255,255,255,0.55)",
+            paddingTop: "0.5rem",
+            borderTop: "1px dashed rgba(255,255,255,0.08)",
             lineHeight: 1.5,
           }}
         >
           <Row
-            marker={<span style={{ color: "#c8f07a" }}>●</span>}
-            label="lime = Claude Code session is live for this project"
+            marker={<span style={{ color: "#c8f07a", fontSize: "0.85rem", lineHeight: 1 }}>●</span>}
+            label="lime dot = Claude Code is live in this project"
           />
           <Row
             marker={<code style={{ fontFamily: "var(--font-geist-mono)" }}>your-project</code>}
-            label="slug you passed to npx designwithclaude setup --project=…"
+            label="slug you pass to npx designwithclaude --project=…"
           />
           <Row
-            marker={<span style={{ fontFamily: "var(--font-geist-mono)" }}>× 7 cmds</span>}
-            label="tool calls made in this project (10 free across all your projects)"
+            marker={<span style={{ fontFamily: "var(--font-geist-mono)", color: "rgba(255,255,255,0.85)" }}>× 7 cmds</span>}
+            label="tool calls used (10 free across all your projects)"
           />
-          <Row
-            marker={<span style={{ color: "#c8f07a" }}>Open companion →</span>}
-            label="watch your palette, type, spacing render live as you work"
-          />
-          <button
-            type="button"
-            onClick={() => setShowGuide(false)}
-            style={{
-              marginTop: "0.35rem",
-              background: "transparent",
-              border: "none",
-              color: "rgba(255,255,255,0.45)",
-              fontSize: "0.68rem",
-              padding: 0,
-              cursor: "pointer",
-              textAlign: "left",
-              fontFamily: "inherit",
-            }}
-          >
-            Hide guide
-          </button>
         </div>
-      ) : (
-        <button
-          type="button"
-          onClick={() => setShowGuide(true)}
+
+        <p
           style={{
             marginTop: "0.25rem",
-            background: "transparent",
-            border: "none",
-            color: "rgba(200,240,122,0.7)",
-            fontSize: "0.72rem",
-            padding: 0,
-            cursor: "pointer",
-            textAlign: "left",
-            fontFamily: "inherit",
+            paddingTop: "0.65rem",
+            borderTop: "1px dashed rgba(255,255,255,0.08)",
+            fontSize: "0.75rem",
+            color: "rgba(255,255,255,0.65)",
           }}
         >
-          Show guide
-        </button>
-      )}
+          To make a real one →{" "}
+          <strong style={{ color: "#c8f07a" }}>click the dashed</strong>{" "}
+          <span
+            aria-hidden
+            style={{
+              display: "inline-flex",
+              width: 18,
+              height: 18,
+              borderRadius: "50%",
+              background: "rgba(200,240,122,0.15)",
+              color: "#c8f07a",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "0.72rem",
+              fontWeight: 500,
+              verticalAlign: "text-bottom",
+              lineHeight: 1,
+              margin: "0 0.15rem",
+            }}
+          >
+            +
+          </span>{" "}
+          <strong style={{ color: "#c8f07a" }}>tile</strong>.
+        </p>
+      </div>
     </article>
   );
 }
@@ -169,11 +148,11 @@ function Row({ marker, label }: { marker: React.ReactNode; label: string }) {
     <div style={{ display: "flex", gap: "0.55rem", alignItems: "baseline" }}>
       <span
         style={{
-          minWidth: 80,
+          minWidth: 84,
           fontWeight: 500,
           flexShrink: 0,
           color: "rgba(255,255,255,0.85)",
-          fontSize: "0.75rem",
+          fontSize: "0.72rem",
         }}
       >
         {marker}
