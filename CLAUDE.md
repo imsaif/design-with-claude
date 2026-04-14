@@ -63,6 +63,13 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 
 ## Recent Sessions
 
+### Session 2026-04-14 18:00 (MacBook)
+- **Pattern:** Multi-project alpha.2 — schema + API + MCP + CLI + Web UX + ship
+- **Status:** Complete — `designwithclaude@2.0.0-alpha.2` published; prod smoke test confirms two projects under one token with isolated profiles and events
+- **Files Changed:** ~50 across schema migration, web API + store, MCP server + setup CLI, Web UX (new `/account`, new components: `AddProjectTile`, `SampleProjectCard`, `WelcomeBackBanner`)
+- **Tests Added/Modified:** `test:phase2` assertions updated for new account/scoped API shapes; `test:setup` exercises `--project=<slug>` path
+- **Notes:** Introduced projects as first-class under a single token (Option B from the design discussion). New `projects` + `project_profiles` tables via `web/supabase/migrations/001_projects.sql`; `companion_events` gained a `project_id` FK. `increment_command_count(text, uuid)` RPC bumps per-designer (canonical gate) AND per-project (informational) counters atomically. MCP server reads `DWC_PROJECT_ID`; setup CLI adds required `--project=<slug>` flag and defaults `--scope=project`. Web adds `/account` dashboard with sample/orientation card, inline `+` add-project tile, and demoted summary bar. StartWizard step-1 Back exits to `/account` instead of dying. `WelcomeBackBanner` saves the token in localStorage and nudges returning designers back to their account. Free-tier gating is per-designer (10 total) — simple upgrade story. `DWC_ALLOW_IMPLICIT_PROJECT` flag defaults on for alpha grace period; flip off once all alpha.1 installs upgrade. Plain-language `TESTING.md` written for future session handoff.
+
 ### Session 2026-04-14 15:30 (MacBook)
 - **Pattern:** Ship alpha — Supabase persistence + npm publish
 - **Status:** Complete — alpha is live
