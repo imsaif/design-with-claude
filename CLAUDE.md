@@ -1,7 +1,11 @@
 # design-with-claude
 
 ## Project Overview
-**V2 (in progress, April 2026):** subscription product that configures Claude Code for designers via an MCP server, paired with a browser companion that renders command outputs live. See `/Users/imranmohammed/Desktop/00-product-brief.md` and `/Users/imranmohammed/Desktop/dwc-docs/PROGRESS.md` for the canonical plan.
+**V2 alpha live (April 2026):** subscription product that configures Claude Code for designers via an MCP server, paired with a browser companion that renders command outputs live.
+- Live web: https://www.designwithclaude.com (start at `/start`)
+- npm package: `designwithclaude@2.0.0-alpha.1`
+- Persistence: Supabase (profiles + companion_events)
+- See `PROGRESS.md` at the repo root for current state; `00-product-brief.md` + `0{1,2,3,4}-*.md` on Desktop for the canonical plan.
 
 **V1 (still shipping):** 44 specialized design agents as Claude Code slash commands, available as a plugin or standalone. `commands/*.md` stays intact — the V2 MCP server reuses those files as role prompts.
 
@@ -32,6 +36,9 @@
 - `web/app/{start,profile,install,companion,upgrade}/page.tsx` — V2 companion flow pages (5 screens)
 - `web/components/companion/` — `Shell`, `CopyButton`, `StartWizard`, `CompanionView`, plus `renderers/{Palette,TypeScale,Spacing,ComponentSpec,Copy,Markdown}Renderer.tsx` + barrel `renderers/index.tsx`
 - `web/lib/claude-md-generator.ts` — extended with `tone_preference` for the V2 flow
+- `web/lib/dwc/supabase.ts` — lazy service_role Supabase client (server-side only; RLS blocks anon)
+- `web/lib/dwc/store.ts` — async store; dispatches to Supabase when `DWC_SUPABASE_URL` + `DWC_SUPABASE_SERVICE_ROLE_KEY` are set, in-memory Map fallback otherwise
+- `web/supabase/{schema.sql,SETUP.md}` — schema + 5-step user setup doc for Supabase project + Vercel env
 
 ## Command File Structure
 Each command follows this format:
@@ -55,6 +62,13 @@ Role statement with $ARGUMENTS placeholder
 Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-designer`, `form-designer`). No `design-` prefix except for `design-brief` (the master command) and `design-system-architect`.
 
 ## Recent Sessions
+
+### Session 2026-04-14 15:30 (MacBook)
+- **Pattern:** Ship alpha — Supabase persistence + npm publish
+- **Status:** Complete — alpha is live
+- **Files Changed:** 14 (Supabase client + SQL schema + SETUP doc + store refactor + 8 callers awaited); commits c955906 (gitignore .clerk/), 4b23587 (Supabase persistence)
+- **Tests Added/Modified:** 0 (existing test:phase2 still passes against in-memory fallback)
+- **Notes:** Diagnosed serverless memory loss (POST /api/profile → immediate GET = not_found because Vercel instances don't share memory). Added `web/lib/dwc/supabase.ts` lazy client using service_role key. Rewrote `store.ts` to async Supabase calls with in-memory fallback when env vars are unset. User created Supabase project, ran `web/supabase/schema.sql`, set `DWC_SUPABASE_URL` + `DWC_SUPABASE_SERVICE_ROLE_KEY` on Vercel, redeployed. Smoke test confirms profiles + events persist across serverless instances; gating counter increments atomically via `increment_command_count` RPC. Published `designwithclaude@2.0.0-alpha.1` to npm under `latest` tag — first publish required automation token (2FA-bypass granular token) because passkey 2FA + CLI publish still demands OTP even with `auth-only` setting. Token revoked after publish. Shareable URL: https://www.designwithclaude.com/start.
 
 ### Session 2026-04-13 23:00 (MacBook)
 - **Pattern:** V2 Phase 2 browser companion — end-to-end
