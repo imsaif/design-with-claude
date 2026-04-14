@@ -41,7 +41,7 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
     );
   }
 
-  const profile = getProfile(token);
+  const profile = await getProfile(token);
   if (!profile || !profile.onboarding || !profile.claudeMd) {
     return (
       <Shell step={2}>

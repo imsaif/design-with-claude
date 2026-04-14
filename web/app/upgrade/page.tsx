@@ -14,7 +14,7 @@ export const metadata = {
 export default async function UpgradePage({ searchParams }: UpgradePageProps) {
   const { token = "" } = await searchParams;
   const hasToken = isTokenShapeValid(token);
-  const profile = hasToken ? getProfile(token) : undefined;
+  const profile = hasToken ? await getProfile(token) : undefined;
 
   const summary = profile?.onboarding
     ? `${profile.onboarding.product_type} · ${profile.onboarding.tech_stack.join(", ")}`

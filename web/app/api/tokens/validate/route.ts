@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const profile = getOrCreateProfile(token!);
+  const profile = await getOrCreateProfile(token!);
   return Response.json({
     valid: true,
     status: profile.status,
