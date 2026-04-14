@@ -9,6 +9,7 @@ import { checkGate, consumeGate } from "./gating.js";
 import { emitToolEvent } from "./events.js";
 import { tools } from "./tools/index.js";
 import type { ToolDefinition } from "./tools/types.js";
+import { setDesignerProfile } from "./designer.js";
 
 const PACKAGE_NAME = "designwithclaude";
 const PACKAGE_VERSION = "2.0.0-alpha.1";
@@ -80,6 +81,19 @@ async function main(): Promise<void> {
 
   for (const tool of tools) {
     registerTool(server, tool, { api, config });
+  }
+
+  // Load the designer's profile so every tool response can include their
+  // onboarding answers + CLAUDE.md. Without this, Claude Code has no context
+  // about who the designer is and asks them to re-explain everything.
+  if (config.token) {
+    const profile = await api.getProfile(config.token);
+    setDesignerProfile(profile);
+    log.info("designer profile", {
+      loaded: Boolean(profile),
+      hasOnboarding: Boolean(profile?.onboarding),
+      commandCount: profile?.commandCount ?? 0,
+    });
   }
 
   log.info(`starting ${PACKAGE_NAME} v${PACKAGE_VERSION}`, {
