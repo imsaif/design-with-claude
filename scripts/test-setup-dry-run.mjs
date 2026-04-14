@@ -18,6 +18,7 @@ const setup = spawnSync(
     setupBin,
     "setup",
     "--token=imr_testtoken",
+    "--project=smoke-test",
     "--scope=project",
     "--skip-validate",
     "--api=http://127.0.0.1:1",
@@ -41,8 +42,11 @@ if (!existsSync(mcpPath)) {
   if (!entry || entry.env?.DWC_TOKEN !== "imr_testtoken") {
     console.error("FAIL: mcp entry malformed", JSON.stringify(cfg, null, 2));
     process.exitCode = 1;
+  } else if (entry.env?.DWC_PROJECT_ID !== "smoke-test") {
+    console.error("FAIL: DWC_PROJECT_ID missing/wrong", JSON.stringify(entry.env, null, 2));
+    process.exitCode = 1;
   } else {
-    console.log("✔ .mcp.json written with DWC_TOKEN env");
+    console.log("✔ .mcp.json written with DWC_TOKEN + DWC_PROJECT_ID env");
   }
 }
 

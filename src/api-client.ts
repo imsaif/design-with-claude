@@ -4,6 +4,7 @@ import type { DwcConfig } from "./config.js";
 export interface GatingCheckRequest {
   token: string;
   toolName: string;
+  project?: string;
 }
 
 export interface GatingCheckResponse {
@@ -19,6 +20,7 @@ export interface EventPayload {
   input: unknown;
   output: unknown;
   timestamp: string;
+  project?: string;
 }
 
 export interface DesignerProfile {
@@ -61,9 +63,11 @@ export class ApiClient {
     }
   }
 
-  async getProfile(token: string): Promise<DesignerProfile | null> {
+  async getProfile(token: string, project: string | undefined): Promise<DesignerProfile | null> {
     try {
-      const url = `${this.config.apiUrl}/api/profile?token=${encodeURIComponent(token)}`;
+      const params = new URLSearchParams({ token });
+      if (project) params.set("project", project);
+      const url = `${this.config.apiUrl}/api/profile?${params.toString()}`;
       const res = await fetch(url, {
         method: "GET",
         headers: { "User-Agent": "designwithclaude-mcp/2.0" },

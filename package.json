@@ -1,6 +1,6 @@
 {
   "name": "designwithclaude",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "Make Claude Code your designer — MCP server that configures Claude Code for designers",
   "type": "module",
   "main": "./dist/server.js",

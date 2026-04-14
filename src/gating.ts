@@ -22,7 +22,11 @@ export async function checkGate(
     };
   }
 
-  const res = await api.gatingCheck({ token: config.token, toolName });
+  const res = await api.gatingCheck({
+    token: config.token,
+    toolName,
+    project: config.projectId,
+  });
   if (res.allowed) return { allowed: true };
 
   const fallbackMessage =
@@ -43,5 +47,9 @@ export async function consumeGate(
   toolName: string,
 ): Promise<void> {
   if (!config.gatingEnabled || !config.token) return;
-  await api.gatingConsume({ token: config.token, toolName });
+  await api.gatingConsume({
+    token: config.token,
+    toolName,
+    project: config.projectId,
+  });
 }
