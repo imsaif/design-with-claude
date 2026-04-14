@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "mkdir -p lib/agents/commands && cp ../commands/*.md lib/agents/commands/",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.82.0",
     "@heroicons/react": "^2.2.0",
     "@paper-design/shaders-react": "^0.0.52",
     "framer-motion": "^12.23.12",

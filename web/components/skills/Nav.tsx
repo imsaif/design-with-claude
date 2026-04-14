@@ -1,5 +1,6 @@
 import Link from "next/link";
 import DwcIcon from "@/components/DwcIcon";
+import { NavAuthButton } from "./NavAuthButton";
 
 export function Nav() {
   return (
@@ -24,6 +25,7 @@ export function Nav() {
         >
           Submit a skill
         </a>
+        <NavAuthButton />
       </div>
     </nav>
   );
