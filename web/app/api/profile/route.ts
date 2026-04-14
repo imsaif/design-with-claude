@@ -10,7 +10,12 @@ const VALID_EXPERIENCE = ["beginner", "intermediate", "advanced"] as const;
 const VALID_TONE = ["concise", "explanatory", "encouraging"] as const;
 
 function pickAnswers(input: Record<string, unknown>): OnboardingAnswers | null {
-  const product_type = typeof input.product_type === "string" ? input.product_type.trim() : "";
+  // product_type is optional — if the designer's product doesn't fit any chip,
+  // they can describe it in product_description and we default to "Custom".
+  const product_type =
+    typeof input.product_type === "string" && input.product_type.trim()
+      ? input.product_type.trim()
+      : "Custom";
   const product_description =
     typeof input.product_description === "string" ? input.product_description.trim() : "";
   const design_system =
@@ -29,7 +34,6 @@ function pickAnswers(input: Record<string, unknown>): OnboardingAnswers | null {
   }
 
   if (
-    !product_type ||
     !product_description ||
     !design_system ||
     !tech_stack.length ||

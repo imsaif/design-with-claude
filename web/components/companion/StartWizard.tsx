@@ -80,7 +80,9 @@ export function StartWizard() {
   const canAdvance = useMemo(() => {
     switch (step) {
       case 1:
-        return Boolean(a.product_type && a.product_description.trim().length > 5);
+        // Chips are shortcuts — a description is all we actually need. If the
+        // designer skips the chips, we fall back to "Custom" at submit time.
+        return a.product_description.trim().length >= 10;
       case 2:
         return a.tech_stack.length > 0;
       case 3:
@@ -109,10 +111,14 @@ export function StartWizard() {
     setBusy(true);
     setError(null);
     try {
+      const payload = {
+        ...a,
+        product_type: a.product_type || "Custom",
+      };
       const res = await fetch("/api/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(a),
+        body: JSON.stringify(payload),
       });
       const body = await res.json();
       if (!res.ok || !body.ok) {
@@ -147,7 +153,7 @@ export function StartWizard() {
           {step === 5 && "How should Claude talk to you?"}
         </h1>
         <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.95rem" }}>
-          {step === 1 && "Pick a type, then tell me a sentence or two about the product."}
+          {step === 1 && "Tell me about your product. Pick a type to start, or skip the chips and describe your own."}
           {step === 2 && "Pick everything that applies."}
           {step === 3 && "One choice — we can refine later."}
           {step === 4 && "Shapes how much explanation you get."}
@@ -171,7 +177,7 @@ export function StartWizard() {
               ))}
             </div>
             <label style={{ display: "block", fontSize: "0.85rem", color: "rgba(255,255,255,0.65)", marginBottom: "0.5rem" }}>
-              Tell me more about it
+              Describe it (this is what matters most)
             </label>
             <textarea
               value={a.product_description}
