@@ -8,3 +8,4 @@ web/lib/agents/commands/
 dist/
 tsconfig.tsbuildinfo
 .mcp.json
+.clerk/
