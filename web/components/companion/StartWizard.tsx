@@ -1,6 +1,8 @@
 "use client";
+import Link from "next/link";
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { rememberToken } from "./WelcomeBackBanner";
 
 interface StartWizardProps {
   /** Existing designer token — if provided, we're adding a new project under it. */
@@ -133,6 +135,9 @@ export function StartWizard({ initialToken, initialProject }: StartWizardProps =
       if (!res.ok || !body.ok) {
         throw new Error(body.reason || `http ${res.status}`);
       }
+      // Stash for the WelcomeBackBanner so returning designers on this
+      // browser aren't stranded on /start without a token in the URL.
+      if (body.token) rememberToken(body.token);
       const qs = new URLSearchParams({ token: body.token });
       if (body.project) qs.set("project", body.project);
       router.push(`/profile?${qs.toString()}`);
@@ -164,6 +169,47 @@ export function StartWizard({ initialToken, initialProject }: StartWizardProps =
           }}
         />
       </div>
+      {initialToken ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "1rem",
+            padding: "0.65rem 1rem",
+            background: "rgba(200,240,122,0.06)",
+            border: "1px solid rgba(200,240,122,0.2)",
+            borderRadius: 10,
+            marginBottom: "1.5rem",
+            fontSize: "0.85rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <span style={{ color: "rgba(255,255,255,0.8)" }}>
+            Adding{" "}
+            <strong style={{ color: "#fff" }}>
+              {initialProject ? (
+                <code style={{ fontFamily: "var(--font-geist-mono)" }}>{initialProject}</code>
+              ) : (
+                "a new project"
+              )}
+            </strong>{" "}
+            to your account — this won&apos;t overwrite what you already have.
+          </span>
+          <Link
+            href={`/account?token=${initialToken}`}
+            style={{
+              color: "#c8f07a",
+              textDecoration: "none",
+              fontWeight: 500,
+              fontSize: "0.82rem",
+              whiteSpace: "nowrap",
+            }}
+          >
+            ← My projects
+          </Link>
+        </div>
+      ) : null}
       <header style={{ marginBottom: "2rem" }}>
         <p
           style={{
