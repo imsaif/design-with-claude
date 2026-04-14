@@ -259,8 +259,11 @@ function ProjectCard({
         >
           {project.slug}
         </h3>
-        <span style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-geist-mono)" }}>
-          {project.commandCount}
+        <span
+          title="Tool calls run in this project"
+          style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-geist-mono)" }}
+        >
+          × {project.commandCount} cmd{project.commandCount === 1 ? "" : "s"}
         </span>
       </header>
       {project.displayName ? (

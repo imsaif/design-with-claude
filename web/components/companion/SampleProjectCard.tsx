@@ -47,7 +47,7 @@ export function SampleProjectCard() {
 
       <header style={{ display: "flex", alignItems: "center", gap: "0.5rem", paddingRight: "4rem" }}>
         <span
-          title="Green dot = Claude Code is currently connected to this project"
+          title="Lime dot = Claude Code is currently connected to this project"
           style={{
             width: 8,
             height: 8,
@@ -65,18 +65,18 @@ export function SampleProjectCard() {
             flex: 1,
           }}
         >
-          acme-landing
+          your-project
         </h3>
         <span
-          title="Commands used on this project"
-          style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-geist-mono)" }}
+          title="Tool calls run in this project — 10 free per designer across all projects"
+          style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-geist-mono)" }}
         >
-          7
+          × 7 cmds
         </span>
       </header>
 
       <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>
-        Acme marketing site
+        This is what a real project card looks like.
       </p>
 
       <div
@@ -112,10 +112,13 @@ export function SampleProjectCard() {
             label="lime = Claude Code session is live for this project"
           />
           <Row
-            marker={<code style={{ fontFamily: "var(--font-geist-mono)" }}>acme-landing</code>}
+            marker={<code style={{ fontFamily: "var(--font-geist-mono)" }}>your-project</code>}
             label="slug you passed to npx designwithclaude setup --project=…"
           />
-          <Row marker="7" label="tool calls made on this project so far" />
+          <Row
+            marker={<span style={{ fontFamily: "var(--font-geist-mono)" }}>× 7 cmds</span>}
+            label="tool calls made in this project (10 free across all your projects)"
+          />
           <Row
             marker={<span style={{ color: "#c8f07a" }}>Open companion →</span>}
             label="watch your palette, type, spacing render live as you work"
