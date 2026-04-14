@@ -2,6 +2,8 @@ import { fileURLToPath } from "node:url";
 
 export interface DwcConfig {
   token: string | undefined;
+  /** Project slug, from DWC_PROJECT_ID env. One MCP process per project — no runtime switching. */
+  projectId: string | undefined;
   apiUrl: string;
   eventsEnabled: boolean;
   gatingEnabled: boolean;
@@ -17,6 +19,7 @@ function resolveCommandsDir(): string {
 export function loadConfig(): DwcConfig {
   return {
     token: process.env.DWC_TOKEN?.trim() || undefined,
+    projectId: process.env.DWC_PROJECT_ID?.trim() || undefined,
     apiUrl: (process.env.DWC_API_URL?.trim() || "https://designwithclaude.com").replace(/\/$/, ""),
     eventsEnabled: process.env.DWC_EVENTS !== "off",
     gatingEnabled: process.env.DWC_GATING === "on",

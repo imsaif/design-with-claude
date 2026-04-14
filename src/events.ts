@@ -20,6 +20,7 @@ export async function emitToolEvent(
     input: args.input,
     output: args.output,
     timestamp: new Date().toISOString(),
+    project: config.projectId,
   };
 
   log.debug("emit event", { toolName: args.toolName, kind: args.output.type });
