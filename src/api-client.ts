@@ -21,6 +21,21 @@ export interface EventPayload {
   timestamp: string;
 }
 
+export interface DesignerProfile {
+  status: "free" | "paid" | "cancelled";
+  commandCount: number;
+  connected: boolean;
+  onboarding?: {
+    product_type: string;
+    product_description: string;
+    tech_stack: string[];
+    design_system: string;
+    experience_level: string;
+    tone_preference: string;
+  };
+  claudeMd?: string;
+}
+
 export class ApiClient {
   constructor(private readonly config: DwcConfig) {}
 
@@ -43,6 +58,26 @@ export class ApiClient {
       await this.post("/api/gating/consume", req);
     } catch (err) {
       log.error("gating consume failed (non-fatal)", err);
+    }
+  }
+
+  async getProfile(token: string): Promise<DesignerProfile | null> {
+    try {
+      const url = `${this.config.apiUrl}/api/profile?token=${encodeURIComponent(token)}`;
+      const res = await fetch(url, {
+        method: "GET",
+        headers: { "User-Agent": "designwithclaude-mcp/2.0" },
+        signal: AbortSignal.timeout(5000),
+      });
+      if (!res.ok) return null;
+      const body = (await res.json()) as { ok?: boolean; profile?: DesignerProfile };
+      if (!body.ok || !body.profile) return null;
+      return body.profile;
+    } catch (err) {
+      log.debug("profile fetch failed (non-fatal)", {
+        error: err instanceof Error ? err.message : String(err),
+      });
+      return null;
     }
   }
 

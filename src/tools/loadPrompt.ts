@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { loadConfig } from "../config.js";
+import { renderDesignerContext } from "../designer.js";
 
 const cache = new Map<string, string>();
 
@@ -28,6 +29,7 @@ export function composeRolePrompt(args: {
   closingInstruction: string;
 }): string {
   const role = loadPromptMarkdown(args.commandFile);
+  const designerContext = renderDesignerContext();
   const parts: string[] = [
     `# Role: ${args.roleName}`,
     "",
@@ -36,6 +38,9 @@ export function composeRolePrompt(args: {
     "---",
     "",
   ];
+  if (designerContext) {
+    parts.push(designerContext, "", "---", "");
+  }
   for (const s of args.sections) {
     parts.push(`## ${s.heading}`, "", s.body.trim(), "");
   }
