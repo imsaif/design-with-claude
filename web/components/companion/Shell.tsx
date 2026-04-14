@@ -63,61 +63,79 @@ export function Shell({ children, step, token, wide }: ShellProps) {
             design<span style={{ color: "#c8f07a" }}>with</span>claude
           </span>
         </Link>
-        {step ? (
-          <ol
-            aria-label="Journey progress"
-            style={{
-              display: "flex",
-              gap: "0.75rem",
-              listStyle: "none",
-              fontSize: "0.8rem",
-              color: "rgba(255,255,255,0.45)",
-              alignItems: "center",
-            }}
-          >
-            {STEPS.map((s, i) => {
-              const isCurrent = s.n === step;
-              const href = isCurrent ? null : stepHref(s.n, s.path, token);
-              const color = isCurrent
-                ? "#c8f07a"
-                : s.n < step
-                  ? "rgba(255,255,255,0.75)"
-                  : "rgba(255,255,255,0.4)";
-              const content = (
-                <span
-                  style={{
-                    color,
-                    fontWeight: isCurrent ? 600 : 400,
-                    transition: "color 120ms ease",
-                  }}
-                >
-                  {s.label}
-                </span>
-              );
-              return (
-                <li
-                  key={s.n}
-                  style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
-                >
-                  {href ? (
-                    <Link
-                      href={href}
-                      style={{ textDecoration: "none" }}
-                      className="dwc-journey-link"
-                    >
-                      {content}
-                    </Link>
-                  ) : (
-                    content
-                  )}
-                  {i < STEPS.length - 1 ? (
-                    <span aria-hidden style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
-                  ) : null}
-                </li>
-              );
-            })}
-          </ol>
-        ) : null}
+        <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+          {step ? (
+            <ol
+              aria-label="Journey progress"
+              style={{
+                display: "flex",
+                gap: "0.75rem",
+                listStyle: "none",
+                fontSize: "0.8rem",
+                color: "rgba(255,255,255,0.45)",
+                alignItems: "center",
+              }}
+            >
+              {STEPS.map((s, i) => {
+                const isCurrent = s.n === step;
+                const href = isCurrent ? null : stepHref(s.n, s.path, token);
+                const color = isCurrent
+                  ? "#c8f07a"
+                  : s.n < step
+                    ? "rgba(255,255,255,0.75)"
+                    : "rgba(255,255,255,0.4)";
+                const content = (
+                  <span
+                    style={{
+                      color,
+                      fontWeight: isCurrent ? 600 : 400,
+                      transition: "color 120ms ease",
+                    }}
+                  >
+                    {s.label}
+                  </span>
+                );
+                return (
+                  <li
+                    key={s.n}
+                    style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+                  >
+                    {href ? (
+                      <Link
+                        href={href}
+                        style={{ textDecoration: "none" }}
+                        className="dwc-journey-link"
+                      >
+                        {content}
+                      </Link>
+                    ) : (
+                      content
+                    )}
+                    {i < STEPS.length - 1 ? (
+                      <span aria-hidden style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ol>
+          ) : null}
+          {token ? (
+            <Link
+              href={`/account?token=${token}`}
+              style={{
+                fontSize: "0.8rem",
+                color: "rgba(255,255,255,0.7)",
+                textDecoration: "none",
+                padding: "0.35rem 0.75rem",
+                border: "1px solid rgba(255,255,255,0.12)",
+                borderRadius: 999,
+                fontWeight: 500,
+              }}
+            >
+              My projects
+            </Link>
+          ) : null}
+        </div>
       </nav>
       <main
         style={{

@@ -2,6 +2,13 @@
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
+interface StartWizardProps {
+  /** Existing designer token — if provided, we're adding a new project under it. */
+  initialToken?: string;
+  /** Slug of the project being onboarded. If absent, server defaults to 'default'. */
+  initialProject?: string;
+}
+
 type Step = 1 | 2 | 3 | 4 | 5;
 
 interface Answers {
@@ -63,7 +70,7 @@ function chipStyle(selected: boolean): React.CSSProperties {
   };
 }
 
-export function StartWizard() {
+export function StartWizard({ initialToken, initialProject }: StartWizardProps = {}) {
   const router = useRouter();
   const [step, setStep] = useState<Step>(1);
   const [busy, setBusy] = useState(false);
@@ -111,10 +118,12 @@ export function StartWizard() {
     setBusy(true);
     setError(null);
     try {
-      const payload = {
+      const payload: Record<string, unknown> = {
         ...a,
         product_type: a.product_type || "Custom",
       };
+      if (initialToken) payload.token = initialToken;
+      if (initialProject) payload.project = initialProject;
       const res = await fetch("/api/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -124,7 +133,9 @@ export function StartWizard() {
       if (!res.ok || !body.ok) {
         throw new Error(body.reason || `http ${res.status}`);
       }
-      router.push(`/profile?token=${body.token}`);
+      const qs = new URLSearchParams({ token: body.token });
+      if (body.project) qs.set("project", body.project);
+      router.push(`/profile?${qs.toString()}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
       setBusy(false);

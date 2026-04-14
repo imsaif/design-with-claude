@@ -2,9 +2,10 @@ import Link from "next/link";
 import { Shell } from "@/components/companion/Shell";
 import { CompanionView } from "@/components/companion/CompanionView";
 import { isTokenShapeValid } from "@/lib/dwc/tokens";
+import { isValidSlug } from "@/lib/dwc/projects";
 
 interface CompanionPageProps {
-  searchParams: Promise<{ token?: string }>;
+  searchParams: Promise<{ token?: string; project?: string }>;
 }
 
 export const metadata = {
@@ -12,7 +13,7 @@ export const metadata = {
 };
 
 export default async function CompanionPage({ searchParams }: CompanionPageProps) {
-  const { token = "" } = await searchParams;
+  const { token = "", project: rawProject } = await searchParams;
 
   if (!isTokenShapeValid(token)) {
     return (
@@ -20,7 +21,7 @@ export default async function CompanionPage({ searchParams }: CompanionPageProps
         <div style={{ maxWidth: 520, marginTop: "3rem" }}>
           <h1 style={{ fontSize: "1.5rem", marginBottom: "0.75rem" }}>Missing token</h1>
           <p style={{ color: "rgba(255,255,255,0.6)", marginBottom: "1.5rem" }}>
-            Your companion URL should look like <code>/companion?token=imr_xxx</code>. Start the
+            Your companion URL should look like <code>/companion?token=imr_xxx&amp;project=&lt;slug&gt;</code>. Start the
             onboarding to generate one.
           </p>
           <Link
@@ -41,6 +42,11 @@ export default async function CompanionPage({ searchParams }: CompanionPageProps
     );
   }
 
+  // Tolerate alpha.1-style URLs without ?project= by falling back to 'default'.
+  // Phase 4-final will flip DWC_ALLOW_IMPLICIT_PROJECT off and surface an inline
+  // "pick a project" prompt here instead of a silent default.
+  const project = rawProject && isValidSlug(rawProject) ? rawProject : "default";
+
   return (
     <Shell step={4} token={token} wide>
       <header style={{ marginBottom: "1.5rem" }}>
@@ -53,13 +59,16 @@ export default async function CompanionPage({ searchParams }: CompanionPageProps
             marginBottom: "0.5rem",
           }}
         >
-          Your design system
+          Your design system · project{" "}
+          <code style={{ color: "rgba(255,255,255,0.75)", textTransform: "none", letterSpacing: 0 }}>
+            {project}
+          </code>
         </p>
         <h1 style={{ fontSize: "1.75rem", fontWeight: 600, lineHeight: 1.2 }}>
           Compounding here as you work.
         </h1>
       </header>
-      <CompanionView token={token} />
+      <CompanionView token={token} project={project} />
     </Shell>
   );
 }

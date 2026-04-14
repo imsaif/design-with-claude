@@ -16,6 +16,7 @@ interface ProfileSummary {
 
 interface Props {
   token: string;
+  project: string;
   isConnected: boolean;
   profile: ProfileSummary | null;
   error: string | null;
@@ -32,6 +33,7 @@ const CARD: React.CSSProperties = {
 
 export function StatusSidebar({
   token,
+  project,
   isConnected,
   profile,
   error,
@@ -56,6 +58,42 @@ export function StatusSidebar({
         alignSelf: "start",
       }}
     >
+      {/* Project */}
+      <section style={CARD}>
+        <div
+          style={{
+            fontSize: "0.68rem",
+            textTransform: "uppercase",
+            letterSpacing: "0.12em",
+            color: "rgba(255,255,255,0.45)",
+            marginBottom: "0.4rem",
+          }}
+        >
+          Project
+        </div>
+        <div
+          style={{
+            fontSize: "0.95rem",
+            color: "#fff",
+            fontWeight: 600,
+            fontFamily: "var(--font-geist-mono), monospace",
+            marginBottom: "0.5rem",
+          }}
+        >
+          {project}
+        </div>
+        <Link
+          href={`/account?token=${token}`}
+          style={{
+            color: "rgba(255,255,255,0.55)",
+            fontSize: "0.78rem",
+            textDecoration: "none",
+          }}
+        >
+          Switch project →
+        </Link>
+      </section>
+
       {/* Connection */}
       <section style={CARD}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.6rem" }}>
@@ -81,7 +119,7 @@ export function StatusSidebar({
         </p>
         {!isConnected ? (
           <Link
-            href={`/install?token=${token}`}
+            href={`/install?token=${token}&project=${project}`}
             style={{
               marginTop: "0.75rem",
               display: "inline-block",
@@ -150,7 +188,7 @@ export function StatusSidebar({
               You&apos;ve hit the free tier. Upgrade to keep building.
             </p>
             <Link
-              href={`/upgrade?token=${token}`}
+              href={`/upgrade?token=${token}&project=${project}`}
               style={{
                 display: "inline-block",
                 background: "#c8f07a",

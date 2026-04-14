@@ -2,9 +2,10 @@ import Link from "next/link";
 import { Shell } from "@/components/companion/Shell";
 import { CopyButton } from "@/components/companion/CopyButton";
 import { isTokenShapeValid } from "@/lib/dwc/tokens";
+import { isValidSlug } from "@/lib/dwc/projects";
 
 interface InstallPageProps {
-  searchParams: Promise<{ token?: string }>;
+  searchParams: Promise<{ token?: string; project?: string }>;
 }
 
 export const metadata = {
@@ -12,11 +13,14 @@ export const metadata = {
 };
 
 export default async function InstallPage({ searchParams }: InstallPageProps) {
-  const { token = "" } = await searchParams;
+  const { token = "", project: rawProject } = await searchParams;
   const valid = isTokenShapeValid(token);
-  const command = valid
-    ? `npx designwithclaude setup --token=${token}`
-    : `npx designwithclaude setup --token=imr_yourTokenHere`;
+  const project = rawProject && isValidSlug(rawProject) ? rawProject : "default";
+
+  const setupCommand = valid
+    ? `npx designwithclaude setup --token=${token} --project=${project}`
+    : `npx designwithclaude setup --token=imr_yourTokenHere --project=<slug>`;
+  const uninstallCommand = `npx designwithclaude uninstall --project=${project}`;
 
   return (
     <Shell step={3} token={valid ? token : undefined}>
@@ -30,14 +34,16 @@ export default async function InstallPage({ searchParams }: InstallPageProps) {
             marginBottom: "0.75rem",
           }}
         >
-          Step 3 of 4
+          Install · project{" "}
+          <code style={{ color: "rgba(255,255,255,0.75)" }}>{project}</code>
         </p>
         <h1 style={{ fontSize: "2.25rem", fontWeight: 600, lineHeight: 1.15, marginBottom: "0.75rem" }}>
-          Install the MCP server
+          Install the MCP server for this project
         </h1>
         <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "1.05rem", maxWidth: 600 }}>
-          One command, about 20 seconds, no prompts. We use your token to register
-          the server with Claude Code and ping us when it&apos;s live.
+          <strong style={{ color: "#fff" }}>Run this inside the project directory</strong> you want
+          Claude Code to use — we&apos;ll write a <code>.mcp.json</code> there so this project&apos;s
+          design system only applies when Claude Code runs from that folder.
         </p>
       </header>
 
@@ -69,19 +75,19 @@ export default async function InstallPage({ searchParams }: InstallPageProps) {
           <code
             style={{
               fontFamily: "var(--font-geist-mono), SF Mono, monospace",
-              fontSize: "1.05rem",
+              fontSize: "1rem",
               color: "#fff",
               whiteSpace: "nowrap",
               overflowX: "auto",
             }}
           >
-            <span style={{ color: "#c8f07a" }}>$</span> {command}
+            <span style={{ color: "#c8f07a" }}>$</span> {setupCommand}
           </code>
-          <CopyButton text={command} label="Copy command" />
+          <CopyButton text={setupCommand} label="Copy" />
         </div>
         <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.85rem", margin: 0 }}>
-          Paste this into any terminal. It works globally — you don&apos;t need to
-          be in a project directory.
+          Default scope writes <code>.mcp.json</code> in the current directory. Open a new Claude
+          Code session from that directory and dwc is in.
         </p>
       </section>
 
@@ -91,13 +97,13 @@ export default async function InstallPage({ searchParams }: InstallPageProps) {
         </h2>
         <ul style={{ listStyle: "none", padding: 0, color: "rgba(255,255,255,0.7)", fontSize: "0.95rem" }}>
           <li style={{ padding: "0.4rem 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            Registers an MCP server named <code>designwithclaude</code> with Claude Code
+            Writes <code>.mcp.json</code> in the current directory with your token + project slug
           </li>
           <li style={{ padding: "0.4rem 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            Saves your token so the server knows which profile to load
+            Registers the server with Claude Code so its tools appear in this project
           </li>
           <li style={{ padding: "0.4rem 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            Takes a backup of <code>~/.claude.json</code> before editing it
+            Other projects stay isolated — each gets its own <code>.mcp.json</code> + design system
           </li>
           <li style={{ padding: "0.4rem 0" }}>
             Works on macOS, Linux, and Windows (via WSL or PowerShell)
@@ -120,13 +126,13 @@ export default async function InstallPage({ searchParams }: InstallPageProps) {
             color: "rgba(255,255,255,0.85)",
           }}
         >
-          npx designwithclaude uninstall
+          {uninstallCommand}
         </div>
       </section>
 
       <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
         <Link
-          href={valid ? `/companion?token=${token}` : "/start"}
+          href={valid ? `/companion?token=${token}&project=${project}` : "/start"}
           style={{
             background: "#c8f07a",
             color: "#0F0F10",
@@ -142,7 +148,7 @@ export default async function InstallPage({ searchParams }: InstallPageProps) {
           I&apos;ve installed — take me to the companion →
         </Link>
         <Link
-          href={valid ? `/profile?token=${token}` : "/start"}
+          href={valid ? `/profile?token=${token}&project=${project}` : "/start"}
           style={{
             color: "rgba(255,255,255,0.55)",
             textDecoration: "none",
