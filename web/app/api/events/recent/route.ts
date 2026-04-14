@@ -15,8 +15,10 @@ export async function GET(request: NextRequest) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 400 });
   }
 
-  const profile = getProfile(token);
-  const events = getRecentEvents(token, limit);
+  const [profile, events] = await Promise.all([
+    getProfile(token),
+    getRecentEvents(token, limit),
+  ]);
 
   return Response.json({
     ok: true,

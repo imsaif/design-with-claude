@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 200 });
   }
 
-  const stored = recordEvent({
+  const stored = await recordEvent({
     token,
     toolName,
     input: body.input ?? {},

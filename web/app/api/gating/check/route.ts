@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const profile = getOrCreateProfile(token!);
+  const profile = await getOrCreateProfile(token!);
 
   if (profile.status === "cancelled") {
     return Response.json({

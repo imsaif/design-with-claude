@@ -19,6 +19,6 @@ export async function POST(request: NextRequest) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 200 });
   }
 
-  const count = incrementCommandCount(token!);
+  const count = await incrementCommandCount(token!);
   return Response.json({ ok: true, commandCount: count });
 }

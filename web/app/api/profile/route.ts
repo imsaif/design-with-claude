@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     tone_preference: answers.tone_preference,
   });
 
-  setOnboarding(token, answers, claudeMd);
+  await setOnboarding(token, answers, claudeMd);
 
   return Response.json({
     ok: true,
@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
   if (!isTokenShapeValid(token)) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 400 });
   }
-  const profile = getProfile(token);
+  const profile = await getProfile(token);
   if (!profile) {
     return Response.json({ ok: false, reason: "not_found" }, { status: 404 });
   }
