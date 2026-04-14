@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Shell } from "@/components/companion/Shell";
 import { AddProjectTile } from "@/components/companion/AddProjectTile";
+import { SampleProjectCard } from "@/components/companion/SampleProjectCard";
 import { getAccountState } from "@/lib/dwc/store";
 import { isTokenShapeValid } from "@/lib/dwc/tokens";
 
@@ -134,6 +135,7 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
             gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
           }}
         >
+          <SampleProjectCard />
           {account.projects.map((p) => (
             <ProjectCard key={p.slug} token={token} project={p} />
           ))}
