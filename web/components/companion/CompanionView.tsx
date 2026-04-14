@@ -37,7 +37,7 @@ interface RecentResponse {
 
 const POLL_MS = 2500;
 
-export function CompanionView({ token }: { token: string }) {
+export function CompanionView({ token, project }: { token: string; project: string }) {
   const [events, setEvents] = useState<StoredEvent[]>([]);
   const [profile, setProfile] = useState<ProfileSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -47,7 +47,8 @@ export function CompanionView({ token }: { token: string }) {
     let active = true;
     async function poll() {
       try {
-        const res = await fetch(`/api/events/recent?token=${token}&limit=100`, {
+        const params = new URLSearchParams({ token, project, limit: "100" });
+        const res = await fetch(`/api/events/recent?${params.toString()}`, {
           cache: "no-store",
         });
         const body = (await res.json()) as RecentResponse;
@@ -70,7 +71,7 @@ export function CompanionView({ token }: { token: string }) {
       active = false;
       window.clearInterval(id);
     };
-  }, [token]);
+  }, [token, project]);
 
   const toolEvents = useMemo(
     () => events.filter((e) => e.toolName !== "__mcp.connected__"),
@@ -94,6 +95,7 @@ export function CompanionView({ token }: { token: string }) {
       </div>
       <StatusSidebar
         token={token}
+        project={project}
         isConnected={isConnected}
         profile={profile}
         error={error}

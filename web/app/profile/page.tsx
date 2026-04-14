@@ -153,7 +153,7 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
 
       <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
         <Link
-          href={`/install?token=${token}`}
+          href={`/install?token=${token}&project=${profile.project ?? "default"}`}
           style={{
             background: "#c8f07a",
             color: "#0F0F10",
@@ -166,15 +166,15 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
           Looks good — install →
         </Link>
         <Link
-          href="/start"
+          href={`/account?token=${token}`}
           style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none", fontSize: "0.9rem" }}
         >
-          ← Change my answers
+          ← My projects
         </Link>
       </div>
 
       <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.78rem", marginTop: "2.5rem" }}>
-        Bookmark this URL to come back — your token is <code>{token}</code>.
+        Bookmark this URL — token <code>{token}</code>, project <code>{profile.project ?? "default"}</code>.
       </p>
     </Shell>
   );
