@@ -53,23 +53,36 @@ export function Shell({ children, step }: ShellProps) {
         </Link>
         {step ? (
           <ol
+            aria-label="Journey progress"
             style={{
               display: "flex",
               gap: "0.75rem",
               listStyle: "none",
               fontSize: "0.8rem",
               color: "rgba(255,255,255,0.45)",
+              alignItems: "center",
             }}
           >
-            {STEPS.map((s) => (
+            {STEPS.map((s, i) => (
               <li
                 key={s.n}
                 style={{
-                  color: s.n === step ? "#c8f07a" : s.n < step ? "#fff" : "rgba(255,255,255,0.45)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  color:
+                    s.n === step
+                      ? "#c8f07a"
+                      : s.n < step
+                        ? "rgba(255,255,255,0.75)"
+                        : "rgba(255,255,255,0.4)",
                   fontWeight: s.n === step ? 600 : 400,
                 }}
               >
-                {s.n}. {s.label}
+                <span>{s.label}</span>
+                {i < STEPS.length - 1 ? (
+                  <span aria-hidden style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+                ) : null}
               </li>
             ))}
           </ol>

@@ -133,6 +133,26 @@ export function StartWizard() {
 
   return (
     <div>
+      <div
+        aria-label={`Question ${step} of 5`}
+        style={{
+          height: 4,
+          background: "rgba(255,255,255,0.08)",
+          borderRadius: 999,
+          overflow: "hidden",
+          marginBottom: "1.5rem",
+        }}
+      >
+        <div
+          style={{
+            height: "100%",
+            width: `${(step / 5) * 100}%`,
+            background: "#c8f07a",
+            borderRadius: 999,
+            transition: "width 280ms ease",
+          }}
+        />
+      </div>
       <header style={{ marginBottom: "2rem" }}>
         <p
           style={{
@@ -143,7 +163,7 @@ export function StartWizard() {
             marginBottom: "0.75rem",
           }}
         >
-          Step {step} of 5
+          Question {step} of 5
         </p>
         <h1 style={{ fontSize: "2rem", fontWeight: 600, lineHeight: 1.2, marginBottom: "0.5rem" }}>
           {step === 1 && "What are you building?"}
