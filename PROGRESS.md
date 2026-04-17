@@ -1,7 +1,7 @@
 # dwc V2 — Build Progress
 
-**Last updated:** April 14, 2026
-**Overall status:** Multi-project alpha shipped. `designwithclaude@2.0.0-alpha.2` is live on npm. Full loop (onboarding → token → per-project CLAUDE.md → install → MCP tool call → live canvas + sticky status sidebar) works end-to-end on production. One designer, many projects, isolated design systems, per-designer free-tier gating across projects. Shareable URL: https://www.designwithclaude.com/start
+**Last updated:** April 17, 2026
+**Overall status:** Multi-project alpha + first Cognition-roadmap P0 batch shipped. `designwithclaude@2.0.0-alpha.3` adds the explicit-ask directive (C3), audit mode + mandated-accent preservation + server-computed WCAG contrast on color-specialist (C2), and the first-call-in-new-project onboarding gate + `set-project-profile` MCP tool (C9 slice 1). Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
 
 **For testing / onboarding new contributors:** see `TESTING.md` at repo root — plain-language walkthrough of the live flow, add-a-project, share-with-friends, and common break-fixes.
 
@@ -158,6 +158,22 @@ Add `visual-hierarchy-specialist`, `landing-page-specialist`, `navigation-design
 - [x] Web UX: `/account` dashboard, `+` tile inline add, sample-card orientation, per-project companion, "Welcome back" banner, step-1 back-out
 - [x] Live smoke test: one designer, two projects, isolated profiles + events on prod
 - [ ] Flip `DWC_ALLOW_IMPLICIT_PROJECT` off once existing alpha.1 installs have been upgraded
+
+## Cognition-roadmap P0 batch (alpha.3) — shipped April 17, 2026
+
+Derived from `FIELD_NOTES_COGNITION.md` + `ROADMAP_FROM_COGNITION.md`. First batch of P0 items from the Cognition dogfood session.
+
+- [x] **C3 — explicit-ask directive.** Every specialist's composed prompt now opens with a directive telling the LLM to extract explicit asks from the brief (questions, imperatives, numeric constraints, named constraints, existing-state refs) and answer them by name before the default output. Centralized in `composeRolePrompt`; applies to all 7 specialists. Qualitatively verified on Cognition before moving on. Test: `npm run test:explicit-asks`.
+- [x] **C2 — audit mode + mandated-accent preservation + server-computed contrast on color-specialist.** New `mode: "generate" | "audit"` input + `existingTokensCss` + `surfaces`. Generate mode: primary-500 is pinned to the exact mandated accent hex (fixes the `#1F3B90 → #2d56d2` silent drift), every token carries server-computed contrast against `#FFFFFF` and `#121212`. Audit mode: parses `--color-*` tokens from the designer's CSS, computes a full contrast matrix, flags failing pairings, detects structural gaps, checks the mandated accent is actually present. No fresh seed in audit mode. Test: `npm run test:audit-mode`.
+- [x] **C9 slice 1 — first-call-in-new-project onboarding gate + `set-project-profile` MCP tool.** Server-side gate in `registerTool` fires when a token is present but the project has no onboarding; returns a structured onboarding response telling the LLM to ask the designer 6 questions and call `set-project-profile`. Gate runs BEFORE gating check so onboarding doesn't burn free-tier slots. `hello-world` and `set-project-profile` are exempt. Kill-switch: `DWC_ONBOARDING_GATE=off`. Profile persistence + in-process cache update via `setDesignerProfile`. Slice 2 (prompt injection of profile into every tool call) already lands for free via `renderDesignerContext()`. Test: `npm run test:onboarding-gate`.
+- [x] `designwithclaude@2.0.0-alpha.3` published to npm under `latest`
+
+### Next in the Cognition roadmap
+- **C9 slice 2** — verify prompt-injection actually lights up post-onboarding in real sessions (mechanically free, needs qualitative check)
+- **C9 slice 3** — auto-detect `package.json` / `tailwind.config.*` / `themes.css` to pre-fill answers, deferred
+- **C2 cont.** — roll audit mode to typography-specialist, spacing-specialist, design-system-architect
+- **C1** — `design-next-step` tool (library → partner)
+- **C10** — memory across calls (event history fed back into tool prompts)
 
 ## Launch gates
 

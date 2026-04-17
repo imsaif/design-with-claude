@@ -5,7 +5,7 @@ import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const VERSION = "2.0.0-alpha.2";
+const VERSION = "2.0.0-alpha.3";
 const DEFAULT_API = "https://designwithclaude.com";
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,31}$/;
 

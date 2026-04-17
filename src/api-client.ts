@@ -63,6 +63,29 @@ export class ApiClient {
     }
   }
 
+  async submitProjectProfile(args: {
+    token: string;
+    project: string;
+    product_type: string;
+    product_description: string;
+    tech_stack: string[];
+    design_system: string;
+    experience_level: "beginner" | "intermediate" | "advanced";
+    tone_preference: "concise" | "explanatory" | "encouraging";
+  }): Promise<{ ok: true; claudeMd?: string } | { ok: false; reason: string }> {
+    try {
+      const res = await this.post<{ ok?: boolean; reason?: string; claudeMd?: string }>(
+        "/api/profile",
+        args,
+      );
+      if (res.ok) return { ok: true, claudeMd: res.claudeMd };
+      return { ok: false, reason: res.reason ?? "unknown" };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      return { ok: false, reason: message };
+    }
+  }
+
   async getProfile(token: string, project: string | undefined): Promise<DesignerProfile | null> {
     try {
       const params = new URLSearchParams({ token });

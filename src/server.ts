@@ -9,10 +9,51 @@ import { checkGate, consumeGate } from "./gating.js";
 import { emitToolEvent } from "./events.js";
 import { tools } from "./tools/index.js";
 import type { ToolDefinition } from "./tools/types.js";
-import { setDesignerProfile } from "./designer.js";
+import { getDesignerProfile, setDesignerProfile } from "./designer.js";
+import { createSetProjectProfileTool } from "./tools/set-project-profile.js";
 
 const PACKAGE_NAME = "designwithclaude";
-const PACKAGE_VERSION = "2.0.0-alpha.2";
+const PACKAGE_VERSION = "2.0.0-alpha.3";
+
+// Tools that must work even when the project has no profile yet. hello-world
+// is a ping; set-project-profile is how the gate is unblocked.
+const ONBOARDING_GATE_EXEMPT = new Set(["hello-world", "set-project-profile"]);
+
+function onboardingGateEnabled(config: ReturnType<typeof loadConfig>): boolean {
+  if (!config.token) return false; // no token = local dev, no gate
+  if (process.env.DWC_ONBOARDING_GATE?.trim() === "off") return false;
+  return true;
+}
+
+function renderOnboardingResponse(toolName: string, projectId: string | undefined): string {
+  const projectLabel = projectId ?? "(project unset)";
+  return [
+    `# Onboarding required — no profile yet for \`${projectLabel}\``,
+    "",
+    `The designer just called \`${toolName}\` in a project dwc has never seen before. Running any specialist right now would make the designer re-brief the project from scratch — exactly the friction the onboarding flow is here to fix.`,
+    "",
+    "## Do this before retrying",
+    "",
+    "1. Ask the designer these 6 questions, one at a time (don't batch — lets them answer naturally). Skip any they've already told you in this conversation and fill them in yourself.",
+    "",
+    "   - **Product type** — one line, what is this? (e.g. 'Conversational AI chat', 'Internal admin dashboard')",
+    "   - **Product description** — one short paragraph: who uses it + what's the primary job? Include audience, constraints, anything unusual about the context.",
+    "   - **Tech stack** — what are they building it in? (e.g. Next.js 15, Tailwind v4, TypeScript). Versions if known.",
+    "   - **Design system / brand** — any mandated palette, type, tone? Existing tokens? Paste or paraphrase. If a brand manual exists, summarize it.",
+    "   - **Experience level** — pick one: `beginner` · `intermediate` · `advanced`. Default to `intermediate` if they don't say.",
+    "   - **Tone preference** — pick one: `concise` · `explanatory` · `encouraging`. Default to `concise` if they don't say.",
+    "",
+    "2. Call the `set-project-profile` MCP tool with the structured answers. Map free-form answers into the enum fields cleanly — don't invent enum values.",
+    "",
+    `3. Once \`set-project-profile\` returns success, retry \`${toolName}\` with the original brief. The tool will now have the designer's context and produce work tailored to this project, not a generic seed.`,
+    "",
+    "## Do NOT",
+    "",
+    "- Do NOT guess answers. If you don't know, ask.",
+    "- Do NOT proceed by calling the tool again with a longer brief — the gate will still fire. The persistence path is `set-project-profile`.",
+    "- Do NOT invent the 6 fields from thin air to unblock yourself. The point is that the designer's words land in the profile, verbatim, so future calls inherit the real context.",
+  ].join("\n");
+}
 
 function registerTool(server: McpServer, tool: ToolDefinition, ctx: {
   api: ApiClient;
@@ -28,6 +69,23 @@ function registerTool(server: McpServer, tool: ToolDefinition, ctx: {
     async (rawInput: Record<string, unknown>) => {
       const toolName = tool.name;
       const input = rawInput ?? {};
+
+      // Onboarding gate runs BEFORE gatingCheck so onboarding prompts don't
+      // burn free-tier slots and so designers without a profile can't exhaust
+      // their quota on a series of undirected tool calls.
+      if (onboardingGateEnabled(ctx.config) && !ONBOARDING_GATE_EXEMPT.has(toolName)) {
+        const profile = getDesignerProfile();
+        if (!profile || !profile.onboarding) {
+          return {
+            content: [
+              {
+                type: "text" as const,
+                text: renderOnboardingResponse(toolName, ctx.config.projectId),
+              },
+            ],
+          };
+        }
+      }
 
       const gate = await checkGate(ctx.api, ctx.config, toolName);
       if (!gate.allowed) {
@@ -82,6 +140,10 @@ async function main(): Promise<void> {
   for (const tool of tools) {
     registerTool(server, tool, { api, config });
   }
+  // set-project-profile needs runtime access to api + config to persist answers
+  // and update the in-process profile cache, so it's registered separately from
+  // the static tools[] registry.
+  registerTool(server, createSetProjectProfileTool({ api, config }), { api, config });
 
   // Load the designer's profile so every tool response can include their
   // onboarding answers + CLAUDE.md. Without this, Claude Code has no context
