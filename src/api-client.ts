@@ -38,6 +38,16 @@ export interface DesignerProfile {
   claudeMd?: string;
 }
 
+export interface RecentEvent {
+  id: string;
+  toolName: string;
+  input: unknown;
+  output: unknown;
+  timestamp: string;
+  receivedAt: string;
+  project?: string;
+}
+
 export class ApiClient {
   constructor(private readonly config: DwcConfig) {}
 
@@ -105,6 +115,53 @@ export class ApiClient {
         error: err instanceof Error ? err.message : String(err),
       });
       return null;
+    }
+  }
+
+  async fetchRecentEvents(
+    token: string,
+    project: string | undefined,
+    limit = 10,
+  ): Promise<RecentEvent[]> {
+    try {
+      const params = new URLSearchParams({ token, limit: String(limit) });
+      if (project) params.set("project", project);
+      const url = `${this.config.apiUrl}/api/events/recent?${params.toString()}`;
+      const res = await fetch(url, {
+        method: "GET",
+        headers: { "User-Agent": "designwithclaude-mcp/2.0" },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (!res.ok) return [];
+      const body = (await res.json()) as {
+        ok?: boolean;
+        events?: Array<{
+          id: string;
+          toolName?: string;
+          tool_name?: string;
+          input?: unknown;
+          output?: unknown;
+          timestamp?: string;
+          receivedAt?: string;
+          received_at?: string;
+          project?: string;
+        }>;
+      };
+      if (!body.ok || !Array.isArray(body.events)) return [];
+      return body.events.map((e) => ({
+        id: e.id,
+        toolName: (e.toolName ?? e.tool_name ?? "") as string,
+        input: e.input,
+        output: e.output,
+        timestamp: (e.timestamp ?? "") as string,
+        receivedAt: (e.receivedAt ?? e.received_at ?? "") as string,
+        project: e.project,
+      }));
+    } catch (err) {
+      log.debug("recent events fetch failed (non-fatal)", {
+        error: err instanceof Error ? err.message : String(err),
+      });
+      return [];
     }
   }
 
