@@ -1,7 +1,7 @@
 # dwc V2 — Build Progress
 
-**Last updated:** April 17, 2026
-**Overall status:** Multi-project alpha + first Cognition-roadmap P0 batch shipped. `designwithclaude@2.0.0-alpha.3` adds the explicit-ask directive (C3), audit mode + mandated-accent preservation + server-computed WCAG contrast on color-specialist (C2), and the first-call-in-new-project onboarding gate + `set-project-profile` MCP tool (C9 slice 1). Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
+**Last updated:** April 20, 2026
+**Overall status:** Cognition-roadmap alpha.4 in working tree (unpublished). `designwithclaude@2.0.0-alpha.4` rolls audit mode to typography / spacing / design-system-architect (C2 cont.) and ships C10 slice 1 — event-history memory injected into every specialist's prompt via `renderDesignerContext()`. V1 hero copy repositioned to lead with design-engineering rigor after Anthropic's Claude Design launch (April 20, 2026). Previous: `alpha.3` (April 17) added explicit-ask directive (C3), color-specialist audit mode (C2), and onboarding gate + set-project-profile (C9 slice 1). Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
 
 **For testing / onboarding new contributors:** see `TESTING.md` at repo root — plain-language walkthrough of the live flow, add-a-project, share-with-friends, and common break-fixes.
 
@@ -158,6 +158,24 @@ Add `visual-hierarchy-specialist`, `landing-page-specialist`, `navigation-design
 - [x] Web UX: `/account` dashboard, `+` tile inline add, sample-card orientation, per-project companion, "Welcome back" banner, step-1 back-out
 - [x] Live smoke test: one designer, two projects, isolated profiles + events on prod
 - [ ] Flip `DWC_ALLOW_IMPLICIT_PROJECT` off once existing alpha.1 installs have been upgraded
+
+## Cognition-roadmap alpha.4 — in working tree (April 20, 2026)
+
+Response to Anthropic's Claude Design launch (`claude.ai/design`, April 20, 2026). Strategic read: Claude Design commoditizes ideation-on-canvas; dwc hardens as the design-engineering rigor layer for code-first designers — audit, drift detection, persistent project memory.
+
+- [x] **C2 cont. — audit mode on typography-specialist.** New `mode: "generate" | "audit"` + `existingTypeScale` + `mandatedFontFamily`. Parses `--font-size-*` / `--line-height-*` / `--font-weight-*` / `--font-family-*` (with naming variants like `--text-*`, `--lh-*`, `--fw-*`). Flags sub-12px clamp minimums, body line-height outside 1.4–1.8, heading line-height > 1.3, non-standard weights, missing roles (h1/h2/body/body-sm/caption), and mandated-font drift. Test: `npm run test:audit-typography`.
+- [x] **C2 cont. — audit mode on spacing-specialist.** New `mode` + `existingSpacingTokens`. Parses `--space-*` / `--spacing-*` / `--gap-*`, converts rem/em/px to px. Infers base unit via GCD, flags off-grid values, 3×+ step-jumps, missing common steps (xs/sm/md/lg/xl). Test: `npm run test:audit-spacing`.
+- [x] **C2 cont. — audit mode on design-system-architect.** New `mode` + `existingSystem`. Parses ALL `--*` custom properties, splits primitive vs semantic, detects theming strategy (dark-scope selectors + overridden-token count), flags naming inconsistencies (e.g. `--space-*` and `--spacing-*` side-by-side), flags broken `var()` references where a semantic token points at a missing primitive. Test: `npm run test:audit-dsa`.
+- [x] **C10 slice 1 — event-history memory injection.** `api.fetchRecentEvents` hits existing `GET /api/events/recent`; server refreshes with 10s TTL cache in the tool-handler pre-flight; `renderDesignerContext()` appends a "Recent design decisions" block (most-recent first, capped at 5) so every specialist prompt sees what the designer already ran in this project. Kill-switch `DWC_MEMORY_CONTEXT=off`. Exempt: `hello-world`, `set-project-profile`. Test: `npm run test:memory-context`.
+- [x] **V1 hero repositioning.** `web/components/skills/Hero.tsx` now leads with "Design-engineering rigor inside Claude Code" + "Audit, preserve, and persist your design system while Claude Code ships" + canvas-neutral subtitle. Keeps the stat pills unchanged.
+- [ ] `designwithclaude@2.0.0-alpha.4` publish to npm (pending user sign-off after live smoke)
+
+### Next in the Cognition roadmap
+
+- **C9 slice 2** — verify prompt-injection lights up post-onboarding in real sessions (mechanically free, needs qualitative check)
+- **C9 slice 3** — auto-detect `package.json` / `tailwind.config.*` / `themes.css` to pre-fill answers, deferred
+- **C1** — `design-next-step` tool (library → partner), deferred after Claude Design launch reprioritization
+- **C10 slice 2** — richer event-summary shapes (not just tool name + count), once alpha.4 settles
 
 ## Cognition-roadmap P0 batch (alpha.3) — shipped April 17, 2026
 

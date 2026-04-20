@@ -9,15 +9,49 @@ import { checkGate, consumeGate } from "./gating.js";
 import { emitToolEvent } from "./events.js";
 import { tools } from "./tools/index.js";
 import type { ToolDefinition } from "./tools/types.js";
-import { getDesignerProfile, setDesignerProfile } from "./designer.js";
+import {
+  getDesignerProfile,
+  setDesignerProfile,
+  setRecentEventsSummary,
+  summarizeEvent,
+} from "./designer.js";
 import { createSetProjectProfileTool } from "./tools/set-project-profile.js";
 
 const PACKAGE_NAME = "designwithclaude";
-const PACKAGE_VERSION = "2.0.0-alpha.3";
+const PACKAGE_VERSION = "2.0.0-alpha.4";
 
 // Tools that must work even when the project has no profile yet. hello-world
 // is a ping; set-project-profile is how the gate is unblocked.
 const ONBOARDING_GATE_EXEMPT = new Set(["hello-world", "set-project-profile"]);
+
+// C10 slice 1 — memory context TTL. Refreshing on every tool call would add a
+// network hop per invocation; 10s is long enough to amortize a burst and short
+// enough that the next specialist sees the one you just ran.
+const MEMORY_TTL_MS = 10_000;
+let memoryLastFetchedAt = 0;
+
+function memoryContextEnabled(config: ReturnType<typeof loadConfig>): boolean {
+  if (!config.token) return false;
+  if (process.env.DWC_MEMORY_CONTEXT?.trim() === "off") return false;
+  return true;
+}
+
+async function refreshMemoryContext(
+  api: ApiClient,
+  config: ReturnType<typeof loadConfig>,
+): Promise<void> {
+  if (!config.token) return;
+  const events = await api.fetchRecentEvents(
+    config.token,
+    config.projectId ?? "default",
+    10,
+  );
+  const summaries = events
+    .filter((e) => e.toolName && !e.toolName.startsWith("__"))
+    .map(summarizeEvent);
+  setRecentEventsSummary(summaries);
+  memoryLastFetchedAt = Date.now();
+}
 
 function onboardingGateEnabled(config: ReturnType<typeof loadConfig>): boolean {
   if (!config.token) return false; // no token = local dev, no gate
@@ -93,6 +127,19 @@ function registerTool(server: McpServer, tool: ToolDefinition, ctx: {
           content: [{ type: "text" as const, text: gate.text ?? "Not allowed." }],
           isError: true,
         };
+      }
+
+      // Refresh memory context before handler runs so composeRolePrompt's
+      // renderDesignerContext() picks up the latest events. TTL-gated to
+      // avoid one extra hop per rapid-fire call.
+      if (
+        memoryContextEnabled(ctx.config) &&
+        !ONBOARDING_GATE_EXEMPT.has(toolName) &&
+        Date.now() - memoryLastFetchedAt > MEMORY_TTL_MS
+      ) {
+        await refreshMemoryContext(ctx.api, ctx.config).catch((err) =>
+          log.debug("memory refresh failed", { err: String(err) }),
+        );
       }
 
       try {
