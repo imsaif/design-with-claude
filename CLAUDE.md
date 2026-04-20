@@ -63,6 +63,13 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 
 ## Recent Sessions
 
+### Session 2026-04-17 22:10 (MacBook)
+- **Pattern:** Cognition-roadmap P0 batch — C3 explicit-ask directive + C2 audit mode + C9 onboarding gate, shipped as alpha.3
+- **Status:** Complete — `designwithclaude@2.0.0-alpha.3` published to npm under `latest`; commit `abcc1e6` pushed to main
+- **Files Changed:** 14 (+1871 / -28) — 8 modified (package.json, src/api-client.ts, src/bin/setup.ts, src/server.ts, src/tools/{color,color-specialist,loadPrompt}.ts, PROGRESS.md), 6 new (FIELD_NOTES_COGNITION.md, ROADMAP_FROM_COGNITION.md, src/tools/set-project-profile.ts, scripts/test-{explicit-asks,audit-mode,onboarding-gate}.mjs)
+- **Tests Added/Modified:** 3 new fixture-based test scripts totaling 38 assertions: `test:explicit-asks` (9), `test:audit-mode` (19), `test:onboarding-gate` (10). All prior tests (`test:mcp`) still green.
+- **Notes:** Drove the first four items of `ROADMAP_FROM_COGNITION.md` in a single batch. **C3:** every specialist prompt now opens with an explicit-ask directive (centralized in `composeRolePrompt`); Cognition qualitative replay confirmed Claude leads with "Explicit asks from the brief", computes contrast ratios by name, answers before the default output. **C2:** `color-specialist` gained `mode: "generate" | "audit"` + `existingTokensCss` + `surfaces`; generate mode pins primary-500 to the exact mandated accent hex (fixes the silent `#1F3B90 → #2d56d2` drift from field notes), ships server-computed WCAG contrast on every token against `#FFFFFF` and `#121212`; audit mode parses `--color-*` declarations from CSS, computes a contrast matrix, flags failing pairings, detects structural gaps, confirms mandated-accent presence — no fresh seed emitted in audit mode. **C9 slice 1:** onboarding gate in `src/server.ts` fires when a token is present but the project has no onboarding answers; returns a structured response with 6 questions; new `set-project-profile` factory-pattern MCP tool persists answers via `POST /api/profile` and updates the in-process cache via `setDesignerProfile` so the same session releases the gate without restart. Gate runs BEFORE `gatingCheck` so onboarding doesn't burn free-tier slots. Exempts `hello-world` + `set-project-profile`. Kill-switch `DWC_ONBOARDING_GATE=off`; auto-disabled when no token. Slice 2 (prompt injection) lands for free via existing `renderDesignerContext()`. **Publish dance:** npm login via passkey worked, but CLI publish still demanded OTP; granular token failed under account's current 2FA mode; Classic Automation token succeeded (matches April 14 notes exactly). Decision to batch C3+C2+C9 into one alpha was driven by the "no users" framing — saved to memory as `feedback_dwc_batch_ships_no_users.md`.
+
 ### Session 2026-04-14 18:00 (MacBook)
 - **Pattern:** Multi-project alpha.2 — schema + API + MCP + CLI + Web UX + ship
 - **Status:** Complete — `designwithclaude@2.0.0-alpha.2` published; prod smoke test confirms two projects under one token with isolated profiles and events
@@ -134,43 +141,3 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 - **Notes:** Added custom DWC icon (Claude hand + paint palette SVG) as favicon with prefers-color-scheme support and inline nav component. Added 8 new design skills: notification-designer, empty-loading-states-specialist, settings-designer, icon-illustration-specialist, i18n-designer, auth-security-ux-specialist, drag-drop-specialist, print-export-designer (29→37 specialists). Replaced unicode skill card icons with Heroicons (individual imports to avoid webpack issues). Fixed outdated website: install command (npx skills→curl), missing design-brief listing, stale SkillsMP copy, SKILL.md references. Updated README with new skill counts and tables.
 
 ### Session 2026-03-27 21:21 (MacBook)
-- **Pattern:** Skills directory page
-- **Status:** Complete
-- **Files Changed:** 15
-- **Tests Added/Modified:** 0
-- **Notes:** Built browsable skills directory as the new homepage. 29 skill cards with category filtering (7 categories), expand/collapse install commands with click-to-copy, ecosystem cross-links to aiuxdesign.guide and gist.design. Replaced old terminal-themed landing page. DM Serif/Sans/Mono fonts, lime accent (#c8f07a) design system. Removed legacy components (GettingStarted, Header, StatsBanner). Added @/ path alias to tsconfig.
-
-### Session 2026-03-09 17:45 (MacBook)
-- **Pattern:** SEO and discoverability
-- **Status:** Complete
-- **Files Changed:** 4
-- **Tests Added/Modified:** 0
-- **Notes:** Added OG/Twitter meta tags, canonical URL, keywords, and JSON-LD structured data to layout.tsx. Created dynamic sitemap.ts and robots.ts. Fixed manifest.json agent count (28→29). Still needs OG image (1200x630px) at public/og-image.png.
-
-### Session 2026-03-09 17:09 (MacBook)
-- **Pattern:** Repo cleanup and marketplace submission
-- **Status:** Complete
-- **Files Changed:** 100
-- **Tests Added/Modified:** 0
-- **Notes:** Removed all old CLI/MCP-era artifacts (bin/, src/, docs/, agents/, tests, package.json — 27,639 lines deleted). Added MIT LICENSE file. Updated GitHub repo description and homepage. Investigated marketplace submission: PRs to anthropics/claude-plugins-official are auto-closed — must use official form at claude.ai/settings/plugins/submit or platform.claude.com/plugins/submit.
-
-### Session 2026-03-05 16:19 (MacBook)
-- **Pattern:** Landing page update
-- **Status:** Complete
-- **Files Changed:** 2
-- **Tests Added/Modified:** 0
-- **Notes:** Rewrote landing page to reflect CLI→Claude Code plugin pivot. Updated metadata, HomeView (slash command examples), InstallView (3 install methods: plugin/standalone/project-local), and HowItWorksView (what you get, /design-brief example output, all 29 specialists grouped). Removed obsolete Phase 1-4 roadmap.
-
-### Session 2026-03-04 20:06 (MacBook)
-- **Pattern:** Plugin packaging and README polish
-- **Status:** Complete
-- **Files Changed:** 34
-- **Tests Added/Modified:** 19
-- **Notes:** Added `.claude-plugin/plugin.json` and `marketplace.json` for Claude Code plugin distribution. Moved commands from `.claude/commands/` to `commands/` at repo root (plugin convention). Fixed invalid `claude config add commandDirs` install command — replaced with `cp -r` to `~/.claude/commands/`. Fixed 29 vs 30 count inconsistency. Added designwithclaude.com link and example output to README. Updated GitHub repo topics from old CLI-era tags to `claude-code`, `claude-code-plugin`, `design-agents`, etc.
-
-### Session 2026-03-04 19:42 (MacBook)
-- **Pattern:** Claude Code plugin pivot
-- **Status:** Complete
-- **Files Changed:** 118
-- **Tests Added/Modified:** 57
-- **Notes:** Pivoted from MCP server/CLI architecture to Claude Code custom slash commands. Converted all 29 design agents from old format to `.claude/commands/` markdown files with YAML frontmatter. Adopted pure role-based naming convention. Created `/design-brief` master command. Rewrote README and CLAUDE.md to reflect the new markdown-only, no-runtime approach.
