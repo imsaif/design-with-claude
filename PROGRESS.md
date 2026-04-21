@@ -1,7 +1,7 @@
-# dwc V2 — Build Progress
+# dwic V2 — Build Progress
 
-**Last updated:** April 21, 2026
-**Overall status:** `designwithclaude@2.0.0-alpha.5` — audit rollout batch 2. Three new V2 MCP specialists with first-class audit mode: `accessibility-specialist` (HTML/JSX parse + color-pair contrast), `form-designer` (required markers, error wiring, fieldset grouping, submit discrimination), `navigation-specialist` (landmark labels, aria-current, skip link, depth, mobile disclosure). Total auditing tools now 7 (color, typography, spacing, DSA + a11y, form, nav) out of 11 registered. Hero positioning ("design auditor, inside Claude Code") is substantively true. Previous: `alpha.4` (April 20) rolled audit mode to typography / spacing / DSA (C2 cont.) and shipped C10 slice 1 event-history memory injection. Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
+**Last updated:** April 21, 2026 (afternoon)
+**Overall status:** Product renamed to **dwic** (d + wi + c = design with claude). Published as `@imrandwc/dwic@1.0.0-alpha.1` on npm; old `designwithclaude@2.0.0-alpha.{1..5}` deprecated with pointer messages. Domain stays `designwithclaude.com` (serves as long-form brand explainer, IBM pattern). All V2 internal identifiers migrated (env vars DWC_* → DWIC_*, CSS `.dwc-*` → `.dwic-*`, `DwcIcon` → `DwicIcon`, `web/lib/dwc/` → `web/lib/dwic/`, logger prefix, binary name). Earlier same day: audit-rollout batch 2 shipped accessibility-specialist + form-designer + navigation-specialist as `designwithclaude@2.0.0-alpha.5` — 7 of 11 V2 tools now audit server-side. Hero positioning is "dwic — the design auditor, inside Claude Code"; interactive AuditDemo on `/` runs the real audit helpers client-side (web/lib/audit/{color,accessibility,form}.ts) with staged reveal + rendered production-view cards + numbered pins. Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
 
 **For testing / onboarding new contributors:** see `TESTING.md` at repo root — plain-language walkthrough of the live flow, add-a-project, share-with-friends, and common break-fixes.
 
@@ -159,9 +159,36 @@ Add `visual-hierarchy-specialist`, `landing-page-specialist`, `navigation-design
 - [x] Live smoke test: one designer, two projects, isolated profiles + events on prod
 - [ ] Flip `DWC_ALLOW_IMPLICIT_PROJECT` off once existing alpha.1 installs have been upgraded
 
-## Audit-rollout batch 2 (alpha.5) — April 21, 2026
+## Rename to dwic — April 21, 2026 (afternoon)
 
-Direct response to the "is dwc actually auditing?" honesty check. alpha.4 made the hero claim "design auditor, inside Claude Code", but only 4 of 9 V2 tools had real audit logic. alpha.5 adds 3 more, taking the count to 7 of 11 — the hero becomes substantively true.
+Product rename from "dwc" to **dwic** (d + wi + c = design with claude, pronounced "dwick"). The construction preserves the *wi* from "with", carrying the partnership frame (Claude as partner, not agent). Triggered by user framing: "we don't have any users, so switching cost is zero — do the full rename."
+
+Strategy: **Option 1 from the naming plan** — keep the domain `designwithclaude.com` as the long-form brand explainer (IBM pattern), rename everything else. This avoids domain migration / SEO hit while giving the product a distinctive spoken/written brand name. Every time someone shares the URL, they learn "dwic = design with claude".
+
+- [x] **Layer 1 — npm + config + server.** Package name `designwithclaude` → `@imrandwc/dwic` (unscoped `dwic` was rejected by npm: "too similar to swig/twig"). Version reset: `2.0.0-alpha.5` → `1.0.0-alpha.1` (fresh name, fresh story). Binaries `designwithclaude` / `dwc-mcp-server` → `dwic` / `dwic-mcp-server`. Env vars DWC_* → DWIC_* (token, project_id, api_url, events, gating, commands_dir, debug, onboarding_gate, memory_context, supabase_url, supabase_service_role_key, allow_implicit_project). Type `DwcConfig` → `DwicConfig`. Logger prefix `[dwc ...]` → `[dwic ...]`. User-Agent `designwithclaude-mcp/2.0` → `dwic-mcp/1.0`. MCP entry key `designwithclaude` → `dwic` (or `dwic-<slug>` for user scope).
+- [x] **Layer 2 — CSS classes.** ~150 `.dwc-*` prefixes → `.dwic-*` across `web/app/skills.css` + every component referencing those classNames (AuditDemo, InstallV2, SpecialistsList, Shell, MarkdownRenderer, AddProjectTile, CompanionView).
+- [x] **Layer 3 — file + directory renames.** `web/components/DwcIcon.tsx` → `DwicIcon.tsx`; `web/lib/dwc/` → `web/lib/dwic/` (5 files: supabase, store, types, tokens, projects); `web/public/dwc-icon.svg` → `dwic-icon.svg`. All ~25 import paths updated. `X-Dwc-Project-Auto-Created` header → `X-Dwic-...`. Internal Symbol.for keys `"dwc.alpha.*"` → `"dwic.alpha.*"`. localStorage `"dwc.lastToken"` → `"dwic.lastToken"`.
+- [x] **Layer 4 — user-facing copy + metadata.** Hero subtitle, AuditDemo eyebrow, InstallV2 (2 places + install command), account page, install page copy + setupCommand + uninstallCommand, layout.tsx metadata (title/description/OG alt/keywords), manifest.json (name/short_name/description), `/library` cross-link wording + metadata, README top-matter rewritten to introduce dwic + the free library as sibling products.
+- [x] **Tests updated.** scripts/test-onboarding-gate.mjs, test-setup-dry-run.mjs, test-memory-context.mjs, test-e2e-roundtrip.mjs, test-phase2-flow.mjs, test-mcp-handshake.mjs, live-smoke.mjs, seed-local-tiles.mjs — DWC_* → DWIC_*. All 11 MCP test suites green + setup-dry-run + web production build clean.
+- [x] **Published** `@imrandwc/dwic@1.0.0-alpha.1` on npm under `latest` tag. Deprecated `designwithclaude@{2.0.0-alpha.1, ..., 2.0.0-alpha.5}` with pointer message: *"Renamed to @imrandwc/dwic. Run: npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>"*. First-time scope publish has a typical 5-15 min read-side propagation delay.
+- [ ] Verify `npx @imrandwc/dwic@latest help` works from a clean tmp dir once propagation completes.
+- [ ] Revoke the npm automation token used for this publish (previous pattern: rotate after each publish).
+
+### What explicitly did NOT rename
+- Domain `designwithclaude.com` — stays; serves as long-form brand explainer every time a URL is shared.
+- GitHub repo `imsaif/design-with-claude` — developer-facing, low brand value, not worth the churn.
+- Token prefix `imr_*` — unrelated to brand.
+- `commands/*.md` — V1 library role prompts, not rebranded.
+
+### Commits
+- `60d1e48` — core rename (60 files)
+- `e9f249f` — scope name fix after `dwic` was rejected (9 files)
+
+Both pushed to `origin/main`. Vercel redeploying web with dwic branding.
+
+## Audit-rollout batch 2 (alpha.5) — April 21, 2026 (morning)
+
+Direct response to the "is dwic actually auditing?" honesty check. alpha.4 made the hero claim "design auditor, inside Claude Code", but only 4 of 9 V2 tools had real audit logic. alpha.5 adds 3 more, taking the count to 7 of 11 — the hero becomes substantively true.
 
 - [x] **accessibility-specialist (new).** V2 MCP tool that parses HTML/JSX for: missing alt attributes, unlabeled form inputs (via `<label for>`, wrapping `<label>`, aria-label, aria-labelledby), skipped heading levels + multiple h1s, anchor-used-as-button (href=`#`, javascript:), buttons without accessible names, missing landmarks (`<main>`, `<nav>`), missing skip links. Optional server-computed color-pair contrast (reuses `color.ts` math). Generate mode returns a targeted a11y checklist. Test: `npm run test:audit-accessibility` (23 assertions).
 - [x] **form-designer (new).** V2 MCP tool that parses form markup for: inputs outside `<form>`, implicit input types (`text` default), `*`-in-label without `required` attribute, password inputs without reveal toggle (heuristic), orphaned error/hint elements not wired via `aria-describedby`, radio/checkbox groups not wrapped in `<fieldset><legend>`, multiple submits without `name` for server disambiguation. Test: `npm run test:audit-form-designer` (17 assertions).
