@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Shell } from "@/components/companion/Shell";
 import { AddProjectTile } from "@/components/companion/AddProjectTile";
 import { SampleProjectCard } from "@/components/companion/SampleProjectCard";
-import { getAccountState } from "@/lib/dwc/store";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
+import { getAccountState } from "@/lib/dwic/store";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
 
 interface AccountPageProps {
   searchParams: Promise<{ token?: string }>;
@@ -75,7 +75,7 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
           Your projects
         </h1>
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.95rem" }}>
-          Each project has its own design system. Install dwc per-project so Claude Code uses the
+          Each project has its own design system. Install dwic per-project so Claude Code uses the
           right one.
         </p>
       </header>

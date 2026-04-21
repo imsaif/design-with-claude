@@ -5,13 +5,13 @@ let warned = false;
 
 export function getSupabase(): SupabaseClient | null {
   if (client) return client;
-  const url = process.env.DWC_SUPABASE_URL?.trim();
-  const key = process.env.DWC_SUPABASE_SERVICE_ROLE_KEY?.trim();
+  const url = process.env.DWIC_SUPABASE_URL?.trim();
+  const key = process.env.DWIC_SUPABASE_SERVICE_ROLE_KEY?.trim();
   if (!url || !key) {
     if (!warned) {
       console.warn(
-        "[dwc] Supabase env not configured — falling back to in-memory store. " +
-          "Set DWC_SUPABASE_URL and DWC_SUPABASE_SERVICE_ROLE_KEY for persistence.",
+        "[dwic] Supabase env not configured — falling back to in-memory store. " +
+          "Set DWIC_SUPABASE_URL and DWIC_SUPABASE_SERVICE_ROLE_KEY for persistence.",
       );
       warned = true;
     }
@@ -26,6 +26,6 @@ export function getSupabase(): SupabaseClient | null {
 
 export function supabaseConfigured(): boolean {
   return Boolean(
-    process.env.DWC_SUPABASE_URL?.trim() && process.env.DWC_SUPABASE_SERVICE_ROLE_KEY?.trim(),
+    process.env.DWIC_SUPABASE_URL?.trim() && process.env.DWIC_SUPABASE_SERVICE_ROLE_KEY?.trim(),
   );
 }

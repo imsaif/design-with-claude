@@ -12,7 +12,7 @@ const serverPath = resolve(__dirname, "..", "dist", "server.js");
 const transport = new StdioClientTransport({
   command: process.execPath,
   args: [serverPath],
-  env: { ...process.env, DWC_DEBUG: "1" },
+  env: { ...process.env, DWIC_DEBUG: "1" },
 });
 
 const client = new Client(

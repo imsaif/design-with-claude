@@ -1,12 +1,15 @@
-# Design with Claude
+# dwic — design with claude
 
-37 design specialists + 7 technical guides + 1 master command — 45 experts as Claude Code commands. Design expertise and hands-on technical help for designers who build.
+**[designwithclaude.com](https://designwithclaude.com)** — two products, one design brain for Claude Code:
 
-No runtime. No dependencies. No API keys. Just markdown files that give Claude deep design knowledge.
+1. **dwic** (this npm package) — the **design auditor**. MCP server that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then prescribes the fix and remembers it across every session. Install: `npx dwic setup --token=imr_xxx --project=<slug>`. Get a token at [designwithclaude.com/start](https://designwithclaude.com/start).
+2. **The free library** (this repo) — 45 markdown-based design skills as Claude Code slash commands. Accessibility, design systems, motion, typography, copy, dashboards. No runtime, no dependencies, no API keys. Lives at [designwithclaude.com/library](https://designwithclaude.com/library).
 
-[designwithclaude.com](https://designwithclaude.com)
+This README documents the **free library**. For `dwic` usage docs, start at [designwithclaude.com/start](https://designwithclaude.com/start).
 
-## What This Is
+---
+
+## What the free library is
 
 A collection of 44 agent files — 37 design specialists and 7 technical guides for designers. Install them as a Claude Code plugin, and you get expert-level design guidance plus hands-on help with setup, debugging, and deployment directly in your coding workflow.
 

@@ -1,4 +1,4 @@
-import type { ToolOutputPayload } from "@/lib/dwc/types";
+import type { ToolOutputPayload } from "@/lib/dwic/types";
 import { PaletteRenderer } from "./PaletteRenderer";
 import { TypeScaleRenderer } from "./TypeScaleRenderer";
 import { SpacingRenderer } from "./SpacingRenderer";

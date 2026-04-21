@@ -1,4 +1,4 @@
-import type { PaletteData } from "@/lib/dwc/types";
+import type { PaletteData } from "@/lib/dwic/types";
 
 export function PaletteRenderer({ data }: { data: PaletteData }) {
   const byPrefix = new Map<string, typeof data.tokens>();

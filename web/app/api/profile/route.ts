@@ -1,9 +1,9 @@
 import { NextRequest } from "next/server";
 import { generateClaudeMd } from "@/lib/claude-md-generator";
-import { setOnboarding, getProfile, getAccountState } from "@/lib/dwc/store";
-import { isTokenShapeValid, mintToken } from "@/lib/dwc/tokens";
-import { isValidSlug, normalizeSlug } from "@/lib/dwc/projects";
-import type { OnboardingAnswers } from "@/lib/dwc/types";
+import { setOnboarding, getProfile, getAccountState } from "@/lib/dwic/store";
+import { isTokenShapeValid, mintToken } from "@/lib/dwic/tokens";
+import { isValidSlug, normalizeSlug } from "@/lib/dwic/projects";
+import type { OnboardingAnswers } from "@/lib/dwic/types";
 
 export const runtime = "nodejs";
 

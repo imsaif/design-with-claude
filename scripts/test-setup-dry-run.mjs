@@ -38,15 +38,15 @@ if (!existsSync(mcpPath)) {
   process.exitCode = 1;
 } else {
   const cfg = JSON.parse(readFileSync(mcpPath, "utf8"));
-  const entry = cfg.mcpServers?.designwithclaude;
-  if (!entry || entry.env?.DWC_TOKEN !== "imr_testtoken") {
+  const entry = cfg.mcpServers?.dwic;
+  if (!entry || entry.env?.DWIC_TOKEN !== "imr_testtoken") {
     console.error("FAIL: mcp entry malformed", JSON.stringify(cfg, null, 2));
     process.exitCode = 1;
-  } else if (entry.env?.DWC_PROJECT_ID !== "smoke-test") {
-    console.error("FAIL: DWC_PROJECT_ID missing/wrong", JSON.stringify(entry.env, null, 2));
+  } else if (entry.env?.DWIC_PROJECT_ID !== "smoke-test") {
+    console.error("FAIL: DWIC_PROJECT_ID missing/wrong", JSON.stringify(entry.env, null, 2));
     process.exitCode = 1;
   } else {
-    console.log("✔ .mcp.json written with DWC_TOKEN + DWC_PROJECT_ID env");
+    console.log("✔ .mcp.json written with DWIC_TOKEN + DWIC_PROJECT_ID env");
   }
 }
 
@@ -60,11 +60,11 @@ console.log(uninstall.stdout);
 const after = existsSync(mcpPath)
   ? JSON.parse(readFileSync(mcpPath, "utf8"))
   : {};
-if (after.mcpServers?.designwithclaude) {
-  console.error("FAIL: designwithclaude still present after uninstall");
+if (after.mcpServers?.dwic) {
+  console.error("FAIL: dwic still present after uninstall");
   process.exitCode = 1;
 } else {
-  console.log("✔ uninstall removed designwithclaude entry");
+  console.log("✔ uninstall removed dwic entry");
 }
 
 rmSync(tmp, { recursive: true, force: true });

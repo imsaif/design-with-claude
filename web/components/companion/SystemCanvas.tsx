@@ -9,7 +9,7 @@ import type {
   SpacingData,
   ToolOutputPayload,
   TypeScaleData,
-} from "@/lib/dwc/types";
+} from "@/lib/dwic/types";
 
 interface StoredEvent {
   id: string;

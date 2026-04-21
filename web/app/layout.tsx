@@ -31,9 +31,9 @@ const dmMono = DM_Mono({
 });
 
 const siteUrl = "https://designwithclaude.com";
-const title = "Design with Claude — the design auditor inside Claude Code";
+const title = "dwic — the design auditor inside Claude Code";
 const description =
-  "An MCP server that audits your design system from inside Claude Code. Flags contrast failures, mandated-accent drift, and structural gaps in your CSS — then prescribes the fix and remembers it across every session.";
+  "dwic (design with claude) is an MCP server that audits your design system from inside Claude Code. Flags contrast failures, mandated-accent drift, and structural gaps in your CSS — then prescribes the fix and remembers it across every session.";
 
 export const metadata: Metadata = {
   title,
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Design with Claude — the design auditor inside Claude Code",
+        alt: "dwic — the design auditor inside Claude Code",
       },
     ],
   },
@@ -65,6 +65,8 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   keywords: [
+    "dwic",
+    "design with claude",
     "design system audit",
     "accessibility audit",
     "wcag contrast checker",

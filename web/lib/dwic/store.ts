@@ -45,7 +45,7 @@ type MemStore = {
   events: Map<string, StoredEvent[]>; // keyed by projectId
 };
 
-const globalKey = Symbol.for("dwc.alpha.store.v2");
+const globalKey = Symbol.for("dwic.alpha.store.v2");
 const g = globalThis as unknown as Record<symbol, MemStore | undefined>;
 function getMem(): MemStore {
   if (!g[globalKey]) {
@@ -325,7 +325,7 @@ export async function getAccountState(token: string): Promise<AccountState> {
     // We don't keep a token → projects map in mem; build by intersecting the
     // project registry (resolveProject's mem store) with project_profiles.
     // Cheapest path: look at the shared global used by resolveProject.
-    const projGlobal = Symbol.for("dwc.alpha.projects");
+    const projGlobal = Symbol.for("dwic.alpha.projects");
     type MemProject = { id: string; tokenHash: string; slug: string; displayName: string | null; createdAt: string; lastSeenAt: string };
     const gm = globalThis as unknown as Record<symbol, MemProject[] | undefined>;
     const list = (gm[projGlobal] ?? []).filter((p) => p.tokenHash === hash && !("deletedAt" in p));

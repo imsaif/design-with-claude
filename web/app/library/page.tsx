@@ -9,8 +9,8 @@ import { Footer } from "@/components/skills/Footer";
 import { SKILLS, CATEGORIES } from "@/app/data/skills";
 
 export const metadata = {
-  title: "Library — free Claude Code design skills | Design with Claude",
-  description: `${SKILLS.length} free design agents as Claude Code slash commands, across ${CATEGORIES.length} categories. Install a single markdown file and get expert design guidance inside any Claude Code project.`,
+  title: "Library — free Claude Code design skills | dwic",
+  description: `${SKILLS.length} free design agents as Claude Code slash commands, across ${CATEGORIES.length} categories. Separate from dwic (the design auditor) — install a single markdown file and get expert design guidance inside any Claude Code project.`,
   alternates: {
     canonical: "/library",
   },
@@ -29,8 +29,8 @@ export default function LibraryPage() {
           time; no runtime, no dependencies.
           <br />
           <br />
-          Looking for the subscription auditor that flags WCAG failures,
-          mandated-accent drift, and structural gaps across sessions?{" "}
+          Looking for <strong>dwic</strong> — the subscription auditor that flags
+          WCAG failures, mandated-accent drift, and structural gaps across sessions?{" "}
           <Link href="/" className="skills-nav-logo-accent" style={{ textDecoration: "underline" }}>
             That lives here →
           </Link>

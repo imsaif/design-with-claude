@@ -44,23 +44,23 @@ const SPECIALISTS: Specialist[] = [
 
 export function SpecialistsList() {
   return (
-    <section className="dwc-specialists">
-      <div className="dwc-specialists-inner">
-        <p className="dwc-specialists-eyebrow">Specialists</p>
-        <h2 className="dwc-specialists-title">Seven auditors. Each one server-computed.</h2>
-        <p className="dwc-specialists-sub">
+    <section className="dwic-specialists">
+      <div className="dwic-specialists-inner">
+        <p className="dwic-specialists-eyebrow">Specialists</p>
+        <h2 className="dwic-specialists-title">Seven auditors. Each one server-computed.</h2>
+        <p className="dwic-specialists-sub">
           More rolling out in batches — copy, motion, empty-states, notifications
           next. Every specialist also has a generate mode for net-new work.
         </p>
 
-        <ul className="dwc-specialists-list">
+        <ul className="dwic-specialists-list">
           {SPECIALISTS.map((s) => (
-            <li key={s.name} className="dwc-specialist">
-              <div className="dwc-specialist-head">
-                <code className="dwc-specialist-name">{s.name}</code>
-                <span className="dwc-specialist-tagline">{s.tagline}</span>
+            <li key={s.name} className="dwic-specialist">
+              <div className="dwic-specialist-head">
+                <code className="dwic-specialist-name">{s.name}</code>
+                <span className="dwic-specialist-tagline">{s.tagline}</span>
               </div>
-              <p className="dwc-specialist-body">{s.audits}</p>
+              <p className="dwic-specialist-body">{s.audits}</p>
             </li>
           ))}
         </ul>

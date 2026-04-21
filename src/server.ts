@@ -17,8 +17,8 @@ import {
 } from "./designer.js";
 import { createSetProjectProfileTool } from "./tools/set-project-profile.js";
 
-const PACKAGE_NAME = "designwithclaude";
-const PACKAGE_VERSION = "2.0.0-alpha.5";
+const PACKAGE_NAME = "dwic";
+const PACKAGE_VERSION = "1.0.0-alpha.1";
 
 // Tools that must work even when the project has no profile yet. hello-world
 // is a ping; set-project-profile is how the gate is unblocked.
@@ -32,7 +32,7 @@ let memoryLastFetchedAt = 0;
 
 function memoryContextEnabled(config: ReturnType<typeof loadConfig>): boolean {
   if (!config.token) return false;
-  if (process.env.DWC_MEMORY_CONTEXT?.trim() === "off") return false;
+  if (process.env.DWIC_MEMORY_CONTEXT?.trim() === "off") return false;
   return true;
 }
 
@@ -55,7 +55,7 @@ async function refreshMemoryContext(
 
 function onboardingGateEnabled(config: ReturnType<typeof loadConfig>): boolean {
   if (!config.token) return false; // no token = local dev, no gate
-  if (process.env.DWC_ONBOARDING_GATE?.trim() === "off") return false;
+  if (process.env.DWIC_ONBOARDING_GATE?.trim() === "off") return false;
   return true;
 }
 
@@ -64,7 +64,7 @@ function renderOnboardingResponse(toolName: string, projectId: string | undefine
   return [
     `# Onboarding required — no profile yet for \`${projectLabel}\``,
     "",
-    `The designer just called \`${toolName}\` in a project dwc has never seen before. Running any specialist right now would make the designer re-brief the project from scratch — exactly the friction the onboarding flow is here to fix.`,
+    `The designer just called \`${toolName}\` in a project dwic has never seen before. Running any specialist right now would make the designer re-brief the project from scratch — exactly the friction the onboarding flow is here to fix.`,
     "",
     "## Do this before retrying",
     "",
@@ -165,7 +165,7 @@ function registerTool(server: McpServer, tool: ToolDefinition, ctx: {
           content: [
             {
               type: "text" as const,
-              text: `dwc tool "${toolName}" failed: ${message}`,
+              text: `dwic tool "${toolName}" failed: ${message}`,
             },
           ],
           isError: true,
@@ -198,8 +198,8 @@ async function main(): Promise<void> {
   if (config.token) {
     if (!config.projectId) {
       log.info(
-        "DWC_PROJECT_ID is not set — falling back to the 'default' project. " +
-          "Re-run `npx designwithclaude setup --token=<token> --project=<slug>` to bind this install to a named project.",
+        "DWIC_PROJECT_ID is not set — falling back to the 'default' project. " +
+          "Re-run `npx dwic setup --token=<token> --project=<slug>` to bind this install to a named project.",
       );
     }
     const effectiveProject = config.projectId ?? "default";

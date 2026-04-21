@@ -4,7 +4,7 @@ export function Hero() {
       <p className="skills-hero-eyebrow">Design auditor, inside Claude Code</p>
       <h1>Every design decision, audited before it ships.</h1>
       <p className="skills-hero-sub">
-        Install it in Claude Code. dwc flags what fails WCAG, what&apos;s
+        Install it in Claude Code. dwic flags what fails WCAG, what&apos;s
         drifting from brand, what&apos;s missing — then prescribes the fix,
         and remembers it on the next call.
       </p>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import DwcIcon from "@/components/DwcIcon";
+import DwicIcon from "@/components/DwicIcon";
 import type { ReactNode } from "react";
 
 interface ShellProps {
@@ -62,7 +62,7 @@ export function Shell({ children, step, token, wide }: ShellProps) {
             fontWeight: 500,
           }}
         >
-          <DwcIcon className="h-6 w-auto" />
+          <DwicIcon className="h-6 w-auto" />
           <span>
             design<span style={{ color: "#c8f07a" }}>with</span>claude
           </span>
@@ -108,7 +108,7 @@ export function Shell({ children, step, token, wide }: ShellProps) {
                       <Link
                         href={href}
                         style={{ textDecoration: "none" }}
-                        className="dwc-journey-link"
+                        className="dwic-journey-link"
                       >
                         {content}
                       </Link>

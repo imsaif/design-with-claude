@@ -14,7 +14,7 @@ const repoRoot = resolve(here, "..");
 const webDir = resolve(repoRoot, "web");
 const serverPath = resolve(repoRoot, "dist", "server.js");
 
-const PORT = Number(process.env.DWC_TEST_PORT ?? 3099);
+const PORT = Number(process.env.DWIC_TEST_PORT ?? 3099);
 const BASE = `http://127.0.0.1:${PORT}`;
 
 const VALID_TYPES = new Set(["palette", "type-scale", "spacing", "component-spec", "copy", "markdown"]);
@@ -117,10 +117,10 @@ try {
     args: [serverPath],
     env: {
       ...process.env,
-      DWC_TOKEN: token,
-      DWC_API_URL: BASE,
-      DWC_GATING: "on",
-      DWC_EVENTS: "on",
+      DWIC_TOKEN: token,
+      DWIC_API_URL: BASE,
+      DWIC_GATING: "on",
+      DWIC_EVENTS: "on",
     },
   });
   const client = new Client({ name: "dwc-phase2-e2e", version: "1.0.0" }, { capabilities: {} });
@@ -207,7 +207,7 @@ try {
   }
 } catch (err) {
   fail("phase2 e2e threw", err instanceof Error ? err.message : String(err));
-  if (process.env.DWC_TEST_VERBOSE === "1") process.stderr.write(log);
+  if (process.env.DWIC_TEST_VERBOSE === "1") process.stderr.write(log);
 } finally {
   shutdown();
   await sleep(200);

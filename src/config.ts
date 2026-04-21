@@ -1,8 +1,8 @@
 import { fileURLToPath } from "node:url";
 
-export interface DwcConfig {
+export interface DwicConfig {
   token: string | undefined;
-  /** Project slug, from DWC_PROJECT_ID env. One MCP process per project — no runtime switching. */
+  /** Project slug, from DWIC_PROJECT_ID env. One MCP process per project — no runtime switching. */
   projectId: string | undefined;
   apiUrl: string;
   eventsEnabled: boolean;
@@ -11,18 +11,18 @@ export interface DwcConfig {
 }
 
 function resolveCommandsDir(): string {
-  const fromEnv = process.env.DWC_COMMANDS_DIR?.trim();
+  const fromEnv = process.env.DWIC_COMMANDS_DIR?.trim();
   if (fromEnv) return fromEnv;
   return fileURLToPath(new URL("../commands/", import.meta.url));
 }
 
-export function loadConfig(): DwcConfig {
+export function loadConfig(): DwicConfig {
   return {
-    token: process.env.DWC_TOKEN?.trim() || undefined,
-    projectId: process.env.DWC_PROJECT_ID?.trim() || undefined,
-    apiUrl: (process.env.DWC_API_URL?.trim() || "https://designwithclaude.com").replace(/\/$/, ""),
-    eventsEnabled: process.env.DWC_EVENTS !== "off",
-    gatingEnabled: process.env.DWC_GATING === "on",
+    token: process.env.DWIC_TOKEN?.trim() || undefined,
+    projectId: process.env.DWIC_PROJECT_ID?.trim() || undefined,
+    apiUrl: (process.env.DWIC_API_URL?.trim() || "https://designwithclaude.com").replace(/\/$/, ""),
+    eventsEnabled: process.env.DWIC_EVENTS !== "off",
+    gatingEnabled: process.env.DWIC_GATING === "on",
     commandsDir: resolveCommandsDir(),
   };
 }

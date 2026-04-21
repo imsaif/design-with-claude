@@ -1,23 +1,23 @@
 import { z } from "zod";
 import { defineTool, type ToolDefinition } from "./types.js";
 import type { ApiClient, DesignerProfile } from "../api-client.js";
-import type { DwcConfig } from "../config.js";
+import type { DwicConfig } from "../config.js";
 import { setDesignerProfile } from "../designer.js";
 
 interface Ctx {
   api: ApiClient;
-  config: DwcConfig;
+  config: DwicConfig;
 }
 
 // Factory so the tool can close over the runtime api client + config that
 // server.ts holds. Keeps the generic ToolDefinition shape simple while the
-// onboarding tool has the deps it needs to persist to the dwc API.
+// onboarding tool has the deps it needs to persist to the dwic API.
 export function createSetProjectProfileTool(ctx: Ctx): ToolDefinition {
   return defineTool({
     name: "set-project-profile",
     title: "Set Project Profile",
     description:
-      "Persists the onboarding answers for this project so every future dwc tool call in this repo skips re-briefing. Call this once per project (the onboarding gate will prompt you the first time you invoke any other tool).",
+      "Persists the onboarding answers for this project so every future dwic tool call in this repo skips re-briefing. Call this once per project (the onboarding gate will prompt you the first time you invoke any other tool).",
     inputSchema: {
       product_type: z
         .string()
@@ -57,22 +57,22 @@ export function createSetProjectProfileTool(ctx: Ctx): ToolDefinition {
       if (!token) {
         return {
           text:
-            "Cannot persist profile: this MCP server is running without DWC_TOKEN. " +
-            "Run `npx designwithclaude setup --token=<your token> --project=<slug>` and restart Claude Code before trying again.",
+            "Cannot persist profile: this MCP server is running without DWIC_TOKEN. " +
+            "Run `npx dwic setup --token=<your token> --project=<slug>` and restart Claude Code before trying again.",
           output: {
             type: "markdown",
-            data: { title: "set-project-profile — blocked", content: "missing DWC_TOKEN" },
+            data: { title: "set-project-profile — blocked", content: "missing DWIC_TOKEN" },
           },
         };
       }
       if (!project) {
         return {
           text:
-            "Cannot persist profile: this MCP server has no DWC_PROJECT_ID bound. " +
+            "Cannot persist profile: this MCP server has no DWIC_PROJECT_ID bound. " +
             "Re-run setup with `--project=<slug>` or add one to `.mcp.json` for this repo, then restart Claude Code.",
           output: {
             type: "markdown",
-            data: { title: "set-project-profile — blocked", content: "missing DWC_PROJECT_ID" },
+            data: { title: "set-project-profile — blocked", content: "missing DWIC_PROJECT_ID" },
           },
         };
       }
@@ -107,7 +107,7 @@ export function createSetProjectProfileTool(ctx: Ctx): ToolDefinition {
 
       return {
         text:
-          `Profile saved for project \`${project}\`. Future dwc tool calls in this repo will inherit the context — no re-briefing. ` +
+          `Profile saved for project \`${project}\`. Future dwic tool calls in this repo will inherit the context — no re-briefing. ` +
           `Summary:\n\n` +
           `- **Product:** ${input.product_type} — ${input.product_description}\n` +
           `- **Stack:** ${input.tech_stack.join(", ")}\n` +

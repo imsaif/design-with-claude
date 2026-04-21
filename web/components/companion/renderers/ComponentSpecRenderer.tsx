@@ -1,4 +1,4 @@
-import type { ComponentSpecData } from "@/lib/dwc/types";
+import type { ComponentSpecData } from "@/lib/dwic/types";
 
 export function ComponentSpecRenderer({ data }: { data: ComponentSpecData }) {
   return (

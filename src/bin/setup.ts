@@ -5,7 +5,7 @@ import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const VERSION = "2.0.0-alpha.3";
+const VERSION = "1.0.0-alpha.1";
 const DEFAULT_API = "https://designwithclaude.com";
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,31}$/;
 
@@ -63,25 +63,25 @@ function yellow(s: string) {
 
 function printHelp(): void {
   const help = [
-    bold("designwithclaude") + ` v${VERSION}`,
+    bold("dwic") + ` v${VERSION} — design auditor for Claude Code (designwithclaude.com)`,
     "",
     "Usage:",
-    "  npx designwithclaude setup --token=imr_xxx --project=<slug>",
-    "  npx designwithclaude uninstall [--project=<slug>] [--scope=project|user]",
+    "  npx dwic setup --token=imr_xxx --project=<slug>",
+    "  npx dwic uninstall [--project=<slug>] [--scope=project|user]",
     "",
     "Options:",
-    "  --token=imr_xxx      Your dwc token (from designwithclaude.com onboarding)",
+    "  --token=imr_xxx      Your dwic token (from designwithclaude.com onboarding)",
     "  --project=<slug>     Project slug — one per real project. Examples: thriya, acme-landing",
     "                       (lowercase, digits, hyphens — a–z 0–9, 2–32 chars starting with a letter or digit)",
     "  --scope=project      Writes .mcp.json in the current dir (default, recommended)",
     "  --scope=user         Writes ~/.claude.json — binds this project to every cwd (rarely what you want)",
-    "  --api=<url>          Override dwc API base URL (defaults to " + DEFAULT_API + ")",
+    "  --api=<url>          Override dwic API base URL (defaults to " + DEFAULT_API + ")",
     "  --skip-validate      Skip online token validation (dev)",
     "",
     "Examples:",
-    "  npx designwithclaude setup --token=imr_a7f3x92k --project=thriya",
-    "  npx designwithclaude setup --token=imr_a7f3x92k --project=acme-landing",
-    "  npx designwithclaude uninstall --project=thriya",
+    "  npx dwic setup --token=imr_a7f3x92k --project=thriya",
+    "  npx dwic setup --token=imr_a7f3x92k --project=acme-landing",
+    "  npx dwic uninstall --project=thriya",
     "",
     "Learn more: https://designwithclaude.com",
   ].join("\n");
@@ -89,7 +89,7 @@ function printHelp(): void {
 }
 
 function printVersion(): void {
-  process.stdout.write(`designwithclaude v${VERSION}\n`);
+  process.stdout.write(`dwic v${VERSION}\n`);
 }
 
 async function validateToken(
@@ -135,10 +135,10 @@ function buildMcpEntry(serverPath: string, token: string, apiUrl: string, projec
     command: "node",
     args: [serverPath],
     env: {
-      DWC_TOKEN: token,
-      DWC_PROJECT_ID: project,
-      DWC_API_URL: apiUrl,
-      DWC_GATING: "on",
+      DWIC_TOKEN: token,
+      DWIC_PROJECT_ID: project,
+      DWIC_API_URL: apiUrl,
+      DWIC_GATING: "on",
     },
   };
 }
@@ -146,14 +146,14 @@ function buildMcpEntry(serverPath: string, token: string, apiUrl: string, projec
 /** Key in mcpServers — namespaced per project for user-scope installs so two
  *  user-scope projects don't collide; plain name for project-scope. */
 function mcpServerKey(scope: Scope, project: string): string {
-  return scope === "user" ? `designwithclaude-${project}` : "designwithclaude";
+  return scope === "user" ? `dwic-${project}` : "dwic";
 }
 
 function writeUserConfig(entry: ReturnType<typeof buildMcpEntry>, key: string): string {
   const path = join(homedir(), ".claude.json");
   let json: Record<string, unknown> = {};
   if (existsSync(path)) {
-    const backup = `${path}.dwc-backup-${Date.now()}`;
+    const backup = `${path}.dwic-backup-${Date.now()}`;
     copyFileSync(path, backup);
     try {
       json = JSON.parse(readFileSync(path, "utf8"));
@@ -272,7 +272,7 @@ async function runSetup(args: Args): Promise<void> {
     process.stderr.write(
       red("Missing --token. ") +
         "Run " +
-        bold("npx designwithclaude setup --token=imr_xxx --project=<slug>") +
+        bold("npx dwic setup --token=imr_xxx --project=<slug>") +
         "\n",
     );
     process.exitCode = 1;
@@ -283,7 +283,7 @@ async function runSetup(args: Args): Promise<void> {
       red("Missing --project. ") +
         "Add " +
         bold("--project=<slug>") +
-        " so dwc knows which design system this Claude Code project belongs to.\n" +
+        " so dwic knows which design system this Claude Code project belongs to.\n" +
         dim("  Examples: --project=thriya, --project=acme-landing\n"),
     );
     process.exitCode = 1;
@@ -299,7 +299,7 @@ async function runSetup(args: Args): Promise<void> {
     return;
   }
 
-  process.stdout.write(`${bold("designwithclaude")} ${dim("v" + VERSION)}\n\n`);
+  process.stdout.write(`${bold("dwic")} ${dim("v" + VERSION)}\n\n`);
 
   if (args.scope === "user") {
     process.stdout.write(
@@ -320,7 +320,7 @@ async function runSetup(args: Args): Promise<void> {
       );
     } else if (v.reason === "api-404-alpha-ok") {
       process.stdout.write(
-        dim("  (dwc API not live yet — local install only for alpha)\n"),
+        dim("  (dwic API not live yet — local install only for alpha)\n"),
       );
     } else {
       const projectNote =
@@ -364,7 +364,7 @@ async function runSetup(args: Args): Promise<void> {
       bold("Next: ") +
       "start a new Claude Code session in this directory and try:\n" +
       dim("    ") +
-      "Use the hello-world tool from designwithclaude\n\n" +
+      "Use the hello-world tool from dwic\n\n" +
       dim("Then: ") +
       "open " +
       companionUrl +
@@ -374,7 +374,7 @@ async function runSetup(args: Args): Promise<void> {
 
 async function runUninstall(args: Args): Promise<void> {
   // With --project: remove just that entry.
-  // Without: remove any/all designwithclaude* entries in the chosen scope.
+  // Without: remove any/all dwic* entries in the chosen scope.
   const projectSlug = args.project?.trim();
   if (projectSlug && !SLUG_PATTERN.test(projectSlug)) {
     process.stderr.write(red(`Invalid --project slug: "${projectSlug}".\n`));
@@ -383,7 +383,7 @@ async function runUninstall(args: Args): Promise<void> {
   }
 
   if (args.scope === "user") {
-    const key = projectSlug ? `designwithclaude-${projectSlug}` : "designwithclaude";
+    const key = projectSlug ? `dwic-${projectSlug}` : "dwic";
     const removedCli = spawnSync(
       "claude",
       ["mcp", "remove", key, "--scope", "user"],
@@ -400,8 +400,8 @@ async function runUninstall(args: Args): Promise<void> {
       process.stdout.write(dim(`(no ${key} entry in user scope)\n`));
     }
   } else {
-    // project-scope: entry is always keyed 'designwithclaude' in .mcp.json
-    const path = removeProjectConfig(args.cwd, "designwithclaude");
+    // project-scope: entry is always keyed 'dwic' in .mcp.json
+    const path = removeProjectConfig(args.cwd, "dwic");
     if (path) {
       process.stdout.write(green(`✔ removed from ${path}\n`));
     } else {

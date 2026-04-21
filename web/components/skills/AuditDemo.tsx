@@ -66,23 +66,23 @@ export function AuditDemo() {
   const [tab, setTab] = useState<TabKey>("color");
 
   return (
-    <section className="dwc-demo">
-      <div className="dwc-demo-inner">
-        <p className="dwc-demo-eyebrow">What dwc returns</p>
-        <h2 className="dwc-demo-title">Real audit output. Not LLM mood-board.</h2>
-        <p className="dwc-demo-sub">
+    <section className="dwic-demo">
+      <div className="dwic-demo-inner">
+        <p className="dwic-demo-eyebrow">What dwic returns</p>
+        <h2 className="dwic-demo-title">Real audit output. Not LLM mood-board.</h2>
+        <p className="dwic-demo-sub">
           Click <kbd>Run audit</kbd> on any specialist to watch real findings
           compute against sample input. Same parser + contrast math the live
           MCP tool uses — nothing mocked.
         </p>
 
-        <div className="dwc-demo-tabs" role="tablist">
+        <div className="dwic-demo-tabs" role="tablist">
           {TABS.map((t) => (
             <button
               key={t.key}
               role="tab"
               aria-selected={tab === t.key}
-              className={`dwc-demo-tab ${tab === t.key ? "active" : ""}`}
+              className={`dwic-demo-tab ${tab === t.key ? "active" : ""}`}
               onClick={() => setTab(t.key)}
             >
               {t.label}
@@ -90,11 +90,11 @@ export function AuditDemo() {
           ))}
         </div>
 
-        <div className="dwc-demo-panel">
-          <div className="dwc-demo-panel-head">
-            <span className="dwc-demo-prompt">$</span>
-            <span className="dwc-demo-prompt-tool">{TABS.find((t) => t.key === tab)?.tool}</span>
-            <span className="dwc-demo-prompt-mode">mode=audit</span>
+        <div className="dwic-demo-panel">
+          <div className="dwic-demo-panel-head">
+            <span className="dwic-demo-prompt">$</span>
+            <span className="dwic-demo-prompt-tool">{TABS.find((t) => t.key === tab)?.tool}</span>
+            <span className="dwic-demo-prompt-mode">mode=audit</span>
           </div>
           {tab === "color" && <ColorPanel />}
           {tab === "accessibility" && <AccessibilityPanel />}
@@ -166,13 +166,13 @@ function LeftColumn({
 }) {
   const isIdle = stage === "idle";
   return (
-    <div className="dwc-demo-col dwc-demo-col-input">
-      <div className="dwc-demo-col-head">
-        <span className="dwc-demo-col-label">{isIdle ? "Input" : "Production view"}</span>
-        <span className="dwc-demo-col-filename">{filename}</span>
+    <div className="dwic-demo-col dwic-demo-col-input">
+      <div className="dwic-demo-col-head">
+        <span className="dwic-demo-col-label">{isIdle ? "Input" : "Production view"}</span>
+        <span className="dwic-demo-col-filename">{filename}</span>
       </div>
       {isIdle ? (
-        <pre className="dwc-demo-input-code">
+        <pre className="dwic-demo-input-code">
           <code>{code}</code>
         </pre>
       ) : (
@@ -193,23 +193,23 @@ function OutputColumn({
   children: ReactNode;
 }) {
   return (
-    <div className="dwc-demo-col dwc-demo-col-output">
-      <div className="dwc-demo-col-head">
-        <span className="dwc-demo-col-label">Output</span>
-        <span className="dwc-demo-col-status">
+    <div className="dwic-demo-col dwic-demo-col-output">
+      <div className="dwic-demo-col-head">
+        <span className="dwic-demo-col-label">Output</span>
+        <span className="dwic-demo-col-status">
           {stage === "idle" && "waiting"}
           {stage === "parsing" && "parsing tokens…"}
           {stage === "computing" && "computing findings…"}
           {stage === "revealing" && "rendering…"}
           {stage === "complete" && (
-            <span className="dwc-demo-col-status-done">✓ complete</span>
+            <span className="dwic-demo-col-status-done">✓ complete</span>
           )}
         </span>
       </div>
       {stage === "idle" ? (
-        <div className="dwc-demo-idle">{idleHint}</div>
+        <div className="dwic-demo-idle">{idleHint}</div>
       ) : (
-        <div className="dwc-demo-output">{children}</div>
+        <div className="dwic-demo-output">{children}</div>
       )}
     </div>
   );
@@ -226,21 +226,21 @@ function RunControls({
 }) {
   if (stage === "idle") {
     return (
-      <button className="dwc-demo-run" onClick={onStart}>
-        <span className="dwc-demo-run-icon">▶</span> Run audit
+      <button className="dwic-demo-run" onClick={onStart}>
+        <span className="dwic-demo-run-icon">▶</span> Run audit
       </button>
     );
   }
   if (stage === "complete") {
     return (
-      <button className="dwc-demo-reset" onClick={onReset}>
+      <button className="dwic-demo-reset" onClick={onReset}>
         ↺ Reset
       </button>
     );
   }
   return (
-    <button className="dwc-demo-run running" disabled>
-      <span className="dwc-demo-run-icon">⟳</span> Running…
+    <button className="dwic-demo-run running" disabled>
+      <span className="dwic-demo-run-icon">⟳</span> Running…
     </button>
   );
 }
@@ -249,7 +249,7 @@ function RunControls({
 // with a numbered legend entry below the preview so the designer can scan:
 // "(1) is what? (2) is what?" without badges cluttering the rendered UI.
 function Pin({ n, severity }: { n: number; severity: "fail" | "warn" | "info" }) {
-  return <span className={`dwc-preview-pin ${severity}`} aria-hidden>{n}</span>;
+  return <span className={`dwic-preview-pin ${severity}`} aria-hidden>{n}</span>;
 }
 
 // Legend entry — renders the numbered finding under the preview card.
@@ -263,8 +263,8 @@ function LegendRow({
   children: ReactNode;
 }) {
   return (
-    <div className={`dwc-preview-legend-row ${severity}`}>
-      <span className={`dwc-preview-pin ${severity} inline`}>{n}</span>
+    <div className={`dwic-preview-legend-row ${severity}`}>
+      <span className={`dwic-preview-pin ${severity} inline`}>{n}</span>
       <span>{children}</span>
     </div>
   );
@@ -295,25 +295,25 @@ function ColorProductionView({ tokens, stage }: { tokens: ColorToken[]; stage: S
   const primaryOnBlackCls = classifyContrast(primaryOnBlack);
 
   return (
-    <div className={`dwc-preview ${phaseClass}`}>
-      <div className="dwc-preview-section-label">
+    <div className={`dwic-preview ${phaseClass}`}>
+      <div className="dwic-preview-section-label">
         {stage === "parsing" ? "Rendering tokens in context…" : "Tokens in context"}
       </div>
-      <div className="dwc-preview-surfaces">
+      <div className="dwic-preview-surfaces">
         {surfaces.map((s, sIdx) => {
           const isLight = s.bg.toLowerCase() === "#ffffff";
           return (
             <div
               key={sIdx}
-              className="dwc-color-card"
+              className="dwic-color-card"
               style={{ background: s.bg, borderColor: isLight ? border : "rgba(255,255,255,0.08)" }}
             >
-              <div className="dwc-color-card-chrome" style={{ color: s.labelTone }}>
+              <div className="dwic-color-card-chrome" style={{ color: s.labelTone }}>
                 {s.chrome}
               </div>
 
               <div
-                className={`dwc-color-card-title ${isLight ? "" : !primaryOnBlackCls.aaBody ? "dwc-preview-outline-warn" : ""}`}
+                className={`dwic-color-card-title ${isLight ? "" : !primaryOnBlackCls.aaBody ? "dwic-preview-outline-warn" : ""}`}
                 style={{ color: isLight ? primary : primary }}
               >
                 Aperture
@@ -322,25 +322,25 @@ function ColorProductionView({ tokens, stage }: { tokens: ColorToken[]; stage: S
                 )}
               </div>
 
-              <p className="dwc-color-card-body" style={{ color: isLight ? text : "#d8d8d8" }}>
+              <p className="dwic-color-card-body" style={{ color: isLight ? text : "#d8d8d8" }}>
                 A quiet observatory for product teams. Capture signals as they
                 surface — across pricing, support, and launch decks.
               </p>
 
-              <div className="dwc-color-card-actions">
+              <div className="dwic-color-card-actions">
                 <button
                   type="button"
-                  className="dwc-color-card-btn dwc-color-card-btn-primary"
+                  className="dwic-color-card-btn dwic-color-card-btn-primary"
                   style={{ background: primary, color: "#fff" }}
                 >
                   Start free
                 </button>
                 <span
-                  className={isLight && !accentOnWhiteFail.aaLarge ? "dwc-preview-outline-fail" : ""}
+                  className={isLight && !accentOnWhiteFail.aaLarge ? "dwic-preview-outline-fail" : ""}
                   style={{ display: "inline-block" }}
                 >
                   <a
-                    className="dwc-color-card-link"
+                    className="dwic-color-card-link"
                     href="#"
                     onClick={(e) => e.preventDefault()}
                     style={{ color: accent }}
@@ -358,7 +358,7 @@ function ColorProductionView({ tokens, stage }: { tokens: ColorToken[]; stage: S
       </div>
 
       {stage !== "parsing" && (
-        <div className="dwc-preview-legend">
+        <div className="dwic-preview-legend">
           <LegendRow n={1} severity="fail">
             <code>--color-accent</code> on <code>--color-surface</code> → {accentOnWhiteRatio.toFixed(2)}:1.
             The docs link is unreadable as body text.
@@ -417,7 +417,7 @@ function ColorPanel() {
   const { stage, visibleFindings, start, reset } = useAuditStages(findings.length);
 
   return (
-    <div className="dwc-demo-body">
+    <div className="dwic-demo-body">
       <LeftColumn
         filename="themes.css"
         code={COLOR_CSS}
@@ -434,13 +434,13 @@ function ColorPanel() {
           </>
         }
       >
-        <p className="dwc-demo-line-note">
+        <p className="dwic-demo-line-note">
           Parsed {tokens.length} color tokens. Contrast against #FFFFFF + #121212.
         </p>
-        <div className="dwc-demo-findings">
+        <div className="dwic-demo-findings">
           {findings.slice(0, visibleFindings).map((f, i) => (
-            <p key={i} className={`dwc-demo-finding ${f.severity}`}>
-              <span className="dwc-demo-finding-mark">{f.severity === "fail" ? "✗" : "⚠"}</span>
+            <p key={i} className={`dwic-demo-finding ${f.severity}`}>
+              <span className="dwic-demo-finding-mark">{f.severity === "fail" ? "✗" : "⚠"}</span>
               <span>{f.body}</span>
             </p>
           ))}
@@ -456,40 +456,40 @@ function A11yProductionView({ stage }: { stage: Stage }) {
   const phaseClass = stage === "parsing" ? "phase-parsing" : "phase-scanned";
   const showAnnotations = stage !== "parsing";
   return (
-    <div className={`dwc-preview ${phaseClass}`}>
-      <div className="dwc-preview-section-label">
+    <div className={`dwic-preview ${phaseClass}`}>
+      <div className="dwic-preview-section-label">
         {stage === "parsing" ? "Rendering component…" : "Signup component — rendered"}
       </div>
-      <div className={`dwc-real-card ${showAnnotations ? "dwc-preview-outline-info" : ""}`}>
+      <div className={`dwic-real-card ${showAnnotations ? "dwic-preview-outline-info" : ""}`}>
         {showAnnotations && (
-          <div className="dwc-real-card-landmark">
+          <div className="dwic-real-card-landmark">
             <Pin n={5} severity="info" />
-            <span className="dwc-real-card-landmark-text">no &lt;main&gt;</span>
+            <span className="dwic-real-card-landmark-text">no &lt;main&gt;</span>
           </div>
         )}
 
-        <div className={`dwc-real-hero ${showAnnotations ? "dwc-preview-outline-fail" : ""}`}>
+        <div className={`dwic-real-hero ${showAnnotations ? "dwic-preview-outline-fail" : ""}`}>
           {showAnnotations && <Pin n={1} severity="fail" />}
-          <div className="dwc-real-hero-gradient" />
+          <div className="dwic-real-hero-gradient" />
         </div>
 
-        <div className="dwc-real-card-body">
-          <div className="dwc-real-card-eyebrow">Aperture</div>
-          <h2 className="dwc-real-card-h1">Create your account</h2>
+        <div className="dwic-real-card-body">
+          <div className="dwic-real-card-eyebrow">Aperture</div>
+          <h2 className="dwic-real-card-h1">Create your account</h2>
           <h3
-            className={`dwc-real-card-h3 ${showAnnotations ? "dwc-preview-outline-warn" : ""}`}
+            className={`dwic-real-card-h3 ${showAnnotations ? "dwic-preview-outline-warn" : ""}`}
           >
             Your details
             {showAnnotations && <Pin n={2} severity="warn" />}
           </h3>
 
-          <label className="dwc-real-field">
+          <label className="dwic-real-field">
             <span
-              className={`dwc-real-input-wrap ${showAnnotations ? "dwc-preview-outline-fail" : ""}`}
+              className={`dwic-real-input-wrap ${showAnnotations ? "dwic-preview-outline-fail" : ""}`}
             >
               {showAnnotations && <Pin n={3} severity="fail" />}
               <input
-                className="dwc-real-input"
+                className="dwic-real-input"
                 type="email"
                 placeholder="name@company.com"
                 readOnly
@@ -498,13 +498,13 @@ function A11yProductionView({ stage }: { stage: Stage }) {
             </span>
           </label>
 
-          <div className="dwc-real-submit-row">
+          <div className="dwic-real-submit-row">
             <span
-              className={`dwc-real-btn-wrap ${showAnnotations ? "dwc-preview-outline-fail" : ""}`}
+              className={`dwic-real-btn-wrap ${showAnnotations ? "dwic-preview-outline-fail" : ""}`}
             >
               {showAnnotations && <Pin n={4} severity="fail" />}
-              <button type="button" className="dwc-real-btn" aria-label="unnamed (demo)">
-                <span className="dwc-real-btn-empty-hint">&nbsp;</span>
+              <button type="button" className="dwic-real-btn" aria-label="unnamed (demo)">
+                <span className="dwic-real-btn-empty-hint">&nbsp;</span>
               </button>
             </span>
           </div>
@@ -512,7 +512,7 @@ function A11yProductionView({ stage }: { stage: Stage }) {
       </div>
 
       {showAnnotations && (
-        <div className="dwc-preview-legend">
+        <div className="dwic-preview-legend">
           <LegendRow n={1} severity="fail">
             <code>&lt;img&gt;</code> without <code>alt</code> — screen readers read the filename
             or skip entirely.
@@ -548,7 +548,7 @@ function AccessibilityPanel() {
   const visible = ordered.slice(0, visibleFindings);
 
   return (
-    <div className="dwc-demo-body">
+    <div className="dwic-demo-body">
       <LeftColumn
         filename="component.jsx"
         code={A11Y_MARKUP}
@@ -565,17 +565,17 @@ function AccessibilityPanel() {
           </>
         }
       >
-        <p className="dwc-demo-line-note">
+        <p className="dwic-demo-line-note">
           Parsed {A11Y_MARKUP.length} chars. {errors.length} error{errors.length !== 1 ? "s" : ""},{" "}
           {warns.length} warning{warns.length !== 1 ? "s" : ""}, {infos.length} info.
         </p>
-        <div className="dwc-demo-findings">
+        <div className="dwic-demo-findings">
           {visible.map((f, i) => (
             <p
               key={i}
-              className={`dwc-demo-finding ${f.severity === "error" ? "fail" : f.severity === "warn" ? "warn" : "info"}`}
+              className={`dwic-demo-finding ${f.severity === "error" ? "fail" : f.severity === "warn" ? "warn" : "info"}`}
             >
-              <span className="dwc-demo-finding-mark">
+              <span className="dwic-demo-finding-mark">
                 {f.severity === "error" ? "✗" : f.severity === "warn" ? "⚠" : "·"}
               </span>
               <span>
@@ -595,41 +595,41 @@ function FormProductionView({ stage }: { stage: Stage }) {
   const phaseClass = stage === "parsing" ? "phase-parsing" : "phase-scanned";
   const showAnnotations = stage !== "parsing";
   return (
-    <div className={`dwc-preview ${phaseClass}`}>
-      <div className="dwc-preview-section-label">
+    <div className={`dwic-preview ${phaseClass}`}>
+      <div className="dwic-preview-section-label">
         {stage === "parsing" ? "Rendering form…" : "Signup form — rendered"}
       </div>
-      <div className="dwc-real-card">
-        <div className="dwc-real-card-body">
-          <div className="dwc-real-card-eyebrow">Aperture</div>
-          <h2 className="dwc-real-card-h1">Create your account</h2>
+      <div className="dwic-real-card">
+        <div className="dwic-real-card-body">
+          <div className="dwic-real-card-eyebrow">Aperture</div>
+          <h2 className="dwic-real-card-h1">Create your account</h2>
 
-          <label className="dwc-real-field">
-            <span className="dwc-real-field-label">
-              Email <span className="dwc-real-req">*</span>
+          <label className="dwic-real-field">
+            <span className="dwic-real-field-label">
+              Email <span className="dwic-real-req">*</span>
               {showAnnotations && <Pin n={1} severity="warn" />}
             </span>
             <input
-              className="dwc-real-input"
+              className="dwic-real-input"
               type="email"
               placeholder="name@company.com"
               readOnly
             />
           </label>
 
-          <label className="dwc-real-field">
-            <span className="dwc-real-field-label">
+          <label className="dwic-real-field">
+            <span className="dwic-real-field-label">
               Password
               {showAnnotations && <Pin n={2} severity="info" />}
             </span>
             <input
-              className="dwc-real-input"
+              className="dwic-real-input"
               type="password"
               placeholder="••••••••"
               readOnly
             />
             <span
-              className={`dwc-real-hint ${showAnnotations ? "dwc-preview-outline-warn" : ""}`}
+              className={`dwic-real-hint ${showAnnotations ? "dwic-preview-outline-warn" : ""}`}
             >
               Must be at least 8 characters
               {showAnnotations && <Pin n={3} severity="warn" />}
@@ -637,37 +637,37 @@ function FormProductionView({ stage }: { stage: Stage }) {
           </label>
 
           <fieldset
-            className={`dwc-real-fieldset ${showAnnotations ? "dwc-preview-outline-warn" : ""}`}
+            className={`dwic-real-fieldset ${showAnnotations ? "dwic-preview-outline-warn" : ""}`}
           >
-            <div className="dwc-real-fieldset-legend">
+            <div className="dwic-real-fieldset-legend">
               Plan
               {showAnnotations && <Pin n={4} severity="warn" />}
             </div>
-            <div className="dwc-real-radio-row">
-              <span className="dwc-real-radio">
+            <div className="dwic-real-radio-row">
+              <span className="dwic-real-radio">
                 <input type="radio" name="plan-demo" readOnly defaultChecked /> Free
               </span>
-              <span className="dwc-real-radio">
+              <span className="dwic-real-radio">
                 <input type="radio" name="plan-demo" readOnly /> Pro
               </span>
             </div>
           </fieldset>
 
-          <div className="dwc-real-submit-row">
+          <div className="dwic-real-submit-row">
             <span
-              className={`dwc-real-btn-wrap ${showAnnotations ? "dwc-preview-outline-fail" : ""}`}
+              className={`dwic-real-btn-wrap ${showAnnotations ? "dwic-preview-outline-fail" : ""}`}
               style={{ position: "relative" }}
             >
               {showAnnotations && <Pin n={5} severity="fail" />}
-              <button type="button" className="dwc-real-btn dwc-real-btn-primary">
+              <button type="button" className="dwic-real-btn dwic-real-btn-primary">
                 Save
               </button>
             </span>
             <span
-              className={`dwc-real-btn-wrap ${showAnnotations ? "dwc-preview-outline-fail" : ""}`}
+              className={`dwic-real-btn-wrap ${showAnnotations ? "dwic-preview-outline-fail" : ""}`}
               style={{ position: "relative" }}
             >
-              <button type="button" className="dwc-real-btn dwc-real-btn-secondary">
+              <button type="button" className="dwic-real-btn dwic-real-btn-secondary">
                 Save and continue
               </button>
             </span>
@@ -676,7 +676,7 @@ function FormProductionView({ stage }: { stage: Stage }) {
       </div>
 
       {showAnnotations && (
-        <div className="dwc-preview-legend">
+        <div className="dwic-preview-legend">
           <LegendRow n={1} severity="warn">
             &ldquo;*&rdquo; in the label, but no <code>required</code> attr on the input. Screen readers
             don&rsquo;t hear the asterisk.
@@ -713,7 +713,7 @@ function FormPanel() {
   const visible = ordered.slice(0, visibleFindings);
 
   return (
-    <div className="dwc-demo-body">
+    <div className="dwic-demo-body">
       <LeftColumn
         filename="signup-form.jsx"
         code={FORM_MARKUP}
@@ -730,17 +730,17 @@ function FormPanel() {
           </>
         }
       >
-        <p className="dwc-demo-line-note">
+        <p className="dwic-demo-line-note">
           Parsed {FORM_MARKUP.length} chars. {errors.length} error{errors.length !== 1 ? "s" : ""},{" "}
           {warns.length} warning{warns.length !== 1 ? "s" : ""}, {infos.length} info.
         </p>
-        <div className="dwc-demo-findings">
+        <div className="dwic-demo-findings">
           {visible.map((f, i) => (
             <p
               key={i}
-              className={`dwc-demo-finding ${f.severity === "error" ? "fail" : f.severity === "warn" ? "warn" : "info"}`}
+              className={`dwic-demo-finding ${f.severity === "error" ? "fail" : f.severity === "warn" ? "warn" : "info"}`}
             >
-              <span className="dwc-demo-finding-mark">
+              <span className="dwic-demo-finding-mark">
                 {f.severity === "error" ? "✗" : f.severity === "warn" ? "⚠" : "·"}
               </span>
               <span>
