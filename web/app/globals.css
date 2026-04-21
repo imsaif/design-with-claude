@@ -22,6 +22,11 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Always reserve space for the vertical scrollbar so the viewport width
+     doesn't shift when page height crosses viewport height mid-interaction
+     (the AuditDemo Run-audit "width shrinks" symptom). */
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 body {
