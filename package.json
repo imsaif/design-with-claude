@@ -1,6 +1,6 @@
 {
   "name": "designwithclaude",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.5",
   "description": "Make Claude Code your designer — MCP server that configures Claude Code for designers",
   "type": "module",
   "main": "./dist/server.js",
@@ -26,6 +26,9 @@
     "test:audit-spacing": "node scripts/test-audit-spacing.mjs",
     "test:audit-dsa": "node scripts/test-audit-dsa.mjs",
     "test:memory-context": "node scripts/test-memory-context.mjs",
+    "test:audit-accessibility": "node scripts/test-audit-accessibility.mjs",
+    "test:audit-form-designer": "node scripts/test-audit-form-designer.mjs",
+    "test:audit-navigation-specialist": "node scripts/test-audit-navigation-specialist.mjs",
     "test:onboarding-gate": "node scripts/test-onboarding-gate.mjs",
     "test:setup": "node scripts/test-setup-dry-run.mjs",
     "test:e2e": "node scripts/test-e2e-roundtrip.mjs",

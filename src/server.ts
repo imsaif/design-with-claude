@@ -18,7 +18,7 @@ import {
 import { createSetProjectProfileTool } from "./tools/set-project-profile.js";
 
 const PACKAGE_NAME = "designwithclaude";
-const PACKAGE_VERSION = "2.0.0-alpha.4";
+const PACKAGE_VERSION = "2.0.0-alpha.5";
 
 // Tools that must work even when the project has no profile yet. hello-world
 // is a ping; set-project-profile is how the gate is unblocked.

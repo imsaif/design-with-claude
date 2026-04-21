@@ -1,7 +1,7 @@
 # dwc V2 — Build Progress
 
-**Last updated:** April 20, 2026
-**Overall status:** Cognition-roadmap alpha.4 in working tree (unpublished). `designwithclaude@2.0.0-alpha.4` rolls audit mode to typography / spacing / design-system-architect (C2 cont.) and ships C10 slice 1 — event-history memory injected into every specialist's prompt via `renderDesignerContext()`. V1 hero copy repositioned to lead with design-engineering rigor after Anthropic's Claude Design launch (April 20, 2026). Previous: `alpha.3` (April 17) added explicit-ask directive (C3), color-specialist audit mode (C2), and onboarding gate + set-project-profile (C9 slice 1). Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
+**Last updated:** April 21, 2026
+**Overall status:** `designwithclaude@2.0.0-alpha.5` — audit rollout batch 2. Three new V2 MCP specialists with first-class audit mode: `accessibility-specialist` (HTML/JSX parse + color-pair contrast), `form-designer` (required markers, error wiring, fieldset grouping, submit discrimination), `navigation-specialist` (landmark labels, aria-current, skip link, depth, mobile disclosure). Total auditing tools now 7 (color, typography, spacing, DSA + a11y, form, nav) out of 11 registered. Hero positioning ("design auditor, inside Claude Code") is substantively true. Previous: `alpha.4` (April 20) rolled audit mode to typography / spacing / DSA (C2 cont.) and shipped C10 slice 1 event-history memory injection. Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
 
 **For testing / onboarding new contributors:** see `TESTING.md` at repo root — plain-language walkthrough of the live flow, add-a-project, share-with-friends, and common break-fixes.
 
@@ -158,6 +158,22 @@ Add `visual-hierarchy-specialist`, `landing-page-specialist`, `navigation-design
 - [x] Web UX: `/account` dashboard, `+` tile inline add, sample-card orientation, per-project companion, "Welcome back" banner, step-1 back-out
 - [x] Live smoke test: one designer, two projects, isolated profiles + events on prod
 - [ ] Flip `DWC_ALLOW_IMPLICIT_PROJECT` off once existing alpha.1 installs have been upgraded
+
+## Audit-rollout batch 2 (alpha.5) — April 21, 2026
+
+Direct response to the "is dwc actually auditing?" honesty check. alpha.4 made the hero claim "design auditor, inside Claude Code", but only 4 of 9 V2 tools had real audit logic. alpha.5 adds 3 more, taking the count to 7 of 11 — the hero becomes substantively true.
+
+- [x] **accessibility-specialist (new).** V2 MCP tool that parses HTML/JSX for: missing alt attributes, unlabeled form inputs (via `<label for>`, wrapping `<label>`, aria-label, aria-labelledby), skipped heading levels + multiple h1s, anchor-used-as-button (href=`#`, javascript:), buttons without accessible names, missing landmarks (`<main>`, `<nav>`), missing skip links. Optional server-computed color-pair contrast (reuses `color.ts` math). Generate mode returns a targeted a11y checklist. Test: `npm run test:audit-accessibility` (23 assertions).
+- [x] **form-designer (new).** V2 MCP tool that parses form markup for: inputs outside `<form>`, implicit input types (`text` default), `*`-in-label without `required` attribute, password inputs without reveal toggle (heuristic), orphaned error/hint elements not wired via `aria-describedby`, radio/checkbox groups not wrapped in `<fieldset><legend>`, multiple submits without `name` for server disambiguation. Test: `npm run test:audit-form-designer` (17 assertions).
+- [x] **navigation-specialist (new).** V2 MCP tool that parses nav markup for: missing `<nav>` landmarks around anchor lists, multiple navs without distinguishing `aria-label`, active-class-without-aria-current, missing skip link, nesting depth ≥4 levels deep, large navs (≥5 links) with no disclosure toggle for mobile. Test: `npm run test:audit-navigation-specialist` (15 assertions).
+- [x] **test:explicit-asks extended.** Added fixtures for the 3 new specialists so C3 directive coverage stays complete across all 10 active tools.
+- [ ] `designwithclaude@2.0.0-alpha.5` publish to npm (pending user sign-off)
+
+### Next in the audit-rollout roadmap
+
+- **Batch 3 (deferred):** copy (heuristic — passive voice, jargon, CTA verb strength, button-text length) + motion-designer (runtime-defined — `prefers-reduced-motion` support, duration bounds, easing sanity, animation property discipline)
+- **Non-audit specialists:** empty-loading-states, icon-illustration, notification-designer, settings-designer — generate-only tools, roll out incrementally
+- **Share-with-friends / V2 homepage** — still on the launch-gate list
 
 ## Cognition-roadmap alpha.4 — in working tree (April 20, 2026)
 

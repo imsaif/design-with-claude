@@ -70,6 +70,21 @@ const fixtures = {
       "whether v4's @theme directive is being stripped by the build.",
     stack: "Next.js 15 on Vercel, Tailwind v4",
   },
+  "accessibility-specialist": {
+    brief:
+      "Signup form with password + email. WCAG 2.1 AA minimum. Screen reader support " +
+      "required (VoiceOver + NVDA). Flag any focus-trap or keyboard issues.",
+  },
+  "form-designer": {
+    brief:
+      "Checkout form: billing + card + promo, inline validation, 3-step stepper. " +
+      "Mobile-first. Autocomplete everywhere. WCAG AA. Flag any submit-disambiguation risk.",
+  },
+  "navigation-specialist": {
+    brief:
+      "Docs site: primary nav + sidebar + breadcrumbs. Mobile drawer with disclosure. " +
+      "Max 3 levels of nesting. Keyboard nav must be frictionless. aria-current on active.",
+  },
 };
 
 // Briefs where the "brief fragment" check uses a different field than `brief`.
