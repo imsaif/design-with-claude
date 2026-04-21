@@ -5,7 +5,6 @@ import {
   classifyContrast,
   contrastRatio,
   parseTokensFromCss,
-  verdict,
   type ColorToken,
 } from "@/lib/audit/color";
 import { runA11yAudit, type A11yFinding } from "@/lib/audit/accessibility";
@@ -246,10 +245,6 @@ function RunControls({
   );
 }
 
-function Badge({ severity, children }: { severity: "fail" | "warn" | "info"; children: ReactNode }) {
-  return <span className={`dwc-preview-badge ${severity}`}>{children}</span>;
-}
-
 // Numbered pin — anchored in the top-right of an annotated element. Pairs
 // with a numbered legend entry below the preview so the designer can scan:
 // "(1) is what? (2) is what?" without badges cluttering the rendered UI.
@@ -380,16 +375,17 @@ function ColorProductionView({ tokens, stage }: { tokens: ColorToken[]; stage: S
   );
 }
 
+const COLOR_SURFACES = ["#FFFFFF", "#121212"] as const;
+
 function ColorPanel() {
   const tokens = useMemo<ColorToken[]>(() => parseTokensFromCss(COLOR_CSS), []);
-  const surfaces = ["#FFFFFF", "#121212"];
 
   type Finding = { severity: "fail" | "warn"; body: ReactNode };
 
   const findings: Finding[] = useMemo(() => {
     const out: Finding[] = [];
     for (const t of tokens) {
-      for (const s of surfaces) {
+      for (const s of COLOR_SURFACES) {
         const c = classifyContrast(contrastRatio(t.hex, s));
         if (!c.aaLarge) {
           out.push({
@@ -532,7 +528,7 @@ function A11yProductionView({ stage }: { stage: Stage }) {
             unnamed.
           </LegendRow>
           <LegendRow n={5} severity="info">
-            No <code>&lt;main&gt;</code> landmark — keyboard users lose the "skip to content"
+            No <code>&lt;main&gt;</code> landmark — keyboard users lose the &ldquo;skip to content&rdquo;
             shortcut.
           </LegendRow>
         </div>
@@ -682,22 +678,22 @@ function FormProductionView({ stage }: { stage: Stage }) {
       {showAnnotations && (
         <div className="dwc-preview-legend">
           <LegendRow n={1} severity="warn">
-            "*" in the label, but no <code>required</code> attr on the input. Screen readers
-            don't hear the asterisk.
+            &ldquo;*&rdquo; in the label, but no <code>required</code> attr on the input. Screen readers
+            don&rsquo;t hear the asterisk.
           </LegendRow>
           <LegendRow n={2} severity="info">
             No reveal toggle — typos compound in hidden fields.
           </LegendRow>
           <LegendRow n={3} severity="warn">
-            Hint text isn't wired via <code>aria-describedby</code> — screen readers won't
+            Hint text isn&rsquo;t wired via <code>aria-describedby</code> — screen readers won&rsquo;t
             announce it with the field.
           </LegendRow>
           <LegendRow n={4} severity="warn">
-            Radio group is wrapped, but its legend isn't a <code>&lt;legend&gt;</code> element
-            — group label isn't announced with each option.
+            Radio group is wrapped, but its legend isn&rsquo;t a <code>&lt;legend&gt;</code> element
+            — group label isn&rsquo;t announced with each option.
           </LegendRow>
           <LegendRow n={5} severity="fail">
-            Two submits in one form, both without <code>name</code>. Server can't tell which was
+            Two submits in one form, both without <code>name</code>. Server can&rsquo;t tell which was
             pressed.
           </LegendRow>
         </div>
