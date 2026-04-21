@@ -806,7 +806,7 @@
 
 /* --- AuditDemo --------------------------------------------- */
 .dwc-demo {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto 4rem;
   padding: 0 2rem;
 }
@@ -916,6 +916,68 @@
   font-size: 0.875rem;
   line-height: 1.6;
   color: var(--text);
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 1.25rem;
+  /* Lock the body to a fixed height generous enough that none of the current
+     tab contents (idle code, or running production views + legends) need to
+     scroll. Prevents scrollbar-flash width shifts. */
+  height: 780px;
+  box-sizing: border-box;
+}
+
+.dwc-demo-col {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dwc-demo-col-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-dm-mono), monospace;
+}
+
+.dwc-demo-col-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+}
+
+.dwc-demo-col-filename {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.dwc-demo-col-status {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.dwc-demo-col-status-done {
+  color: #9ad87a;
+}
+
+.dwc-demo-col-output {
+  border-left: 1px solid var(--border);
+  padding-left: 1.25rem;
+}
+
+.dwc-demo-output {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .dwc-demo-line-note {
@@ -988,6 +1050,570 @@
   background: rgba(255, 255, 255, 0.015);
   font-size: 0.875rem;
   line-height: 1.55;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: dwc-finding-in 280ms ease-out forwards;
+}
+
+@keyframes dwc-finding-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Interactive demo: input block + controls + idle state ------ */
+.dwc-demo-input-code {
+  margin: 0 0 0.85rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex: 1;
+  /* Match the preview's gutter so the column width is identical in both
+     idle-code and running-preview states. Without this, switching between
+     them would shift the left column by ~17px (the scrollbar width). */
+  scrollbar-gutter: stable;
+}
+
+.dwc-demo-input-code code {
+  color: inherit;
+  white-space: pre;
+}
+
+.dwc-demo-run,
+.dwc-demo-reset {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.8125rem;
+  padding: 0.55rem 1rem;
+  background: var(--accent);
+  color: #0F0F10;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 120ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dwc-demo-reset {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.dwc-demo-run:hover,
+.dwc-demo-reset:hover {
+  opacity: 0.85;
+}
+
+.dwc-demo-run:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.dwc-demo-run,
+.dwc-demo-reset {
+  align-self: flex-start;
+}
+
+.dwc-demo-run-icon {
+  display: inline-block;
+  font-size: 0.7rem;
+}
+
+.dwc-demo-run.running .dwc-demo-run-icon {
+  animation: dwc-spin 900ms linear infinite;
+}
+
+@keyframes dwc-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.dwc-demo-idle {
+  padding: 2rem 1.25rem;
+  text-align: center;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  flex: 1;
+  scrollbar-gutter: stable;
+}
+
+.dwc-demo-idle strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Matrix row reveal: hidden until computing, then fade in */
+.dwc-demo-matrix tbody tr.hide {
+  opacity: 0;
+}
+
+.dwc-demo-matrix tbody tr.show {
+  opacity: 1;
+  transition: opacity 220ms ease-out;
+}
+
+kbd {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.85em;
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.03);
+  white-space: nowrap;
+}
+
+/* --- Production-view previews (color / a11y / form) ------- */
+.dwc-preview {
+  background: #0a0a0b;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  font-family: var(--font-dm-sans), sans-serif;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+  overflow-y: auto;
+  min-height: 0;
+  /* Reserve scrollbar space always so the preview doesn't reflow when
+     overflow appears mid-animation — the "width shrinks on Run audit" bug. */
+  scrollbar-gutter: stable;
+}
+
+.dwc-preview-section-label {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin-bottom: 0.4rem;
+}
+
+/* Annotation outlines — outline-offset gives breathing room without
+   shifting layout. Outlines are themed by severity. */
+.dwc-preview-outline-fail {
+  outline: 2px solid #e87a7a;
+  outline-offset: 2px;
+  border-radius: 3px;
+  transition: outline-color 450ms ease-out;
+}
+
+.dwc-preview-outline-warn {
+  outline: 2px solid #e8b860;
+  outline-offset: 2px;
+  border-radius: 3px;
+  transition: outline-color 450ms ease-out;
+}
+
+.dwc-preview-outline-info {
+  outline: 1px dashed rgba(255, 255, 255, 0.18);
+  outline-offset: 3px;
+  border-radius: 3px;
+  transition: outline-color 450ms ease-out;
+}
+
+/* During the "parsing" phase, the rendered UI is visible but annotations
+   (outlines + badges) are invisible — simulating a scanner that hasn't
+   flagged anything yet. When the stage flips to "computing" or later the
+   phase-scanned class takes over and everything fades in. */
+.dwc-preview.phase-parsing .dwc-preview-outline-fail,
+.dwc-preview.phase-parsing .dwc-preview-outline-warn,
+.dwc-preview.phase-parsing .dwc-preview-outline-info {
+  outline-color: transparent;
+}
+
+.dwc-preview.phase-parsing .dwc-preview-badge {
+  opacity: 0;
+}
+
+.dwc-preview .dwc-preview-badge {
+  opacity: 1;
+  transition: opacity 500ms ease-out;
+}
+
+/* Severity badge — inline tag next to or inside an annotated element */
+.dwc-preview-badge {
+  display: inline-block;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.68rem;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.dwc-preview-badge.fail {
+  background: rgba(232, 122, 122, 0.18);
+  color: #f4b5b5;
+}
+
+.dwc-preview-badge.warn {
+  background: rgba(232, 184, 96, 0.18);
+  color: #f4d5a3;
+}
+
+.dwc-preview-badge.info {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-dim);
+}
+
+/* --- Numbered pin — anchored top-right corner of annotated element ---- */
+.dwc-preview-pin {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0F0F10;
+  z-index: 2;
+  box-shadow: 0 0 0 2px #0a0a0b;
+  letter-spacing: 0;
+}
+
+.dwc-preview-pin.inline {
+  position: static;
+  box-shadow: none;
+  flex-shrink: 0;
+  margin-right: 0.6rem;
+  width: 18px;
+  height: 18px;
+  font-size: 0.65rem;
+}
+
+.dwc-preview-pin.fail { background: #e87a7a; }
+.dwc-preview-pin.warn { background: #e8b860; }
+.dwc-preview-pin.info { background: #8a8a8a; }
+
+/* Legend list under the preview card — pairs numbered pins with text */
+.dwc-preview-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--border);
+}
+
+.dwc-preview-legend-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.1rem;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.dwc-preview-legend-row code {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+/* --- Color production view — mini product card in each token system --- */
+.dwc-preview-surfaces {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+.dwc-color-card {
+  padding: 1.1rem 1.15rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.dwc-color-card-chrome {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.75;
+  margin-bottom: 0.25rem;
+}
+
+.dwc-color-card-title {
+  font-family: var(--font-dm-serif), serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  position: relative;
+  display: inline-block;
+  align-self: flex-start;
+}
+
+.dwc-color-card-body {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.dwc-color-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 0.2rem;
+  flex-wrap: wrap;
+}
+
+.dwc-color-card-btn {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: default;
+  letter-spacing: 0.01em;
+}
+
+.dwc-color-card-link {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Color surfaces always stack vertically — they're ~300px wide inside the
+   left column, which is too narrow for side-by-side product cards. Stacking
+   also makes light-vs-dark compare read better (same UI twice, top to bottom). */
+
+/* --- Real card (a11y / form) — proper product card on dark surface --- */
+.dwc-real-card {
+  position: relative;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #161619 0%, #0f0f11 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  font-family: var(--font-dm-sans), sans-serif;
+  color: #e8e8ea;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.dwc-real-card-landmark {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  z-index: 3;
+}
+
+.dwc-real-card-landmark-text {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+
+.dwc-real-hero {
+  position: relative;
+  height: 84px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dwc-real-hero-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 40%, rgba(200, 240, 122, 0.22), transparent 45%),
+    radial-gradient(circle at 82% 55%, rgba(94, 141, 239, 0.28), transparent 50%),
+    linear-gradient(135deg, #1a1a24 0%, #0f0f16 100%);
+}
+
+.dwc-real-card-body {
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.dwc-real-card-eyebrow {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.dwc-real-card-h1 {
+  font-family: var(--font-dm-serif), serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #f4f4f5;
+  margin: 0 0 0.25rem;
+}
+
+.dwc-real-card-h3 {
+  font-family: var(--font-dm-serif), serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #cfcfd2;
+  margin: 0.85rem 0 0.65rem;
+  position: relative;
+  display: inline-block;
+}
+
+.dwc-real-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.85rem;
+}
+
+.dwc-real-field-label {
+  font-size: 0.75rem;
+  color: #b0b0b3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  position: relative;
+  align-self: flex-start;
+}
+
+.dwc-real-req {
+  color: #e87a7a;
+  font-weight: 700;
+}
+
+.dwc-real-input-wrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.dwc-real-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #e8e8ea;
+  font-family: inherit;
+}
+
+.dwc-real-input::placeholder {
+  color: #6d6d72;
+}
+
+.dwc-real-hint {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: #888;
+  margin-top: 0.2rem;
+  padding: 0.15rem 0.3rem;
+  position: relative;
+  align-self: flex-start;
+}
+
+.dwc-real-fieldset {
+  border: none;
+  padding: 0.45rem 0.6rem;
+  margin: 0 0 0.9rem;
+  position: relative;
+  display: inline-block;
+}
+
+.dwc-real-fieldset-legend {
+  font-size: 0.75rem;
+  color: #b0b0b3;
+  margin-bottom: 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  position: relative;
+}
+
+.dwc-real-radio-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.dwc-real-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: #cfcfd2;
+}
+
+.dwc-real-submit-row {
+  display: flex;
+  gap: 0.55rem;
+  margin-top: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.dwc-real-btn-wrap {
+  display: inline-block;
+  position: relative;
+}
+
+.dwc-real-btn {
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: default;
+  letter-spacing: 0.01em;
+}
+
+.dwc-real-btn-primary {
+  background: var(--accent);
+  color: #0F0F10;
+}
+
+.dwc-real-btn-secondary {
+  background: transparent;
+  color: #cfcfd2;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.dwc-real-btn-empty-hint {
+  display: inline-block;
+  min-width: 30px;
 }
 
 .dwc-demo-finding-mark {
@@ -1190,6 +1816,19 @@
   line-height: 1.6;
   color: var(--text-muted);
   margin: 0;
+}
+
+@media (max-width: 840px) {
+  .dwc-demo-body {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .dwc-demo-col-output {
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding-left: 0;
+    padding-top: 1.25rem;
+  }
 }
 
 @media (max-width: 720px) {
