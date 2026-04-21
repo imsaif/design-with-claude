@@ -7,6 +7,9 @@ import { typographySpecialistTool } from "./typography-specialist.js";
 import { spacingSpecialistTool } from "./spacing-specialist.js";
 import { setupGuideTool } from "./setup-guide.js";
 import { debugHelperTool } from "./debug-helper.js";
+import { accessibilitySpecialistTool } from "./accessibility-specialist.js";
+import { formDesignerTool } from "./form-designer.js";
+import { navigationSpecialistTool } from "./navigation-specialist.js";
 
 export const tools: ToolDefinition[] = [
   helloWorldTool,
@@ -15,6 +18,9 @@ export const tools: ToolDefinition[] = [
   colorSpecialistTool,
   typographySpecialistTool,
   spacingSpecialistTool,
+  accessibilitySpecialistTool,
+  formDesignerTool,
+  navigationSpecialistTool,
   setupGuideTool,
   debugHelperTool,
 ] as unknown as ToolDefinition[];
