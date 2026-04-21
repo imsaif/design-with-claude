@@ -58,7 +58,7 @@ export function createSetProjectProfileTool(ctx: Ctx): ToolDefinition {
         return {
           text:
             "Cannot persist profile: this MCP server is running without DWIC_TOKEN. " +
-            "Run `npx dwic setup --token=<your token> --project=<slug>` and restart Claude Code before trying again.",
+            "Run `npx @imrandwc/dwic setup --token=<your token> --project=<slug>` and restart Claude Code before trying again.",
           output: {
             type: "markdown",
             data: { title: "set-project-profile — blocked", content: "missing DWIC_TOKEN" },

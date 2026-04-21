@@ -2,7 +2,7 @@
 
 **[designwithclaude.com](https://designwithclaude.com)** — two products, one design brain for Claude Code:
 
-1. **dwic** (this npm package) — the **design auditor**. MCP server that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then prescribes the fix and remembers it across every session. Install: `npx dwic setup --token=imr_xxx --project=<slug>`. Get a token at [designwithclaude.com/start](https://designwithclaude.com/start).
+1. **dwic** (this npm package) — the **design auditor**. MCP server that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then prescribes the fix and remembers it across every session. Install: `npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>`. Get a token at [designwithclaude.com/start](https://designwithclaude.com/start).
 2. **The free library** (this repo) — 45 markdown-based design skills as Claude Code slash commands. Accessibility, design systems, motion, typography, copy, dashboards. No runtime, no dependencies, no API keys. Lives at [designwithclaude.com/library](https://designwithclaude.com/library).
 
 This README documents the **free library**. For `dwic` usage docs, start at [designwithclaude.com/start](https://designwithclaude.com/start).
