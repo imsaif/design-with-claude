@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const INSTALL_CMD = "npx dwic setup --token=imr_xxx --project=your-project";
+const INSTALL_CMD = "npx @imrandwc/dwic setup --token=imr_xxx --project=your-project";
 
 export function InstallV2() {
   const [copied, setCopied] = useState(false);

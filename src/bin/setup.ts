@@ -66,8 +66,8 @@ function printHelp(): void {
     bold("dwic") + ` v${VERSION} — design auditor for Claude Code (designwithclaude.com)`,
     "",
     "Usage:",
-    "  npx dwic setup --token=imr_xxx --project=<slug>",
-    "  npx dwic uninstall [--project=<slug>] [--scope=project|user]",
+    "  npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>",
+    "  npx @imrandwc/dwic uninstall [--project=<slug>] [--scope=project|user]",
     "",
     "Options:",
     "  --token=imr_xxx      Your dwic token (from designwithclaude.com onboarding)",
@@ -79,9 +79,9 @@ function printHelp(): void {
     "  --skip-validate      Skip online token validation (dev)",
     "",
     "Examples:",
-    "  npx dwic setup --token=imr_a7f3x92k --project=thriya",
-    "  npx dwic setup --token=imr_a7f3x92k --project=acme-landing",
-    "  npx dwic uninstall --project=thriya",
+    "  npx @imrandwc/dwic setup --token=imr_a7f3x92k --project=thriya",
+    "  npx @imrandwc/dwic setup --token=imr_a7f3x92k --project=acme-landing",
+    "  npx @imrandwc/dwic uninstall --project=thriya",
     "",
     "Learn more: https://designwithclaude.com",
   ].join("\n");
@@ -272,7 +272,7 @@ async function runSetup(args: Args): Promise<void> {
     process.stderr.write(
       red("Missing --token. ") +
         "Run " +
-        bold("npx dwic setup --token=imr_xxx --project=<slug>") +
+        bold("npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>") +
         "\n",
     );
     process.exitCode = 1;

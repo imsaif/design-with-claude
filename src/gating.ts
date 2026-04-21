@@ -18,7 +18,7 @@ export async function checkGate(
     return {
       allowed: false,
       text:
-        "dwic is not configured with a token. Run `npx dwic setup --token=imr_xxx --project=<slug>` and restart Claude Code.",
+        "dwic is not configured with a token. Run `npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>` and restart Claude Code.",
     };
   }
 

@@ -9,7 +9,7 @@ interface InstallPageProps {
 }
 
 export const metadata = {
-  title: "Install designwithclaude",
+  title: "Install dwic",
 };
 
 export default async function InstallPage({ searchParams }: InstallPageProps) {
@@ -18,9 +18,9 @@ export default async function InstallPage({ searchParams }: InstallPageProps) {
   const project = rawProject && isValidSlug(rawProject) ? rawProject : "default";
 
   const setupCommand = valid
-    ? `npx dwic setup --token=${token} --project=${project}`
-    : `npx dwic setup --token=imr_yourTokenHere --project=<slug>`;
-  const uninstallCommand = `npx designwithclaude uninstall --project=${project}`;
+    ? `npx @imrandwc/dwic setup --token=${token} --project=${project}`
+    : `npx @imrandwc/dwic setup --token=imr_yourTokenHere --project=<slug>`;
+  const uninstallCommand = `npx @imrandwc/dwic uninstall --project=${project}`;
 
   return (
     <Shell step={3} token={valid ? token : undefined}>
