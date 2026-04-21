@@ -1,7 +1,7 @@
 {
-  "name": "Design with Claude - AI-Powered Design Agents",
+  "name": "Design with Claude — the design auditor inside Claude Code",
   "short_name": "Design with Claude",
-  "description": "29 specialized design agents as Claude Code slash commands. Expert design guidance in your coding workflow.",
+  "description": "MCP server that audits your design system tokens for contrast failures, brand drift, and structural gaps — then prescribes the fix across Claude Code sessions.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
