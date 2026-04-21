@@ -9,7 +9,6 @@ export function getSupabase(): SupabaseClient | null {
   const key = process.env.DWC_SUPABASE_SERVICE_ROLE_KEY?.trim();
   if (!url || !key) {
     if (!warned) {
-      // eslint-disable-next-line no-console
       console.warn(
         "[dwc] Supabase env not configured — falling back to in-memory store. " +
           "Set DWC_SUPABASE_URL and DWC_SUPABASE_SERVICE_ROLE_KEY for persistence.",
