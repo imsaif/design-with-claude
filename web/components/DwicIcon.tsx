@@ -1,4 +1,4 @@
-export default function DwcIcon({ className }: { className?: string }) {
+export default function DwicIcon({ className }: { className?: string }) {
   return (
     <svg
       width="24"

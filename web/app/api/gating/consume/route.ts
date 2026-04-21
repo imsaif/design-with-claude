@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import { incrementCommandCount } from "@/lib/dwc/store";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
+import { incrementCommandCount } from "@/lib/dwic/store";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
 
 export const runtime = "nodejs";
 

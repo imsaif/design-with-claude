@@ -1,4 +1,4 @@
-import type { TypeScaleData } from "@/lib/dwc/types";
+import type { TypeScaleData } from "@/lib/dwic/types";
 
 const SAMPLE: Record<string, string> = {
   display: "The quiet hum of clean design",

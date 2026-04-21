@@ -805,20 +805,20 @@
    ============================================================ */
 
 /* --- AuditDemo --------------------------------------------- */
-.dwc-demo {
+.dwic-demo {
   max-width: 1200px;
   margin: 0 auto 4rem;
   padding: 0 2rem;
 }
 
-.dwc-demo-inner {
+.dwic-demo-inner {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 2.5rem;
 }
 
-.dwc-demo-eyebrow {
+.dwic-demo-eyebrow {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.8125rem;
   text-transform: uppercase;
@@ -827,7 +827,7 @@
   margin-bottom: 0.75rem;
 }
 
-.dwc-demo-title {
+.dwic-demo-title {
   font-family: var(--font-dm-serif), serif;
   font-size: 2rem;
   font-weight: 500;
@@ -837,7 +837,7 @@
   margin-bottom: 0.75rem;
 }
 
-.dwc-demo-sub {
+.dwic-demo-sub {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 1rem;
   line-height: 1.6;
@@ -846,7 +846,7 @@
   max-width: 620px;
 }
 
-.dwc-demo-tabs {
+.dwic-demo-tabs {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1rem;
@@ -854,7 +854,7 @@
   padding-bottom: 0;
 }
 
-.dwc-demo-tab {
+.dwic-demo-tab {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.875rem;
   padding: 0.6rem 1rem;
@@ -867,24 +867,24 @@
   transition: color 120ms ease, border-color 120ms ease;
 }
 
-.dwc-demo-tab:hover {
+.dwic-demo-tab:hover {
   color: var(--text);
 }
 
-.dwc-demo-tab.active {
+.dwic-demo-tab.active {
   color: var(--accent);
   border-bottom-color: var(--accent);
   font-weight: 500;
 }
 
-.dwc-demo-panel {
+.dwic-demo-panel {
   background: #0a0a0b;
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
 }
 
-.dwc-demo-panel-head {
+.dwic-demo-panel-head {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -895,22 +895,22 @@
   font-size: 0.8125rem;
 }
 
-.dwc-demo-prompt {
+.dwic-demo-prompt {
   color: var(--accent);
   font-weight: 600;
 }
 
-.dwc-demo-prompt-tool {
+.dwic-demo-prompt-tool {
   color: var(--text);
 }
 
-.dwc-demo-prompt-mode {
+.dwic-demo-prompt-mode {
   color: var(--text-dim);
   margin-left: auto;
   font-size: 0.75rem;
 }
 
-.dwc-demo-body {
+.dwic-demo-body {
   padding: 1.5rem;
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.875rem;
@@ -926,7 +926,7 @@
   box-sizing: border-box;
 }
 
-.dwc-demo-col {
+.dwic-demo-col {
   min-width: 0;
   min-height: 0;
   display: flex;
@@ -934,7 +934,7 @@
   overflow: hidden;
 }
 
-.dwc-demo-col-head {
+.dwic-demo-col-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -943,35 +943,35 @@
   font-family: var(--font-dm-mono), monospace;
 }
 
-.dwc-demo-col-label {
+.dwic-demo-col-label {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--text-dim);
 }
 
-.dwc-demo-col-filename {
+.dwic-demo-col-filename {
   font-size: 0.75rem;
   color: var(--text-muted);
 }
 
-.dwc-demo-col-status {
+.dwic-demo-col-status {
   font-size: 0.7rem;
   color: var(--text-dim);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
-.dwc-demo-col-status-done {
+.dwic-demo-col-status-done {
   color: #9ad87a;
 }
 
-.dwc-demo-col-output {
+.dwic-demo-col-output {
   border-left: 1px solid var(--border);
   padding-left: 1.25rem;
 }
 
-.dwc-demo-output {
+.dwic-demo-output {
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -980,32 +980,32 @@
   scrollbar-gutter: stable;
 }
 
-.dwc-demo-line-note {
+.dwic-demo-line-note {
   color: var(--text-muted);
   margin-bottom: 1.25rem;
   font-size: 0.8125rem;
 }
 
-.dwc-demo-body code {
+.dwic-demo-body code {
   font-family: inherit;
   color: var(--accent);
 }
 
-.dwc-demo-matrix {
+.dwic-demo-matrix {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.8125rem;
   margin-bottom: 1.5rem;
 }
 
-.dwc-demo-matrix th,
-.dwc-demo-matrix td {
+.dwic-demo-matrix th,
+.dwic-demo-matrix td {
   text-align: left;
   padding: 0.55rem 0.75rem;
   border-bottom: 1px solid var(--border);
 }
 
-.dwc-demo-matrix th {
+.dwic-demo-matrix th {
   color: var(--text-dim);
   font-weight: 500;
   font-size: 0.75rem;
@@ -1013,19 +1013,19 @@
   letter-spacing: 0.08em;
 }
 
-.dwc-demo-matrix td.ok {
+.dwic-demo-matrix td.ok {
   color: #9ad87a;
 }
 
-.dwc-demo-matrix td.warn {
+.dwic-demo-matrix td.warn {
   color: #e8b860;
 }
 
-.dwc-demo-matrix td.fail {
+.dwic-demo-matrix td.fail {
   color: #e87a7a;
 }
 
-.dwc-demo-matrix .swatch {
+.dwic-demo-matrix .swatch {
   display: inline-block;
   width: 12px;
   height: 12px;
@@ -1035,12 +1035,12 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.dwc-demo-findings {
+.dwic-demo-findings {
   display: grid;
   gap: 0.6rem;
 }
 
-.dwc-demo-finding {
+.dwic-demo-finding {
   display: grid;
   grid-template-columns: 1.25rem 1fr;
   gap: 0.5rem;
@@ -1052,10 +1052,10 @@
   line-height: 1.55;
   opacity: 0;
   transform: translateY(4px);
-  animation: dwc-finding-in 280ms ease-out forwards;
+  animation: dwic-finding-in 280ms ease-out forwards;
 }
 
-@keyframes dwc-finding-in {
+@keyframes dwic-finding-in {
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1063,7 +1063,7 @@
 }
 
 /* --- Interactive demo: input block + controls + idle state ------ */
-.dwc-demo-input-code {
+.dwic-demo-input-code {
   margin: 0 0 0.85rem;
   padding: 0.85rem 1rem;
   background: rgba(255, 255, 255, 0.02);
@@ -1082,13 +1082,13 @@
   scrollbar-gutter: stable;
 }
 
-.dwc-demo-input-code code {
+.dwic-demo-input-code code {
   color: inherit;
   white-space: pre;
 }
 
-.dwc-demo-run,
-.dwc-demo-reset {
+.dwic-demo-run,
+.dwic-demo-reset {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.8125rem;
   padding: 0.55rem 1rem;
@@ -1104,42 +1104,42 @@
   gap: 0.4rem;
 }
 
-.dwc-demo-reset {
+.dwic-demo-reset {
   background: transparent;
   color: var(--text-muted);
   border: 1px solid var(--border);
 }
 
-.dwc-demo-run:hover,
-.dwc-demo-reset:hover {
+.dwic-demo-run:hover,
+.dwic-demo-reset:hover {
   opacity: 0.85;
 }
 
-.dwc-demo-run:disabled {
+.dwic-demo-run:disabled {
   cursor: default;
   opacity: 0.7;
 }
 
-.dwc-demo-run,
-.dwc-demo-reset {
+.dwic-demo-run,
+.dwic-demo-reset {
   align-self: flex-start;
 }
 
-.dwc-demo-run-icon {
+.dwic-demo-run-icon {
   display: inline-block;
   font-size: 0.7rem;
 }
 
-.dwc-demo-run.running .dwc-demo-run-icon {
-  animation: dwc-spin 900ms linear infinite;
+.dwic-demo-run.running .dwic-demo-run-icon {
+  animation: dwic-spin 900ms linear infinite;
 }
 
-@keyframes dwc-spin {
+@keyframes dwic-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.dwc-demo-idle {
+.dwic-demo-idle {
   padding: 2rem 1.25rem;
   text-align: center;
   font-family: var(--font-dm-sans), sans-serif;
@@ -1156,17 +1156,17 @@
   scrollbar-gutter: stable;
 }
 
-.dwc-demo-idle strong {
+.dwic-demo-idle strong {
   color: var(--accent);
   font-weight: 600;
 }
 
 /* Matrix row reveal: hidden until computing, then fade in */
-.dwc-demo-matrix tbody tr.hide {
+.dwic-demo-matrix tbody tr.hide {
   opacity: 0;
 }
 
-.dwc-demo-matrix tbody tr.show {
+.dwic-demo-matrix tbody tr.show {
   opacity: 1;
   transition: opacity 220ms ease-out;
 }
@@ -1183,7 +1183,7 @@ kbd {
 }
 
 /* --- Production-view previews (color / a11y / form) ------- */
-.dwc-preview {
+.dwic-preview {
   background: #0a0a0b;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -1201,7 +1201,7 @@ kbd {
   scrollbar-gutter: stable;
 }
 
-.dwc-preview-section-label {
+.dwic-preview-section-label {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.68rem;
   text-transform: uppercase;
@@ -1212,21 +1212,21 @@ kbd {
 
 /* Annotation outlines — outline-offset gives breathing room without
    shifting layout. Outlines are themed by severity. */
-.dwc-preview-outline-fail {
+.dwic-preview-outline-fail {
   outline: 2px solid #e87a7a;
   outline-offset: 2px;
   border-radius: 3px;
   transition: outline-color 450ms ease-out;
 }
 
-.dwc-preview-outline-warn {
+.dwic-preview-outline-warn {
   outline: 2px solid #e8b860;
   outline-offset: 2px;
   border-radius: 3px;
   transition: outline-color 450ms ease-out;
 }
 
-.dwc-preview-outline-info {
+.dwic-preview-outline-info {
   outline: 1px dashed rgba(255, 255, 255, 0.18);
   outline-offset: 3px;
   border-radius: 3px;
@@ -1237,23 +1237,23 @@ kbd {
    (outlines + badges) are invisible — simulating a scanner that hasn't
    flagged anything yet. When the stage flips to "computing" or later the
    phase-scanned class takes over and everything fades in. */
-.dwc-preview.phase-parsing .dwc-preview-outline-fail,
-.dwc-preview.phase-parsing .dwc-preview-outline-warn,
-.dwc-preview.phase-parsing .dwc-preview-outline-info {
+.dwic-preview.phase-parsing .dwic-preview-outline-fail,
+.dwic-preview.phase-parsing .dwic-preview-outline-warn,
+.dwic-preview.phase-parsing .dwic-preview-outline-info {
   outline-color: transparent;
 }
 
-.dwc-preview.phase-parsing .dwc-preview-badge {
+.dwic-preview.phase-parsing .dwic-preview-badge {
   opacity: 0;
 }
 
-.dwc-preview .dwc-preview-badge {
+.dwic-preview .dwic-preview-badge {
   opacity: 1;
   transition: opacity 500ms ease-out;
 }
 
 /* Severity badge — inline tag next to or inside an annotated element */
-.dwc-preview-badge {
+.dwic-preview-badge {
   display: inline-block;
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.68rem;
@@ -1264,23 +1264,23 @@ kbd {
   vertical-align: middle;
 }
 
-.dwc-preview-badge.fail {
+.dwic-preview-badge.fail {
   background: rgba(232, 122, 122, 0.18);
   color: #f4b5b5;
 }
 
-.dwc-preview-badge.warn {
+.dwic-preview-badge.warn {
   background: rgba(232, 184, 96, 0.18);
   color: #f4d5a3;
 }
 
-.dwc-preview-badge.info {
+.dwic-preview-badge.info {
   background: rgba(255, 255, 255, 0.06);
   color: var(--text-dim);
 }
 
 /* --- Numbered pin — anchored top-right corner of annotated element ---- */
-.dwc-preview-pin {
+.dwic-preview-pin {
   position: absolute;
   top: -9px;
   right: -9px;
@@ -1299,7 +1299,7 @@ kbd {
   letter-spacing: 0;
 }
 
-.dwc-preview-pin.inline {
+.dwic-preview-pin.inline {
   position: static;
   box-shadow: none;
   flex-shrink: 0;
@@ -1309,12 +1309,12 @@ kbd {
   font-size: 0.65rem;
 }
 
-.dwc-preview-pin.fail { background: #e87a7a; }
-.dwc-preview-pin.warn { background: #e8b860; }
-.dwc-preview-pin.info { background: #8a8a8a; }
+.dwic-preview-pin.fail { background: #e87a7a; }
+.dwic-preview-pin.warn { background: #e8b860; }
+.dwic-preview-pin.info { background: #8a8a8a; }
 
 /* Legend list under the preview card — pairs numbered pins with text */
-.dwc-preview-legend {
+.dwic-preview-legend {
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
@@ -1324,7 +1324,7 @@ kbd {
   border: 1px solid var(--border);
 }
 
-.dwc-preview-legend-row {
+.dwic-preview-legend-row {
   display: flex;
   align-items: flex-start;
   gap: 0.1rem;
@@ -1334,20 +1334,20 @@ kbd {
   color: var(--text-muted);
 }
 
-.dwc-preview-legend-row code {
+.dwic-preview-legend-row code {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.78rem;
   color: var(--accent);
 }
 
 /* --- Color production view — mini product card in each token system --- */
-.dwc-preview-surfaces {
+.dwic-preview-surfaces {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.85rem;
 }
 
-.dwc-color-card {
+.dwic-color-card {
   padding: 1.1rem 1.15rem 1.2rem;
   border-radius: 10px;
   border: 1px solid;
@@ -1356,7 +1356,7 @@ kbd {
   gap: 0.55rem;
 }
 
-.dwc-color-card-chrome {
+.dwic-color-card-chrome {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.65rem;
   text-transform: uppercase;
@@ -1365,7 +1365,7 @@ kbd {
   margin-bottom: 0.25rem;
 }
 
-.dwc-color-card-title {
+.dwic-color-card-title {
   font-family: var(--font-dm-serif), serif;
   font-size: 1.5rem;
   font-weight: 500;
@@ -1376,14 +1376,14 @@ kbd {
   align-self: flex-start;
 }
 
-.dwc-color-card-body {
+.dwic-color-card-body {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 0.84rem;
   line-height: 1.55;
   margin: 0;
 }
 
-.dwc-color-card-actions {
+.dwic-color-card-actions {
   display: flex;
   align-items: center;
   gap: 0.9rem;
@@ -1391,7 +1391,7 @@ kbd {
   flex-wrap: wrap;
 }
 
-.dwc-color-card-btn {
+.dwic-color-card-btn {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 0.82rem;
   font-weight: 600;
@@ -1402,7 +1402,7 @@ kbd {
   letter-spacing: 0.01em;
 }
 
-.dwc-color-card-link {
+.dwic-color-card-link {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 0.82rem;
   font-weight: 500;
@@ -1417,7 +1417,7 @@ kbd {
    also makes light-vs-dark compare read better (same UI twice, top to bottom). */
 
 /* --- Real card (a11y / form) — proper product card on dark surface --- */
-.dwc-real-card {
+.dwic-real-card {
   position: relative;
   border-radius: 12px;
   background: linear-gradient(180deg, #161619 0%, #0f0f11 100%);
@@ -1428,7 +1428,7 @@ kbd {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
 }
 
-.dwc-real-card-landmark {
+.dwic-real-card-landmark {
   position: absolute;
   top: 10px;
   right: 12px;
@@ -1438,20 +1438,20 @@ kbd {
   z-index: 3;
 }
 
-.dwc-real-card-landmark-text {
+.dwic-real-card-landmark-text {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.65rem;
   color: var(--text-dim);
 }
 
-.dwc-real-hero {
+.dwic-real-hero {
   position: relative;
   height: 84px;
   overflow: hidden;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.dwc-real-hero-gradient {
+.dwic-real-hero-gradient {
   position: absolute;
   inset: 0;
   background:
@@ -1460,11 +1460,11 @@ kbd {
     linear-gradient(135deg, #1a1a24 0%, #0f0f16 100%);
 }
 
-.dwc-real-card-body {
+.dwic-real-card-body {
   padding: 1.1rem 1.25rem 1.25rem;
 }
 
-.dwc-real-card-eyebrow {
+.dwic-real-card-eyebrow {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.65rem;
   text-transform: uppercase;
@@ -1473,7 +1473,7 @@ kbd {
   margin-bottom: 0.5rem;
 }
 
-.dwc-real-card-h1 {
+.dwic-real-card-h1 {
   font-family: var(--font-dm-serif), serif;
   font-size: 1.35rem;
   font-weight: 500;
@@ -1483,7 +1483,7 @@ kbd {
   margin: 0 0 0.25rem;
 }
 
-.dwc-real-card-h3 {
+.dwic-real-card-h3 {
   font-family: var(--font-dm-serif), serif;
   font-size: 0.95rem;
   font-weight: 500;
@@ -1493,14 +1493,14 @@ kbd {
   display: inline-block;
 }
 
-.dwc-real-field {
+.dwic-real-field {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   margin-bottom: 0.85rem;
 }
 
-.dwc-real-field-label {
+.dwic-real-field-label {
   font-size: 0.75rem;
   color: #b0b0b3;
   display: inline-flex;
@@ -1510,18 +1510,18 @@ kbd {
   align-self: flex-start;
 }
 
-.dwc-real-req {
+.dwic-real-req {
   color: #e87a7a;
   font-weight: 700;
 }
 
-.dwc-real-input-wrap {
+.dwic-real-input-wrap {
   position: relative;
   display: inline-block;
   width: 100%;
 }
 
-.dwc-real-input {
+.dwic-real-input {
   width: 100%;
   padding: 0.6rem 0.75rem;
   background: rgba(255, 255, 255, 0.035);
@@ -1532,11 +1532,11 @@ kbd {
   font-family: inherit;
 }
 
-.dwc-real-input::placeholder {
+.dwic-real-input::placeholder {
   color: #6d6d72;
 }
 
-.dwc-real-hint {
+.dwic-real-hint {
   display: inline-block;
   font-size: 0.7rem;
   color: #888;
@@ -1546,7 +1546,7 @@ kbd {
   align-self: flex-start;
 }
 
-.dwc-real-fieldset {
+.dwic-real-fieldset {
   border: none;
   padding: 0.45rem 0.6rem;
   margin: 0 0 0.9rem;
@@ -1554,7 +1554,7 @@ kbd {
   display: inline-block;
 }
 
-.dwc-real-fieldset-legend {
+.dwic-real-fieldset-legend {
   font-size: 0.75rem;
   color: #b0b0b3;
   margin-bottom: 0.45rem;
@@ -1564,12 +1564,12 @@ kbd {
   position: relative;
 }
 
-.dwc-real-radio-row {
+.dwic-real-radio-row {
   display: flex;
   gap: 1rem;
 }
 
-.dwc-real-radio {
+.dwic-real-radio {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -1577,19 +1577,19 @@ kbd {
   color: #cfcfd2;
 }
 
-.dwc-real-submit-row {
+.dwic-real-submit-row {
   display: flex;
   gap: 0.55rem;
   margin-top: 0.65rem;
   flex-wrap: wrap;
 }
 
-.dwc-real-btn-wrap {
+.dwic-real-btn-wrap {
   display: inline-block;
   position: relative;
 }
 
-.dwc-real-btn {
+.dwic-real-btn {
   font-family: inherit;
   font-size: 0.84rem;
   font-weight: 600;
@@ -1600,56 +1600,56 @@ kbd {
   letter-spacing: 0.01em;
 }
 
-.dwc-real-btn-primary {
+.dwic-real-btn-primary {
   background: var(--accent);
   color: #0F0F10;
 }
 
-.dwc-real-btn-secondary {
+.dwic-real-btn-secondary {
   background: transparent;
   color: #cfcfd2;
   border-color: rgba(255, 255, 255, 0.14);
 }
 
-.dwc-real-btn-empty-hint {
+.dwic-real-btn-empty-hint {
   display: inline-block;
   min-width: 30px;
 }
 
-.dwc-demo-finding-mark {
+.dwic-demo-finding-mark {
   font-weight: 700;
   text-align: center;
 }
 
-.dwc-demo-finding.fail {
+.dwic-demo-finding.fail {
   color: #f4b5b5;
 }
-.dwc-demo-finding.fail .dwc-demo-finding-mark {
+.dwic-demo-finding.fail .dwic-demo-finding-mark {
   color: #e87a7a;
 }
 
-.dwc-demo-finding.warn {
+.dwic-demo-finding.warn {
   color: #f4d5a3;
 }
-.dwc-demo-finding.warn .dwc-demo-finding-mark {
+.dwic-demo-finding.warn .dwic-demo-finding-mark {
   color: #e8b860;
 }
 
-.dwc-demo-finding.info {
+.dwic-demo-finding.info {
   color: var(--text-muted);
 }
-.dwc-demo-finding.info .dwc-demo-finding-mark {
+.dwic-demo-finding.info .dwic-demo-finding-mark {
   color: var(--text-dim);
 }
 
 /* --- InstallV2 --------------------------------------------- */
-.dwc-install {
+.dwic-install {
   max-width: 960px;
   margin: 0 auto 4rem;
   padding: 0 2rem;
 }
 
-.dwc-install-inner {
+.dwic-install-inner {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -1657,7 +1657,7 @@ kbd {
   text-align: center;
 }
 
-.dwc-install-eyebrow {
+.dwic-install-eyebrow {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.8125rem;
   text-transform: uppercase;
@@ -1666,7 +1666,7 @@ kbd {
   margin-bottom: 0.75rem;
 }
 
-.dwc-install-title {
+.dwic-install-title {
   font-family: var(--font-dm-serif), serif;
   font-size: 1.75rem;
   font-weight: 500;
@@ -1675,7 +1675,7 @@ kbd {
   margin-bottom: 1.75rem;
 }
 
-.dwc-install-cmdrow {
+.dwic-install-cmdrow {
   display: flex;
   gap: 0.5rem;
   align-items: stretch;
@@ -1683,7 +1683,7 @@ kbd {
   margin: 0 auto 1.25rem;
 }
 
-.dwc-install-cmd {
+.dwic-install-cmd {
   flex: 1;
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.875rem;
@@ -1697,7 +1697,7 @@ kbd {
   text-align: left;
 }
 
-.dwc-install-copy {
+.dwic-install-copy {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.8125rem;
   padding: 0.85rem 1.1rem;
@@ -1710,11 +1710,11 @@ kbd {
   transition: opacity 120ms ease;
 }
 
-.dwc-install-copy:hover {
+.dwic-install-copy:hover {
   opacity: 0.85;
 }
 
-.dwc-install-note {
+.dwic-install-note {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 0.9375rem;
   line-height: 1.6;
@@ -1723,29 +1723,29 @@ kbd {
   margin: 0 auto 1.25rem;
 }
 
-.dwc-install-cta {
+.dwic-install-cta {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 0.9375rem;
   color: var(--text-dim);
 }
 
-.dwc-install-link {
+.dwic-install-link {
   color: var(--accent);
   text-decoration: underline;
 }
 
 /* --- SpecialistsList --------------------------------------- */
-.dwc-specialists {
+.dwic-specialists {
   max-width: 960px;
   margin: 0 auto 4rem;
   padding: 0 2rem;
 }
 
-.dwc-specialists-inner {
+.dwic-specialists-inner {
   padding: 1rem 0;
 }
 
-.dwc-specialists-eyebrow {
+.dwic-specialists-eyebrow {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.8125rem;
   text-transform: uppercase;
@@ -1754,7 +1754,7 @@ kbd {
   margin-bottom: 0.75rem;
 }
 
-.dwc-specialists-title {
+.dwic-specialists-title {
   font-family: var(--font-dm-serif), serif;
   font-size: 2rem;
   font-weight: 500;
@@ -1764,7 +1764,7 @@ kbd {
   margin-bottom: 0.75rem;
 }
 
-.dwc-specialists-sub {
+.dwic-specialists-sub {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 1rem;
   line-height: 1.6;
@@ -1773,7 +1773,7 @@ kbd {
   max-width: 620px;
 }
 
-.dwc-specialists-list {
+.dwic-specialists-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -1782,35 +1782,35 @@ kbd {
   gap: 1rem;
 }
 
-.dwc-specialist {
+.dwic-specialist {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.25rem;
 }
 
-.dwc-specialist-head {
+.dwic-specialist-head {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   margin-bottom: 0.75rem;
 }
 
-.dwc-specialist-name {
+.dwic-specialist-name {
   font-family: var(--font-dm-mono), monospace;
   font-size: 0.9375rem;
   color: var(--accent);
   font-weight: 500;
 }
 
-.dwc-specialist-tagline {
+.dwic-specialist-tagline {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 0.875rem;
   color: var(--text);
   font-weight: 500;
 }
 
-.dwc-specialist-body {
+.dwic-specialist-body {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 0.875rem;
   line-height: 1.6;
@@ -1819,11 +1819,11 @@ kbd {
 }
 
 @media (max-width: 840px) {
-  .dwc-demo-body {
+  .dwic-demo-body {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  .dwc-demo-col-output {
+  .dwic-demo-col-output {
     border-left: none;
     border-top: 1px solid var(--border);
     padding-left: 0;
@@ -1832,26 +1832,26 @@ kbd {
 }
 
 @media (max-width: 720px) {
-  .dwc-demo,
-  .dwc-install,
-  .dwc-specialists {
+  .dwic-demo,
+  .dwic-install,
+  .dwic-specialists {
     padding: 0 1.25rem;
   }
-  .dwc-demo-inner,
-  .dwc-install-inner {
+  .dwic-demo-inner,
+  .dwic-install-inner {
     padding: 1.5rem;
   }
-  .dwc-demo-title,
-  .dwc-specialists-title {
+  .dwic-demo-title,
+  .dwic-specialists-title {
     font-size: 1.5rem;
   }
-  .dwc-install-cmdrow {
+  .dwic-install-cmdrow {
     flex-direction: column;
   }
-  .dwc-install-cmd {
+  .dwic-install-cmd {
     font-size: 0.75rem;
   }
-  .dwc-specialists-list {
+  .dwic-specialists-list {
     grid-template-columns: 1fr;
   }
 }

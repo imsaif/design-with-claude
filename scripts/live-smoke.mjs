@@ -25,10 +25,10 @@ const transport = new StdioClientTransport({
   args: ["/Users/imranmohammed/dwc/dist/server.js"],
   env: {
     ...process.env,
-    DWC_TOKEN: token,
-    DWC_API_URL: BASE,
-    DWC_GATING: "on",
-    DWC_EVENTS: "on",
+    DWIC_TOKEN: token,
+    DWIC_API_URL: BASE,
+    DWIC_GATING: "on",
+    DWIC_EVENTS: "on",
   },
 });
 const client = new Client({ name: "prod-smoke", version: "1.0.0" }, { capabilities: {} });

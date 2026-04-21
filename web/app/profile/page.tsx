@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Shell } from "@/components/companion/Shell";
 import { CopyButton } from "@/components/companion/CopyButton";
-import { getProfile } from "@/lib/dwc/store";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
+import { getProfile } from "@/lib/dwic/store";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
 
 interface ProfilePageProps {
   searchParams: Promise<{ token?: string; project?: string }>;

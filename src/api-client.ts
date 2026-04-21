@@ -1,5 +1,5 @@
 import { log } from "./logger.js";
-import type { DwcConfig } from "./config.js";
+import type { DwicConfig } from "./config.js";
 
 export interface GatingCheckRequest {
   token: string;
@@ -49,7 +49,7 @@ export interface RecentEvent {
 }
 
 export class ApiClient {
-  constructor(private readonly config: DwcConfig) {}
+  constructor(private readonly config: DwicConfig) {}
 
   async gatingCheck(req: GatingCheckRequest): Promise<GatingCheckResponse> {
     if (!this.config.gatingEnabled) {
@@ -103,7 +103,7 @@ export class ApiClient {
       const url = `${this.config.apiUrl}/api/profile?${params.toString()}`;
       const res = await fetch(url, {
         method: "GET",
-        headers: { "User-Agent": "designwithclaude-mcp/2.0" },
+        headers: { "User-Agent": "dwic-mcp/1.0" },
         signal: AbortSignal.timeout(5000),
       });
       if (!res.ok) return null;
@@ -129,7 +129,7 @@ export class ApiClient {
       const url = `${this.config.apiUrl}/api/events/recent?${params.toString()}`;
       const res = await fetch(url, {
         method: "GET",
-        headers: { "User-Agent": "designwithclaude-mcp/2.0" },
+        headers: { "User-Agent": "dwic-mcp/1.0" },
         signal: AbortSignal.timeout(3000),
       });
       if (!res.ok) return [];
@@ -182,7 +182,7 @@ export class ApiClient {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "User-Agent": "designwithclaude-mcp/2.0",
+        "User-Agent": "dwic-mcp/1.0",
       },
       body: JSON.stringify(body),
     });

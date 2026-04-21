@@ -2,7 +2,7 @@ import { getSupabase } from "./supabase";
 import { hashToken } from "./tokens";
 import { DEFAULT_PROJECT_SLUG, PROJECT_SLUG_PATTERN } from "./types";
 
-const IMPLICIT_ALLOWED = process.env.DWC_ALLOW_IMPLICIT_PROJECT !== "off";
+const IMPLICIT_ALLOWED = process.env.DWIC_ALLOW_IMPLICIT_PROJECT !== "off";
 
 export function isValidSlug(slug: string | null | undefined): slug is string {
   if (!slug) return false;
@@ -42,7 +42,7 @@ type MemProject = {
   createdAt: string;
   lastSeenAt: string;
 };
-const memGlobalKey = Symbol.for("dwc.alpha.projects");
+const memGlobalKey = Symbol.for("dwic.alpha.projects");
 const mg = globalThis as unknown as Record<symbol, MemProject[] | undefined>;
 function memList(): MemProject[] {
   if (!mg[memGlobalKey]) mg[memGlobalKey] = [];

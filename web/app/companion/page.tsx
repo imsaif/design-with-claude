@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Shell } from "@/components/companion/Shell";
 import { CompanionView } from "@/components/companion/CompanionView";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
-import { isValidSlug } from "@/lib/dwc/projects";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
+import { isValidSlug } from "@/lib/dwic/projects";
 
 interface CompanionPageProps {
   searchParams: Promise<{ token?: string; project?: string }>;
@@ -43,7 +43,7 @@ export default async function CompanionPage({ searchParams }: CompanionPageProps
   }
 
   // Tolerate alpha.1-style URLs without ?project= by falling back to 'default'.
-  // Phase 4-final will flip DWC_ALLOW_IMPLICIT_PROJECT off and surface an inline
+  // Phase 4-final will flip DWIC_ALLOW_IMPLICIT_PROJECT off and surface an inline
   // "pick a project" prompt here instead of a silent default.
   const project = rawProject && isValidSlug(rawProject) ? rawProject : "default";
 

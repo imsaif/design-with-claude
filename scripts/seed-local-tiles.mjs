@@ -3,7 +3,7 @@
 // what the companion tiles look like when filled, without installing the
 // MCP server or wiring Supabase locally.
 const TOKEN = process.argv[2];
-const BASE = process.env.DWC_BASE ?? "http://localhost:3000";
+const BASE = process.env.DWIC_BASE ?? "http://localhost:3000";
 if (!TOKEN || !TOKEN.startsWith("imr_")) {
   console.error("usage: node scripts/seed-local-tiles.mjs imr_yourLocalToken");
   process.exit(1);

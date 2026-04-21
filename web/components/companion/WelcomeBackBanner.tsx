@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "dwc.lastToken";
+const STORAGE_KEY = "dwic.lastToken";
 const TOKEN_PATTERN = /^imr_[A-Za-z0-9_-]{8,}$/;
 
 /**

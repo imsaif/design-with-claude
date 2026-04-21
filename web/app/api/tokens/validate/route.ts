@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
-import { ensureAccount } from "@/lib/dwc/store";
-import { resolveProject, isValidSlug } from "@/lib/dwc/projects";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
+import { ensureAccount } from "@/lib/dwic/store";
+import { resolveProject, isValidSlug } from "@/lib/dwic/projects";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
 
 export const runtime = "nodejs";
 

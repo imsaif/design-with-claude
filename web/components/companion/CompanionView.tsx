@@ -88,7 +88,7 @@ export function CompanionView({ token, project }: { token: string; project: stri
         gap: "2rem",
         alignItems: "start",
       }}
-      className="dwc-companion-grid"
+      className="dwic-companion-grid"
     >
       <div style={{ minWidth: 0 }}>
         <SystemCanvas events={toolEvents} onboarding={profile?.onboarding} />
@@ -104,7 +104,7 @@ export function CompanionView({ token, project }: { token: string; project: stri
       />
       <style>{`
         @media (max-width: 960px) {
-          .dwc-companion-grid {
+          .dwic-companion-grid {
             grid-template-columns: minmax(0, 1fr) !important;
           }
         }

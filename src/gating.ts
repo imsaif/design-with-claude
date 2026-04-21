@@ -1,5 +1,5 @@
 import type { ApiClient } from "./api-client.js";
-import type { DwcConfig } from "./config.js";
+import type { DwicConfig } from "./config.js";
 import { log } from "./logger.js";
 
 export interface GateDecision {
@@ -9,7 +9,7 @@ export interface GateDecision {
 
 export async function checkGate(
   api: ApiClient,
-  config: DwcConfig,
+  config: DwicConfig,
   toolName: string,
 ): Promise<GateDecision> {
   if (!config.gatingEnabled) return { allowed: true };
@@ -18,7 +18,7 @@ export async function checkGate(
     return {
       allowed: false,
       text:
-        "designwithclaude is not configured with a token. Run `npx designwithclaude setup --token=imr_xxx` and restart Claude Code.",
+        "dwic is not configured with a token. Run `npx dwic setup --token=imr_xxx --project=<slug>` and restart Claude Code.",
     };
   }
 
@@ -43,7 +43,7 @@ export async function checkGate(
 
 export async function consumeGate(
   api: ApiClient,
-  config: DwcConfig,
+  config: DwicConfig,
   toolName: string,
 ): Promise<void> {
   if (!config.gatingEnabled || !config.token) return;

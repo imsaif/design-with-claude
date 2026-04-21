@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Shell } from "@/components/companion/Shell";
 import { CopyButton } from "@/components/companion/CopyButton";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
-import { isValidSlug } from "@/lib/dwc/projects";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
+import { isValidSlug } from "@/lib/dwic/projects";
 
 interface InstallPageProps {
   searchParams: Promise<{ token?: string; project?: string }>;
@@ -18,8 +18,8 @@ export default async function InstallPage({ searchParams }: InstallPageProps) {
   const project = rawProject && isValidSlug(rawProject) ? rawProject : "default";
 
   const setupCommand = valid
-    ? `npx designwithclaude setup --token=${token} --project=${project}`
-    : `npx designwithclaude setup --token=imr_yourTokenHere --project=<slug>`;
+    ? `npx dwic setup --token=${token} --project=${project}`
+    : `npx dwic setup --token=imr_yourTokenHere --project=<slug>`;
   const uninstallCommand = `npx designwithclaude uninstall --project=${project}`;
 
   return (
@@ -87,7 +87,7 @@ export default async function InstallPage({ searchParams }: InstallPageProps) {
         </div>
         <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.85rem", margin: 0 }}>
           Default scope writes <code>.mcp.json</code> in the current directory. Open a new Claude
-          Code session from that directory and dwc is in.
+          Code session from that directory and dwic is in.
         </p>
       </section>
 

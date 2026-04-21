@@ -53,7 +53,7 @@ export function AddProjectTile({ token }: { token: string }) {
           minHeight: 128,
           transition: "all 140ms ease",
         }}
-        className="dwc-add-tile"
+        className="dwic-add-tile"
       >
         <span
           aria-hidden
@@ -75,11 +75,11 @@ export function AddProjectTile({ token }: { token: string }) {
         </span>
         <span style={{ fontSize: "0.85rem", fontWeight: 500 }}>Add project</span>
         <style>{`
-          .dwc-add-tile:hover {
+          .dwic-add-tile:hover {
             border-color: rgba(200,240,122,0.5);
             color: #c8f07a;
           }
-          .dwc-add-tile:hover > span:first-child {
+          .dwic-add-tile:hover > span:first-child {
             background: rgba(200,240,122,0.15);
             color: #c8f07a;
           }

@@ -1,4 +1,4 @@
-import type { CopyData } from "@/lib/dwc/types";
+import type { CopyData } from "@/lib/dwic/types";
 
 export function CopyRenderer({ data }: { data: CopyData }) {
   return (

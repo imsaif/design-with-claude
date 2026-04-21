@@ -1,4 +1,4 @@
-import type { SpacingData } from "@/lib/dwc/types";
+import type { SpacingData } from "@/lib/dwic/types";
 
 export function SpacingRenderer({ data }: { data: SpacingData }) {
   const maxPx = Math.max(...data.steps.map((s) => s.px), 1);

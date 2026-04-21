@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import type { MarkdownData } from "@/lib/dwc/types";
+import type { MarkdownData } from "@/lib/dwic/types";
 
 export function MarkdownRenderer({ data }: { data: MarkdownData }) {
   return (
@@ -16,7 +16,7 @@ export function MarkdownRenderer({ data }: { data: MarkdownData }) {
           color: "rgba(255,255,255,0.85)",
           lineHeight: 1.6,
         }}
-        className="dwc-markdown"
+        className="dwic-markdown"
       >
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.content}</ReactMarkdown>
       </div>

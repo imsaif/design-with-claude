@@ -1,7 +1,7 @@
 {
-  "name": "Design with Claude — the design auditor inside Claude Code",
-  "short_name": "Design with Claude",
-  "description": "MCP server that audits your design system tokens for contrast failures, brand drift, and structural gaps — then prescribes the fix across Claude Code sessions.",
+  "name": "dwic — the design auditor inside Claude Code",
+  "short_name": "dwic",
+  "description": "dwic (design with claude) — MCP server that audits your design system tokens for contrast failures, brand drift, and structural gaps, then prescribes the fix across Claude Code sessions.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

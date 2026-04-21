@@ -1,4 +1,4 @@
-import type { ToolOutputPayload } from "@/lib/dwc/types";
+import type { ToolOutputPayload } from "@/lib/dwic/types";
 
 export type TileStatus = "active" | "coming_soon";
 export type TileOutputKind = ToolOutputPayload["type"];

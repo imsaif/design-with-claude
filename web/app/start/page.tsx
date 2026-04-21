@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 import { Shell } from "@/components/companion/Shell";
 import { StartWizard } from "@/components/companion/StartWizard";
 import { WelcomeBackBanner } from "@/components/companion/WelcomeBackBanner";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
-import { isValidSlug } from "@/lib/dwc/projects";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
+import { isValidSlug } from "@/lib/dwic/projects";
 
 interface StartPageProps {
   searchParams: Promise<{ token?: string; project?: string }>;

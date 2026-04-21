@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 // End-to-end test for C9 slice 1 (onboarding gate + set-project-profile tool).
 //
-// Boots a minimal in-memory stub of the dwc API, spawns the MCP server pointing
-// at it via DWC_API_URL, and exercises:
+// Boots a minimal in-memory stub of the dwic API, spawns the MCP server pointing
+// at it via DWIC_API_URL, and exercises:
 //   1. specialist call → onboarding response (no profile yet)
 //   2. hello-world still runs (exempt from gate)
 //   3. set-project-profile call → profile persisted + cache updated
 //   4. specialist call → normal palette output (gate released)
-//   5. DWC_ONBOARDING_GATE=off bypasses the gate even without profile
+//   5. DWIC_ONBOARDING_GATE=off bypasses the gate even without profile
 //
 // Run with `npm run test:onboarding-gate`.
 
@@ -22,7 +22,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
 const serverPath = resolve(repoRoot, "dist", "server.js");
 
-const PORT = Number(process.env.DWC_ONBOARDING_TEST_PORT ?? 3098);
+const PORT = Number(process.env.DWIC_ONBOARDING_TEST_PORT ?? 3098);
 const TOKEN = "imr_onboardingtest1";
 const PROJECT = "test-project";
 
@@ -36,7 +36,7 @@ function fail(msg, extra) {
   if (extra) process.stderr.write(`    ${extra}\n`);
 }
 
-// In-memory stub of the dwc web API, scoped to this test run.
+// In-memory stub of the dwic web API, scoped to this test run.
 function startStubApi() {
   const state = {
     profiles: new Map(), // key: `${token}:${project}` → profile answers
@@ -134,16 +134,16 @@ async function newMcpClient(envOverrides = {}) {
     args: [serverPath],
     env: {
       ...process.env,
-      DWC_TOKEN: TOKEN,
-      DWC_PROJECT_ID: PROJECT,
-      DWC_API_URL: `http://127.0.0.1:${PORT}`,
-      DWC_GATING: "off",
-      DWC_EVENTS: "off",
-      DWC_DEBUG: "0",
+      DWIC_TOKEN: TOKEN,
+      DWIC_PROJECT_ID: PROJECT,
+      DWIC_API_URL: `http://127.0.0.1:${PORT}`,
+      DWIC_GATING: "off",
+      DWIC_EVENTS: "off",
+      DWIC_DEBUG: "0",
       ...envOverrides,
     },
   });
-  const client = new Client({ name: "dwc-onboarding-test", version: "1.0.0" }, { capabilities: {} });
+  const client = new Client({ name: "dwic-onboarding-test", version: "1.0.0" }, { capabilities: {} });
   await client.connect(transport);
   return client;
 }
@@ -242,7 +242,7 @@ try {
     await client.close();
   }
 
-  // --- 4. DWC_ONBOARDING_GATE=off bypasses gate ---
+  // --- 4. DWIC_ONBOARDING_GATE=off bypasses gate ---
   {
     // Reset: use a fresh token/project so there's definitely no profile.
     const freshToken = "imr_onboardingtest2";
@@ -252,15 +252,15 @@ try {
       args: [serverPath],
       env: {
         ...process.env,
-        DWC_TOKEN: freshToken,
-        DWC_PROJECT_ID: freshProject,
-        DWC_API_URL: `http://127.0.0.1:${PORT}`,
-        DWC_GATING: "off",
-        DWC_EVENTS: "off",
-        DWC_ONBOARDING_GATE: "off",
+        DWIC_TOKEN: freshToken,
+        DWIC_PROJECT_ID: freshProject,
+        DWIC_API_URL: `http://127.0.0.1:${PORT}`,
+        DWIC_GATING: "off",
+        DWIC_EVENTS: "off",
+        DWIC_ONBOARDING_GATE: "off",
       },
     });
-    const client = new Client({ name: "dwc-bypass-test", version: "1.0.0" }, { capabilities: {} });
+    const client = new Client({ name: "dwic-bypass-test", version: "1.0.0" }, { capabilities: {} });
     await client.connect(transport);
     const result = await client.callTool({
       name: "color-specialist",
@@ -268,9 +268,9 @@ try {
     });
     const text = textOf(result);
     if (text.includes("Onboarding required")) {
-      fail("DWC_ONBOARDING_GATE=off did not bypass the gate");
+      fail("DWIC_ONBOARDING_GATE=off did not bypass the gate");
     } else {
-      ok("DWC_ONBOARDING_GATE=off bypasses the gate");
+      ok("DWIC_ONBOARDING_GATE=off bypasses the gate");
     }
     await client.close();
   }
@@ -282,11 +282,11 @@ try {
       args: [serverPath],
       env: {
         ...process.env,
-        DWC_TOKEN: "",
-        DWC_PROJECT_ID: "",
-        DWC_API_URL: `http://127.0.0.1:${PORT}`,
-        DWC_GATING: "off",
-        DWC_EVENTS: "off",
+        DWIC_TOKEN: "",
+        DWIC_PROJECT_ID: "",
+        DWIC_API_URL: `http://127.0.0.1:${PORT}`,
+        DWIC_GATING: "off",
+        DWIC_EVENTS: "off",
       },
     });
     const client = new Client({ name: "dwc-notoken-test", version: "1.0.0" }, { capabilities: {} });

@@ -5,7 +5,7 @@ export const helloWorldTool = defineTool({
   name: "hello-world",
   title: "Hello World",
   description:
-    "Sanity check for the designwithclaude MCP server. Returns a greeting so you can confirm the server is installed and tool calls round-trip correctly.",
+    "Sanity check for the dwic MCP server. Returns a greeting so you can confirm the server is installed and tool calls round-trip correctly.",
   inputSchema: {
     name: z
       .string()
@@ -15,13 +15,13 @@ export const helloWorldTool = defineTool({
   outputKind: "markdown",
   handler: ({ name }) => {
     const who = name?.trim() || "designer";
-    const text = `Hello, ${who} — designwithclaude MCP server is alive.`;
+    const text = `Hello, ${who} — dwic MCP server is alive.`;
     return {
       text,
       output: {
         type: "markdown",
         data: {
-          title: "dwc handshake",
+          title: "dwic handshake",
           content: text,
         },
       },

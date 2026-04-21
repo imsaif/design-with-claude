@@ -4,9 +4,9 @@ import {
   freeTierRemaining,
   isFreeTierExhausted,
   LIMITS,
-} from "@/lib/dwc/store";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
-import type { GatingCheckResponse } from "@/lib/dwc/types";
+} from "@/lib/dwic/store";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
+import type { GatingCheckResponse } from "@/lib/dwic/types";
 
 export const runtime = "nodejs";
 
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       {
         allowed: false,
         reason: "invalid_token",
-        message: "Invalid or missing dwc token — rerun `npx designwithclaude setup`.",
+        message: "Invalid or missing dwic token — rerun `npx dwic setup`.",
       } satisfies GatingCheckResponse,
       { status: 200 },
     );

@@ -1,11 +1,11 @@
 import type { ApiClient } from "./api-client.js";
-import type { DwcConfig } from "./config.js";
+import type { DwicConfig } from "./config.js";
 import { log } from "./logger.js";
 import type { ToolOutputPayload } from "./tools/types.js";
 
 export async function emitToolEvent(
   api: ApiClient,
-  config: DwcConfig,
+  config: DwicConfig,
   args: {
     toolName: string;
     input: unknown;

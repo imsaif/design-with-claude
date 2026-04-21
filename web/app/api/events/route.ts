@@ -1,8 +1,8 @@
 import { NextRequest } from "next/server";
-import { recordEvent } from "@/lib/dwc/store";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
-import { isValidSlug } from "@/lib/dwc/projects";
-import type { EventPayload } from "@/lib/dwc/types";
+import { recordEvent } from "@/lib/dwic/store";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
+import { isValidSlug } from "@/lib/dwic/projects";
+import type { EventPayload } from "@/lib/dwic/types";
 
 export const runtime = "nodejs";
 
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
   });
 
   const headers = new Headers({ "Content-Type": "application/json" });
-  if (projectAutoCreated) headers.set("X-Dwc-Project-Auto-Created", "1");
+  if (projectAutoCreated) headers.set("X-Dwic-Project-Auto-Created", "1");
 
   return new Response(
     JSON.stringify({

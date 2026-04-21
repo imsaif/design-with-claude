@@ -1,12 +1,12 @@
 {
-  "name": "designwithclaude",
-  "version": "2.0.0-alpha.5",
-  "description": "Make Claude Code your designer — MCP server that configures Claude Code for designers",
+  "name": "dwic",
+  "version": "1.0.0-alpha.1",
+  "description": "dwic — the design auditor for Claude Code. MCP server that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then remembers findings across sessions.",
   "type": "module",
   "main": "./dist/server.js",
   "bin": {
-    "designwithclaude": "dist/bin/setup.js",
-    "dwc-mcp-server": "dist/server.js"
+    "dwic": "dist/bin/setup.js",
+    "dwic-mcp-server": "dist/server.js"
   },
   "files": [
     "dist",
@@ -36,9 +36,15 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
+    "dwic",
+    "design-with-claude",
     "claude-code",
     "mcp",
     "mcp-server",
+    "design-system-audit",
+    "accessibility-audit",
+    "wcag-contrast-checker",
+    "design-tokens",
     "design",
     "design-system",
     "designer-tools"

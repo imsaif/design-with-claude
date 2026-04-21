@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
-import { getOrCreateProfile, getRecentEvents } from "@/lib/dwc/store";
-import { isTokenShapeValid } from "@/lib/dwc/tokens";
-import { isValidSlug, normalizeSlug } from "@/lib/dwc/projects";
+import { getOrCreateProfile, getRecentEvents } from "@/lib/dwic/store";
+import { isTokenShapeValid } from "@/lib/dwic/tokens";
+import { isValidSlug, normalizeSlug } from "@/lib/dwic/projects";
 
 export const runtime = "nodejs";
 
@@ -9,7 +9,7 @@ export const runtime = "nodejs";
  * Companion polling endpoint. Scoped by project.
  * If no project query param is provided, we fall back to the default slug (via
  * normalizeSlug) so existing alpha.1 clients continue working. Phase 4 flips
- * DWC_ALLOW_IMPLICIT_PROJECT off and this call 400s without an explicit project.
+ * DWIC_ALLOW_IMPLICIT_PROJECT off and this call 400s without an explicit project.
  */
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token")?.trim() ?? "";

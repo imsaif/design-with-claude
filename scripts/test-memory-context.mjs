@@ -9,7 +9,7 @@
 //   4. Memory block appears even without a full designer profile
 //   5. Full profile + memory render both sections in order
 //   6. clearRecentEventsSummary removes the block
-//   7. Kill-switch: DWC_MEMORY_CONTEXT=off is respected at refresh time
+//   7. Kill-switch: DWIC_MEMORY_CONTEXT=off is respected at refresh time
 //      (integration-level check: we don't spin a server, we assert the helper
 //      memoryContextEnabled behavior indirectly via env var + the knowledge
 //      that ONLY the server calls refreshMemoryContext).
