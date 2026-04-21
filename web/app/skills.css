@@ -799,3 +799,421 @@
     padding: 1.5rem 1.25rem;
   }
 }
+
+/* ============================================================
+   V2 Landing — AuditDemo / InstallV2 / SpecialistsList
+   ============================================================ */
+
+/* --- AuditDemo --------------------------------------------- */
+.dwc-demo {
+  max-width: 960px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+}
+
+.dwc-demo-inner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+}
+
+.dwc-demo-eyebrow {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.dwc-demo-title {
+  font-family: var(--font-dm-serif), serif;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.dwc-demo-sub {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  max-width: 620px;
+}
+
+.dwc-demo-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.dwc-demo-tab {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.875rem;
+  padding: 0.6rem 1rem;
+  background: transparent;
+  color: var(--text-dim);
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+.dwc-demo-tab:hover {
+  color: var(--text);
+}
+
+.dwc-demo-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 500;
+}
+
+.dwc-demo-panel {
+  background: #0a0a0b;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dwc-demo-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.8125rem;
+}
+
+.dwc-demo-prompt {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.dwc-demo-prompt-tool {
+  color: var(--text);
+}
+
+.dwc-demo-prompt-mode {
+  color: var(--text-dim);
+  margin-left: auto;
+  font-size: 0.75rem;
+}
+
+.dwc-demo-body {
+  padding: 1.5rem;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.dwc-demo-line-note {
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  font-size: 0.8125rem;
+}
+
+.dwc-demo-body code {
+  font-family: inherit;
+  color: var(--accent);
+}
+
+.dwc-demo-matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  margin-bottom: 1.5rem;
+}
+
+.dwc-demo-matrix th,
+.dwc-demo-matrix td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.dwc-demo-matrix th {
+  color: var(--text-dim);
+  font-weight: 500;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.dwc-demo-matrix td.ok {
+  color: #9ad87a;
+}
+
+.dwc-demo-matrix td.warn {
+  color: #e8b860;
+}
+
+.dwc-demo-matrix td.fail {
+  color: #e87a7a;
+}
+
+.dwc-demo-matrix .swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dwc-demo-findings {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.dwc-demo-finding {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: 0.5rem;
+  align-items: start;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.015);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.dwc-demo-finding-mark {
+  font-weight: 700;
+  text-align: center;
+}
+
+.dwc-demo-finding.fail {
+  color: #f4b5b5;
+}
+.dwc-demo-finding.fail .dwc-demo-finding-mark {
+  color: #e87a7a;
+}
+
+.dwc-demo-finding.warn {
+  color: #f4d5a3;
+}
+.dwc-demo-finding.warn .dwc-demo-finding-mark {
+  color: #e8b860;
+}
+
+.dwc-demo-finding.info {
+  color: var(--text-muted);
+}
+.dwc-demo-finding.info .dwc-demo-finding-mark {
+  color: var(--text-dim);
+}
+
+/* --- InstallV2 --------------------------------------------- */
+.dwc-install {
+  max-width: 960px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+}
+
+.dwc-install-inner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.dwc-install-eyebrow {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.dwc-install-title {
+  font-family: var(--font-dm-serif), serif;
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 1.75rem;
+}
+
+.dwc-install-cmdrow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+  max-width: 640px;
+  margin: 0 auto 1.25rem;
+}
+
+.dwc-install-cmd {
+  flex: 1;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.875rem;
+  padding: 0.85rem 1rem;
+  background: #0a0a0b;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  overflow-x: auto;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.dwc-install-copy {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.8125rem;
+  padding: 0.85rem 1.1rem;
+  background: var(--accent);
+  color: #0F0F10;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 120ms ease;
+}
+
+.dwc-install-copy:hover {
+  opacity: 0.85;
+}
+
+.dwc-install-note {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 auto 1.25rem;
+}
+
+.dwc-install-cta {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.9375rem;
+  color: var(--text-dim);
+}
+
+.dwc-install-link {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* --- SpecialistsList --------------------------------------- */
+.dwc-specialists {
+  max-width: 960px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+}
+
+.dwc-specialists-inner {
+  padding: 1rem 0;
+}
+
+.dwc-specialists-eyebrow {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.dwc-specialists-title {
+  font-family: var(--font-dm-serif), serif;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.dwc-specialists-sub {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  max-width: 620px;
+}
+
+.dwc-specialists-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.dwc-specialist {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.dwc-specialist-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.dwc-specialist-name {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.9375rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.dwc-specialist-tagline {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.875rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.dwc-specialist-body {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .dwc-demo,
+  .dwc-install,
+  .dwc-specialists {
+    padding: 0 1.25rem;
+  }
+  .dwc-demo-inner,
+  .dwc-install-inner {
+    padding: 1.5rem;
+  }
+  .dwc-demo-title,
+  .dwc-specialists-title {
+    font-size: 1.5rem;
+  }
+  .dwc-install-cmdrow {
+    flex-direction: column;
+  }
+  .dwc-install-cmd {
+    font-size: 0.75rem;
+  }
+  .dwc-specialists-list {
+    grid-template-columns: 1fr;
+  }
+}
+

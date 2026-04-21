@@ -1,5 +1,3 @@
-import { SKILLS, CATEGORIES } from "@/app/data/skills";
-
 export function Hero() {
   return (
     <section className="skills-hero">
@@ -12,13 +10,13 @@ export function Hero() {
       </p>
       <div className="skills-hero-stats">
         <span>
-          <span className="stat-num">{SKILLS.length}</span> design skills
+          <span className="stat-num">7</span> audit specialists
         </span>
         <span>
-          <span className="stat-num">{CATEGORIES.length}</span> categories
+          <span className="stat-num">WCAG</span> 2.1 AA
         </span>
         <span>
-          <span className="stat-num">free</span> open source
+          <span className="stat-num">persistent</span> memory
         </span>
       </div>
     </section>

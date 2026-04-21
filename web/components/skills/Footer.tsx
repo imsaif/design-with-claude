@@ -1,10 +1,14 @@
+import Link from "next/link";
+
 export function Footer() {
   return (
     <footer className="skills-footer">
       <div className="skills-footer-left">
-        &copy; 2025 designwithclaude.com. Open source, curated by hand
+        &copy; 2026 designwithclaude.com
       </div>
       <div className="skills-footer-links">
+        <Link href="/library">Free library</Link>
+        <Link href="/start">Start</Link>
         <a
           href="https://github.com/imsaif/design-with-claude"
           target="_blank"
@@ -18,13 +22,6 @@ export function Footer() {
           rel="noopener noreferrer"
         >
           AI UX Patterns
-        </a>
-        <a
-          href="https://gist.design"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          gist.design
         </a>
       </div>
     </footer>

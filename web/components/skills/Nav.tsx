@@ -9,7 +9,8 @@ export function Nav() {
         <span>design<span className="skills-nav-logo-accent">with</span>claude</span>
       </Link>
       <div className="skills-nav-links">
-        <a href="#install">How to install</a>
+        <a href="#install">Install</a>
+        <Link href="/library">Free library</Link>
         <a
           href="https://aiuxdesign.guide"
           target="_blank"
@@ -22,7 +23,7 @@ export function Nav() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Submit a skill
+          GitHub
         </a>
       </div>
     </nav>
