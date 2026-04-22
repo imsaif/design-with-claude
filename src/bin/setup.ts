@@ -11,7 +11,7 @@ const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,31}$/;
 
 type Scope = "user" | "project";
 type Args = {
-  command: "setup" | "uninstall" | "help" | "version";
+  command: "setup" | "uninstall" | "help" | "version" | "audit";
   token?: string;
   project?: string;
   scope: Scope;
@@ -24,7 +24,7 @@ function parseArgs(argv: string[]): Args {
   const [, , rawCommand, ...rest] = argv;
   const command = (rawCommand ?? "help") as Args["command"];
   const args: Args = {
-    command: ["setup", "uninstall", "help", "version"].includes(command)
+    command: ["setup", "uninstall", "help", "version", "audit"].includes(command)
       ? command
       : "help",
     // Project-scope is the new default — keeps multi-project installs clean.
@@ -425,6 +425,11 @@ async function main(): Promise<void> {
     case "uninstall":
       await runUninstall(args);
       break;
+    case "audit": {
+      const { runAudit } = await import("./audit.js");
+      const code = await runAudit(process.argv);
+      process.exit(code);
+    }
   }
 }
 

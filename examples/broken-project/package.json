@@ -1,0 +1,14 @@
+{
+  "name": "broken-project",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Intentionally broken fixture project — the dwic audit demo target. Every category has at least one planted finding.",
+  "dependencies": {
+    "next": "15.0.0",
+    "react": "19.0.0"
+  },
+  "devDependencies": {
+    "typescript": "5.6.0",
+    "tailwindcss": "4.0.0"
+  }
+}
