@@ -134,25 +134,3 @@ Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-de
 - **Notes:** Built `/start` as a 5-step wizard (chips + textarea, not chat), `/profile` with meta tile + CLAUDE.md preview + copy button, `/install` with prefilled npx command, `/companion` with 2.5s polling of /api/events/recent + waiting/ready/feed states + "built so far" sidebar, `/upgrade` with retention-thesis copy + plan cards. 6 render components — PaletteRenderer (color grid with group tags), TypeScaleRenderer (ramp with live preview text), SpacingRenderer (horizontal bars), ComponentSpecRenderer, CopyRenderer, MarkdownRenderer (react-markdown + remark-gfm). New `POST /api/profile` mints imr_ tokens via `crypto.randomBytes(9).toString('base64url')`, generates CLAUDE.md via existing generator, stores onboarding answers. Polling chosen over Supabase Realtime for alpha — swap is Phase 3 work. Existing `/` landing page + `(app)/` routes intentionally untouched.
 
 ### Session 2026-04-13 21:30 (MacBook)
-- **Pattern:** V2 Phase 1 dwc API stubs + end-to-end round-trip
-- **Status:** Complete — Phase 1 code-complete
-- **Files Changed:** 7 new files in web/ (3 lib/dwc + 5 API routes), 1 new e2e test script, PROGRESS.md, CLAUDE.md
-- **Tests Added/Modified:** 1 (test:e2e — boots Next dev on 3099, exercises 10-call free tier + block at 11)
-- **Notes:** Stubbed `/api/tokens/validate`, `/api/gating/check`, `/api/gating/consume`, `/api/events`, and `/api/events/recent` (debug polling) in the existing web/ Next app. In-memory store using `Symbol.for` singleton survives Next HMR. All API routes pin `runtime = "nodejs"` for `node:crypto` token hashing. E2E test confirms: MCP server → gating API enforces 10/10 free tier → blocks 11th call with upgrade copy → events stored and readable via GET /api/events/recent. Phase 2 companion can now poll /api/events/recent during scaffolding before Supabase Realtime is wired.
-
-### Session 2026-04-13 20:00 (MacBook)
-- **Pattern:** V2 Phase 1 MCP server scaffold
-- **Status:** Complete — alpha scaffold runs end-to-end
-- **Files Changed:** package.json, tsconfig.json, .gitignore, CLAUDE.md, 15 new files in src/, 3 scripts
-- **Tests Added/Modified:** 2 (test:mcp handshake, test:setup dry-run)
-- **Notes:** Built the dwc V2 MCP server from scratch: hello-world + 7 real tools (design-brief, design-system-architect, color-specialist with HSL seed palette, typography-specialist with clamp scale, spacing-specialist, setup-guide, debug-helper). Wired gating/events stubs that fail-open until the dwc API lands. `npx designwithclaude setup|uninstall` supports user + project scope, prefers `claude mcp add-json`, falls back to direct config edits with backups. `claude mcp list` confirms designwithclaude: ✓ Connected. See PROGRESS.md for the next blocker (API stubs in web/).
-
-### Session 2026-03-31 15:57 (MacBook)
-### Session 2026-04-06 19:24 (MacBook)
-- **Pattern:** Hero copy cleanup
-- **Status:** Complete
-- **Files Changed:** 1
-- **Tests Added/Modified:** 0
-- **Notes:** Removed technical guides sentence from hero subtitle, keeping copy focused on design expertise only.
-
-### Session 2026-04-06 19:15 (MacBook)
