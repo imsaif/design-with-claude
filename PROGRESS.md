@@ -1,6 +1,6 @@
 # dwic V2 — Build Progress
 
-**Last updated:** April 21, 2026 (afternoon)
+**Last updated:** April 22, 2026
 **Overall status:** Product renamed to **dwic** (d + wi + c = design with claude). Published as `@imrandwc/dwic@1.0.0-alpha.1` on npm; old `designwithclaude@2.0.0-alpha.{1..5}` deprecated with pointer messages. Domain stays `designwithclaude.com` (serves as long-form brand explainer, IBM pattern). All V2 internal identifiers migrated (env vars DWC_* → DWIC_*, CSS `.dwc-*` → `.dwic-*`, `DwcIcon` → `DwicIcon`, `web/lib/dwc/` → `web/lib/dwic/`, logger prefix, binary name). Earlier same day: audit-rollout batch 2 shipped accessibility-specialist + form-designer + navigation-specialist as `designwithclaude@2.0.0-alpha.5` — 7 of 11 V2 tools now audit server-side. Hero positioning is "dwic — the design auditor, inside Claude Code"; interactive AuditDemo on `/` runs the real audit helpers client-side (web/lib/audit/{color,accessibility,form}.ts) with staged reveal + rendered production-view cards + numbered pins. Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
 
 **For testing / onboarding new contributors:** see `TESTING.md` at repo root — plain-language walkthrough of the live flow, add-a-project, share-with-friends, and common break-fixes.
@@ -171,8 +171,8 @@ Strategy: **Option 1 from the naming plan** — keep the domain `designwithclaud
 - [x] **Layer 4 — user-facing copy + metadata.** Hero subtitle, AuditDemo eyebrow, InstallV2 (2 places + install command), account page, install page copy + setupCommand + uninstallCommand, layout.tsx metadata (title/description/OG alt/keywords), manifest.json (name/short_name/description), `/library` cross-link wording + metadata, README top-matter rewritten to introduce dwic + the free library as sibling products.
 - [x] **Tests updated.** scripts/test-onboarding-gate.mjs, test-setup-dry-run.mjs, test-memory-context.mjs, test-e2e-roundtrip.mjs, test-phase2-flow.mjs, test-mcp-handshake.mjs, live-smoke.mjs, seed-local-tiles.mjs — DWC_* → DWIC_*. All 11 MCP test suites green + setup-dry-run + web production build clean.
 - [x] **Published** `@imrandwc/dwic@1.0.0-alpha.1` on npm under `latest` tag. Deprecated `designwithclaude@{2.0.0-alpha.1, ..., 2.0.0-alpha.5}` with pointer message: *"Renamed to @imrandwc/dwic. Run: npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>"*. First-time scope publish has a typical 5-15 min read-side propagation delay.
-- [ ] Verify `npx @imrandwc/dwic@latest help` works from a clean tmp dir once propagation completes.
-- [ ] Revoke the npm automation token used for this publish (previous pattern: rotate after each publish).
+- [x] Verify `npx @imrandwc/dwic@latest help` works from a clean tmp dir once propagation completes.
+- [x] Revoke the npm automation token used for this publish (previous pattern: rotate after each publish).
 
 ### What explicitly did NOT rename
 - Domain `designwithclaude.com` — stays; serves as long-form brand explainer every time a URL is shared.
@@ -186,6 +186,32 @@ Strategy: **Option 1 from the naming plan** — keep the domain `designwithclaud
 
 Both pushed to `origin/main`. Vercel redeploying web with dwic branding.
 
+## Cognition-roadmap follow-ups (alpha.2) — April 22, 2026
+
+Three Cognition-roadmap items piled onto the batch-3 alpha.2 publish while there are no users yet (same "batch ships, no users" principle as alpha.3).
+
+- [x] **C9 slice 3 — auto-detect project config at onboarding.** New `src/utils/detect-project-config.ts` reads cwd on MCP server boot. Parses `package.json` (framework: Next/Vite/Remix/Astro/Nuxt/SvelteKit/Expo/React Native; view lib: React/Vue/Svelte/SolidJS; Tailwind + version from deps or config file; TS via dep or tsconfig.json), scans common CSS locations (`themes.css`, `tokens.css`, `globals.css` in root + `src/` + `src/styles/` + `app/`) for `--color-*` / `--space-*` tokens, sanitizes `package.json.name` into a slug candidate. Emits `{ framework, frameworkVersion, techStack[], designSystemHints[], slug, confidence }` with `high`/`partial`/`none` scoring. Fail-open: every read in try/catch, missing files just reduce confidence. `renderDetectionHints()` produces a markdown block inserted into the onboarding-gate response so the LLM leads with "We detected Next.js 15 + Tailwind v4 — confirm" instead of interrogating the designer blind. Test: `npm run test:detect-project-config` (21 assertions across Next/Vite/empty/malformed/themes.css/space-tokens/scoped-slug fixtures).
+- [x] **C10 slice 2 — richer memory-context gists.** `describeEvent` in `src/designer.ts` now mines payload data beyond token counts: palette audit mode surfaces `(audit) N tokens parsed; mandated #HEX present|MISSING` by comparing `input.accent` to the parsed tokens; palette generate mode includes the accent and token count; typography/spacing generate mode include base size/unit from `input.baseSizePx`/`input.baseUnitPx`; markdown events parse the `Flagged N error(s), M warning(s), P info note(s)` line that every audit renderer emits (yields `(audit) 3 error(s), 2 warn(s), 1 info` as a real gist instead of `produced a design-system audit`); every gist capped at 120 chars with ellipsis. No payload-shape changes, no server-side work. Test: `npm run test:memory-context` extended with 7 new assertions.
+- [x] **C1 — `design-next-step` tool.** New V2 MCP tool that synthesizes profile + recent events into a single actionable recommendation. `src/tools/design-next-step.ts` + `commands/design-next-step.md` (role prompt). Handler iterates `tools[]` minus `{design-next-step, hello-world, set-project-profile}` and composes a roster of `name` + `title` + first-line description. Optional `focus` input biases the recommendation. Closing instruction forces ONE specialist, not a menu. Role prompt mandates format: `## Next step — run <tool-name>` + Why + Exact call + Gap + "Why not something else". C3 explicit-ask directive applies (even without a brief field — handler accepts empty input). Test: `npm run test:design-next-step` (15 assertions covering roster composition, self-exclusion, profile + events injection, focus hint, directive, closing).
+- [ ] `@imrandwc/dwic@1.0.0-alpha.2` publish to npm (pending user sign-off)
+
+### Post-batch audit coverage
+
+9 / 14 V2 tools audit server-side. Non-audit tools: `hello-world`, `design-brief`, `design-next-step`, `setup-guide`, `debug-helper`, `set-project-profile`. Remaining specialists to add (generate-only, incremental): empty-loading-states, icon-illustration-specialist, notification-designer, settings-designer.
+
+## Audit-rollout batch 3 (alpha.2) — April 22, 2026
+
+Continues the audit-rollout program. Adds `content-strategist` (copy heuristics) + `motion-designer` (CSS motion audit), taking audit coverage to 9 of 13 V2 tools.
+
+- [x] **content-strategist (new).** V2 MCP tool that audits pasted copy (plain text OR HTML/JSX) for: weak CTA verbs (click here, submit, learn more), jargon/filler (leverage, seamless, cutting-edge, empower...), passive voice, over-long sentences (>30 words), ALL-CAPS shouting outside known acronyms, Title Case headings. Generate mode returns a copy spec. Test: `npm run test:audit-content-strategist` (17 assertions).
+- [x] **motion-designer (new).** V2 MCP tool that audits pasted CSS for: missing `@media (prefers-reduced-motion: reduce)` when animations/transitions exist (error severity — accessibility blocker), runaway durations (>1000ms warn, <80ms info), `transition: all` (animates every property change on every state flip), animated layout properties (top/left/width/height/margin/padding/border-width/font-size — force reflow; prefer transform+opacity), infinite animations without reduced-motion override, majority-linear easing. Generate mode returns a motion spec. Test: `npm run test:audit-motion-designer` (18 assertions).
+- [x] **test:explicit-asks extended.** Added fixtures for content-strategist + motion-designer so C3 directive coverage stays complete across all 12 active tools.
+- [ ] `@imrandwc/dwic@1.0.0-alpha.2` publish to npm (pending user sign-off)
+
+### Audit coverage after batch 3
+
+9 / 13 V2 tools audit server-side: color, typography, spacing, design-system-architect, accessibility, form-designer, navigation-specialist, content-strategist, motion-designer. Non-audit (generate-only) tools remaining: empty-loading-states, icon-illustration-specialist, notification-designer, settings-designer — these are roll-out-incrementally.
+
 ## Audit-rollout batch 2 (alpha.5) — April 21, 2026 (morning)
 
 Direct response to the "is dwic actually auditing?" honesty check. alpha.4 made the hero claim "design auditor, inside Claude Code", but only 4 of 9 V2 tools had real audit logic. alpha.5 adds 3 more, taking the count to 7 of 11 — the hero becomes substantively true.
@@ -198,7 +224,7 @@ Direct response to the "is dwic actually auditing?" honesty check. alpha.4 made 
 
 ### Next in the audit-rollout roadmap
 
-- **Batch 3 (deferred):** copy (heuristic — passive voice, jargon, CTA verb strength, button-text length) + motion-designer (runtime-defined — `prefers-reduced-motion` support, duration bounds, easing sanity, animation property discipline)
+- ~~**Batch 3 (deferred):** copy + motion-designer~~ — ✅ shipped April 22 as alpha.2
 - **Non-audit specialists:** empty-loading-states, icon-illustration, notification-designer, settings-designer — generate-only tools, roll out incrementally
 - **Share-with-friends / V2 homepage** — still on the launch-gate list
 
@@ -216,9 +242,9 @@ Response to Anthropic's Claude Design launch (`claude.ai/design`, April 20, 2026
 ### Next in the Cognition roadmap
 
 - **C9 slice 2** — verify prompt-injection lights up post-onboarding in real sessions (mechanically free, needs qualitative check)
-- **C9 slice 3** — auto-detect `package.json` / `tailwind.config.*` / `themes.css` to pre-fill answers, deferred
-- **C1** — `design-next-step` tool (library → partner), deferred after Claude Design launch reprioritization
-- **C10 slice 2** — richer event-summary shapes (not just tool name + count), once alpha.4 settles
+- ~~**C9 slice 3** — auto-detect project config~~ — ✅ shipped April 22 in alpha.2 working tree
+- ~~**C1** — `design-next-step` tool~~ — ✅ shipped April 22 in alpha.2 working tree
+- ~~**C10 slice 2** — richer event-summary shapes~~ — ✅ shipped April 22 in alpha.2 working tree
 
 ## Cognition-roadmap P0 batch (alpha.3) — shipped April 17, 2026
 

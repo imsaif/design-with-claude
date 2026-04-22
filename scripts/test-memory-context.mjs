@@ -60,8 +60,130 @@ function fail(msg, extra) {
   else pass("summarizeEvent carries tool name");
   if (s.kind !== "palette") fail(`summarize: kind wrong (${s.kind})`);
   else pass("summarizeEvent detects palette kind");
-  if (!/audited 2/.test(s.summary)) fail(`summarize: audit gist wrong (${s.summary})`);
-  else pass(`summarizeEvent audit gist: "${s.summary}"`);
+  if (!/\(audit\)/.test(s.summary) || !/2 color tokens parsed/.test(s.summary)) {
+    fail(`summarize: audit gist wrong (${s.summary})`);
+  } else {
+    pass(`summarizeEvent audit gist: "${s.summary}"`);
+  }
+}
+
+// --- C10 slice 2: audit gist with mandated-accent check ---
+{
+  const paletteEventWithAccent = {
+    id: "e1b",
+    toolName: "color-specialist",
+    input: { mode: "audit", brief: "audit", accent: "#1F3B90" },
+    output: {
+      type: "palette",
+      data: {
+        name: "audit-3-tokens",
+        tokens: [
+          { name: "--color-primary-500", hex: "#1F3B90", role: "existing" },
+          { name: "--color-neutral-50", hex: "#FFFFFF", role: "existing" },
+          { name: "--color-bg", hex: "#F7F7F7", role: "existing" },
+        ],
+      },
+    },
+    timestamp: "2026-04-22T12:00:00Z",
+    receivedAt: "2026-04-22T12:00:00Z",
+  };
+  const s = summarizeEvent(paletteEventWithAccent);
+  if (!/mandated #1F3B90 present/i.test(s.summary)) {
+    fail(`summarize: mandated-accent-present note missing (${s.summary})`);
+  } else {
+    pass(`summarizeEvent mandated-accent present: "${s.summary}"`);
+  }
+}
+
+{
+  const paletteEventMissingAccent = {
+    id: "e1c",
+    toolName: "color-specialist",
+    input: { mode: "audit", brief: "audit", accent: "#1F3B90" },
+    output: {
+      type: "palette",
+      data: {
+        name: "audit-2-tokens",
+        tokens: [
+          { name: "--color-primary-500", hex: "#2D56D2", role: "existing" },
+          { name: "--color-neutral-50", hex: "#FFFFFF", role: "existing" },
+        ],
+      },
+    },
+    timestamp: "2026-04-22T12:01:00Z",
+    receivedAt: "2026-04-22T12:01:00Z",
+  };
+  const s = summarizeEvent(paletteEventMissingAccent);
+  if (!/MISSING/.test(s.summary)) {
+    fail(`summarize: mandated-accent-missing not flagged (${s.summary})`);
+  } else {
+    pass(`summarizeEvent mandated-accent MISSING: "${s.summary}"`);
+  }
+}
+
+// --- C10 slice 2: generate mode carries accent in gist ---
+{
+  const paletteGenerate = {
+    id: "e1d",
+    toolName: "color-specialist",
+    input: { brief: "new palette", accent: "#5B8DEF" },
+    output: { type: "palette", data: { name: "palette-5B8DEF", tokens: new Array(11).fill({ name: "x", hex: "#fff", role: "y" }) } },
+    timestamp: "2026-04-22T12:02:00Z",
+    receivedAt: "2026-04-22T12:02:00Z",
+  };
+  const s = summarizeEvent(paletteGenerate);
+  if (!/around #5B8DEF/.test(s.summary) || !/11-token/.test(s.summary)) {
+    fail(`summarize: generate palette gist wrong (${s.summary})`);
+  } else {
+    pass(`summarizeEvent generate palette gist: "${s.summary}"`);
+  }
+}
+
+// --- C10 slice 2: markdown audit event with flagged counts ---
+{
+  const mdAudit = {
+    id: "e1e",
+    toolName: "accessibility-specialist",
+    input: { mode: "audit", brief: "audit" },
+    output: {
+      type: "markdown",
+      data: {
+        title: "Accessibility audit",
+        content: "**Parsed 1200 char(s) of markup.** Flagged 3 error(s), 2 warning(s), 1 info note(s). Audit focuses on...",
+      },
+    },
+    timestamp: "2026-04-22T12:03:00Z",
+    receivedAt: "2026-04-22T12:03:00Z",
+  };
+  const s = summarizeEvent(mdAudit);
+  if (!/3 error/.test(s.summary) || !/2 warn/.test(s.summary) || !/1 info/.test(s.summary)) {
+    fail(`summarize: markdown audit counts not mined (${s.summary})`);
+  } else {
+    pass(`summarizeEvent markdown audit counts: "${s.summary}"`);
+  }
+}
+
+// --- C10 slice 2: gist capped at 120 chars ---
+{
+  const massivePayload = {
+    id: "e1f",
+    toolName: "markdown-generator",
+    input: { brief: "x" },
+    output: {
+      type: "markdown",
+      data: {
+        title: "A very long title that keeps going and going with lots of extra words designed to overflow any reasonable gist cap and force truncation so we can verify the ellipsis behaviour",
+        content: "no-counts here",
+      },
+    },
+    timestamp: "2026-04-22T12:04:00Z",
+    receivedAt: "2026-04-22T12:04:00Z",
+  };
+  const s = summarizeEvent(massivePayload);
+  if (s.summary.length > 120) fail(`summarize: gist not capped (${s.summary.length} chars)`);
+  else pass(`summarizeEvent gist capped at ${s.summary.length} chars`);
+  if (!s.summary.endsWith("…")) fail("summarize: truncated gist should end with ellipsis");
+  else pass("summarizeEvent truncated with ellipsis");
 }
 
 {
