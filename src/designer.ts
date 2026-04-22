@@ -66,44 +66,99 @@ function detectOutputKind(output: unknown): string {
   return "unknown";
 }
 
+// Cap the gist tail so the memory block stays scannable — 120 chars per bullet
+// keeps ~5 bullets well under a screen.
+const GIST_MAX = 120;
+
+function capGist(s: string): string {
+  if (s.length <= GIST_MAX) return s;
+  return s.slice(0, GIST_MAX - 1).trimEnd() + "…";
+}
+
+// The renderAuditBody helpers on each audit tool emit a "Flagged N error(s),
+// M warning(s), P info note(s)" line. When an audit tool returns a markdown
+// payload we can mine that summary directly without reparsing the markup.
+const FLAGGED_COUNTS_RE = /Flagged\s+(\d+)\s+error\(s\),\s+(\d+)\s+warning\(s\),\s+(\d+)\s+info\s+note\(s\)/i;
+
+function parseFlaggedCounts(content: string): { errors: number; warns: number; infos: number } | null {
+  const m = content.match(FLAGGED_COUNTS_RE);
+  if (!m) return null;
+  return { errors: Number(m[1]), warns: Number(m[2]), infos: Number(m[3]) };
+}
+
 function describeEvent(event: RecentEvent, kind: string): string {
   const input = (event.input as Record<string, unknown> | null | undefined) ?? {};
   const output = (event.output as Record<string, unknown> | null | undefined) ?? {};
   const data = (output.data as Record<string, unknown> | null | undefined) ?? {};
   const mode = typeof input.mode === "string" ? input.mode : "generate";
+  const prefix = mode === "audit" ? "(audit) " : "";
 
   switch (kind) {
     case "palette": {
-      const tokens = Array.isArray(data.tokens) ? data.tokens : [];
+      const tokens = Array.isArray(data.tokens) ? (data.tokens as Record<string, unknown>[]) : [];
       if (mode === "audit") {
-        return `audited ${tokens.length} color token(s)`;
+        const mandatedAccent = typeof input.accent === "string" ? input.accent : null;
+        const accentPresent = mandatedAccent
+          ? tokens.some(
+              (t) => typeof t.hex === "string" && t.hex.toLowerCase() === mandatedAccent.toLowerCase(),
+            )
+          : null;
+        const accentNote =
+          mandatedAccent && accentPresent === true
+            ? `; mandated ${mandatedAccent} present`
+            : mandatedAccent && accentPresent === false
+              ? `; mandated ${mandatedAccent} MISSING`
+              : "";
+        return capGist(`${prefix}${tokens.length} color tokens parsed${accentNote}`);
       }
-      return `generated a ${tokens.length}-token palette`;
+      const accent = typeof input.accent === "string" ? input.accent : null;
+      const accentNote = accent ? ` around ${accent}` : "";
+      return capGist(`generated ${tokens.length}-token palette${accentNote}`);
     }
     case "type-scale": {
-      const scale = Array.isArray(data.scale) ? data.scale : [];
+      const scale = Array.isArray(data.scale) ? (data.scale as Record<string, unknown>[]) : [];
       if (mode === "audit") {
-        return `audited ${scale.length} type token(s)`;
+        return capGist(`${prefix}${scale.length} type tokens parsed`);
       }
-      return `generated a type scale with ${scale.length} role(s)`;
+      const baseSize = typeof input.baseSizePx === "number" ? `base ${input.baseSizePx}px, ` : "";
+      return capGist(`generated type scale: ${baseSize}${scale.length} role(s)`);
     }
     case "spacing": {
-      const steps = Array.isArray(data.steps) ? data.steps : [];
+      const steps = Array.isArray(data.steps) ? (data.steps as Record<string, unknown>[]) : [];
       if (mode === "audit") {
-        return `audited ${steps.length} spacing token(s)`;
+        return capGist(`${prefix}${steps.length} spacing steps parsed`);
       }
-      return `generated a spacing scale with ${steps.length} step(s)`;
+      const baseUnit = typeof input.baseUnitPx === "number" ? `base ${input.baseUnitPx}px, ` : "";
+      return capGist(`generated spacing scale: ${baseUnit}${steps.length} step(s)`);
     }
     case "markdown": {
-      if (mode === "audit") return `produced a design-system audit`;
-      return `produced a design-system architecture note`;
+      // Audit specialists (accessibility, form, navigation, content, motion, dsa)
+      // all return markdown payloads whose content begins with the flagged-counts
+      // summary. Mine it for a real gist.
+      const content = typeof data.content === "string" ? data.content : "";
+      const counts = parseFlaggedCounts(content);
+      if (counts) {
+        return capGist(
+          `${prefix}${counts.errors} error(s), ${counts.warns} warn(s), ${counts.infos} info`,
+        );
+      }
+      const title = typeof data.title === "string" ? data.title : null;
+      if (mode === "audit") return capGist(title ? `audit: ${title}` : "produced a design-system audit");
+      return capGist(title ?? "produced a markdown spec");
     }
-    case "component-spec":
-      return `produced a component spec`;
-    case "copy":
-      return `produced UI copy`;
+    case "component-spec": {
+      const title = typeof data.title === "string" ? data.title : null;
+      const states = Array.isArray(data.states) ? (data.states as unknown[]).length : null;
+      if (title && states !== null) return capGist(`component spec: ${title} (${states} state(s))`);
+      if (title) return capGist(`component spec: ${title}`);
+      return "produced a component spec";
+    }
+    case "copy": {
+      const title = typeof data.title === "string" ? data.title : null;
+      return capGist(title ? `copy: ${title}` : "produced UI copy");
+    }
     default:
-      return `called ${event.toolName}`;
+      return capGist(`called ${event.toolName}`);
   }
 }
 

@@ -10,6 +10,9 @@ import { debugHelperTool } from "./debug-helper.js";
 import { accessibilitySpecialistTool } from "./accessibility-specialist.js";
 import { formDesignerTool } from "./form-designer.js";
 import { navigationSpecialistTool } from "./navigation-specialist.js";
+import { contentStrategistTool } from "./content-strategist.js";
+import { motionDesignerTool } from "./motion-designer.js";
+import { designNextStepTool } from "./design-next-step.js";
 
 export const tools: ToolDefinition[] = [
   helloWorldTool,
@@ -21,6 +24,9 @@ export const tools: ToolDefinition[] = [
   accessibilitySpecialistTool,
   formDesignerTool,
   navigationSpecialistTool,
+  contentStrategistTool,
+  motionDesignerTool,
+  designNextStepTool,
   setupGuideTool,
   debugHelperTool,
 ] as unknown as ToolDefinition[];

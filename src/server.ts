@@ -16,9 +16,14 @@ import {
   summarizeEvent,
 } from "./designer.js";
 import { createSetProjectProfileTool } from "./tools/set-project-profile.js";
+import {
+  detectProjectConfig,
+  renderDetectionHints,
+  type DetectedProjectConfig,
+} from "./utils/detect-project-config.js";
 
 const PACKAGE_NAME = "dwic";
-const PACKAGE_VERSION = "1.0.0-alpha.1";
+const PACKAGE_VERSION = "1.0.0-alpha.2";
 
 // Tools that must work even when the project has no profile yet. hello-world
 // is a ping; set-project-profile is how the gate is unblocked.
@@ -59,13 +64,19 @@ function onboardingGateEnabled(config: ReturnType<typeof loadConfig>): boolean {
   return true;
 }
 
-function renderOnboardingResponse(toolName: string, projectId: string | undefined): string {
+function renderOnboardingResponse(
+  toolName: string,
+  projectId: string | undefined,
+  detected: DetectedProjectConfig | null,
+): string {
   const projectLabel = projectId ?? "(project unset)";
+  const detectionBlock = detected ? renderDetectionHints(detected) : null;
   return [
     `# Onboarding required — no profile yet for \`${projectLabel}\``,
     "",
     `The designer just called \`${toolName}\` in a project dwic has never seen before. Running any specialist right now would make the designer re-brief the project from scratch — exactly the friction the onboarding flow is here to fix.`,
     "",
+    ...(detectionBlock ? [detectionBlock, ""] : []),
     "## Do this before retrying",
     "",
     "1. Ask the designer these 6 questions, one at a time (don't batch — lets them answer naturally). Skip any they've already told you in this conversation and fill them in yourself.",
@@ -92,6 +103,7 @@ function renderOnboardingResponse(toolName: string, projectId: string | undefine
 function registerTool(server: McpServer, tool: ToolDefinition, ctx: {
   api: ApiClient;
   config: ReturnType<typeof loadConfig>;
+  detected: DetectedProjectConfig | null;
 }): void {
   server.registerTool(
     tool.name,
@@ -114,7 +126,7 @@ function registerTool(server: McpServer, tool: ToolDefinition, ctx: {
             content: [
               {
                 type: "text" as const,
-                text: renderOnboardingResponse(toolName, ctx.config.projectId),
+                text: renderOnboardingResponse(toolName, ctx.config.projectId, ctx.detected),
               },
             ],
           };
@@ -179,18 +191,33 @@ async function main(): Promise<void> {
   const config = loadConfig();
   const api = new ApiClient(config);
 
+  // C9 slice 3 — run the auto-detector once on boot so the onboarding gate can
+  // surface pre-filled answers. Fail-open: detection errors never block the
+  // server from starting; they just reduce confidence to "none".
+  let detected: DetectedProjectConfig | null = null;
+  try {
+    detected = detectProjectConfig(process.cwd());
+    log.info("project auto-detect", {
+      framework: detected.framework,
+      confidence: detected.confidence,
+      techStack: detected.techStack,
+    });
+  } catch (err) {
+    log.debug("project auto-detect failed", { err: String(err) });
+  }
+
   const server = new McpServer({
     name: PACKAGE_NAME,
     version: PACKAGE_VERSION,
   });
 
   for (const tool of tools) {
-    registerTool(server, tool, { api, config });
+    registerTool(server, tool, { api, config, detected });
   }
   // set-project-profile needs runtime access to api + config to persist answers
   // and update the in-process profile cache, so it's registered separately from
   // the static tools[] registry.
-  registerTool(server, createSetProjectProfileTool({ api, config }), { api, config });
+  registerTool(server, createSetProjectProfileTool({ api, config }), { api, config, detected });
 
   // Load the designer's profile so every tool response can include their
   // onboarding answers + CLAUDE.md. Without this, Claude Code has no context

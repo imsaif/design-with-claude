@@ -85,7 +85,24 @@ const fixtures = {
       "Docs site: primary nav + sidebar + breadcrumbs. Mobile drawer with disclosure. " +
       "Max 3 levels of nesting. Keyboard nav must be frictionless. aria-current on active.",
   },
+  "content-strategist": {
+    brief:
+      "Landing page for a B2B tool targeting engineering leads. Direct voice, no jargon. " +
+      "CTA verbs must be action-outcome. Headlines in sentence case. Flag any filler words.",
+  },
+  "motion-designer": {
+    brief:
+      "Mobile web app, native-feel motion. Durations under 300ms. Strict " +
+      "prefers-reduced-motion support. Only transform + opacity allowed. Flag any perf risk.",
+  },
+  "design-next-step": {
+    focus: "accessibility",
+  },
 };
+
+// Tools that don't take a `brief` field (or equivalent) — skip the brief-fragment
+// echo check, but still require the directive + response-shape markers.
+const SKIP_BRIEF_ECHO = new Set(["design-next-step"]);
 
 // Briefs where the "brief fragment" check uses a different field than `brief`.
 const briefFieldByTool = {
@@ -136,11 +153,13 @@ for (const tool of tools) {
   }
 
   // Sanity: the brief (or tool-specific primary input) should be restated.
-  const briefField = briefFieldByTool[tool.name] ?? "brief";
-  const briefFragment = String(fixture[briefField]).slice(0, 40);
-  if (!text.includes(briefFragment)) {
-    fail(`${tool.name}: ${briefField} not restated in composed prompt`);
-    continue;
+  if (!SKIP_BRIEF_ECHO.has(tool.name)) {
+    const briefField = briefFieldByTool[tool.name] ?? "brief";
+    const briefFragment = String(fixture[briefField]).slice(0, 40);
+    if (!text.includes(briefFragment)) {
+      fail(`${tool.name}: ${briefField} not restated in composed prompt`);
+      continue;
+    }
   }
 
   pass(`${tool.name}: directive + response-shape present and positioned correctly`);
