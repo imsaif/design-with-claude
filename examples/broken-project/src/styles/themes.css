@@ -1,0 +1,32 @@
+/* Intentionally broken tokens. Expect:
+   - WCAG AA fails on turquoise against white
+   - mandated accent #1F3B90 missing (we only ship #2D56D2)
+   - off-grid spacing values (13px, 21px, 27px)
+   - non-standard font weights (550)
+*/
+
+:root {
+  --color-primary-500: #2d56d2;
+  --color-accent-500: #00b7bd;
+  --color-neutral-0: #ffffff;
+  --color-neutral-900: #121212;
+  --color-warn: #f2c94c;
+
+  --font-size-sm: 11px;
+  --font-size-body: 15px;
+  --font-size-h1: 2rem;
+
+  --line-height-tight: 1.9;
+  --line-height-body: 1.5;
+
+  --font-weight-body: 400;
+  --font-weight-emphasis: 550;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 13px;
+  --space-4: 16px;
+  --space-5: 21px;
+  --space-6: 27px;
+  --space-7: 32px;
+}

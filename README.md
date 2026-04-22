@@ -1,5 +1,17 @@
 # dwic — design with claude
 
+## Try the one-line audit
+
+```
+npx @imrandwc/dwic audit
+```
+
+Scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), and writes a shareable markdown report to `.dwic/audit-<date>.md`. No token, no install, no Claude Code required. The report points to the MCP specialists that fix each category interactively.
+
+`dwic audit` pings an anonymous counter on each run so we can see the CLI → MCP funnel. Pass `--no-telemetry` or set `DWIC_TELEMETRY=off` to disable; the payload is category-level counts only (no file contents, no paths).
+
+---
+
 **[designwithclaude.com](https://designwithclaude.com)** — two products, one design brain for Claude Code:
 
 1. **dwic** (this npm package) — the **design auditor**. MCP server that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then prescribes the fix and remembers it across every session. Install: `npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>`. Get a token at [designwithclaude.com/start](https://designwithclaude.com/start).

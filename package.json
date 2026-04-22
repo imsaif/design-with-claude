@@ -1,12 +1,13 @@
 {
   "name": "@imrandwc/dwic",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "dwic — the design auditor for Claude Code. MCP server that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then remembers findings across sessions.",
   "type": "module",
   "main": "./dist/server.js",
   "bin": {
     "dwic": "dist/bin/setup.js",
-    "dwic-mcp-server": "dist/server.js"
+    "dwic-mcp-server": "dist/server.js",
+    "dwic-audit": "dist/bin/audit.js"
   },
   "files": [
     "dist",
@@ -33,6 +34,11 @@
     "test:audit-motion-designer": "node scripts/test-audit-motion-designer.mjs",
     "test:detect-project-config": "node scripts/test-detect-project-config.mjs",
     "test:design-next-step": "node scripts/test-design-next-step.mjs",
+    "test:audit-walker": "node scripts/test-audit-walker.mjs",
+    "test:audit-aggregator": "node scripts/test-audit-aggregator.mjs",
+    "test:audit-dashboard": "node scripts/test-audit-dashboard.mjs",
+    "test:audit-markdown-report": "node scripts/test-audit-markdown-report.mjs",
+    "test:audit-cli-e2e": "node scripts/test-audit-cli-e2e.mjs",
     "test:onboarding-gate": "node scripts/test-onboarding-gate.mjs",
     "test:setup": "node scripts/test-setup-dry-run.mjs",
     "test:e2e": "node scripts/test-e2e-roundtrip.mjs",

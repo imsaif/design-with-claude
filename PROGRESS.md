@@ -1,6 +1,6 @@
 # dwic V2 — Build Progress
 
-**Last updated:** April 22, 2026
+**Last updated:** April 22, 2026 (evening)
 **Overall status:** Product renamed to **dwic** (d + wi + c = design with claude). Published as `@imrandwc/dwic@1.0.0-alpha.1` on npm; old `designwithclaude@2.0.0-alpha.{1..5}` deprecated with pointer messages. Domain stays `designwithclaude.com` (serves as long-form brand explainer, IBM pattern). All V2 internal identifiers migrated (env vars DWC_* → DWIC_*, CSS `.dwc-*` → `.dwic-*`, `DwcIcon` → `DwicIcon`, `web/lib/dwc/` → `web/lib/dwic/`, logger prefix, binary name). Earlier same day: audit-rollout batch 2 shipped accessibility-specialist + form-designer + navigation-specialist as `designwithclaude@2.0.0-alpha.5` — 7 of 11 V2 tools now audit server-side. Hero positioning is "dwic — the design auditor, inside Claude Code"; interactive AuditDemo on `/` runs the real audit helpers client-side (web/lib/audit/{color,accessibility,form}.ts) with staged reveal + rendered production-view cards + numbered pins. Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
 
 **For testing / onboarding new contributors:** see `TESTING.md` at repo root — plain-language walkthrough of the live flow, add-a-project, share-with-friends, and common break-fixes.
@@ -185,6 +185,34 @@ Strategy: **Option 1 from the naming plan** — keep the domain `designwithclaud
 - `e9f249f` — scope name fix after `dwic` was rejected (9 files)
 
 Both pushed to `origin/main`. Vercel redeploying web with dwic branding.
+
+## `dwic audit` CLI (alpha.3) — April 22, 2026 (evening)
+
+Response to the "one polished demo beats three landing-page revisions" strategic frame: ship a zero-friction CLI that surfaces design-system gaps as a screenshot-worthy dashboard, with telemetry so we can measure the CLI → MCP funnel. Full roadmap lives at repo root in `ROADMAP_AUDIT_CLI.md`.
+
+- [x] **File walker + overrides.** `src/audit/walker.ts` walks cwd, skips `node_modules`/`.next`/`dist`/`.git`/`.dwic`/`coverage`/`build`/etc., collects `.css` + `.html`/`.jsx`/`.tsx` files. High-signal CSS (`themes.css`, `tokens.css`) sorts ahead of plain CSS so token parsers see the canonical surface first. Pre-filters JSX by presence of an opening element to exclude hooks/utils. `--max-files` cap (default 200) with cap-notice in the dashboard. `--css=` + `--markup=` overrides are additive. Test: `npm run test:audit-walker` (8 assertions).
+- [x] **Aggregator.** `src/audit/aggregator.ts` calls every existing `runXAudit()` pure function on the walked inputs and rolls findings into 8 `CategoryResult` objects (color, typography, spacing, accessibility, form, navigation, motion, copy). Each result carries severity, full findings, counts, and a ≤55-char gist. Guards: `form` skipped if no form markup, `navigation` skipped if no `<nav>`, `motion` skipped if no transition/animation declared — avoids false cleans vs false noise. `worstOverall` + `exitCodeFromSeverity` for the CLI exit-code contract (0 clean, 1 warn, 2 error). Test: `npm run test:audit-aggregator` (16 assertions).
+- [x] **Dashboard renderer.** `src/audit/dashboard.ts` — hand-rolled ANSI (no `chalk` dep), respects `NO_COLOR` + non-TTY. Severity icons (✗/⚠/·), severity-sorted rows (errors first, clean last), summary totals line, up to 3 MCP follow-up suggestions grounded in actual errors/warns, install CTA block. `renderJson()` for `--json` with a versioned schema marker (`dwic.audit.summary/1`). Test: `npm run test:audit-dashboard` (12 assertions).
+- [x] **Markdown report.** `src/audit/markdown-report.ts` writes `.dwic/audit-<YYYY-MM-DD>.md` — full findings grouped by severity per category, Next Steps section only mentions tools for non-clean categories, no absolute paths in the content. Test: `npm run test:audit-markdown-report` (7 assertions).
+- [x] **Telemetry.** `src/audit/telemetry.ts` — first-run opt-out notice printed exactly once (stored at `~/.dwic/state.json::telemetryNoticeShown`), anonymous `clientId` minted with `crypto.randomBytes(6).toString('base64url')`, POST to `/api/events` with `toolName: "__cli.audit.summary__"`, 2s timeout, silent failure. Payload is schema-versioned and PII-free (framework label + category counts + totals only). `--no-telemetry` + `DWIC_TELEMETRY=off` both disable. State persists.
+- [x] **CLI entry.** `src/bin/audit.ts` composes the above. Dispatches from `src/bin/setup.ts` when argv[2] === "audit" so `npx @imrandwc/dwic audit` stays the one UX. `--help` / `--json` / `--cwd=` / `--max-files=N` / `--css=` / `--markup=` / `--no-telemetry` flags. New `"dwic-audit"` bin in `package.json`.
+- [x] **Fixture project.** `examples/broken-project/` — Next.js 15 + Tailwind v4 + TS with deliberately planted findings across every auditable category (turquoise-on-white contrast fail, mandated `#1F3B90` missing, off-grid spacing, unlabeled input, radio group outside `<fieldset>`, `transition: all` + no reduced-motion, weak "Click here" CTA, Title Case headlines, jargon). Live output on the fixture: **28 findings · 6 errors · 14 warns · 8 info**, exit 2. Same fixture powers the screencast.
+- [x] **E2E test.** `npm run test:audit-cli-e2e` — spawns `node dist/bin/audit.js audit --cwd=examples/broken-project --no-telemetry`, asserts exit code 2, dashboard category rows, AA-fail gist, markdown report written, `--json` schema, `--help` exit 0, bad-cwd no-crash.
+- [x] **README CTA.** Top-of-README block introducing the audit command, the 8 categories, and the telemetry opt-out story.
+- [ ] npm publish `@imrandwc/dwic@1.0.0-alpha.3` (pending user sign-off — needs a fresh automation token per the post-publish rotation policy).
+- [ ] 60-second screencast against `examples/broken-project`.
+- [ ] Distribution: Anthropic Discord `#showcase` → r/ClaudeAI → X with `#ClaudeCode`. One channel at a time; measure between.
+
+### Day-7 decision checkpoint
+
+After launch, watch for:
+- Unique `clientId`s hitting `__cli.audit.summary__`
+- Funnel: does a client that ran CLI audit later hit `__mcp.connected__`? That's the CLI → MCP conversion metric.
+- GitHub issues, unprompted social shares, "how do I fix X" emails.
+
+Outcome shapes the next move: either double down on the auditor (batch 4, non-audit specialists, companion audit UI) or reassess whether the 45-skills library framing was actually the right one all along. Real data, not vibes.
+
+---
 
 ## Cognition-roadmap follow-ups (alpha.2) — April 22, 2026
 
