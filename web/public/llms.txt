@@ -1,94 +1,48 @@
-# Design with Claude
+# dwic — design with claude
 
-> 37 specialist design agents as Claude Code slash commands. No runtime, no dependencies — just expert design guidance in your coding workflow.
+> dwic ("dwick", d + wi + c = design with claude) is a design auditor that runs inside Claude Code. An MCP server + browser companion for code-first designers: audit your design system, preserve intent across sessions, and render Claude's design outputs live.
 
-## What This Is
+## What it is
 
-Design with Claude is a collection of 37 markdown-based design agent files, each a specialist in a specific design domain. Install them as a Claude Code plugin or standalone commands, and get expert-level design guidance directly in your terminal.
+dwic is distributed as the npm package `@imrandwc/dwic`. Install it once, and Claude Code gains 14 design specialists that can audit or generate palettes, type scales, spacing ramps, component specs, and copy. A browser companion at designwithclaude.com stores your project profile (framework, stack, design system, tone) and renders structured outputs live as Claude produces them.
 
-Each agent contains structured domain knowledge: WCAG specifics, token architecture patterns, motion timing curves, healthcare UX compliance rules, checkout conversion best practices. This isn't generic prompting — it's deep, opinionated expertise.
+A zero-friction CLI audit is also available — no install, no account:
 
-## How It Works
-
-Each command file is a markdown document containing a specialized design agent's complete knowledge. When you invoke a command, Claude loads that agent as context. There's no code running, no API calls, no build step.
-
-## Install
-
-### As a Plugin (recommended)
 ```
-/plugin marketplace add imsaif/design-with-claude
-/plugin install design-with-claude@design-with-claude
+npx @imrandwc/dwic audit
 ```
 
-### As Standalone Commands
+Scans the current project, runs 8 audit categories (color, typography, spacing, accessibility, form, navigation, motion, copy), prints a severity-sorted dashboard, writes a shareable report to `.dwic/audit-<date>.md`. Exit code mirrors severity (0 clean, 1 warn, 2 error) so it slots into CI.
+
+## Install (full MCP product)
+
 ```
-git clone https://github.com/imsaif/design-with-claude.git ~/.design-with-claude
-cp -r ~/.design-with-claude/commands/ ~/.claude/commands/
+npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>
 ```
 
-## Available Skills (38 total)
+Get a token by starting at [designwithclaude.com/start](https://designwithclaude.com/start) — a 5-step wizard mints the token and generates a tailored CLAUDE.md for your project.
 
-### Master Command
-- design-brief: Takes a natural language brief, identifies relevant agents, outputs comprehensive design guidance
+## Core surfaces
 
-### Core Design
-- visual-hierarchy-specialist: Layout, hierarchy, spacing, focal points
-- interaction-designer: User flows, states, gestures, feedback
-- design-system-architect: Tokens, component APIs, theming
-- accessibility-specialist: WCAG compliance, ARIA, keyboard nav
+- [Homepage](https://designwithclaude.com/): product overview, interactive audit demo, install flow.
+- [Start](https://designwithclaude.com/start): onboarding wizard; mints your token; generates CLAUDE.md.
+- [Library](https://designwithclaude.com/library): the V1 library — 44 role-based design specialists as Claude Code slash commands (standalone or plugin).
 
-### Visual Design
-- typography-specialist: Type scales, font pairing, vertical rhythm
-- color-specialist: Color systems, palettes, semantic colors
-- spacing-layout-specialist: Grid systems, spacing scales, density
-- icon-illustration-specialist: Icon grids, sizing, illustration style, SVG accessibility
+## MCP tools (14 active)
 
-### Interaction Design
-- motion-designer: Transitions, timing curves, micro-interactions
-- form-designer: Input layout, validation, multi-step forms
-- navigation-specialist: Nav patterns, wayfinding, menus
-- notification-designer: Push notifications, toasts, badges, notification center
-- drag-drop-specialist: Drag affordances, drop zones, reordering, canvas
+Audit + generate modes: `color-specialist`, `typography-specialist`, `spacing-specialist`, `design-system-architect`, `accessibility-specialist`, `form-designer`, `navigation-specialist`, `content-strategist`, `motion-designer`.
 
-### Product Design
-- dashboard-designer: Data display, charts, KPI cards
-- mobile-specialist: iOS/Android patterns, touch, thumb zones
-- responsive-design-specialist: Breakpoints, fluid layouts, adaptive patterns
-- landing-page-specialist: Hero sections, CTAs, conversion layout
-- settings-designer: Settings pages, preferences, toggle patterns
-- auth-security-ux-specialist: Login flows, 2FA/passkey, session management
+Generate only: `design-brief`, `setup-guide`, `debug-helper`, `set-project-profile`, `design-next-step` (synthesizes your profile + recent events into a single named next step).
 
-### Content & IA
-- content-strategist: Microcopy, tone of voice, content hierarchy
-- information-architect: Navigation, taxonomy, content structure
-- conversational-ui-designer: Chat interfaces, voice UI
+## Positioning
 
-### Industry
-- healthcare-ux-specialist: Clinical workflows, HIPAA, medical UI
-- b2b-saas-specialist: Enterprise patterns, multi-tenant, admin UIs
-- ecommerce-specialist: Product pages, cart, checkout flows
-- checkout-specialist: Cart UX, payment forms, trust signals
-
-### Specialized
-- dark-mode-specialist: Dark theme tokens, surface hierarchy
-- error-handling-specialist: Error states, empty states, recovery flows
-- onboarding-specialist: First-run experience, progressive onboarding
-- performance-specialist: Skeleton screens, loading states, perceived speed
-- data-visualization-specialist: Chart types, axis design, data-ink ratio
-- table-designer: Data tables, sorting, filtering, pagination
-- search-specialist: Search UX, filters, faceted navigation
-- brand-designer: Visual identity, brand systems
-- empty-loading-states-specialist: Skeleton screens, empty states, loading patterns
-- i18n-designer: RTL layouts, locale-aware UI, string expansion
-- print-export-designer: PDF generation, print stylesheets, export UX
+dwic is the design-engineering rigor layer for code-first designers using Claude Code — audit, drift detection, persistent project memory. It complements canvas tools (including Claude Design) rather than competing with them.
 
 ## Links
 
-- Website: https://designwithclaude.com
+- npm: https://www.npmjs.com/package/@imrandwc/dwic
 - GitHub: https://github.com/imsaif/design-with-claude
-- AI UX Patterns: https://aiuxdesign.guide
-- Gist Design: https://gist.design
-- Author: https://www.imranaidesign.com
+- Related: https://aiuxdesign.guide · https://gist.design
 
 ## License
 
