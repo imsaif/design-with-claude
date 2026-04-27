@@ -66,8 +66,8 @@ try { rmSync(join(fixturePath, ".dwic"), { recursive: true, force: true }); } ca
   } catch (err) {
     fail("json output not parseable", err.message);
   }
-  if (parsed && parsed.schema === "dwic.audit.summary/1") pass("json has schema marker");
-  else fail("json missing schema marker");
+  if (parsed && parsed.schema === "dwic.audit.summary/2") pass("json has schema marker");
+  else fail(`json missing or wrong schema marker (got ${parsed?.schema})`);
   if (parsed && parsed.results && parsed.results.length === 8) pass("json has 8 categories");
   else fail("json category count wrong");
 }

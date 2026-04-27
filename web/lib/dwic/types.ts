@@ -114,6 +114,7 @@ export interface AccountState {
   createdAt: string;
   lastSeenAt: string;
   projects: ProjectRef[];
+  email?: string | null;
 }
 
 export const DEFAULT_PROJECT_SLUG = "default";

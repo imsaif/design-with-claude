@@ -1,32 +1,19 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { DM_Mono } from "next/font/google";
 import "./globals.css";
 import "./skills.css";
 
-const bevellier = localFont({
-  src: [
-    { path: "../public/fonts/bevellier-regular.woff2", weight: "400" },
-    { path: "../public/fonts/bevellier-medium.woff2", weight: "500" },
-  ],
-  variable: "--font-dm-serif",
-  display: "swap",
-});
-
+// Satoshi-only typography (aiex design system).
+// Mounted under both --font-satoshi (aiex name) and --font-dm-sans (existing
+// dwic CSS references) so we don't have to touch every class. Bevellier (serif)
+// and DM Mono are intentionally dropped — aiex uses Satoshi for everything.
 const satoshi = localFont({
   src: [
     { path: "../public/fonts/satoshi-400.woff2", weight: "400" },
     { path: "../public/fonts/satoshi-500.woff2", weight: "500" },
     { path: "../public/fonts/satoshi-700.woff2", weight: "700" },
   ],
-  variable: "--font-dm-sans",
-  display: "swap",
-});
-
-const dmMono = DM_Mono({
-  weight: ["300", "400", "500"],
-  subsets: ["latin"],
-  variable: "--font-dm-mono",
+  variable: "--font-satoshi",
   display: "swap",
 });
 
@@ -95,7 +82,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0c0e",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -103,10 +90,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Mount Satoshi under two CSS variable names so legacy CSS (var(--font-dm-sans))
+  // and any new aiex-style references (var(--font-satoshi)) both resolve to the
+  // same loaded font.
+  const satoshiAliases = `${satoshi.variable}`;
   return (
     <html lang="en">
       <body
-        className={`skills-page ${bevellier.variable} ${satoshi.variable} ${dmMono.variable}`}
+        className={`skills-page ${satoshiAliases}`}
+        style={{ ["--font-dm-sans" as string]: "var(--font-satoshi)" }}
       >
         <script
           type="application/ld+json"

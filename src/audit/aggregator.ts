@@ -11,6 +11,7 @@ import {
   auditWeightTokens,
 } from "../tools/typography.js";
 import { parseSpacingTokensFromCss, auditSpacingTokens } from "../tools/spacing.js";
+import { checkMandatedFamily } from "../tools/typography.js";
 import { runA11yAudit } from "../tools/accessibility.js";
 import { runFormAudit } from "../tools/form.js";
 import { runNavAudit } from "../tools/navigation.js";
@@ -96,8 +97,10 @@ function truncateGist(s: string, max = 55): string {
 
 // --- Category builders ----------------------------------------------------
 
-interface AggregateOptions {
+export interface AggregateOptions {
   mandatedAccent?: string;
+  mandatedFontFamily?: string;
+  baseUnitPx?: number;
 }
 
 function buildColorResult(css: string, opts: AggregateOptions): CategoryResult {
@@ -159,7 +162,7 @@ function buildColorResult(css: string, opts: AggregateOptions): CategoryResult {
   };
 }
 
-function buildTypographyResult(css: string): CategoryResult {
+function buildTypographyResult(css: string, opts: AggregateOptions): CategoryResult {
   const tokens = parseTypeTokensFromCss(css);
   if (tokens.length === 0) {
     return {
@@ -173,6 +176,7 @@ function buildTypographyResult(css: string): CategoryResult {
   const sizes = tokens.filter((t) => t.kind === "size");
   const lh = tokens.filter((t) => t.kind === "lineHeight");
   const weights = tokens.filter((t) => t.kind === "weight");
+  const families = tokens.filter((t) => t.kind === "family");
   const raw = [
     ...auditSizeTokens(sizes),
     ...auditLineHeightTokens(lh),
@@ -183,6 +187,17 @@ function buildTypographyResult(css: string): CategoryResult {
     token: f.token,
     message: f.message,
   }));
+
+  if (opts.mandatedFontFamily) {
+    const check = checkMandatedFamily(families, css, opts.mandatedFontFamily);
+    if (check.status === "missing") {
+      findings.push({
+        severity: "error",
+        token: "mandated font",
+        message: check.detail,
+      });
+    }
+  }
   const sev = worstSeverity(findings);
   const gist =
     findings.length > 0
@@ -193,7 +208,7 @@ function buildTypographyResult(css: string): CategoryResult {
   return { category: "typography", severity: sev, findings, gist, counts: counts(findings) };
 }
 
-function buildSpacingResult(css: string): CategoryResult {
+function buildSpacingResult(css: string, opts: AggregateOptions): CategoryResult {
   const tokens = parseSpacingTokensFromCss(css);
   if (tokens.length === 0) {
     return {
@@ -204,7 +219,7 @@ function buildSpacingResult(css: string): CategoryResult {
       counts: { error: 0, warn: 0, info: 0 },
     };
   }
-  const raw = auditSpacingTokens(tokens, undefined);
+  const raw = auditSpacingTokens(tokens, opts.baseUnitPx);
   const findings: GenericFinding[] = raw.map((f) => ({
     severity: f.severity,
     token: f.token,
@@ -343,8 +358,8 @@ export function aggregate(inputs: WalkedInputs, opts: AggregateOptions = {}): Ca
   const { cssContent, markupContent } = inputs;
   return [
     buildColorResult(cssContent, opts),
-    buildTypographyResult(cssContent),
-    buildSpacingResult(cssContent),
+    buildTypographyResult(cssContent, opts),
+    buildSpacingResult(cssContent, opts),
     buildA11yResult(markupContent),
     buildFormResult(markupContent),
     buildNavResult(markupContent),

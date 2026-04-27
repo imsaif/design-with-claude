@@ -4,6 +4,8 @@
 import type { WalkedInputs } from "./walker.js";
 import { CATEGORY_LABELS, type CategoryResult, type Severity } from "./aggregator.js";
 import type { DetectedProjectConfig } from "../utils/detect-project-config.js";
+import type { DriftReport } from "./drift.js";
+import { pickHeadlineAction } from "./headline-action.js";
 
 const ANSI = {
   reset: "\x1b[0m",
@@ -74,35 +76,28 @@ function formatCount(r: CategoryResult): string {
   return `${total} finding${total === 1 ? "" : "s"}`;
 }
 
-function followUpsFor(results: CategoryResult[]): Array<{ tool: string; reason: string }> {
-  const picks: Array<{ tool: string; reason: string }> = [];
-  const withErrors = results.filter((r) => r.severity === "error");
-  const withWarns = results.filter((r) => r.severity === "warn");
-  const pickOrder = [...withErrors, ...withWarns];
-  const CATEGORY_TO_TOOL: Partial<Record<CategoryResult["category"], string>> = {
-    color: "color-specialist",
-    typography: "typography-specialist",
-    spacing: "spacing-specialist",
-    accessibility: "accessibility-specialist",
-    form: "form-designer",
-    navigation: "navigation-specialist",
-    motion: "motion-designer",
-    copy: "content-strategist",
-  };
-  for (const r of pickOrder) {
-    const tool = CATEGORY_TO_TOOL[r.category];
-    if (!tool) continue;
-    if (picks.some((p) => p.tool === tool)) continue;
-    picks.push({ tool, reason: r.gist });
-    if (picks.length >= 3) break;
+function relativeTimeLabel(iso: string): string {
+  try {
+    const then = new Date(iso).getTime();
+    if (!Number.isFinite(then)) return iso;
+    const seconds = Math.max(0, Math.round((Date.now() - then) / 1000));
+    if (seconds < 60) return "just now";
+    const minutes = Math.round(seconds / 60);
+    if (minutes < 60) return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+    const hours = Math.round(minutes / 60);
+    if (hours < 48) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+    const days = Math.round(hours / 24);
+    return `${days} day${days === 1 ? "" : "s"} ago`;
+  } catch {
+    return iso;
   }
-  return picks;
 }
 
 export interface DashboardOptions {
   reportPath: string | null;
   showInstallCta: boolean;
   cwd: string;
+  drift: DriftReport | null;
 }
 
 export function renderDashboard(
@@ -134,8 +129,37 @@ export function renderDashboard(
     );
   }
   lines.push(divider());
-  lines.push("");
 
+  // Drift block — sits above the category table when a baseline existed.
+  if (opts.drift) {
+    lines.push("");
+    if (!opts.drift.hasBaseline) {
+      lines.push(paint(ANSI.dim, "First audit on this project — saving baseline. Re-run later to see drift."));
+    } else {
+      const t = opts.drift.totals;
+      const newErr = t.new.error;
+      const resolvedTotal = t.resolved.error + t.resolved.warn + t.resolved.info;
+      const parts: string[] = [];
+      const upArrow = paint(ANSI.red, "↑");
+      const downArrow = paint(ANSI.green, "↓");
+      const flat = paint(ANSI.dim, "→");
+      const newTotal = t.new.error + t.new.warn + t.new.info;
+      if (newTotal === 0 && resolvedTotal === 0 && t.worsened === 0) {
+        parts.push(`${flat} no drift since last run`);
+      } else {
+        if (newTotal > 0) parts.push(`${upArrow} ${newTotal} new${newErr > 0 ? ` (${newErr} error${newErr === 1 ? "" : "s"})` : ""}`);
+        if (t.worsened > 0) parts.push(`${upArrow} ${t.worsened} worsened`);
+        if (resolvedTotal > 0) parts.push(`${downArrow} ${resolvedTotal} resolved`);
+        if (t.unchanged > 0) parts.push(`${flat} ${t.unchanged} unchanged`);
+      }
+      const stamp = opts.drift.baselineRunAt
+        ? paint(ANSI.dim, `last run ${relativeTimeLabel(opts.drift.baselineRunAt)}`)
+        : "";
+      lines.push(`${paint(ANSI.bold, "Since last run:")}  ${parts.join(" · ")}${stamp ? "  " + stamp : ""}`);
+    }
+  }
+
+  lines.push("");
   const sorted = [...results].sort((a, b) => severityRank(a.severity) - severityRank(b.severity));
   for (const r of sorted) {
     const label = pad(CATEGORY_LABELS[r.category], 16);
@@ -154,13 +178,14 @@ export function renderDashboard(
     `  ${results.length} categories · ${totalFindings} finding${totalFindings === 1 ? "" : "s"} · ${severityBadge("error")} ${totalErr} · ${severityBadge("warn")} ${totalWarn} · ${severityBadge("info")} ${totalInfo}`,
   );
 
-  const followUps = followUpsFor(results);
-  if (followUps.length > 0) {
+  // Headline action — ONE specialist with a paste-able prompt + outcome line.
+  const headline = pickHeadlineAction(results);
+  if (headline) {
     lines.push("");
-    lines.push(paint(ANSI.bold, "Run any specialist inside Claude Code for the full detail + fixes:"));
-    for (const p of followUps) {
-      lines.push(`  ${paint(ANSI.cyan, ">")} ${paint(ANSI.bold, p.tool)} with mode:"audit"   ${paint(ANSI.dim, `— ${p.reason}`)}`);
-    }
+    lines.push(paint(ANSI.bold, "What to do next:"));
+    lines.push(`  ${paint(ANSI.cyan, ">")} In Claude Code, ask ${paint(ANSI.bold, headline.tool)} to:`);
+    lines.push(`     ${paint(ANSI.cyan, `"${headline.prompt}"`)}`);
+    lines.push(`  ${paint(ANSI.dim, headline.outcome)}`);
   } else {
     lines.push("");
     lines.push(paint(ANSI.green, "No errors or warnings — system looks consistent on static analysis."));
@@ -173,7 +198,7 @@ export function renderDashboard(
 
   if (opts.showInstallCta) {
     lines.push("");
-    lines.push(paint(ANSI.dim, "Install dwic to run these inside Claude Code:"));
+    lines.push(paint(ANSI.dim, "Don't have dwic installed yet?"));
     lines.push(`  ${paint(ANSI.cyan, "npx @imrandwc/dwic setup --token=<get one at designwithclaude.com/start>")}`);
   }
 
@@ -186,10 +211,12 @@ export function renderJson(
   detected: DetectedProjectConfig,
   inputs: WalkedInputs,
   results: CategoryResult[],
+  drift: DriftReport | null,
 ): string {
+  const headline = pickHeadlineAction(results);
   return JSON.stringify(
     {
-      schema: "dwic.audit.summary/1",
+      schema: "dwic.audit.summary/2",
       project: {
         framework: detected.framework,
         techStack: detected.techStack,
@@ -207,6 +234,17 @@ export function renderJson(
         gist: r.gist,
         findings: r.findings,
       })),
+      drift: drift
+        ? {
+            hasBaseline: drift.hasBaseline,
+            baselineRunAt: drift.baselineRunAt,
+            totals: drift.totals,
+            new: drift.newFindings,
+            resolved: drift.resolvedFindings,
+            worsened: drift.worsened,
+          }
+        : null,
+      headlineAction: headline,
     },
     null,
     2,
