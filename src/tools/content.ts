@@ -3,6 +3,8 @@
 // product copy: passive voice, jargon, weak CTA verbs, over-long sentences,
 // all-caps shouting, button-text length.
 
+import { neutralizeJsxExpressions } from "./markup-utils.js";
+
 export interface ContentFinding {
   severity: "error" | "warn" | "info";
   element: string;
@@ -247,13 +249,14 @@ export function auditHeadingCase(markup: string): ContentFinding[] {
 }
 
 export function runContentAudit(input: string): ContentFinding[] {
-  const plainText = stripTags(input);
+  const cleaned = neutralizeJsxExpressions(input);
+  const plainText = stripTags(cleaned);
   return [
-    ...auditCTAs(input),
+    ...auditCTAs(cleaned),
     ...auditJargon(plainText),
     ...auditPassiveVoice(plainText),
     ...auditSentenceLength(plainText),
     ...auditShouting(plainText),
-    ...auditHeadingCase(input),
+    ...auditHeadingCase(cleaned),
   ];
 }

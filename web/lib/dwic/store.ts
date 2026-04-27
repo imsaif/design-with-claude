@@ -27,6 +27,7 @@ type MemAccount = {
   commandCount: number;
   createdAt: string;
   lastSeenAt: string;
+  email?: string | null;
 };
 
 type MemProjectProfile = {
@@ -185,42 +186,59 @@ function buildProfileState(args: {
 
 // ---------- Public API ----------
 
-/** Ensure an account row exists and return it. Account = per-token. */
-export async function ensureAccount(token: string): Promise<{
+/** Ensure an account row exists and return it. Account = per-token.
+ * Optional `email` is persisted on the row when provided (e.g. when a
+ * designer arrives via the /get-started email gate). Existing accounts
+ * keep whatever email was first set; subsequent calls without email
+ * leave the column untouched. */
+export async function ensureAccount(token: string, email?: string): Promise<{
   tokenHash: string;
   status: SubscriptionStatus;
   commandCount: number;
   createdAt: string;
   lastSeenAt: string;
+  email?: string | null;
 }> {
   const hash = hashToken(token);
   const sb = getSupabase();
   if (!sb) {
     const m = getOrInitMemAccount(hash);
-    return { tokenHash: hash, status: m.status, commandCount: m.commandCount, createdAt: m.createdAt, lastSeenAt: m.lastSeenAt };
+    if (email && !m.email) m.email = email;
+    return {
+      tokenHash: hash,
+      status: m.status,
+      commandCount: m.commandCount,
+      createdAt: m.createdAt,
+      lastSeenAt: m.lastSeenAt,
+      email: m.email ?? null,
+    };
   }
+
+  const upsertRow: Record<string, unknown> = {
+    token_hash: hash,
+    last_seen_at: new Date().toISOString(),
+  };
+  if (email) upsertRow.email = email;
 
   const { error: upsertErr } = await sb
     .from("profiles")
-    .upsert(
-      { token_hash: hash, last_seen_at: new Date().toISOString() },
-      { onConflict: "token_hash", ignoreDuplicates: false },
-    );
+    .upsert(upsertRow, { onConflict: "token_hash", ignoreDuplicates: false });
   if (upsertErr) throw new Error(`profiles upsert failed: ${upsertErr.message}`);
 
   const { data, error } = await sb
     .from("profiles")
-    .select("token_hash, status, command_count, created_at, last_seen_at")
+    .select("token_hash, status, command_count, created_at, last_seen_at, email")
     .eq("token_hash", hash)
     .single();
   if (error || !data) throw new Error(`profiles select failed: ${error?.message ?? "no row"}`);
-  const row = data as AccountRow;
+  const row = data as AccountRow & { email?: string | null };
   return {
     tokenHash: row.token_hash,
     status: row.status,
     commandCount: row.command_count,
     createdAt: row.created_at,
     lastSeenAt: row.last_seen_at,
+    email: row.email ?? null,
   };
 }
 

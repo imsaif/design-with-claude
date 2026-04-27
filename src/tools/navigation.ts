@@ -2,6 +2,8 @@
 // wayfinding patterns: landmark presence + labeling, current-page indication,
 // skip links, nested depth, disclosure pattern for mobile.
 
+import { neutralizeJsxExpressions } from "./markup-utils.js";
+
 export interface NavFinding {
   severity: "error" | "warn" | "info";
   element: string;
@@ -149,11 +151,12 @@ export function auditMobileDisclosure(markup: string): NavFinding[] {
 }
 
 export function runNavAudit(markup: string): NavFinding[] {
+  const cleaned = neutralizeJsxExpressions(markup);
   return [
-    ...auditNavLandmarks(markup),
-    ...auditCurrentPage(markup),
-    ...auditSkipLink(markup),
-    ...auditNestingDepth(markup),
-    ...auditMobileDisclosure(markup),
+    ...auditNavLandmarks(cleaned),
+    ...auditCurrentPage(cleaned),
+    ...auditSkipLink(cleaned),
+    ...auditNestingDepth(cleaned),
+    ...auditMobileDisclosure(cleaned),
   ];
 }

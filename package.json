@@ -37,12 +37,13 @@
     "test:audit-walker": "node scripts/test-audit-walker.mjs",
     "test:audit-aggregator": "node scripts/test-audit-aggregator.mjs",
     "test:audit-dashboard": "node scripts/test-audit-dashboard.mjs",
+    "test:audit-drift": "node scripts/test-audit-drift.mjs",
+    "test:markup-utils": "node scripts/test-markup-utils.mjs",
     "test:audit-markdown-report": "node scripts/test-audit-markdown-report.mjs",
     "test:audit-cli-e2e": "node scripts/test-audit-cli-e2e.mjs",
     "test:onboarding-gate": "node scripts/test-onboarding-gate.mjs",
     "test:setup": "node scripts/test-setup-dry-run.mjs",
     "test:e2e": "node scripts/test-e2e-roundtrip.mjs",
-    "test:phase2": "node scripts/test-phase2-flow.mjs",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

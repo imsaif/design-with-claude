@@ -9,6 +9,8 @@ import { join } from "node:path";
 import { randomBytes } from "node:crypto";
 import type { CategoryResult } from "./aggregator.js";
 import type { DetectedProjectConfig } from "../utils/detect-project-config.js";
+import type { DriftReport } from "./drift.js";
+import { pickHeadlineAction } from "./headline-action.js";
 
 interface ClientState {
   clientId?: string;
@@ -68,12 +70,23 @@ export function maybePrintFirstRunNotice(writer: (line: string) => void, optOut:
 }
 
 export interface TelemetryPayload {
-  schema: "dwic.audit.summary/1";
+  schema: "dwic.audit.summary/2";
   version: string;
   clientId: string;
   framework: string;
   categoryCounts: Record<string, { error: number; warn: number; info: number }>;
   totals: { error: number; warn: number; info: number };
+  // Drift counts only — no rule IDs, no file paths, no token names.
+  drift: {
+    hasBaseline: boolean;
+    new: { error: number; warn: number; info: number };
+    resolved: { error: number; warn: number; info: number };
+    worsened: number;
+    unchanged: number;
+  } | null;
+  // Headline category only (e.g. "color"). Lets us measure which surface the
+  // CLI most often points designers at, without leaking finding text.
+  headlineCategory: string | null;
 }
 
 export function buildTelemetryPayload(
@@ -81,6 +94,7 @@ export function buildTelemetryPayload(
   clientId: string,
   results: CategoryResult[],
   detected: DetectedProjectConfig,
+  drift: DriftReport | null,
 ): TelemetryPayload {
   const categoryCounts: TelemetryPayload["categoryCounts"] = {};
   let tErr = 0;
@@ -92,13 +106,24 @@ export function buildTelemetryPayload(
     tWarn += r.counts.warn;
     tInfo += r.counts.info;
   }
+  const headline = pickHeadlineAction(results);
   return {
-    schema: "dwic.audit.summary/1",
+    schema: "dwic.audit.summary/2",
     version,
     clientId,
     framework: detected.framework,
     categoryCounts,
     totals: { error: tErr, warn: tWarn, info: tInfo },
+    drift: drift
+      ? {
+          hasBaseline: drift.hasBaseline,
+          new: drift.totals.new,
+          resolved: drift.totals.resolved,
+          worsened: drift.totals.worsened,
+          unchanged: drift.totals.unchanged,
+        }
+      : null,
+    headlineCategory: headline ? headline.category : null,
   };
 }
 
@@ -106,13 +131,14 @@ export async function emitAuditTelemetry(args: {
   version: string;
   results: CategoryResult[];
   detected: DetectedProjectConfig;
+  drift: DriftReport | null;
   apiUrl?: string;
   timeoutMs?: number;
 }): Promise<void> {
   const state = loadState();
   if (state.telemetryOptOut) return;
   const clientId = ensureClientId(state);
-  const payload = buildTelemetryPayload(args.version, clientId, args.results, args.detected);
+  const payload = buildTelemetryPayload(args.version, clientId, args.results, args.detected, args.drift);
   const apiBase = args.apiUrl ?? process.env.DWIC_API_URL ?? DEFAULT_API;
   const url = `${apiBase.replace(/\/+$/, "")}/api/events`;
 

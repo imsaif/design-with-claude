@@ -3,6 +3,8 @@
 // markers, error-hint wiring, fieldset grouping, default input type,
 // password UX, multi-submit discrimination, orphaned inputs.
 
+import { neutralizeJsxExpressions } from "./markup-utils.js";
+
 export interface FormFinding {
   severity: "error" | "warn" | "info";
   element: string;
@@ -229,13 +231,14 @@ export function auditMultipleSubmits(markup: string): FormFinding[] {
 }
 
 export function runFormAudit(markup: string): FormFinding[] {
+  const cleaned = neutralizeJsxExpressions(markup);
   return [
-    ...auditFormWrapper(markup),
-    ...auditInputTypes(markup),
-    ...auditRequiredMarkers(markup),
-    ...auditPasswordFields(markup),
-    ...auditErrorWiring(markup),
-    ...auditFieldsetGrouping(markup),
-    ...auditMultipleSubmits(markup),
+    ...auditFormWrapper(cleaned),
+    ...auditInputTypes(cleaned),
+    ...auditRequiredMarkers(cleaned),
+    ...auditPasswordFields(cleaned),
+    ...auditErrorWiring(cleaned),
+    ...auditFieldsetGrouping(cleaned),
+    ...auditMultipleSubmits(cleaned),
   ];
 }

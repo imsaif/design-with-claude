@@ -2,6 +2,8 @@
 // Regex-based (not a full parser) — we flag patterns, not AST shapes. The
 // payoff is that we can audit any snippet a designer pastes without babel.
 
+import { neutralizeJsxExpressions } from "./markup-utils.js";
+
 export interface A11yFinding {
   severity: "error" | "warn" | "info";
   element: string;
@@ -210,13 +212,16 @@ export function auditLandmarks(markup: string): A11yFinding[] {
 }
 
 export function runA11yAudit(markup: string): A11yFinding[] {
+  // Strip JSX expression blocks before regex-based tag matching — see
+  // src/tools/markup-utils.ts for why.
+  const cleaned = neutralizeJsxExpressions(markup);
   return [
-    ...auditImages(markup),
-    ...auditFormControls(markup),
-    ...auditHeadings(markup),
-    ...auditAnchors(markup),
-    ...auditButtons(markup),
-    ...auditLandmarks(markup),
+    ...auditImages(cleaned),
+    ...auditFormControls(cleaned),
+    ...auditHeadings(cleaned),
+    ...auditAnchors(cleaned),
+    ...auditButtons(cleaned),
+    ...auditLandmarks(cleaned),
   ];
 }
 

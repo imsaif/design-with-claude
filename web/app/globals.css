@@ -1,15 +1,114 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+ * aiex design system — light-default palette, navy accent.
+ * Ported from /Users/imranmohammed/aiex/src/app/globals.css.
+ * Existing dwic CSS references (var(--text), var(--accent), var(--surface)…)
+ * remain valid via the alias block below — the cascade does the heavy lifting
+ * across the 1900-line skills.css without per-class edits.
+ * ------------------------------------------------------------------------- */
+
 :root {
-  --background: #0F0F10;
-  --foreground: #FFFFFF;
+  /* aiex tokens — light theme */
+  --background-primary: #ffffff;
+  --background-secondary: #fafafa;
+  --background-tertiary: #f5f5f5;
+  --background-grain: #F0F1F5;
+  --surface-primary: #ffffff;
+  --surface-secondary: #f9f9f9;
+  --surface-elevated: #ffffff;
+  --text-primary: #162036;
+  --text-secondary: #20294C;
+  --text-tertiary: #64748b;
+  --text-disabled: #94a3b8;
+  --text-hero: #162036;
+  --border-primary: #e5e7eb;
+  --border-secondary: #d1d5db;
+  --border-focus: #525252;
+  --border-success: #10b981;
+  --border-error: #ef4444;
+  --border-warning: #f59e0b;
+  --border-info: #3b82f6;
+  --border-interactive: #3b82f6;
+  --border-interactive-hover: #2563eb;
+  --border-selected: #3b82f6;
+  --border-disabled: #d1d5db;
+  --border-divider: #f9f9f9;
+  --border-divider-subtle: #fcfcfc;
+  --ring-focus: #3b82f6;
+  --ring-focus-error: #ef4444;
+  --ring-focus-success: #10b981;
+  --ring-focus-warning: #f59e0b;
+  --accent-primary: #162036;
+  --accent-hover: #1e2a42;
+  --accent-subtle: #f5f5f5;
+
+  /* Shadow + motion tokens (aiex). */
+  --shadow-subtle: 0 2px 8px rgba(51, 65, 85, 0.04);
+  --shadow-card: 0 4px 12px rgba(51, 65, 85, 0.05);
+  --shadow-card-hover: 0 8px 24px rgba(51, 65, 85, 0.08);
+  --shadow-elevated: 0 12px 32px rgba(51, 65, 85, 0.1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Radii. Existing 10/6 values stay for cards; 999 for pills. */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-pill: 999px;
+
+  /* --- Backward-compat aliases for the legacy dwic skills.css ---- */
+  --background: var(--background-primary);
+  --bg: var(--background-primary);
+  --foreground: var(--text-primary);
+  --text: var(--text-primary);
+  --text-muted: var(--text-secondary);
+  --text-dim: var(--text-tertiary);
+  --surface: var(--surface-primary);
+  --surface-hover: var(--surface-secondary);
+  --border: var(--border-primary);
+  --border-accent: var(--border-secondary);
+  --accent: var(--accent-primary);
+  --accent-dim: rgba(22, 32, 54, 0.12);
+  --accent-dim2: rgba(22, 32, 54, 0.06);
+}
+
+/* aiex dark mode (data-attribute toggle, no UI yet). Reserved for a future
+ * theme toggle — body data-theme="dark" flips every alias automatically. */
+[data-theme="dark"] {
+  --background-primary: #0f0f0f;
+  --background-secondary: #171717;
+  --background-tertiary: #1f1f1f;
+  --background-grain: #1a1a1a;
+  --surface-primary: #171717;
+  --surface-secondary: #1f1f1f;
+  --surface-elevated: #262626;
+  --text-primary: #fafafa;
+  --text-secondary: #d4d4d4;
+  --text-tertiary: #a3a3a3;
+  --text-disabled: #737373;
+  --text-hero: #fafafa;
+  --border-primary: #374151;
+  --border-secondary: #4b5563;
+  --accent-primary: #ffffff;
+  --accent-hover: #f5f5f5;
+  --accent-subtle: #262626;
+  --accent-dim: rgba(255, 255, 255, 0.12);
+  --accent-dim2: rgba(255, 255, 255, 0.06);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--background-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-satoshi);
+}
+
+/* Font aliases. Legacy CSS still references --font-dm-sans, --font-dm-serif,
+ * --font-dm-mono; map them all to Satoshi so nothing renders in Times. */
+:root {
+  --font-dm-sans: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-dm-serif: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-dm-mono: ui-monospace, "SF Mono", Monaco, "Fira Code", monospace;
+  --font-geist-sans: var(--font-satoshi);
+  --font-geist-mono: ui-monospace, "SF Mono", Monaco, monospace;
 }
 
 * {
@@ -23,16 +122,18 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Always reserve space for the vertical scrollbar so the viewport width
-     doesn't shift when page height crosses viewport height mid-interaction
-     (the AuditDemo Run-audit "width shrinks" symptom). */
+     doesn't shift when page height crosses viewport height mid-interaction. */
   overflow-y: scroll;
   scrollbar-gutter: stable;
+  scroll-padding-top: 100px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  font-family: var(--font-satoshi), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "kern" 1, "liga" 1;
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.6;
@@ -41,12 +142,32 @@ body {
 }
 
 code {
-  font-family: var(--font-geist-mono), 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+  font-family: ui-monospace, "SF Mono", Monaco, Inconsolata, "Fira Code",
+    monospace;
 }
 
+/* aiex typographic refinements */
 h1, h2, h3, h4, h5, h6 {
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+h1 {
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+h2 {
   line-height: 1.2;
   letter-spacing: -0.02em;
+}
+
+h3, h4 {
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+p {
+  line-height: 1.6;
 }
 
 /* Remove focus outline for mouse users, keep for keyboard users */
@@ -55,48 +176,36 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 :focus-visible {
-  outline: 2px solid #06B6D4;
+  outline: 2px solid var(--ring-focus);
   outline-offset: 2px;
   border-radius: 8px;
 }
 
-/* Selection color */
 ::selection {
-  background: rgba(6, 182, 212, 0.2);
-  color: #FFFFFF;
+  background: rgba(22, 32, 54, 0.15);
+  color: var(--text-primary);
 }
 
-/* Custom scrollbar */
+/* Scrollbar — light, subtle */
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0F0F10;
+  background: var(--background-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2A2A2C;
+  background: var(--border-secondary);
   border-radius: 6px;
-  border: 3px solid #0F0F10;
+  border: 2px solid var(--background-secondary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3A3A3C;
+  background: var(--text-tertiary);
 }
 
-/* Smooth transitions */
-* {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-}
-
-/* Smooth scroll anchoring */
-html {
-  scroll-padding-top: 100px;
-}
-
-/* Improved backdrop blur support */
 @supports (backdrop-filter: blur(20px)) {
   .backdrop-blur-custom {
     backdrop-filter: blur(20px);
@@ -104,496 +213,29 @@ html {
   }
 }
 
-/* Enhanced gradient animations */
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease infinite;
-}
-
-/* Custom scrollbar for webkit browsers */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(15, 15, 16, 0.8);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(6, 182, 212, 0.3);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(6, 182, 212, 0.5);
-}
-
-/* Terminal-style hero section */
-.hero-section {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000000;
-  color: white;
-  padding: 1rem;
-}
-
-.hero-content {
-  text-align: center;
-  max-width: 4xl;
-  margin: 0 auto;
-}
-
-.terminal-title {
-  font-family: var(--font-geist-mono), 'SF Mono', 'Monaco', monospace;
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: #00FFFF;
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-  margin-bottom: 1.5rem;
-  line-height: 1.1;
-}
-
-.terminal-window-title {
-  font-size: 0.875rem;
-  color: #8B949E;
-  margin-left: 1rem;
-}
-
-.blinking-cursor::after {
-  content: '_';
-  display: inline-block;
-  animation: blink 1s infinite;
-  color: #00FFFF;
-}
-
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
-.hero-subtitle {
-  font-size: 1.125rem;
-  color: #CCCCCC;
-  margin-bottom: 2rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.6;
-}
-
-.cta-buttons {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  margin-bottom: 2.5rem;
-  flex-wrap: wrap;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #00FFFF, #0080FF);
-  color: #000000;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-  font-size: 0.875rem;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 255, 255, 0.3);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: #CCCCCC;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  border: 2px solid #333333;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  font-size: 0.875rem;
-}
-
-.btn-secondary:hover {
-  border-color: #00FFFF;
-  color: #00FFFF;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-}
-
-.terminal-window {
-  background: #0D1117;
-  border: 1px solid #00FFFF;
-  border-radius: 12px;
-  padding: 0;
-  margin: 1rem auto;
-  max-width: 1000px;
-  width: 95%;
-  min-height: 70vh;
-  height: auto;
-  font-family: var(--font-geist-mono), monospace;
-  box-shadow:
-    0 0 20px rgba(0, 255, 255, 0.3),
-    0 0 40px rgba(0, 255, 255, 0.1),
-    inset 0 0 20px rgba(0, 255, 255, 0.05);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.terminal-window::before {
-  content: '';
+/* Skip link — visually hidden until keyboard focus, then surfaces in
+ * top-left so screen-reader/keyboard users can bypass the nav. */
+.skip-link {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(145deg, rgba(0, 255, 255, 0.03) 0%, transparent 50%, rgba(0, 255, 255, 0.03) 100%);
-  pointer-events: none;
-}
-
-.terminal-header {
-  background: #161B22;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #21262D;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.terminal-header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.terminal-github-link {
-  font-size: 12px !important;
-  padding: 4px 8px !important;
-  margin-left: auto;
-  white-space: nowrap;
-}
-
-.terminal-dots {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.terminal-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.terminal-dot.red { background: #FF5F57; }
-.terminal-dot.yellow { background: #FEBC2E; }
-.terminal-dot.green { background: #28CA42; }
-
-
-.terminal-content {
-  padding: 2.5rem 2rem;
-  background: #0D1117;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  overflow-y: auto;
-  min-height: 0;
-}
-
-.terminal-content.install-view {
-  justify-content: flex-start;
-  align-items: flex-start;
-  text-align: left;
-  padding: 1.5rem 2rem;
-}
-
-.code-example {
-  background: #111111;
-  border: 1px solid #333333;
-  border-radius: 8px;
-  padding: 1rem;
-  margin: 0 auto;
-  max-width: 600px;
-  font-family: var(--font-geist-mono), monospace;
-  text-align: left;
-  margin-top: 2rem;
-  overflow-x: auto;
-}
-
-.code-line {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #CCCCCC;
-}
-
-.prompt {
-  color: #00FF00;
-  margin-right: 0.5rem;
-}
-
-.command {
-  color: #FFFFFF;
-}
-
-/* Installation view styles */
-.install-header {
-  margin-bottom: 2rem;
-  text-align: left;
-  width: 100%;
-}
-
-.btn-back {
-  background: transparent;
-  color: #00FFFF;
-  border: 1px solid #00FFFF;
-  padding: 0.75rem 1.25rem;
-  border-radius: 6px;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-
-.btn-back:hover {
-  background: #00FFFF;
-  color: #000000;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-}
-
-.install-title {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 1.75rem;
-  color: #00FFFF;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.install-sections {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.install-section {
-  margin-bottom: 1.5rem;
-}
-
-.install-section-title {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 1rem;
-  color: #FFFFFF;
-  margin-bottom: 1rem;
-  border-left: 3px solid #00FFFF;
-  padding-left: 1rem;
-}
-
-.install-description {
-  color: #CCCCCC;
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-/* Mobile Styles */
-@media (max-width: 640px) {
-  .hero-section {
-    padding: 0.5rem;
-    min-height: 100vh;
-  }
-
-  .terminal-window {
-    width: 98%;
-    margin: 0.5rem auto;
-    border-radius: 8px;
-    min-height: 85vh;
-    height: auto;
-  }
-
-  .terminal-header {
-    padding: 0.5rem 0.75rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .terminal-window-title {
-    font-size: 0.75rem;
-    margin-left: 0.5rem;
-  }
-
-  .terminal-github-link {
-    font-size: 10px !important;
-    padding: 3px 6px !important;
-  }
-
-  .terminal-content {
-    padding: 1.5rem 1rem;
-  }
-
-  .terminal-content.install-view {
-    padding: 1rem;
-  }
-
-  .terminal-title {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-    max-width: 100%;
-  }
-
-  .cta-buttons {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .btn-primary, .btn-secondary {
-    width: 100%;
-    max-width: 280px;
-    text-align: center;
-    font-size: 0.85rem;
-    padding: 0.875rem 1rem;
-  }
-
-  .code-example {
-    max-width: 100%;
-    padding: 0.75rem;
-    margin-top: 1.5rem;
-    font-size: 0.8rem;
-    overflow-x: auto;
-  }
-
-  .code-line {
-    white-space: nowrap;
-    font-size: 0.8rem;
-  }
-
-  .install-title {
-    font-size: 1.25rem;
-    text-align: left;
-    margin-bottom: 1rem;
-  }
-
-  .install-sections {
-    max-width: 100%;
-  }
-
-  .install-section {
-    margin-bottom: 1.25rem;
-  }
-
-  .install-section-title {
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .install-description {
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-
-  .btn-back {
-    padding: 0.6rem 1rem;
-    font-size: 0.8rem;
-  }
-}
-
-/* Tablet Styles */
-@media (min-width: 641px) and (max-width: 1024px) {
-  .hero-section {
-    padding: 1rem;
-  }
-
-  .terminal-window {
-    width: 92%;
-    margin: 1rem auto;
-  }
-
-  .terminal-content {
-    padding: 2rem 1.5rem;
-  }
-
-  .terminal-title {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-
-  .code-example {
-    max-width: 100%;
-    font-size: 0.9rem;
-  }
-
-  .install-title {
-    font-size: 1.6rem;
-  }
-}
-
-/* Large Desktop Styles */
-@media (min-width: 1200px) {
-  .terminal-window {
-    max-width: 1200px;
-  }
-
-  .terminal-title {
-    font-size: 3rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.25rem;
-    max-width: 700px;
-  }
-}
-
-/* Simple Footer */
-.simple-footer {
-  text-align: center;
-  padding: 2rem 1rem;
-  height: auto;
-  font-size: 0.875rem;
-  color: #888;
-  background: #000000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-}
-
-.simple-footer a {
-  color: #aaa;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 100;
+  padding: 0.65rem 1rem;
+  background: var(--accent-primary);
+  color: #ffffff;
+  font-family: var(--font-satoshi), sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
   text-decoration: none;
-  transition: color 0.2s ease;
+  border-radius: 8px;
+  transform: translateY(-150%);
+  transition: transform 180ms var(--ease-expo);
 }
 
-.simple-footer a:hover {
-  color: #fff;
+/* Only show on keyboard navigation. `:focus` (without -visible) was firing
+ * for mouse users on bfcache restore + page-load auto-focus. */
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--ring-focus);
+  outline-offset: 2px;
 }

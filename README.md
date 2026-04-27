@@ -1,12 +1,14 @@
 # dwic — design with claude
 
+dwic is an intelligent designer that lives in Claude Code. It catches drift in your design system before it ships — audits on every run, remembers what changed.
+
 ## Try the one-line audit
 
 ```
 npx @imrandwc/dwic audit
 ```
 
-Scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), and writes a shareable markdown report to `.dwic/audit-<date>.md`. No token, no install, no Claude Code required. The report points to the MCP specialists that fix each category interactively.
+Scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), shows what's drifted since your last run, and writes a shareable markdown report to `.dwic/audit-<date>.md`. No token, no install, no Claude Code required. The dashboard's "What to do next" block names a specialist with a Claude-Code-paste-able prompt to fix the loudest finding.
 
 `dwic audit` pings an anonymous counter on each run so we can see the CLI → MCP funnel. Pass `--no-telemetry` or set `DWIC_TELEMETRY=off` to disable; the payload is category-level counts only (no file contents, no paths).
 
