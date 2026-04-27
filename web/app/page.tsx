@@ -1,6 +1,6 @@
 import { Nav } from "@/components/skills/Nav";
-import { Hero } from "@/components/skills/Hero";
 import { Footer } from "@/components/skills/Footer";
+import { GetStartedPreview } from "@/components/skills/GetStartedPreview";
 
 export default function LandingPage() {
   return (
@@ -10,7 +10,7 @@ export default function LandingPage() {
       </a>
       <Nav />
       <main id="main-content">
-        <Hero />
+        <GetStartedPreview />
       </main>
       <Footer />
     </>

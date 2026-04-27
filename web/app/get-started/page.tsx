@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   CommandLineIcon,
   SparklesIcon,
@@ -9,7 +10,6 @@ import {
 import { Nav } from "@/components/skills/Nav";
 import { Footer } from "@/components/skills/Footer";
 import { CopyCommand } from "@/components/skills/CopyCommand";
-import { EmailGate } from "@/components/skills/EmailGate";
 import { isTokenShapeValid } from "@/lib/dwic/tokens";
 import { isValidSlug } from "@/lib/dwic/projects";
 
@@ -30,9 +30,10 @@ export default async function GetStartedPage({ searchParams }: Props) {
   const project = projectRaw && isValidSlug(projectRaw) ? projectRaw : "default";
 
   const hasValidToken = isTokenShapeValid(token);
-  const installCommand = hasValidToken
-    ? `npx @imrandwc/dwic setup --token=${token} --project=${project}`
-    : "";
+  if (!hasValidToken) {
+    redirect("/");
+  }
+  const installCommand = `npx @imrandwc/dwic setup --token=${token} --project=${project}`;
 
   return (
     <>
@@ -47,70 +48,64 @@ export default async function GetStartedPage({ searchParams }: Props) {
             Back to home
           </Link>
 
-          {!hasValidToken ? (
-            <EmailGate />
-          ) : (
-            <>
-              <p className="get-started-eyebrow">Step 1 — install</p>
-              <h1 className="get-started-title">
-                Run this in the project you want dwic to watch
-              </h1>
-              <p className="get-started-sub">
-                One command. dwic installs as an MCP server alongside Claude Code.
-                Your token is already in the line below.
-              </p>
+          <p className="get-started-eyebrow">Step 1 — install</p>
+          <h1 className="get-started-title">
+            Run this in the project you want dwic to watch
+          </h1>
+          <p className="get-started-sub">
+            One command. dwic installs as an MCP server alongside Claude Code.
+            Your token is already in the line below.
+          </p>
 
-              <CopyCommand command={installCommand} />
+          <CopyCommand command={installCommand} />
 
-              <p className="get-started-meta">
-                Tip — paste it into your terminal at the root of the project. dwic
-                writes a small <code>.mcp.json</code> there so it only watches this
-                project.
-              </p>
+          <p className="get-started-meta">
+            Tip — paste it into your terminal at the root of the project. dwic
+            writes a small <code>.mcp.json</code> there so it only watches this
+            project.
+          </p>
 
-              <h2 className="get-started-next-title">Then, in Claude Code</h2>
-              <ol className="get-started-next-list">
-                <li>
-                  <span className="get-started-next-icon" aria-hidden="true">
-                    <CommandLineIcon />
-                  </span>
-                  <div>
-                    <strong>Open Claude Code in this project.</strong>
-                    <p>dwic is already wired in — no separate launch.</p>
-                  </div>
-                </li>
-                <li>
-                  <span className="get-started-next-icon" aria-hidden="true">
-                    <SparklesIcon />
-                  </span>
-                  <div>
-                    <strong>Ask dwic anything design-system-related.</strong>
-                    <p>
-                      It auto-detects your framework, tokens, and design system,
-                      then asks only what it can&apos;t see.
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <span className="get-started-next-icon" aria-hidden="true">
-                    <EyeIcon />
-                  </span>
-                  <div>
-                    <strong>From now on, every run catches drift.</strong>
-                    <p>
-                      dwic remembers what your system looked like last time and
-                      flags what changed.
-                    </p>
-                  </div>
-                </li>
-              </ol>
+          <h2 className="get-started-next-title">Then, in Claude Code</h2>
+          <ol className="get-started-next-list">
+            <li>
+              <span className="get-started-next-icon" aria-hidden="true">
+                <CommandLineIcon />
+              </span>
+              <div>
+                <strong>Open Claude Code in this project.</strong>
+                <p>dwic is already wired in — no separate launch.</p>
+              </div>
+            </li>
+            <li>
+              <span className="get-started-next-icon" aria-hidden="true">
+                <SparklesIcon />
+              </span>
+              <div>
+                <strong>Ask dwic anything design-system-related.</strong>
+                <p>
+                  It auto-detects your framework, tokens, and design system,
+                  then asks only what it can&apos;t see.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span className="get-started-next-icon" aria-hidden="true">
+                <EyeIcon />
+              </span>
+              <div>
+                <strong>From now on, every run catches drift.</strong>
+                <p>
+                  dwic remembers what your system looked like last time and
+                  flags what changed.
+                </p>
+              </div>
+            </li>
+          </ol>
 
-              <p className="get-started-token-note">
-                Your token: <code>{token}</code> — keep it; it&apos;s how dwic
-                recognises this project.
-              </p>
-            </>
-          )}
+          <p className="get-started-token-note">
+            Your token: <code>{token}</code> — keep it; it&apos;s how dwic
+            recognises this project.
+          </p>
         </section>
       </main>
       <Footer />

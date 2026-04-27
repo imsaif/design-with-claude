@@ -67,20 +67,23 @@ export function SkillCard({ skill, isExpanded, onToggle }: SkillCardProps) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
-            <div className="skill-card-expand-row">
-              <span className="skill-card-expand-label">Install command</span>
-              {copied && <span className="skill-card-copied-label">✓ Copied!</span>}
-            </div>
+            {copied && (
+              <div className="skill-card-expand-row">
+                <span className="skill-card-copied-label">✓ Copied!</span>
+              </div>
+            )}
             <div
               className={`skill-card-code ${copied ? "copied" : ""}`}
               onClick={handleCopyCommand}
               role="button"
               tabIndex={0}
-              title="Click to copy"
+              aria-label={copied ? "Command copied" : "Copy install command"}
             >
-              <code>{installCmd}</code>
+              <div className="skill-card-code-scroll">
+                <code>{installCmd}</code>
+              </div>
               <span className="skill-card-copy-label">
-                {copied ? "" : "Copy"}
+                {copied ? "Copied" : "Copy"}
               </span>
             </div>
             <a
