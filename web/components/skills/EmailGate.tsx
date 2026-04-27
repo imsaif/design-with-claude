@@ -91,7 +91,7 @@ export function EmailGate() {
           className="email-gate-submit"
           disabled={status === "loading"}
         >
-          {status === "loading" ? "Setting up…" : "Get my token"}
+          {status === "loading" ? "Setting up…" : "Get token"}
         </button>
       </div>
 

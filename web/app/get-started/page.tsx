@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import {
   CommandLineIcon,
   SparklesIcon,
@@ -10,6 +9,7 @@ import {
 import { Nav } from "@/components/skills/Nav";
 import { Footer } from "@/components/skills/Footer";
 import { CopyCommand } from "@/components/skills/CopyCommand";
+import { EmailGate } from "@/components/skills/EmailGate";
 import { isTokenShapeValid } from "@/lib/dwic/tokens";
 import { isValidSlug } from "@/lib/dwic/projects";
 
@@ -30,10 +30,36 @@ export default async function GetStartedPage({ searchParams }: Props) {
   const project = projectRaw && isValidSlug(projectRaw) ? projectRaw : "default";
 
   const hasValidToken = isTokenShapeValid(token);
+  const installCommand = hasValidToken
+    ? `npx @imrandwc/dwic setup --token=${token} --project=${project}`
+    : "";
+
   if (!hasValidToken) {
-    redirect("/");
+    return (
+      <>
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <Nav />
+        <main id="main-content" className="get-started">
+          <section className="get-started-inner">
+            <Link href="/" className="get-started-back">
+              <ArrowLeftIcon aria-hidden="true" />
+              Back to home
+            </Link>
+            <p className="get-started-eyebrow">Free during alpha</p>
+            <h1 className="get-started-title">Get started with dwic</h1>
+            <p className="get-started-sub">
+              Drop your email and we&apos;ll send you a setup link with your
+              token. No credit card. We never see your files.
+            </p>
+            <EmailGate />
+          </section>
+        </main>
+        <Footer />
+      </>
+    );
   }
-  const installCommand = `npx @imrandwc/dwic setup --token=${token} --project=${project}`;
 
   return (
     <>
