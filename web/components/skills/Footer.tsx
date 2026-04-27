@@ -8,7 +8,7 @@ export function Footer() {
       </div>
       <div className="skills-footer-links">
         <Link href="/library">Free library</Link>
-        <Link href="/get-started">Get started</Link>
+        <Link href="/#install">Get started</Link>
         <a
           href="https://github.com/imsaif/design-with-claude"
           target="_blank"

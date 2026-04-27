@@ -51,13 +51,6 @@ export function EmailGate() {
 
   return (
     <form onSubmit={onSubmit} className="email-gate">
-      <p className="email-gate-eyebrow">One step</p>
-      <h1 className="email-gate-title">Drop your email and we&apos;ll set up your token.</h1>
-      <p className="email-gate-sub">
-        We&apos;ll keep your install command on file and let you know when dwic
-        ships big things. No spam — your address only goes to dwic.
-      </p>
-
       {/* Honeypot — visually hidden, bots fill it */}
       <input
         type="text"
@@ -106,11 +99,7 @@ export function EmailGate() {
         <p className="email-gate-error" role="alert">
           {errorMsg}
         </p>
-      ) : (
-        <p className="email-gate-disclaimer">
-          Pre-launch alpha. We won&apos;t share your email with anyone else.
-        </p>
-      )}
+      ) : null}
     </form>
   );
 }

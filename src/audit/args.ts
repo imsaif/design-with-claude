@@ -14,6 +14,7 @@ export interface AuditArgs {
   mandatedAccent: string | null;
   mandatedFontFamily: string | null;
   baseUnitPx: number | null;
+  watch: boolean;
 }
 
 const DEFAULT_MAX_FILES = 200;
@@ -34,12 +35,14 @@ export function parseAuditArgs(argv: string[]): AuditArgs {
     mandatedAccent: null,
     mandatedFontFamily: null,
     baseUnitPx: null,
+    watch: false,
   };
   for (const raw of rest) {
     if (raw === "--help" || raw === "-h") args.help = true;
     else if (raw === "--no-telemetry") args.telemetry = false;
     else if (raw === "--no-baseline") args.noBaseline = true;
     else if (raw === "--json") args.json = true;
+    else if (raw === "--watch" || raw === "-w") args.watch = true;
     else if (raw.startsWith("--cwd=")) args.cwd = raw.slice("--cwd=".length);
     else if (raw.startsWith("--baseline=")) args.baseline = raw.slice("--baseline=".length);
     else if (raw.startsWith("--mandated-accent=")) {
@@ -87,6 +90,7 @@ export function renderAuditHelp(): string {
     "  --base-unit=<px>         Spacing base unit (e.g. --base-unit=4)",
     "  --no-telemetry           Disable the anonymous audit-run ping",
     "  --json                   Print machine-readable JSON instead of the dashboard",
+    "  -w, --watch              Stay open; re-audit on every save and print drift inline",
     "  -h, --help               Show this help",
     "",
     "Exit codes: 0 = clean · 1 = warnings present · 2 = errors present",

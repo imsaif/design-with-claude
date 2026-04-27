@@ -25,17 +25,16 @@ export default function LibraryPage() {
       <main id="main-content">
         <section className="skills-hero">
           <p className="skills-hero-eyebrow">Library · free · open source</p>
-          <h1>{SKILLS.length} Claude Code design skills, curated.</h1>
+          <h1>{SKILLS.length} free design skills for Claude Code.</h1>
           <p className="skills-hero-sub">
-            Free markdown-based slash commands for Claude Code — accessibility,
-            design systems, motion, typography, copy, and more. Install one at a
-            time; no runtime, no dependencies.
+            Free slash commands for Claude Code: accessibility, design
+            systems, motion, typography, copy. Install one at a time, no
+            dependencies.
             <br />
             <br />
-            Looking for <strong>dwic</strong> — the subscription auditor that flags
-            WCAG failures, mandated-accent drift, and structural gaps across sessions?{" "}
+            Looking for <strong>dwic</strong>, the subscription auditor?{" "}
             <Link href="/" className="skills-nav-logo-accent" style={{ textDecoration: "underline" }}>
-              That lives here →
+              It lives here →
             </Link>
           </p>
           <div className="skills-hero-stats">
@@ -46,7 +45,7 @@ export default function LibraryPage() {
               <span className="stat-num">{CATEGORIES.length}</span> categories
             </span>
             <span>
-              <span className="stat-num">free</span> open source
+              <span className="stat-num">0</span> dependencies
             </span>
           </div>
         </section>

@@ -7,10 +7,10 @@ export function InstallBanner() {
           <div className="skills-install-step">
             <div className="skills-install-step-num">Step 1</div>
             <div className="skills-install-step-title">
-              Copy the install command
+              Open a skill, copy its command
             </div>
             <div className="skills-install-step-desc">
-              Click any skill card below to expand and copy
+              Open any skill card below to reveal its install command
             </div>
           </div>
           <div className="skills-install-step">
@@ -28,7 +28,7 @@ export function InstallBanner() {
               Use in Claude Code
             </div>
             <div className="skills-install-step-desc">
-              Skill appears in .claude/commands/ and Claude picks it up
+              Claude reads the skill from .claude/commands/ and picks it up
               automatically
             </div>
           </div>
