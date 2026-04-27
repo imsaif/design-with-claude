@@ -9,7 +9,6 @@ export function Nav() {
         <span>design<span className="skills-nav-logo-accent">with</span>claude</span>
       </Link>
       <div className="skills-nav-links">
-        <a href="#install">Install</a>
         <Link href="/library">Free library</Link>
         <a
           href="https://aiuxdesign.guide"
