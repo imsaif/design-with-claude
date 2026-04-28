@@ -6,7 +6,16 @@ export function Nav() {
     <nav className="skills-nav">
       <Link href="/" className="skills-nav-logo" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
         <DwicIcon className="h-6 w-auto" />
-        <span>design<span className="skills-nav-logo-accent">with</span>claude</span>
+        <span aria-label="designwithclaude">
+          <span aria-hidden="true">
+            <span className="skills-nav-logo-accent">d</span>
+            <span className="skills-nav-logo-dim">esign</span>
+            <span className="skills-nav-logo-accent">wi</span>
+            <span className="skills-nav-logo-dim">th</span>
+            <span className="skills-nav-logo-accent">c</span>
+            <span className="skills-nav-logo-dim">laude</span>
+          </span>
+        </span>
       </Link>
       <div className="skills-nav-links">
         <Link href="/library">Free library</Link>
