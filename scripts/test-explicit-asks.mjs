@@ -95,14 +95,11 @@ const fixtures = {
       "Mobile web app, native-feel motion. Durations under 300ms. Strict " +
       "prefers-reduced-motion support. Only transform + opacity allowed. Flag any perf risk.",
   },
-  "design-next-step": {
-    focus: "accessibility",
-  },
 };
 
 // Tools that don't take a `brief` field (or equivalent) — skip the brief-fragment
 // echo check, but still require the directive + response-shape markers.
-const SKIP_BRIEF_ECHO = new Set(["design-next-step"]);
+const SKIP_BRIEF_ECHO = new Set();
 
 // Briefs where the "brief fragment" check uses a different field than `brief`.
 const briefFieldByTool = {
