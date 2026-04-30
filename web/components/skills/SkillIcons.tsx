@@ -28,10 +28,6 @@ import ChartPieIcon from "@heroicons/react/24/outline/ChartPieIcon";
 import TableCellsIcon from "@heroicons/react/24/outline/TableCellsIcon";
 import MagnifyingGlassIcon from "@heroicons/react/24/outline/MagnifyingGlassIcon";
 import SparklesIcon from "@heroicons/react/24/outline/SparklesIcon";
-import BellAlertIcon from "@heroicons/react/24/outline/BellAlertIcon";
-import Square3Stack3DIcon from "@heroicons/react/24/outline/Square3Stack3DIcon";
-import Cog6ToothIcon from "@heroicons/react/24/outline/Cog6ToothIcon";
-import PhotoIcon from "@heroicons/react/24/outline/PhotoIcon";
 import GlobeAltIcon from "@heroicons/react/24/outline/GlobeAltIcon";
 import LockClosedIcon from "@heroicons/react/24/outline/LockClosedIcon";
 import ArrowsUpDownIcon from "@heroicons/react/24/outline/ArrowsUpDownIcon";
@@ -78,10 +74,6 @@ const SKILL_ICON_MAP: Record<string, HeroIcon> = {
   "table-designer": TableCellsIcon,
   "search-specialist": MagnifyingGlassIcon,
   "brand-designer": SparklesIcon,
-  "notification-designer": BellAlertIcon,
-  "empty-loading-states-specialist": Square3Stack3DIcon,
-  "settings-designer": Cog6ToothIcon,
-  "icon-illustration-specialist": PhotoIcon,
   "i18n-designer": GlobeAltIcon,
   "auth-security-ux-specialist": LockClosedIcon,
   "drag-drop-specialist": ArrowsUpDownIcon,
