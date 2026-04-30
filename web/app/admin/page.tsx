@@ -1,9 +1,5 @@
-import { checkAdminAuth } from "@/lib/admin-auth";
-import SignupsClient from "./signups-client";
+import { redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-
-export default async function AdminPage() {
-  const isAuthenticated = await checkAdminAuth();
-  return <SignupsClient initialAuth={isAuthenticated} />;
+export default function AdminPage() {
+  redirect("/admin/signups");
 }

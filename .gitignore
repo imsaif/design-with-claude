@@ -10,3 +10,4 @@ tsconfig.tsbuildinfo
 .mcp.json
 .clerk/
 .dwic/
+.audit-findings/

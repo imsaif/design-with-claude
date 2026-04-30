@@ -1,4 +1,6 @@
 import Link from "next/link";
+import AdminNav from "./admin-nav";
+import s from "./admin.module.css";
 
 export const metadata = {
   title: "Admin · dwic",
@@ -7,27 +9,29 @@ export const metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
-          <div className="flex items-center gap-6">
-            <span className="text-sm font-semibold tracking-tight">dwic admin</span>
-            <Link
-              href="/admin"
-              className="text-sm text-slate-600 hover:text-slate-900"
-            >
-              Signups
-            </Link>
-          </div>
-          <Link
-            href="/"
-            className="text-sm text-slate-500 hover:text-slate-900"
-          >
+    <div className={s.shell}>
+      <header className={s.topbar}>
+        <Link href="/admin" className={s.brand}>
+          <span className={s.brandMark} aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
+              <path d="M12 2 4 6v6c0 5 3.5 9.4 8 10 4.5-.6 8-5 8-10V6l-8-4Z" />
+            </svg>
+          </span>
+          <span className={s.brandText}>
+            dwic<span className={s.brandTextDim}> / admin</span>
+          </span>
+        </Link>
+
+        <AdminNav />
+
+        <div className={s.topbarRight}>
+          <Link href="/" className={s.backLink}>
             ← Back to site
           </Link>
         </div>
-      </nav>
-      {children}
+      </header>
+
+      <div className={s.content}>{children}</div>
     </div>
   );
 }
