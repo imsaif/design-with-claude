@@ -23,6 +23,7 @@
     "test:mcp": "node scripts/test-mcp-handshake.mjs",
     "test:explicit-asks": "node scripts/test-explicit-asks.mjs",
     "test:audit-mode": "node scripts/test-audit-mode.mjs",
+    "test:audit-color-roles": "node scripts/test-audit-color-roles.mjs",
     "test:audit-typography": "node scripts/test-audit-typography.mjs",
     "test:audit-spacing": "node scripts/test-audit-spacing.mjs",
     "test:audit-dsa": "node scripts/test-audit-dsa.mjs",

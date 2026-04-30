@@ -103,6 +103,45 @@ export interface AggregateOptions {
   baseUnitPx?: number;
 }
 
+// Classifies a CSS custom-property name into a semantic role so the contrast
+// audit can skip non-text tokens (background/border/divider/etc.) instead of
+// noisily flagging every surface token as "fails AA against itself". Order
+// matters — check the more-specific compound patterns (e.g. `--accent-subtle`
+// is a surface, not an accent) before the generic prefixes.
+type TokenRole = "text" | "accent" | "surface" | "border" | "decorative" | "unknown";
+
+function classifyTokenRole(name: string): TokenRole {
+  const n = name.toLowerCase();
+  if (/^--(accent|primary|brand)-(subtle|muted|soft|tint|background|bg|surface|fill)\b/.test(n)) return "surface";
+  if (/^--(text|foreground|fg|on-|content|caption|placeholder|label-text)\b/.test(n)) return "text";
+  if (/^--(background|bg|surface|elevated|overlay|backdrop|panel|sheet|tint|fill)\b/.test(n)) return "surface";
+  if (/^--(border|divider|outline|ring|stroke|hairline|separator|rule)\b/.test(n)) return "border";
+  if (/^--(success|warning|error|danger|info|focus|state|status|muted|disabled|highlight|shadow|caret|selection)\b/.test(n)) return "decorative";
+  if (/^--(accent|primary|brand|action|cta|link|interactive|button)\b/.test(n)) return "accent";
+  return "unknown";
+}
+
+// Detects tokens declared inside a dark-mode scope so we pair them against a
+// dark surface, not the light-mode default. Covers the three common patterns:
+// `@media (prefers-color-scheme: dark)`, `[data-theme="dark"]`, and `.dark`.
+function isDarkScope(scope?: string): boolean {
+  if (!scope) return false;
+  const s = scope.toLowerCase();
+  return /prefers-color-scheme:\s*dark|\bdata-theme=["']?dark["']?\]|(^|\s|>)\.dark(\s|$|>|\.)|\b(html|body)\.dark\b/.test(s);
+}
+
+// Picks a project-specific surface for contrast pairing. Looks for a
+// `--background-*` or `--surface-*` token in the matching theme; falls back to
+// pure white / pure black when the design system doesn't declare one.
+function detectSurface(tokens: Array<{ name: string; hex: string; scope?: string }>, dark: boolean): string {
+  const wantDark = dark;
+  const candidate = tokens.find((t) => {
+    if (isDarkScope(t.scope) !== wantDark) return false;
+    return /^--(background|bg|surface)(-(primary|default|base|main|page|app|0|50|elevated))?$/i.test(t.name);
+  });
+  return candidate?.hex ?? (wantDark ? "#121212" : "#ffffff");
+}
+
 function buildColorResult(css: string, opts: AggregateOptions): CategoryResult {
   const tokens = parseTokensFromCss(css);
   const findings: GenericFinding[] = [];
@@ -115,21 +154,31 @@ function buildColorResult(css: string, opts: AggregateOptions): CategoryResult {
       counts: { error: 0, warn: 0, info: 0 },
     };
   }
-  const surfaces = ["#ffffff", "#121212"];
+  const lightSurface = detectSurface(tokens, false);
+  const darkSurface = detectSurface(tokens, true);
   let aaFailCount = 0;
+  let skippedRole = 0;
   for (const t of tokens) {
-    for (const s of surfaces) {
-      const ratio = contrastRatio(t.hex, s);
-      const c = classifyContrast(ratio);
-      if (!c.aaBody && !c.aaLarge) {
-        aaFailCount++;
-        findings.push({
-          severity: "warn",
-          token: t.name,
-          message: `${t.hex} on ${s} fails WCAG AA (ratio ${ratio.toFixed(2)}; AA large 3, AA body 4.5).`,
-        });
-        break; // one finding per token against the first failing surface
-      }
+    const role = classifyTokenRole(t.name);
+    // Surfaces, borders, and decorative tokens aren't body text — skip the
+    // 4.5:1 check that would flag every background-*, border-*, ring-* token.
+    if (role === "surface" || role === "border" || role === "decorative") {
+      skippedRole++;
+      continue;
+    }
+    // Text + accent + unknown get tested against the surface that matches
+    // their scope. Pairing a dark-mode --text-primary against #ffffff is the
+    // class of false positive this whole helper exists to prevent.
+    const surface = isDarkScope(t.scope) ? darkSurface : lightSurface;
+    const ratio = contrastRatio(t.hex, surface);
+    const c = classifyContrast(ratio);
+    if (!c.aaBody && !c.aaLarge) {
+      aaFailCount++;
+      findings.push({
+        severity: "warn",
+        token: t.name,
+        message: `${t.hex} on ${surface} fails WCAG AA (ratio ${ratio.toFixed(2)}; AA large 3, AA body 4.5).`,
+      });
     }
   }
 
