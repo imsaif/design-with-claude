@@ -199,7 +199,7 @@ export function renderDashboard(
   if (opts.showInstallCta) {
     lines.push("");
     lines.push(paint(ANSI.dim, "Don't have dwic installed yet?"));
-    lines.push(`  ${paint(ANSI.cyan, "npx @imrandwc/dwic setup --token=<get one at designwithclaude.com/start>")}`);
+    lines.push(`  ${paint(ANSI.cyan, "npx @imrandwc/dwic setup --token=<get one at designwithclaude.com/get-started>")}`);
   }
 
   lines.push("");

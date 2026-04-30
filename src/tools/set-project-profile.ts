@@ -92,7 +92,7 @@ export function createSetProjectProfileTool(ctx: Ctx): ToolDefinition {
         return {
           text:
             `Profile persist failed: ${result.reason}. Your answers were not saved. ` +
-            "Check the designer's token + project slug and try again; if it keeps failing, the designer can persist via https://designwithclaude.com/start.",
+            "Check the designer's token + project slug and try again; if it keeps failing, the designer can persist via https://designwithclaude.com/get-started.",
           output: {
             type: "markdown",
             data: { title: "set-project-profile — failed", content: result.reason },

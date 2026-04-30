@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       allowed: false,
       reason: "subscription_cancelled",
       message:
-        "Your profile is frozen. Resubscribe at https://designwithclaude.com/upgrade to resume.",
+        "Your profile is frozen. Contact support to resume.",
     } satisfies GatingCheckResponse);
   }
 
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     return Response.json({
       allowed: false,
       reason: "free_tier_exhausted",
-      message: `You've used ${LIMITS.FREE_TIER_LIMIT}/${LIMITS.FREE_TIER_LIMIT} free commands. Upgrade at https://designwithclaude.com/upgrade`,
+      message: `You've used ${LIMITS.FREE_TIER_LIMIT}/${LIMITS.FREE_TIER_LIMIT} free commands.`,
     } satisfies GatingCheckResponse);
   }
 
