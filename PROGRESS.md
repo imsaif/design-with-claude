@@ -1,7 +1,7 @@
 # dwic V2 — Build Progress
 
-**Last updated:** April 24, 2026
-**Overall status:** `@imrandwc/dwic@1.0.0-alpha.3` live on npm under `latest` (shipped 2026-04-24, bundling alpha.2 + alpha.3 work). Product renamed to **dwic** (d + wi + c = design with claude). Old `designwithclaude@2.0.0-alpha.{1..5}` deprecated with pointer messages. Domain stays `designwithclaude.com` (serves as long-form brand explainer, IBM pattern). All V2 internal identifiers migrated (env vars DWC_* → DWIC_*, CSS `.dwc-*` → `.dwic-*`, `DwcIcon` → `DwicIcon`, `web/lib/dwc/` → `web/lib/dwic/`, logger prefix, binary name). Earlier same day: audit-rollout batch 2 shipped accessibility-specialist + form-designer + navigation-specialist as `designwithclaude@2.0.0-alpha.5` — 7 of 11 V2 tools now audit server-side. Hero positioning is "dwic — the design auditor, inside Claude Code"; interactive AuditDemo on `/` runs the real audit helpers client-side (web/lib/audit/{color,accessibility,form}.ts) with staged reveal + rendered production-view cards + numbered pins. Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/start
+**Last updated:** April 30, 2026
+**Overall status:** `@imrandwc/dwic@1.0.0-alpha.3` live on npm under `latest` (shipped 2026-04-24, bundling alpha.2 + alpha.3 work). Product renamed to **dwic** (d + wi + c = design with claude). Old `designwithclaude@2.0.0-alpha.{1..5}` deprecated with pointer messages. Domain stays `designwithclaude.com` (serves as long-form brand explainer, IBM pattern). All V2 internal identifiers migrated (env vars DWC_* → DWIC_*, CSS `.dwc-*` → `.dwic-*`, `DwcIcon` → `DwicIcon`, `web/lib/dwc/` → `web/lib/dwic/`, logger prefix, binary name). Earlier same day: audit-rollout batch 2 shipped accessibility-specialist + form-designer + navigation-specialist as `designwithclaude@2.0.0-alpha.5` — 7 of 11 V2 tools now audit server-side. Hero positioning is "dwic — the design auditor, inside Claude Code"; interactive AuditDemo on `/` runs the real audit helpers client-side (web/lib/audit/{color,accessibility,form}.ts) with staged reveal + rendered production-view cards + numbered pins. **Apr 30 surface trim:** removed `design-next-step` tool + 4 orphan command markdowns to narrow maintenance to the auditor thesis; tool roster now 13 static + `set-project-profile` dynamic = 14 total, 9 of 13 audit server-side. Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/get-started
 
 **For testing / onboarding new contributors:** see `TESTING.md` at repo root — plain-language walkthrough of the live flow, add-a-project, share-with-friends, and common break-fixes.
 
@@ -186,6 +186,34 @@ Strategy: **Option 1 from the naming plan** — keep the domain `designwithclaud
 
 Both pushed to `origin/main`. Vercel redeploying web with dwic branding.
 
+## Surface trim — April 30, 2026
+
+Driver: build surface too wide to maintain pre-users. The auditor positioning has been the hero claim since alpha.4 (Apr 20) and the audit CLI shipped in alpha.3 (Apr 24); the story is right but the codebase still carried things that don't reinforce it. Trim, not pivot — generate modes on audit-capable tools stay.
+
+- [x] **Deleted `design-next-step` tool end-to-end.** `src/tools/design-next-step.ts` + `commands/design-next-step.md` + `scripts/test-design-next-step.mjs` + `package.json` script entry + import/registration in `src/tools/index.ts` + `SKIP_BRIEF_ECHO` entry in `scripts/test-explicit-asks.mjs`. The CLI dashboard's "What to do next" block already names the right specialist; the synthesizer was a second answer to the same question.
+- [x] **Deleted 4 orphan command markdowns.** `commands/{empty-loading-states-specialist,icon-illustration-specialist,notification-designer,settings-designer}.md`. None of them ever had `src/tools/*.ts` implementations — they were placeholder role prompts from the V1 library era.
+- [x] **Stale URL sweep.** `/start` → `/get-started` in `src/audit/dashboard.ts` install CTA, `src/tools/set-project-profile.ts` fallback, `web/app/sitemap.ts`, `README.md` (×2). Dropped the broken `/upgrade` link from `web/app/api/gating/check/route.ts` error copy entirely (no payment route, sending users to a 404 is worse than no link).
+- [x] **Confirmed already gone.** Apr 27 cleanup deleted `/companion`, `/start`, `/profile`, `/install`, `/upgrade`, `/account`, `web/components/companion/`, `Shell`, `InstallV2`, `AuditDemo`, `SpecialistsList`, `test:phase2`. Plan called for cutting these; verified via grep they were already removed.
+- [x] **Pre-existing Apr 29 batch shipped in same push.** Coincidentally bundled into commits this day (separate logical commit): admin dashboard expansion (`/admin` → `/admin/{signups,subscribers,events}` with shared CSS module + nav + new API routes + `formatSupabaseError()` helper) AND a substantial color-audit improvement (token-role classifier in `src/audit/aggregator.ts` skips non-text tokens from WCAG body-text contrast, pairs dark-scope tokens against a dark surface — eliminates false-positive AA fails on `--background-*`/`--border-*` tokens). New `test:audit-color-roles` regression covers it.
+
+### Tool roster after trim
+
+13 static V2 tools + `set-project-profile` registered dynamically = 14 total.
+
+Audit-capable (9): color-specialist, typography-specialist, spacing-specialist, design-system-architect, accessibility-specialist, form-designer, navigation-specialist, content-strategist, motion-designer.
+
+Generate-only / non-audit (4): hello-world, design-brief, setup-guide, debug-helper. Plus `set-project-profile` as the dynamic onboarding tool.
+
+### Verification
+20 / 20 test suites green. Audit CLI exit 2 on `examples/broken-project` (28 findings, 6 errors). Web production build clean.
+
+### Commits
+- `99feab2` — admin dashboard expansion + audit color-role classifier (Apr 29 batch, shipped in same push)
+- `2df6aa9` — trim surface to auditor: drop design-next-step + 4 orphan commands
+
+### Pending
+- npm publish of `@imrandwc/dwic@1.0.0-alpha.4` deferred — bundle this trim with the next functional alpha.
+
 ## `dwic audit` CLI (alpha.3) — April 22, 2026 (evening)
 
 Response to the "one polished demo beats three landing-page revisions" strategic frame: ship a zero-friction CLI that surfaces design-system gaps as a screenshot-worthy dashboard, with telemetry so we can measure the CLI → MCP funnel. Full roadmap lives at repo root in `ROADMAP_AUDIT_CLI.md`.
@@ -225,7 +253,9 @@ Three Cognition-roadmap items piled onto the batch-3 alpha.2 publish while there
 
 ### Post-batch audit coverage
 
-9 / 14 V2 tools audit server-side. Non-audit tools: `hello-world`, `design-brief`, `design-next-step`, `setup-guide`, `debug-helper`, `set-project-profile`. Remaining specialists to add (generate-only, incremental): empty-loading-states, icon-illustration-specialist, notification-designer, settings-designer.
+9 / 13 V2 tools audit server-side. Non-audit tools: `hello-world`, `design-brief`, `design-next-step`, `setup-guide`, `debug-helper`, `set-project-profile`. Remaining specialists to add (generate-only, incremental): empty-loading-states, icon-illustration-specialist, notification-designer, settings-designer.
+
+> Updated 2026-04-30: `design-next-step` and the 4 generate-only specialists were removed in the surface trim. Current roster lives in the "Surface trim — April 30, 2026" section above.
 
 ## Audit-rollout batch 3 (alpha.2) — April 22, 2026
 
@@ -253,7 +283,7 @@ Direct response to the "is dwic actually auditing?" honesty check. alpha.4 made 
 ### Next in the audit-rollout roadmap
 
 - ~~**Batch 3 (deferred):** copy + motion-designer~~ — ✅ shipped April 22 as alpha.2
-- **Non-audit specialists:** empty-loading-states, icon-illustration, notification-designer, settings-designer — generate-only tools, roll out incrementally
+- ~~**Non-audit specialists:** empty-loading-states, icon-illustration, notification-designer, settings-designer~~ — removed April 30 in the surface trim (orphan markdown files, never had tool implementations)
 - **Share-with-friends / V2 homepage** — still on the launch-gate list
 
 ## Cognition-roadmap alpha.4 — in working tree (April 20, 2026)
@@ -271,7 +301,7 @@ Response to Anthropic's Claude Design launch (`claude.ai/design`, April 20, 2026
 
 - **C9 slice 2** — verify prompt-injection lights up post-onboarding in real sessions (mechanically free, needs qualitative check)
 - ~~**C9 slice 3** — auto-detect project config~~ — ✅ shipped April 22 in alpha.2 working tree
-- ~~**C1** — `design-next-step` tool~~ — ✅ shipped April 22 in alpha.2 working tree
+- ~~**C1** — `design-next-step` tool~~ — shipped April 22 in alpha.2 working tree; removed April 30 in the surface trim (CLI dashboard already names the next specialist)
 - ~~**C10 slice 2** — richer event-summary shapes~~ — ✅ shipped April 22 in alpha.2 working tree
 
 ## Cognition-roadmap P0 batch (alpha.3) — shipped April 17, 2026
@@ -287,7 +317,7 @@ Derived from `FIELD_NOTES_COGNITION.md` + `ROADMAP_FROM_COGNITION.md`. First bat
 - **C9 slice 2** — verify prompt-injection actually lights up post-onboarding in real sessions (mechanically free, needs qualitative check)
 - **C9 slice 3** — auto-detect `package.json` / `tailwind.config.*` / `themes.css` to pre-fill answers, deferred
 - **C2 cont.** — roll audit mode to typography-specialist, spacing-specialist, design-system-architect
-- **C1** — `design-next-step` tool (library → partner)
+- ~~**C1** — `design-next-step` tool (library → partner)~~ — shipped April 22, removed April 30; CLI dashboard absorbed the recommender role
 - **C10** — memory across calls (event history fed back into tool prompts)
 
 ## Launch gates
