@@ -40,6 +40,24 @@
   opacity: 0.4;
 }
 
+.skills-nav-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.5625rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: rgba(22, 32, 54, 0.06);
+  border: 1px solid rgba(22, 32, 54, 0.1);
+  border-radius: 999px;
+  padding: 0.2rem 0.4rem;
+  margin-left: 0.35rem;
+  vertical-align: middle;
+}
+
 .skills-nav-links {
   display: flex;
   align-items: center;
@@ -568,6 +586,171 @@
   outline: none;
 }
 
+/* CLI primary CTA — terminal-look navy pill, sized to match the hero's
+ * primary-input footprint. The product is "a senior designer in your terminal";
+ * the literal terminal command IS the hero CTA. */
+.gs-hero-cli {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.gs-hero-cli-pitch {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.gs-hero-cli-row--email {
+  padding-left: 0.45rem;
+}
+
+.gs-hero-cli-email-input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-family: ui-monospace, "SF Mono", Monaco, monospace;
+  font-size: 0.95rem;
+  color: #f4f6fb;
+  padding: 0.7rem 0.85rem;
+  min-width: 0;
+}
+
+.gs-hero-cli-email-input::placeholder {
+  color: rgba(244, 246, 251, 0.4);
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+.gs-hero-cli-email-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.gs-hero-cli-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: 0;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: color 0.15s ease;
+}
+
+.gs-hero-cli-back:hover,
+.gs-hero-cli-back:focus-visible {
+  color: var(--text-primary);
+  outline: none;
+}
+
+.gs-hero-cli-back-icon {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2.25;
+}
+
+.gs-hero-cli-error {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.8125rem;
+  color: #b54848;
+  margin: 0;
+}
+
+.gs-hero-cli-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: #162036;
+  border: 1px solid #162036;
+  border-radius: 999px;
+  padding: 0.45rem 0.45rem 0.45rem 1.35rem;
+  box-shadow: 0 4px 14px rgba(22, 32, 54, 0.18);
+}
+
+.gs-hero-cli-cmd {
+  flex: 1;
+  font-family: ui-monospace, "SF Mono", Monaco, monospace;
+  font-size: 1rem;
+  color: #f4f6fb;
+  white-space: nowrap;
+  overflow-x: auto;
+  padding: 0.6rem 0;
+  scrollbar-width: none;
+}
+
+.gs-hero-cli-cmd::-webkit-scrollbar {
+  display: none;
+}
+
+.gs-hero-cli-prompt {
+  color: rgba(244, 246, 251, 0.5);
+  user-select: none;
+  margin-right: 0.3rem;
+}
+
+.gs-hero-cli-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  background: #ffffff;
+  color: #162036;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.7rem 1.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.gs-hero-cli-copy:hover,
+.gs-hero-cli-copy:focus-visible {
+  background: #f0f1f5;
+  outline: none;
+}
+
+.gs-hero-cli-copy:active {
+  transform: scale(0.97);
+}
+
+.gs-hero-cli-copy-icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.25;
+}
+
+@media (max-width: 600px) {
+  .gs-hero-cli-row {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 16px;
+    padding: 0.75rem;
+    gap: 0.6rem;
+  }
+  .gs-hero-cli-cmd {
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+  }
+  .gs-hero-cli-copy {
+    justify-content: center;
+  }
+}
+
 /* See demo CTA */
 .gs-demo-cta {
   display: inline-flex;
@@ -628,7 +811,34 @@
   letter-spacing: -0.005em;
 }
 
-.gs-demo-close,
+.gs-demo-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.1rem;
+  background: #162036;
+  border: 1px solid #162036;
+  border-radius: 999px;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(22, 32, 54, 0.18);
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gs-demo-close:hover,
+.gs-demo-close:focus-visible {
+  background: #232f4d;
+  outline: none;
+  box-shadow: 0 6px 16px rgba(22, 32, 54, 0.25);
+}
+
+.gs-demo-close:active {
+  transform: scale(0.97);
+}
+
 .gs-demo-replay {
   display: inline-flex;
   align-items: center;
@@ -645,8 +855,6 @@
   transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
-.gs-demo-close:hover,
-.gs-demo-close:focus-visible,
 .gs-demo-replay:hover,
 .gs-demo-replay:focus-visible {
   color: var(--text-primary);
@@ -692,6 +900,23 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.gs-terminal-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.gs-terminal-dots:focus-visible {
+  outline: 2px solid rgba(127, 182, 255, 0.6);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
 .gs-terminal-dot {
   width: 11px;
   height: 11px;
@@ -722,11 +947,11 @@
   padding: 1.25rem 1.5rem 1.5rem;
   font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
   font-size: 0.8125rem;
-  line-height: 1.7;
+  line-height: 1.65;
   color: #e6ebf5;
   white-space: pre-wrap;
   word-break: break-word;
-  height: 320px;
+  height: 420px;
   overflow: hidden;
 }
 
@@ -801,6 +1026,22 @@
   color: #ff7a7a;
 }
 
+.gs-terminal-ok {
+  color: #6dd58c;
+}
+
+.gs-terminal-summary {
+  color: #e6ebf5;
+  font-weight: 600;
+}
+
+.gs-terminal-divider {
+  display: block;
+  border-top: 1px solid rgba(230, 235, 245, 0.12);
+  margin: 0.55rem 0 0.4rem;
+  height: 0;
+}
+
 .gs-terminal .skills-hero-cursor {
   background: #e6ebf5;
   height: 1em;
@@ -861,6 +1102,29 @@
   line-height: 1.55;
   color: var(--text-secondary);
   margin: 0;
+}
+
+/* Card-as-link variant — used for the free library card so the whole card is
+ * clickable and reads as a sibling product, not a feature. */
+.gs-card--link {
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.gs-card--link:hover,
+.gs-card--link:focus-visible {
+  border-color: rgba(22, 32, 54, 0.18);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.gs-card-cta {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 0.25rem;
 }
 
 @media (max-width: 900px) {
