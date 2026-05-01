@@ -16,6 +16,9 @@ export function Nav() {
             <span className="skills-nav-logo-dim">laude</span>
           </span>
         </span>
+        <span className="skills-nav-badge" aria-label="Alpha release">
+          alpha
+        </span>
       </Link>
       <div className="skills-nav-links">
         <Link href="/library">Free library</Link>
