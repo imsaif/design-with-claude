@@ -1,6 +1,10 @@
 import { NextRequest } from "next/server";
-import { recordEvent } from "@/lib/dwic/store";
-import { isTokenShapeValid } from "@/lib/dwic/tokens";
+import { recordEvent, recordAnonymousEvent } from "@/lib/dwic/store";
+import {
+  ANONYMOUS_TOOL_ALLOWLIST,
+  isAnonymousTokenShapeValid,
+  isTokenShapeValid,
+} from "@/lib/dwic/tokens";
 import { isValidSlug } from "@/lib/dwic/projects";
 import type { EventPayload } from "@/lib/dwic/types";
 
@@ -16,7 +20,27 @@ export async function POST(request: NextRequest) {
 
   const token = body?.token?.trim();
   const toolName = body?.toolName?.trim();
-  if (!token || !toolName || !isTokenShapeValid(token)) {
+  if (!token || !toolName) {
+    return Response.json({ ok: false, reason: "invalid_token" }, { status: 200 });
+  }
+
+  // Anonymous CLI telemetry path: allowlisted tool names only, no project
+  // resolution, no account row created.
+  if (isAnonymousTokenShapeValid(token)) {
+    if (!ANONYMOUS_TOOL_ALLOWLIST.has(toolName)) {
+      return Response.json({ ok: false, reason: "anonymous_tool_not_allowed" }, { status: 200 });
+    }
+    const { id } = await recordAnonymousEvent({
+      token,
+      toolName,
+      input: body.input ?? {},
+      output: body.output ?? {},
+      timestamp: body.timestamp ?? new Date().toISOString(),
+    });
+    return Response.json({ ok: true, id, anonymous: true }, { status: 200 });
+  }
+
+  if (!isTokenShapeValid(token)) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 200 });
   }
 
