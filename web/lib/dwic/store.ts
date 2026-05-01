@@ -600,6 +600,56 @@ export async function recordEvent(
   };
 }
 
+/** Anonymous CLI telemetry. Bypasses project + account resolution: stores the
+ * event row keyed by token_hash with project_id NULL. Allowlisted tool names
+ * only — see ANONYMOUS_TOOL_ALLOWLIST. */
+export async function recordAnonymousEvent(args: {
+  token: string;
+  toolName: string;
+  input: unknown;
+  output: unknown;
+  timestamp: string;
+}): Promise<{ id: string }> {
+  const hash = hashToken(args.token);
+  const sb = getSupabase();
+  if (!sb) {
+    const mem = getMem();
+    const key = `__anon__:${hash}`;
+    const list = mem.events.get(key) ?? [];
+    const stored: StoredEvent = {
+      id: randomId(),
+      token: "",
+      toolName: args.toolName,
+      input: args.input,
+      output: args.output,
+      timestamp: args.timestamp,
+      receivedAt: now(),
+      project: "__cli__",
+    };
+    list.push(stored);
+    if (list.length > MAX_EVENTS_PER_TOKEN) {
+      list.splice(0, list.length - MAX_EVENTS_PER_TOKEN);
+    }
+    mem.events.set(key, list);
+    return { id: stored.id };
+  }
+
+  const { data, error } = await sb
+    .from("companion_events")
+    .insert({
+      token_hash: hash,
+      project_id: null,
+      tool_name: args.toolName,
+      input: args.input ?? {},
+      output: args.output ?? {},
+      event_timestamp: args.timestamp,
+    })
+    .select("id")
+    .single();
+  if (error || !data) throw new Error(`anonymous event insert failed: ${error?.message ?? "no row"}`);
+  return { id: (data as { id: string }).id };
+}
+
 export async function getRecentEvents(
   token: string,
   project: string | undefined,

@@ -21,6 +21,7 @@
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "test:mcp": "node scripts/test-mcp-handshake.mjs",
+    "test:anonymous-events": "node scripts/test-anonymous-events.mjs",
     "test:explicit-asks": "node scripts/test-explicit-asks.mjs",
     "test:audit-mode": "node scripts/test-audit-mode.mjs",
     "test:audit-color-roles": "node scripts/test-audit-color-roles.mjs",
