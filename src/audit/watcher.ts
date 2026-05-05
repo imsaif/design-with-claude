@@ -41,6 +41,13 @@ function isRelevantPath(relPath: string): boolean {
   for (const part of parts) {
     if (SKIP_DIR_SEGMENTS.has(part)) return false;
   }
+  // Skip editor / tool temp files. Vim writes `.swp` swap files; BSD sed
+  // creates `.!<pid>!<filename>`; JetBrains drops `.___jb_tmp___`; many
+  // editors atomic-write through dot-prefixed siblings. They share the real
+  // file's extension, which means the extension check below accepts them and
+  // the watcher thrashes on every save. Filter by basename prefix.
+  const base = parts[parts.length - 1] ?? "";
+  if (base.startsWith(".") || base.startsWith("~") || base.includes("___jb_")) return false;
   // Match by extension.
   const dot = relPath.lastIndexOf(".");
   if (dot === -1) return false;

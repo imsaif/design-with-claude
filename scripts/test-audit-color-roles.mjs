@@ -227,6 +227,42 @@ function runColor(css) {
   else pass("empty CSS is clean");
 }
 
+// 13. Namespace-prefixed tokens classify the same as bare tokens. Tailwind v4
+// (`--color-bg-*`, `--color-text-*`), shadcn-style (`--theme-text-*`), and app
+// prefixes (`--ds-bg-*`) should not produce false-positive contrast findings.
+{
+  const css = `
+    :root {
+      --color-background-50: #ffffff;
+      --color-bg-primary: #ffffff;
+      --color-surface-elevated: #f5f5f5;
+      --color-border-subtle: #e5e7eb;
+      --color-text-disabled: #b8b8b8;
+      --theme-bg-default: #ffffff;
+      --ds-border-divider: #e5e7eb;
+    }
+  `;
+  const r = runColor(css);
+  if (r.counts.warn !== 0) {
+    fail(`namespace-prefixed surface/border/disabled tokens should not warn, got ${r.counts.warn}`,
+         JSON.stringify(r.findings.map(f => ({ tok: f.token, msg: f.message }))));
+  } else {
+    pass("namespace prefixes (--color-, --theme-, --ds-) are stripped before classification");
+  }
+}
+
+// 14. Namespace-prefixed text tokens that genuinely fail AA still fire.
+{
+  const css = `
+    :root {
+      --color-text-secondary: #b8b8b8;
+    }
+  `;
+  const r = runColor(css);
+  if (r.counts.warn !== 1) fail(`namespaced text token failing AA should still warn, got ${r.counts.warn}`);
+  else pass("namespace-prefixed text tokens still tested for contrast");
+}
+
 if (failed > 0) {
   process.stderr.write(`\n${failed} test(s) failed\n`);
   process.exit(1);

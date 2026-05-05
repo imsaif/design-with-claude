@@ -9,10 +9,15 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const serverPath = resolve(__dirname, "..", "dist", "server.js");
 
+// The onboarding gate (alpha.3) intercepts every tool call when a token is
+// present and the project has no profile yet, so the specialists return the
+// onboarding instruction sheet instead of a seed table. That's correct prod
+// behavior, but this smoke test wants to assert the seeded tool outputs, so
+// disable the gate explicitly.
 const transport = new StdioClientTransport({
   command: process.execPath,
   args: [serverPath],
-  env: { ...process.env, DWIC_DEBUG: "1" },
+  env: { ...process.env, DWIC_DEBUG: "1", DWIC_ONBOARDING_GATE: "off" },
 });
 
 const client = new Client(
