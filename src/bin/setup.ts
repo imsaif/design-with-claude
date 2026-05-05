@@ -2,10 +2,10 @@
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const VERSION = "1.0.0-alpha.4";
+const VERSION = "1.0.0-alpha.5";
 const DEFAULT_API = "https://designwithclaude.com";
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,31}$/;
 
@@ -118,7 +118,27 @@ async function validateToken(
   }
 }
 
-function resolveServerPath(): string {
+// Detects whether setup is running from a published install (npx cache, global
+// npm prefix, or an `npm i @imrandwc/dwic` in a project) or from a local clone
+// of the repo. When published, we want the MCP entry to invoke npx so that the
+// server gets re-resolved on every Claude Code launch — pointing at the absolute
+// path inside an npx cache works for ~hours then breaks silently when npm prunes
+// the cache. When running from source, we keep the absolute path so contributors
+// can iterate on the server without re-publishing.
+function isPublishedInstall(): boolean {
+  // Node resolves symlinks for ESM by default, so `import.meta.url` may point
+  // at the linked source rather than the `node_modules/...` symlink that npx /
+  // npm installed. Check `process.argv[1]` too — that preserves the path the
+  // user actually invoked, which is what we care about.
+  const marker = `${sep}node_modules${sep}@imrandwc${sep}dwic${sep}`;
+  const fromImport = fileURLToPath(import.meta.url);
+  if (fromImport.includes(marker)) return true;
+  const argvEntry = process.argv[1];
+  if (argvEntry && argvEntry.includes(marker)) return true;
+  return false;
+}
+
+function resolveLocalServerPath(): string {
   const thisFile = fileURLToPath(import.meta.url);
   const candidate = resolve(dirname(thisFile), "..", "server.js");
   if (!existsSync(candidate)) {
@@ -129,17 +149,40 @@ function resolveServerPath(): string {
   return candidate;
 }
 
-function buildMcpEntry(serverPath: string, token: string, apiUrl: string, project: string) {
+type McpLauncher =
+  | { kind: "npx"; pinnedVersion: string }
+  | { kind: "local"; serverPath: string };
+
+function resolveLauncher(): McpLauncher {
+  if (isPublishedInstall()) {
+    return { kind: "npx", pinnedVersion: VERSION };
+  }
+  return { kind: "local", serverPath: resolveLocalServerPath() };
+}
+
+function buildMcpEntry(launcher: McpLauncher, token: string, apiUrl: string, project: string) {
+  const env = {
+    DWIC_TOKEN: token,
+    DWIC_PROJECT_ID: project,
+    DWIC_API_URL: apiUrl,
+    DWIC_GATING: "on",
+  };
+  if (launcher.kind === "npx") {
+    return {
+      type: "stdio" as const,
+      command: "npx",
+      // `--yes` skips the prompt; `-p` pins the package version so a Claude
+      // Code launch a year from now doesn't silently float to a future major
+      // that broke its config schema.
+      args: ["--yes", "-p", `@imrandwc/dwic@${launcher.pinnedVersion}`, "dwic-mcp-server"],
+      env,
+    };
+  }
   return {
     type: "stdio" as const,
     command: "node",
-    args: [serverPath],
-    env: {
-      DWIC_TOKEN: token,
-      DWIC_PROJECT_ID: project,
-      DWIC_API_URL: apiUrl,
-      DWIC_GATING: "on",
-    },
+    args: [launcher.serverPath],
+    env,
   };
 }
 
@@ -333,8 +376,8 @@ async function runSetup(args: Args): Promise<void> {
     }
   }
 
-  const serverPath = resolveServerPath();
-  const entry = buildMcpEntry(serverPath, args.token, args.apiUrl, args.project);
+  const launcher = resolveLauncher();
+  const entry = buildMcpEntry(launcher, args.token, args.apiUrl, args.project);
   const key = mcpServerKey(args.scope, args.project);
 
   let writtenAt: string;
@@ -357,18 +400,15 @@ async function runSetup(args: Args): Promise<void> {
 
   await emitConnectedEvent(args.apiUrl, args.token, args.project);
 
-  const companionUrl = `${args.apiUrl.replace(/\/$/, "")}/companion?token=${args.token}&project=${args.project}`;
-
   process.stdout.write(
     "\n" +
       bold("Next: ") +
       "start a new Claude Code session in this directory and try:\n" +
       dim("    ") +
-      "Use the hello-world tool from dwic\n\n" +
-      dim("Then: ") +
-      "open " +
-      companionUrl +
-      " to watch your work render live.\n",
+      "Ask color-specialist to audit my design tokens\n\n" +
+      dim("Or run a one-shot audit from the terminal:\n") +
+      dim("    ") +
+      "npx @imrandwc/dwic audit\n",
   );
 }
 

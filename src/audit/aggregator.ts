@@ -111,7 +111,14 @@ export interface AggregateOptions {
 type TokenRole = "text" | "accent" | "surface" | "border" | "decorative" | "unknown";
 
 function classifyTokenRole(name: string): TokenRole {
-  const n = name.toLowerCase();
+  // Strip a single leading namespace segment so namespaced systems classify
+  // correctly: Tailwind v4 (`--color-bg-*`, `--color-text-*`), shadcn-style
+  // (`--theme-text-*`), or app prefixes (`--ds-bg-*`, `--ui-border-*`). One
+  // segment is enough — multi-segment prefixes are rare and would risk
+  // matching real category words further down the name.
+  const lower = name.toLowerCase();
+  const stripped = lower.replace(/^--(?:color|theme|ds|ui|app|brand-tokens)-/, "--");
+  const n = stripped;
   if (/^--(accent|primary|brand)-(subtle|muted|soft|tint|background|bg|surface|fill)\b/.test(n)) return "surface";
   // Intentionally-low-contrast text variants — WCAG SC 1.4.3 exempts inactive
   // UI components, and placeholder/hint text is meant to recede so it doesn't
