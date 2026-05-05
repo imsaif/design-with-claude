@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 import "./skills.css";
 
@@ -94,6 +95,7 @@ export default function RootLayout({
   // and any new aiex-style references (var(--font-satoshi)) both resolve to the
   // same loaded font.
   const satoshiAliases = `${satoshi.variable}`;
+  const clarityProjectId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
   return (
     <html lang="en">
       <body
@@ -124,6 +126,23 @@ export default function RootLayout({
             }),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Design with Claude",
+              alternateName: "dwic",
+              url: siteUrl,
+            }),
+          }}
+        />
+        {clarityProjectId && (
+          <Script id="ms-clarity" strategy="afterInteractive">
+            {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${clarityProjectId}");`}
+          </Script>
+        )}
         {children}
       </body>
     </html>
