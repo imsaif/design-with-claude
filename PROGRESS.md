@@ -1,7 +1,7 @@
 # dwic V2 — Build Progress
 
-**Last updated:** April 30, 2026
-**Overall status:** `@imrandwc/dwic@1.0.0-alpha.3` live on npm under `latest` (shipped 2026-04-24, bundling alpha.2 + alpha.3 work). Product renamed to **dwic** (d + wi + c = design with claude). Old `designwithclaude@2.0.0-alpha.{1..5}` deprecated with pointer messages. Domain stays `designwithclaude.com` (serves as long-form brand explainer, IBM pattern). All V2 internal identifiers migrated (env vars DWC_* → DWIC_*, CSS `.dwc-*` → `.dwic-*`, `DwcIcon` → `DwicIcon`, `web/lib/dwc/` → `web/lib/dwic/`, logger prefix, binary name). Earlier same day: audit-rollout batch 2 shipped accessibility-specialist + form-designer + navigation-specialist as `designwithclaude@2.0.0-alpha.5` — 7 of 11 V2 tools now audit server-side. Hero positioning is "dwic — the design auditor, inside Claude Code"; interactive AuditDemo on `/` runs the real audit helpers client-side (web/lib/audit/{color,accessibility,form}.ts) with staged reveal + rendered production-view cards + numbered pins. **Apr 30 surface trim:** removed `design-next-step` tool + 4 orphan command markdowns to narrow maintenance to the auditor thesis; tool roster now 13 static + `set-project-profile` dynamic = 14 total, 9 of 13 audit server-side. Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/get-started
+**Last updated:** May 5, 2026
+**Overall status:** `@imrandwc/dwic@1.0.0-alpha.5` live on npm under `latest` (shipped 2026-05-05). alpha.4 (May 1) was the homepage redesign + `dwic audit --watch` + telemetry pipe fix; alpha.5 is the workflow-audit polish batch — namespace-prefixed token classifier (Tailwind v4 / shadcn `--color-bg-*` no longer false-positives), npx-resilient MCP entry (was pointing at the npx cache dir which gets garbage-collected), stale `/companion` URL purged from setup output, watcher filters editor temp files, `test:mcp` un-broken (had been silently red since alpha.3 onboarding gate). Production Supabase `profiles.email` migration finally ran 2026-05-05, unblocking the homepage email gate (`/api/get-started/mint` was returning 500 since alpha.4 ship). Earlier history: `@imrandwc/dwic@1.0.0-alpha.3` shipped 2026-04-24, bundling alpha.2 + alpha.3 work. Product renamed to **dwic** (d + wi + c = design with claude). Old `designwithclaude@2.0.0-alpha.{1..5}` deprecated with pointer messages. Domain stays `designwithclaude.com` (serves as long-form brand explainer, IBM pattern). All V2 internal identifiers migrated (env vars DWC_* → DWIC_*, CSS `.dwc-*` → `.dwic-*`, `DwcIcon` → `DwicIcon`, `web/lib/dwc/` → `web/lib/dwic/`, logger prefix, binary name). Earlier same day: audit-rollout batch 2 shipped accessibility-specialist + form-designer + navigation-specialist as `designwithclaude@2.0.0-alpha.5` — 7 of 11 V2 tools now audit server-side. Hero positioning is "dwic — the design auditor, inside Claude Code"; interactive AuditDemo on `/` runs the real audit helpers client-side (web/lib/audit/{color,accessibility,form}.ts) with staged reveal + rendered production-view cards + numbered pins. **Apr 30 surface trim:** removed `design-next-step` tool + 4 orphan command markdowns to narrow maintenance to the auditor thesis; tool roster now 13 static + `set-project-profile` dynamic = 14 total, 9 of 13 audit server-side. Evidence + plan: `FIELD_NOTES_COGNITION.md` and `ROADMAP_FROM_COGNITION.md` at repo root. Shareable URL: https://www.designwithclaude.com/get-started
 
 **For testing / onboarding new contributors:** see `TESTING.md` at repo root — plain-language walkthrough of the live flow, add-a-project, share-with-friends, and common break-fixes.
 
@@ -212,7 +212,42 @@ Generate-only / non-audit (4): hello-world, design-brief, setup-guide, debug-hel
 - `2df6aa9` — trim surface to auditor: drop design-next-step + 4 orphan commands
 
 ### Pending
-- npm publish of `@imrandwc/dwic@1.0.0-alpha.4` deferred — bundle this trim with the next functional alpha.
+- ~~npm publish of `@imrandwc/dwic@1.0.0-alpha.4` deferred — bundle this trim with the next functional alpha.~~ Shipped as part of alpha.4 on 2026-05-01.
+
+## Workflow-audit batch (alpha.5) — May 5, 2026
+
+Driver: user pushed back on cutting alpha.5 as a small precision release ("not really very much") and on broadcasting at all without a fully-tested workflow. Spent the session walking the four user-facing paths a first-time visitor would hit (CLI audit → token mint → setup → MCP → watch) on a clean tmp-dir Tailwind v4 project. Found six material issues; five fixed in this batch, one (production Supabase migration) cleared by the user during the session.
+
+- [x] **Namespace-prefixed token classifier.** `src/audit/aggregator.ts::classifyTokenRole` strips one leading namespace segment (`color-`/`theme-`/`ds-`/`ui-`/`app-`/`brand-tokens-`) before role matching. Pre-fix, Tailwind v4's default `--color-background-50` and shadcn-style `--color-text-disabled` fell through to "unknown" and got contrast-checked as text — every white surface token was reported as failing AA against itself. Demo project went from 9 findings (with white-on-white nonsense) to 6 honest findings; color category went `⚠ 2 AA fails` → `· clean`. Aiex (which uses unprefixed tokens) was the false-confidence project that masked this — none of its tokens carried a namespace, so the dogfood that produced commits 58f865d looked clean. Tests: 2 new cases in `test:audit-color-roles` (16 → 18 assertions) covering `--color-*`, `--theme-*`, `--ds-*` prefixes plus a still-fires case for namespace-prefixed text tokens that genuinely fail AA.
+
+- [x] **npx-resilient MCP launcher.** `src/bin/setup.ts::buildMcpEntry` now branches on `isPublishedInstall()`. Pre-fix, `npx @imrandwc/dwic setup` wrote `command: "node"` + an absolute path inside `~/.npm/_npx/<hash>/node_modules/@imrandwc/dwic/dist/server.js`. That hash dir gets garbage-collected; install worked briefly then broke silently with "MCP server failed to connect" once the cache evicted. Post-fix, published installs emit `command: "npx"`, `args: ["--yes", "-p", "@imrandwc/dwic@<VERSION>", "dwic-mcp-server"]` — re-resolves on every Claude Code launch, survives cache eviction, version-pinned so a future major doesn't silently float in. Local clones (contributors iterating on the server) still get the absolute path. Detection checks both `import.meta.url` AND `process.argv[1]` because Node resolves symlinks for ESM by default — `import.meta.url` came back as the resolved real path, not the `node_modules/...` symlink, so the first attempt detected nothing. Verified by symlinking the repo into a fake `node_modules/@imrandwc/dwic` and re-running setup: emits the npx form correctly.
+
+- [x] **Stale `/companion` URL + dead first-try copy in setup output.** `companionUrl` literal pointed at a route deleted Apr 27 in the surface-trim cleanup; every install printed a 404 link as "open … to watch your work render live." Replaced with two real CTAs: "Ask color-specialist to audit my design tokens" (the actual product hook, not hello-world) + a Claude-Code-free fallback "`npx @imrandwc/dwic audit`" for users who want to try without the MCP install.
+
+- [x] **Watcher temp-file filter.** `src/audit/watcher.ts::isRelevantPath` now rejects basenames starting with `.` or `~` or containing `___jb_`. Pre-fix, BSD `sed -i ''` writes `.!<pid>!filename.css` during the edit and the watcher fired on it; vim swap files share the rule; JetBrains atomic-writes too. Smoke-tested on the demo project: edit `themes.css` → exactly one debounced re-audit fires on the real file, no thrash.
+
+- [x] **`test:mcp` un-broken.** Test had been silently red since alpha.3 (April 17 onboarding gate landed). Specialist calls were returning the onboarding instruction sheet instead of seed tables, so the assertions failed — but nobody was running this specific suite (counted in "20/20 green" claims by name without actually being executed). `scripts/test-mcp-handshake.mjs` now passes `DWIC_ONBOARDING_GATE: "off"` in the spawned env with a comment explaining why. 23/23 suites green at end of session.
+
+- [x] **Production `profiles.email` migration.** `web/supabase/migrations/002_email.sql` (additive, partial-index on email-not-null) had been queued for ~10 days across three sessions. User ran it via Supabase SQL Editor mid-session; verified by hitting `POST /api/get-started/mint` directly — was returning 500 with "Could not find the 'email' column", now returns 200 with a real `imr_*` token. Homepage email gate is functional.
+
+### Verification
+
+23 / 23 test suites green (the +1 is `test:setup` / `test:mcp` reincluded after the explicit env-var fix). Audit CLI exit 2 on `examples/broken-project` (no regression). `npm pack --dry-run` reports 138 files, 187.2 kB — same shape as alpha.4 (no accidental file additions).
+
+### Post-publish verification
+
+- `npx @imrandwc/dwic@1.0.0-alpha.5 audit` from a clean cache → confirmed namespace-classifier fix live (color category clean) + new first-run dashboard copy.
+- `npx @imrandwc/dwic@1.0.0-alpha.5 setup` from a clean cache → confirmed `.mcp.json` written with `command: "npx"` and version-pinned args, new post-install copy without `/companion` link.
+
+### Pending follow-ups
+
+- **Rotate the npm publish token.** User pasted `npm_kHkUq...` into chat to authorize publishing; transcript exposure means it must be revoked at https://www.npmjs.com/settings/imrandwc/tokens.
+- **`RESEND_API_KEY` not set in Vercel prod.** `/api/get-started/mint` returns `emailQueued: false` — token still appears in the page response so the flow works, but no confirmation email goes out. Set when convenient; not a blocker.
+- **No screencast yet.** alpha.5 is shippable but distribution is gated on a 60-second screencast against `examples/broken-project`. Per the user's "tested fully before distribution" line, that's the next gate before any Discord/Reddit/X post.
+- **Punch-list nice-to-haves (deferred):** `--cwd` flag silently ignored by setup CLI; `VERSION` constant hardcoded in 3 files instead of read from package.json; markdown report uses date in filename so same-day re-runs overwrite silently.
+
+### Commit
+- `66d10e7` — alpha.5: workflow-audit fixes — namespace tokens, npx-resilient MCP, copy. Pushed to `origin/main`. Published to npm as `@imrandwc/dwic@1.0.0-alpha.5` under `latest`.
 
 ## `dwic audit` CLI (alpha.3) — April 22, 2026 (evening)
 
