@@ -1,18 +1,10 @@
 import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 
-export const runtime = "nodejs";
 export const alt = "dwic — the design auditor inside Claude Code";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpengraphImage() {
-  const [satoshi400, satoshi700] = await Promise.all([
-    readFile(join(process.cwd(), "public/fonts/satoshi-400.woff2")),
-    readFile(join(process.cwd(), "public/fonts/satoshi-700.woff2")),
-  ]);
-
   return new ImageResponse(
     (
       <div
@@ -24,8 +16,9 @@ export default async function OpengraphImage() {
           justifyContent: "space-between",
           padding: "72px 80px",
           background: "#F0F1F5",
-          fontFamily: "Satoshi",
           color: "#162036",
+          fontFamily:
+            "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -110,12 +103,6 @@ export default async function OpengraphImage() {
         </div>
       </div>
     ),
-    {
-      ...size,
-      fonts: [
-        { name: "Satoshi", data: satoshi400, weight: 400, style: "normal" },
-        { name: "Satoshi", data: satoshi700, weight: 700, style: "normal" },
-      ],
-    },
+    size,
   );
 }
