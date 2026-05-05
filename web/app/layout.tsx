@@ -37,20 +37,11 @@ export const metadata: Metadata = {
     siteName: "Design with Claude",
     type: "website",
     locale: "en_US",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "dwic — the design auditor inside Claude Code",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ["/og-image.png"],
   },
   keywords: [
     "dwic",
