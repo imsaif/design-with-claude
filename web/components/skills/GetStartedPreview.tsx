@@ -27,6 +27,7 @@ const COPY_TO_EMAIL_DELAY_MS = 1200;
 
 import DwicIcon from "@/components/DwicIcon";
 import { SKILLS } from "@/app/data/skills";
+import CompanyLogoCarousel from "@/components/skills/CompanyLogoCarousel";
 
 type TerminalLine = {
   content: ReactNode;
@@ -395,6 +396,21 @@ export function GetStartedPreview() {
                 <PlayIcon className="gs-demo-cta-icon" aria-hidden="true" />
                 See demo
               </button>
+
+              <div className="gs-logos" aria-label="AI products dwic learns from">
+                <p className="gs-logos-caption">
+                  Findings cite{" "}
+                  <a
+                    href="https://www.aiuxdesign.guide"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    aiuxdesign.guide
+                  </a>{" "}
+                  patterns
+                </p>
+                <CompanyLogoCarousel />
+              </div>
             </>
           )}
 
@@ -518,7 +534,9 @@ export function GetStartedPreview() {
               <EyeIcon className="gs-card-icon" aria-hidden="true" />
               <h2 className="gs-card-title">Catch drift on every run</h2>
               <p className="gs-card-body">
-                Audits your design system and remembers what changed.
+                Audits your design system against AI UX patterns from
+                aiuxdesign.guide. Catches drift and pattern misuse on every
+                run.
               </p>
             </article>
 

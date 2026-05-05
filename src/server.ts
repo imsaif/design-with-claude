@@ -23,7 +23,7 @@ import {
 } from "./utils/detect-project-config.js";
 
 const PACKAGE_NAME = "dwic";
-const PACKAGE_VERSION = "1.0.0-alpha.5";
+const PACKAGE_VERSION = "1.0.0-alpha.6";
 
 // Tools that must work even when the project has no profile yet. hello-world
 // is a ping; set-project-profile is how the gate is unblocked.
