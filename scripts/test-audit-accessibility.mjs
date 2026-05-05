@@ -258,6 +258,41 @@ if (!tool) {
   }
 }
 
+// Autocomplete is only flagged on identity/payment fields.
+{
+  const noiseMarkup = `
+    <input type="search" placeholder="Search patterns..." />
+    <textarea placeholder="Type your message..."></textarea>
+    <input type="range" min="6" max="23" />
+    <input type="text" placeholder="Demo input" />
+  `;
+  const findings = runA11yAudit(noiseMarkup);
+  const acFindings = findings.filter((f) => /autocomplete/.test(f.message));
+  if (acFindings.length !== 0) {
+    fail(`autocomplete should not fire on search/range/anonymous inputs, got ${acFindings.length}`);
+  } else {
+    pass("autocomplete suppressed on search/chat/range/anonymous inputs (noise gate)");
+  }
+}
+
+{
+  const identityMarkup = `
+    <form>
+      <label for="em">Email</label>
+      <input id="em" type="email" name="email" />
+      <label for="pw">Password</label>
+      <input id="pw" type="password" name="password" />
+    </form>
+  `;
+  const findings = runA11yAudit(identityMarkup);
+  const acFindings = findings.filter((f) => /autocomplete/.test(f.message));
+  if (acFindings.length !== 2) {
+    fail(`autocomplete should fire on email + password identity fields, got ${acFindings.length}`);
+  } else {
+    pass("autocomplete still fires on identity fields with name=email/password");
+  }
+}
+
 if (failed > 0) {
   process.stderr.write(`\n${failed} check(s) failed.\n`);
   process.exit(1);

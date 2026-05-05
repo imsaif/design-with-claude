@@ -113,6 +113,11 @@ type TokenRole = "text" | "accent" | "surface" | "border" | "decorative" | "unkn
 function classifyTokenRole(name: string): TokenRole {
   const n = name.toLowerCase();
   if (/^--(accent|primary|brand)-(subtle|muted|soft|tint|background|bg|surface|fill)\b/.test(n)) return "surface";
+  // Intentionally-low-contrast text variants — WCAG SC 1.4.3 exempts inactive
+  // UI components, and placeholder/hint text is meant to recede so it doesn't
+  // compete with typed input. Treat as decorative so the body-text 4.5:1 check
+  // doesn't fire on tokens whose visual semantic is "muted on purpose".
+  if (/^--(text|foreground|fg|content|caption)-(disabled|placeholder|hint|inactive|ghost|faint|dim)\b/.test(n)) return "decorative";
   if (/^--(text|foreground|fg|on-|content|caption|placeholder|label-text)\b/.test(n)) return "text";
   if (/^--(background|bg|surface|elevated|overlay|backdrop|panel|sheet|tint|fill)\b/.test(n)) return "surface";
   if (/^--(border|divider|outline|ring|stroke|hairline|separator|rule)\b/.test(n)) return "border";

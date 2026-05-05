@@ -96,14 +96,29 @@ function runColor(css) {
 {
   const css = `
     :root {
-      --text-disabled: #94a3b8;
+      --text-secondary: #94a3b8;
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 1) fail(`expected 1 warn for failing text token, got ${r.counts.warn}`);
-  else pass("text token failing AA contrast still fires");
-  if (!/--text-disabled/.test(r.findings[0]?.token ?? "")) fail("finding should reference the text token");
+  if (r.counts.warn !== 1) fail(`expected 1 warn for failing body-text token, got ${r.counts.warn}`);
+  else pass("body-text token failing AA contrast still fires");
+  if (!/--text-secondary/.test(r.findings[0]?.token ?? "")) fail("finding should reference the text token");
   else pass("finding identifies the failing text token");
+}
+
+// 5b. Intentionally-low-contrast text variants are downgraded to decorative.
+{
+  const css = `
+    :root {
+      --text-disabled: #94a3b8;
+      --text-placeholder: #cbd5e1;
+      --text-hint: #94a3b8;
+      --text-inactive: #94a3b8;
+    }
+  `;
+  const r = runColor(css);
+  if (r.counts.warn !== 0) fail(`expected 0 warns for low-contrast-by-design text variants, got ${r.counts.warn}`);
+  else pass("--text-disabled/-placeholder/-hint/-inactive treated as decorative (WCAG 1.4.3 inactive-UI exemption)");
 }
 
 // 6. Dark-mode tokens are paired against dark surface (not light).

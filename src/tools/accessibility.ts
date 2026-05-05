@@ -86,12 +86,24 @@ export function auditFormControls(markup: string): A11yFinding[] {
       });
     }
 
-    const isTextual = !type || ["text", "email", "password", "tel", "url", "search", "number"].includes(type.toLowerCase());
-    if (isTextual && !hasAttr(tag, "autocomplete")) {
+    // Autocomplete only matters for identity/payment fields. Search inputs,
+    // chat-style textareas, anonymous demo inputs (no `name`), and one-off
+    // controls don't benefit from autofill — flagging every one of them buries
+    // the real signal under dozens of noise findings.
+    const lowerType = type ? type.toLowerCase() : "";
+    const autocompleteRelevantType =
+      !lowerType || ["text", "email", "password", "tel", "url"].includes(lowerType);
+    const inputName = (attrValue(tag, "name") || "").toLowerCase();
+    const looksLikeIdentityField =
+      inputName !== "" &&
+      /(email|name|username|user|password|pass|tel|phone|address|street|city|state|zip|postal|country|cc[-_]?(num|number|name|exp|csc|cvc)|credit|card|birthday|dob)/.test(
+        inputName,
+      );
+    if (autocompleteRelevantType && looksLikeIdentityField && !hasAttr(tag, "autocomplete")) {
       findings.push({
         severity: "info",
         element: truncateTag(tag),
-        message: "no autocomplete attribute — password managers and browser autofill degrade. Set `autocomplete=\"off\"` if intentional.",
+        message: `\`name="${inputName}"\` looks like an identity/payment field but has no \`autocomplete\` — password managers and browser autofill degrade. Set the matching token (e.g. \`autocomplete="email"\`) or \`autocomplete="off"\` if intentional.`,
       });
     }
   }
