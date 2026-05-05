@@ -6,6 +6,7 @@ import { CATEGORY_LABELS, type CategoryResult, type Severity } from "./aggregato
 import type { DetectedProjectConfig } from "../utils/detect-project-config.js";
 import type { DriftReport } from "./drift.js";
 import { pickHeadlineAction } from "./headline-action.js";
+import { getRelatedPatterns, patternUrl } from "../data/aiex-pattern-map.js";
 
 const ANSI = {
   reset: "\x1b[0m",
@@ -177,6 +178,25 @@ export function renderDashboard(
   lines.push(
     `  ${results.length} categories · ${totalFindings} finding${totalFindings === 1 ? "" : "s"} · ${severityBadge("error")} ${totalErr} · ${severityBadge("warn")} ${totalWarn} · ${severityBadge("info")} ${totalInfo}`,
   );
+
+  // Related AI UX patterns — for each category that has findings, cite the
+  // most relevant pattern from aiuxdesign.guide. Designers can deepen their
+  // fix beyond the structural rule the audit caught.
+  const dirtyCategories = sorted.filter(
+    (r) => r.counts.error + r.counts.warn + r.counts.info > 0,
+  );
+  if (dirtyCategories.length > 0) {
+    lines.push("");
+    lines.push(paint(ANSI.bold, "Related AI UX patterns:") + paint(ANSI.dim, "  (aiuxdesign.guide)"));
+    for (const r of dirtyCategories) {
+      const related = getRelatedPatterns(r.category, 2);
+      if (related.length === 0) continue;
+      const cited = related
+        .map((p) => `${p.title} ${paint(ANSI.dim, patternUrl(p.slug))}`)
+        .join(paint(ANSI.dim, "  ·  "));
+      lines.push(`  ${pad(CATEGORY_LABELS[r.category], 16)}${cited}`);
+    }
+  }
 
   // Headline action — ONE specialist with a paste-able prompt + outcome line.
   const headline = pickHeadlineAction(results);

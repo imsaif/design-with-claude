@@ -1060,6 +1060,107 @@
   }
 }
 
+/* Logo carousel */
+.gs-logos {
+  width: 100%;
+  max-width: 1080px;
+  margin: clamp(1.5rem, 4vh, 2.5rem) auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.gs-logos-caption {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-secondary, #4a5568);
+  text-align: center;
+  max-width: 640px;
+  margin: 0;
+}
+
+.gs-logos-caption a {
+  color: var(--text-primary, #162036);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.gs-logos-caption a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.gs-logos-track {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.gs-logos-row {
+  display: flex;
+  gap: 4rem;
+  width: max-content;
+  align-items: center;
+  animation: gs-logos-scroll 60s linear infinite;
+}
+
+.gs-logos-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gs-logos-item img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(10%) sepia(50%) saturate(2000%)
+    hue-rotate(200deg) brightness(85%) contrast(95%);
+  opacity: 0.55;
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+.gs-logos-item img:hover {
+  filter: none;
+  opacity: 1;
+}
+
+@keyframes gs-logos-scroll {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gs-logos-row {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+}
+
 /* Cards */
 .gs-cards {
   max-width: 1100px;
