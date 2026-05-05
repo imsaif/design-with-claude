@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "dwic — the design auditor inside Claude Code";
+export const alt = "dwic — a senior designer inside your terminal";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -52,14 +52,14 @@ export default async function OpengraphImage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
           <div
             style={{
-              fontSize: 84,
+              fontSize: 80,
               fontWeight: 700,
               lineHeight: 1.05,
               letterSpacing: -2.5,
-              maxWidth: 980,
+              maxWidth: 1000,
             }}
           >
-            The design auditor inside Claude Code.
+            dwic is a senior designer inside your terminal.
           </div>
           <div
             style={{
@@ -67,10 +67,10 @@ export default async function OpengraphImage() {
               fontWeight: 400,
               lineHeight: 1.35,
               color: "#3A4358",
-              maxWidth: 900,
+              maxWidth: 920,
             }}
           >
-            Catch contrast fails, accent drift, and structural gaps in your CSS — then fix them.
+            It knows your design system, your design choices, and your code. It catches changes before they get shipped.
           </div>
         </div>
 
