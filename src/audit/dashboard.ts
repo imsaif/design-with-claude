@@ -134,7 +134,7 @@ export function renderDashboard(
   if (opts.drift) {
     lines.push("");
     if (!opts.drift.hasBaseline) {
-      lines.push(paint(ANSI.dim, "First audit on this project — saving baseline. Re-run later to see drift."));
+      lines.push(paint(ANSI.dim, "First audit on this project. Triage the items below; re-run anytime to see what's drifted."));
     } else {
       const t = opts.drift.totals;
       const newErr = t.new.error;
@@ -198,7 +198,7 @@ export function renderDashboard(
 
   if (opts.showInstallCta) {
     lines.push("");
-    lines.push(paint(ANSI.dim, "Don't have dwic installed yet?"));
+    lines.push(paint(ANSI.dim, "Want this inside Claude Code? Install the MCP and call the specialists interactively:"));
     lines.push(`  ${paint(ANSI.cyan, "npx @imrandwc/dwic setup --token=<get one at designwithclaude.com/get-started>")}`);
   }
 
