@@ -398,17 +398,7 @@ export function GetStartedPreview() {
               </button>
 
               <div className="gs-logos" aria-label="AI products dwic learns from">
-                <p className="gs-logos-caption">
-                  Findings cite{" "}
-                  <a
-                    href="https://www.aiuxdesign.guide"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    aiuxdesign.guide
-                  </a>{" "}
-                  patterns
-                </p>
+                <p className="gs-logos-caption">Patterns from</p>
                 <CompanyLogoCarousel />
               </div>
             </>

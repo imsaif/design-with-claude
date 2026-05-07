@@ -1072,11 +1072,12 @@
 }
 
 .gs-logos-caption {
-  font-size: 0.8125rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--text-secondary, #4a5568);
   text-align: center;
-  max-width: 640px;
   margin: 0;
 }
 
@@ -3212,6 +3213,473 @@ kbd {
   }
   .dwic-specialists-list {
     grid-template-columns: 1fr;
+  }
+}
+
+/* /how-to-design-with-claude — cornerstone guide page.
+ * Reuses .skills-hero, .gs-cards/.gs-card, .gs-card--link from elsewhere.
+ * Page-specific classes: .htdwc-* */
+
+.htdwc-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(3rem, 7vh, 5rem) 1.5rem;
+}
+
+.htdwc-section--cta {
+  text-align: center;
+  padding-bottom: clamp(4rem, 10vh, 7rem);
+}
+
+.htdwc-section--cta .htdwc-cli {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.htdwc-prose {
+  max-width: 720px;
+  margin: 0 0 clamp(2rem, 4vh, 3rem);
+}
+
+.htdwc-section--cta .htdwc-prose {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.htdwc-eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+.htdwc-h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin: 0 0 1rem;
+}
+
+.htdwc-prose p {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+}
+
+.htdwc-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.htdwc-prose code,
+.htdwc-prose a code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--background-grain);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  color: var(--text-primary);
+}
+
+.htdwc-prose a {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
+
+.htdwc-prose a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Routing callout — links to external content for a different audience */
+.htdwc-callout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 720px;
+  padding: 1.25rem 1.5rem;
+  margin-top: clamp(1.5rem, 3vh, 2.25rem);
+  background: var(--background-grain);
+  border: 1px solid rgba(22, 32, 54, 0.12);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.htdwc-callout:hover,
+.htdwc-callout:focus-visible {
+  border-color: rgba(22, 32, 54, 0.28);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.htdwc-callout-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.htdwc-callout-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.htdwc-callout-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary);
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.htdwc-callout-body {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* CLI install pill — mimics .gs-hero-cli minus the morph behavior */
+.htdwc-cli {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #162036;
+  color: #f5f6fa;
+  border-radius: 999px;
+  padding: 0.875rem 1.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9375rem;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.htdwc-cli-prompt {
+  color: rgba(245, 246, 250, 0.55);
+}
+
+.htdwc-cli code {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.htdwc-cli-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: rgba(245, 246, 250, 0.08);
+  border: 1px solid rgba(245, 246, 250, 0.14);
+  border-radius: 999px;
+  color: rgba(245, 246, 250, 0.85);
+  font-family: var(--font-satoshi), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.htdwc-cli-copy:hover,
+.htdwc-cli-copy:focus-visible {
+  background: rgba(245, 246, 250, 0.16);
+  color: #ffffff;
+  border-color: rgba(245, 246, 250, 0.3);
+  outline: none;
+}
+
+.htdwc-cli-copy:active {
+  transform: scale(0.97);
+}
+
+.htdwc-cli-copy-icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+}
+
+.htdwc-cli-note {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: 0.875rem 0 0;
+  text-align: left;
+}
+
+.htdwc-section--cta .htdwc-cli-note {
+  text-align: center;
+}
+
+/* Cards grid override — 4-up for the loop, 3-up for "going deeper" */
+.htdwc-cards-4 {
+  margin-top: 0;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.htdwc-cards-3 {
+  margin-top: 0;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gs-card code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.875em;
+  background: rgba(22, 32, 54, 0.06);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+/* Specialists grid */
+.htdwc-specialists {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.htdwc-specialist {
+  padding: 1.5rem;
+  background: var(--background-grain);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.htdwc-specialist-name {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.htdwc-specialist-role {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.htdwc-specialist-prompt {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+  background: rgba(22, 32, 54, 0.05);
+  padding: 0.625rem 0.75rem;
+  border-radius: 8px;
+  margin: 0.25rem 0 0;
+}
+
+.htdwc-specialist-prompt-label {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Terminal mock */
+.htdwc-terminal {
+  background: #0e1626;
+  color: #d8dde8;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  max-width: 720px;
+  overflow-x: auto;
+}
+
+.htdwc-terminal-line {
+  white-space: nowrap;
+}
+
+.htdwc-terminal-prompt {
+  color: rgba(216, 221, 232, 0.5);
+}
+
+.htdwc-terminal-dim {
+  color: rgba(216, 221, 232, 0.6);
+}
+
+.htdwc-terminal-err {
+  color: #f87171;
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+.htdwc-terminal-warn {
+  color: #fbbf24;
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+.htdwc-terminal-ok {
+  color: #34d399;
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+.htdwc-terminal-divider {
+  height: 1px;
+  background: rgba(216, 221, 232, 0.12);
+  margin: 0.5rem 0;
+}
+
+/* Animated terminal — typing caret + line reveals */
+.htdwc-terminal-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  margin-left: 0.1em;
+  vertical-align: text-bottom;
+  background: #d8dde8;
+  animation: htdwc-caret-blink 900ms steps(1, end) infinite;
+}
+
+@keyframes htdwc-caret-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  50.01%, 100% {
+    opacity: 0;
+  }
+}
+
+.htdwc-terminal-reveal {
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity 220ms ease-out, transform 220ms ease-out;
+}
+
+.htdwc-terminal-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .htdwc-terminal-caret {
+    animation: none;
+    opacity: 0;
+  }
+  .htdwc-terminal-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Pattern citation cards */
+.htdwc-patterns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.htdwc-pattern {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: var(--background-grain);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.htdwc-pattern:hover,
+.htdwc-pattern:focus-visible {
+  border-color: rgba(22, 32, 54, 0.18);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.htdwc-pattern-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.htdwc-pattern-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary);
+  stroke-width: 2;
+}
+
+.htdwc-pattern-blurb {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .htdwc-cards-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .htdwc-cards-3 {
+    grid-template-columns: 1fr;
+  }
+  .htdwc-specialists {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .htdwc-patterns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .htdwc-cards-4 {
+    grid-template-columns: 1fr;
+  }
+  .htdwc-specialists {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Scroll-driven section reveals — pure CSS, modern browsers only.
+ * Safari/Firefox without scroll-driven support see static content (graceful
+ * no-op). Reduced-motion always gets static. Zero JS, zero perf cost. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .htdwc-section {
+      animation: htdwc-section-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+
+    @keyframes htdwc-section-reveal {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   }
 }
 

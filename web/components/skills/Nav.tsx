@@ -21,21 +21,8 @@ export function Nav() {
         </span>
       </Link>
       <div className="skills-nav-links">
+        <Link href="/how-to-design-with-claude">How to design</Link>
         <Link href="/library">Free library</Link>
-        <a
-          href="https://aiuxdesign.guide"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          AI UX Patterns
-        </a>
-        <a
-          href="https://github.com/imsaif/design-with-claude"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub
-        </a>
       </div>
     </nav>
   );
