@@ -25,14 +25,15 @@ Get a token by submitting your email at [designwithclaude.com/get-started](https
 ## Core surfaces
 
 - [Homepage](https://designwithclaude.com/): product overview, interactive audit demo, install flow.
+- [How to design with Claude](https://designwithclaude.com/how-to-design-with-claude): cornerstone guide — the dwic workflow loop (audit → generate → iterate → watch), the 9 specialists, the audit dashboard explained, links into deeper reading. The canonical answer to the brand-name search query.
 - [Get started](https://designwithclaude.com/get-started): email gate; mints your token; returns the install command.
 - [Library](https://designwithclaude.com/library): the V1 free library — 41 role-based design specialists across 8 categories as Claude Code slash commands (standalone or plugin). Separate from the dwic auditor; installable independently.
 
-## MCP tools (14 active)
+## MCP tools (13 active)
 
 Audit + generate modes: `color-specialist`, `typography-specialist`, `spacing-specialist`, `design-system-architect`, `accessibility-specialist`, `form-designer`, `navigation-specialist`, `content-strategist`, `motion-designer`.
 
-Generate only: `design-brief`, `setup-guide`, `debug-helper`, `set-project-profile`, `design-next-step` (synthesizes your profile + recent events into a single named next step).
+Generate only: `design-brief`, `setup-guide`, `debug-helper`, `set-project-profile`.
 
 ## Structured design-decisions file
 
