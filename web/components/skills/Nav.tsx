@@ -21,6 +21,7 @@ export function Nav() {
         </span>
       </Link>
       <div className="skills-nav-links">
+        <Link href="/how-it-works">How it works</Link>
         <Link href="/how-to-design-with-claude">How to design</Link>
         <Link href="/library">Free library</Link>
       </div>

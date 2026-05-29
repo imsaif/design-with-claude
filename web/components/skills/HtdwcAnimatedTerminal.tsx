@@ -23,7 +23,7 @@ const LINES: Line[] = [
   { kind: "err", text: "Accessibility · 3 errors" },
   { kind: "ok", text: "Forms, Navigation, Motion, Copy: clean" },
   { kind: "divider" },
-  { kind: "dim", text: "Related AI UX patterns: Universal Access, Confidence Visualization" },
+  { kind: "dim", text: "8 categories · 9 findings · 5 errors · 2 warns (exit 2)" },
   { kind: "dim", text: "→ Run accessibility-specialist via MCP" },
 ];
 

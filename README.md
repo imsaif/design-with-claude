@@ -1,35 +1,56 @@
-# dwic — design with claude
+# dwic — a senior designer inside your terminal
 
-dwic is an intelligent designer that lives in Claude Code. It catches drift in your design system before it ships — audits on every run, remembers what changed.
+dwic (design with claude) puts a senior designer inside Claude Code. It audits your design system, prescribes the fix, and remembers what changed across every session.
 
-## Try the one-line audit
+## The one-line audit
 
 ```
 npx @imrandwc/dwic audit
 ```
 
-Scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), shows what's drifted since your last run, and writes a shareable markdown report to `.dwic/audit-<date>.md`. No token, no install, no Claude Code required. The dashboard's "What to do next" block names a specialist with a Claude-Code-paste-able prompt to fix the loudest finding.
+No token, no install, no Claude Code required; it runs entirely on your machine. dwic scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), and writes a shareable markdown report to `.dwic/audit-<date>.md`. The check is deterministic (WCAG contrast math, token parsing, markup heuristics), so it's reproducible and CI-friendly via its exit code. Run against a deliberately-broken fixture:
+
+```
+dwic audit • examples/broken-project
+Scanned: 2 CSS files · 1 component · Next.js 15 + Tailwind v4
+
+  ✗ Typography      3 findings    sizes off the scale, weak weights
+  ✗ Accessibility   6 findings    unlabeled inputs, heading order, no landmarks
+  ⚠ Color           3 AA fails
+  ⚠ Forms           4 findings    unlabeled input, missing <fieldset>
+  ⚠ Motion          5 findings    transition: all, no reduced-motion
+  ⚠ Copy            3 findings    weak CTA, jargon
+  · Spacing         clean         7 steps
+  · Navigation      clean
+
+  8 categories · 24 findings · 6 errors · 13 warns · 5 info  (exit 2)
+```
 
 `dwic audit` pings an anonymous counter on each run so we can see the CLI → MCP funnel. Pass `--no-telemetry` or set `DWIC_TELEMETRY=off` to disable; the payload is category-level counts only (no file contents, no paths).
 
+## Inside Claude Code
+
+Install the MCP server and the senior designer works interactively. Ask the specialists (`color-specialist`, `accessibility-specialist`, `typography-specialist`, and the rest) to audit or fix, and dwic remembers your project's decisions across sessions instead of re-asking every time.
+
+```
+npx @imrandwc/dwic setup --token=imr_xxx
+```
+
+Get a token at [designwithclaude.com/get-started](https://designwithclaude.com/get-started). For full usage docs, start there.
+
 ---
 
-**[designwithclaude.com](https://designwithclaude.com)** — two products, one design brain for Claude Code:
+## The free library — dwic's open knowledge base
 
-1. **dwic** (this npm package) — the **design auditor**. MCP server that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then prescribes the fix and remembers it across every session. Install: `npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>`. Get a token at [designwithclaude.com/get-started](https://designwithclaude.com/get-started).
-2. **The free library** (this repo) — markdown-based design skills as Claude Code slash commands. Accessibility, design systems, motion, typography, copy, dashboards. No runtime, no dependencies, no API keys. Lives at [designwithclaude.com/library](https://designwithclaude.com/library).
+This repo also ships **41 design skills across 8 categories** (34 design specialists and 7 technical guides for designers) as plain Claude Code slash commands. No runtime, no dependencies, no API keys. Browse them at [designwithclaude.com/library](https://designwithclaude.com/library).
 
-This README documents the **free library**. For `dwic` usage docs, start at [designwithclaude.com/get-started](https://designwithclaude.com/get-started).
+These aren't a separate product. They're the **same knowledge base dwic runs on**. Each specialist's expertise lives in a markdown role prompt under `commands/`, and dwic's MCP specialists load those exact files. When you ask dwic's `color-specialist` inside Claude Code, its expertise comes from the same `commands/color-specialist.md` that the free `/color-specialist` slash command loads.
 
----
+The difference is the runtime around them. dwic wires **12 of these specialists** as MCP tools and adds what plain prompts can't: a deterministic audit engine, project memory, and the one-line CLI. The rest of the library is free to drop into Claude Code as slash commands today.
 
-## What the free library is
+Each command is an agent file containing structured domain knowledge: WCAG specifics, token architecture patterns, motion timing curves, healthcare UX compliance rules, checkout conversion best practices. The technical guides help designers get unstuck with common walls — environment setup, database connections, auth, deployment, and error debugging. This isn't generic prompting — it's deep, opinionated expertise.
 
-A collection of 44 agent files — 37 design specialists and 7 technical guides for designers. Install them as a Claude Code plugin, and you get expert-level design guidance plus hands-on help with setup, debugging, and deployment directly in your coding workflow.
-
-The design agents contain structured domain knowledge: WCAG specifics, token architecture patterns, motion timing curves, healthcare UX compliance rules, checkout conversion best practices. The technical guides help designers get unstuck with common walls — environment setup, database connections, auth, deployment, and error debugging. This isn't generic prompting — it's deep, opinionated expertise.
-
-## Install
+## Install the library
 
 ### As a Plugin (recommended)
 
@@ -63,7 +84,7 @@ This gives you `/design-brief`, `/accessibility-specialist`, etc. directly.
 /design-brief Build a SaaS analytics dashboard with dark mode and accessibility focus
 ```
 
-The master command analyzes your brief, identifies the relevant design domains (out of 44), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
+The master command analyzes your brief, identifies the relevant design domains (out of 41), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
 
 When invoked inside a code project, commands are context-aware: they detect your stack, read your existing files, and generate output that matches your conventions.
 
@@ -75,7 +96,7 @@ When invoked inside a code project, commands are context-aware: they detect your
 Product type: B2B SaaS dashboard
 Key requirements: data visualization, dark theme, WCAG AA compliance
 
-## Relevant Domains (7 of 44)
+## Relevant Domains (7 of 41)
 1. Dashboard Designer — KPI cards, chart layout, data density
 2. Dark Mode Specialist — surface hierarchy, elevation tokens, contrast
 3. Accessibility Specialist — WCAG AA, focus management, screen readers
@@ -130,7 +151,6 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `typography-specialist` | Type scales, font pairing, vertical rhythm |
 | `color-specialist` | Color systems, palettes, semantic colors |
 | `spacing-layout-specialist` | Grid systems, spacing scales, density |
-| `icon-illustration-specialist` | Icon grids, sizing, illustration style, SVG accessibility |
 
 ### Interaction Design
 
@@ -139,7 +159,6 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `motion-designer` | Transitions, timing curves, micro-interactions |
 | `form-designer` | Input layout, validation, multi-step forms |
 | `navigation-specialist` | Nav patterns, wayfinding, menus |
-| `notification-designer` | Push notifications, toasts, badges, notification center |
 | `drag-drop-specialist` | Drag affordances, drop zones, reordering, canvas |
 
 ### Product Design
@@ -150,7 +169,6 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `mobile-specialist` | iOS/Android patterns, touch, thumb zones |
 | `responsive-design-specialist` | Breakpoints, fluid layouts, adaptive patterns |
 | `landing-page-specialist` | Hero sections, CTAs, conversion layout |
-| `settings-designer` | Settings pages, preferences, toggle patterns |
 | `auth-security-ux-specialist` | Login flows, 2FA/passkey, session management |
 
 ### Content & IA
@@ -182,7 +200,6 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `table-designer` | Data tables, sorting, filtering, pagination |
 | `search-specialist` | Search UX, filters, faceted navigation |
 | `brand-designer` | Visual identity, brand systems |
-| `empty-loading-states-specialist` | Skeleton screens, empty states, loading patterns |
 | `i18n-designer` | RTL layouts, locale-aware UI, string expansion |
 | `print-export-designer` | PDF generation, print stylesheets, export UX |
 
@@ -216,8 +233,6 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 /checkout-specialist Guest checkout flow for a subscription product
 
 # New design skills
-/notification-designer Design a notification system for a team collaboration app
-/settings-designer Redesign our settings page — it's a mess
 /auth-security-ux-specialist Passkey login flow with 2FA fallback
 /drag-drop-specialist Kanban board with drag between columns and keyboard support
 
