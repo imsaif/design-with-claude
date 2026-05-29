@@ -5,7 +5,6 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { CATEGORY_LABELS, type CategoryResult } from "./aggregator.js";
 import type { DetectedProjectConfig } from "../utils/detect-project-config.js";
-import { getRelatedPatterns, patternUrl } from "../data/aiex-pattern-map.js";
 
 function todayStamp(): string {
   const d = new Date();
@@ -37,11 +36,6 @@ function renderCategory(r: CategoryResult): string {
       const tag = f.token ? `\`${f.token}\`` : f.element ? `\`${f.element}\`` : "";
       parts.push(`- ${tag ? `${tag} — ` : ""}${f.message}`);
     }
-    parts.push("");
-  }
-  const related = getRelatedPatterns(r.category, 2);
-  if (related.length > 0) {
-    parts.push(`**Related AI UX patterns:** ` + related.map((p) => `[${p.title}](${patternUrl(p.slug)})`).join(" · "));
     parts.push("");
   }
   return parts.join("\n");

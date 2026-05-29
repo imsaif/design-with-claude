@@ -17,7 +17,7 @@ const PAGE_PATH = "/how-to-design-with-claude";
 const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
 const PAGE_TITLE = "How to design with Claude";
 const PAGE_DESCRIPTION =
-  "A workflow for shipping design work with Claude Code: install dwic, ask design specialists for help, audit for drift, and ground every decision in 36 AI UX patterns from aiuxdesign.guide.";
+  "A workflow for shipping design work with Claude Code: install dwic, ask design specialists for help, and audit your design system for drift before you ship.";
 const DATE_PUBLISHED = "2026-05-07";
 const DATE_MODIFIED = "2026-05-07";
 
@@ -180,7 +180,7 @@ export default function HowToDesignWithClaudePage() {
               <p className="gs-card-title">3. Iterate</p>
               <p className="gs-card-body">
                 Re-run audit to see what drifted since the last clean state.
-                Findings cite AI UX patterns to read deeper.
+                Each finding points to the specialist that fixes it.
               </p>
             </div>
             <div className="gs-card">

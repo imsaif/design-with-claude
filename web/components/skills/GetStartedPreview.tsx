@@ -48,7 +48,7 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 600,
     content: (
       <span className="gs-terminal-muted">
-        Scanning 47 files · detected Next.js 15 + Tailwind v4
+        Scanned: 2 CSS files · 1 component · Next.js 15 + Tailwind v4
       </span>
     ),
   },
@@ -56,39 +56,9 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 700,
     content: (
       <>
-        <span className="gs-terminal-error">✗ Color</span>{" "}
+        <span className="gs-terminal-error">✗ Typography</span>{" "}
         <span className="gs-terminal-muted">
-          — AA contrast fail on 2 token pairs
-        </span>
-      </>
-    ),
-  },
-  {
-    delay: 250,
-    content: (
-      <span className="gs-terminal-error">
-        primary-500 #2d56d2 fails AA on background-50 (3.8:1, needs 4.5:1)
-      </span>
-    ),
-  },
-  {
-    delay: 450,
-    content: (
-      <>
-        <span className="gs-terminal-warn">⚠ Typography</span>{" "}
-        <span className="gs-terminal-muted">
-          — body 14px below mandated 16px
-        </span>
-      </>
-    ),
-  },
-  {
-    delay: 380,
-    content: (
-      <>
-        <span className="gs-terminal-warn">⚠ Spacing</span>{" "}
-        <span className="gs-terminal-muted">
-          — off-grid value 13px in Card.tsx
+          — 3 findings · sizes off the scale, weak weights
         </span>
       </>
     ),
@@ -99,7 +69,7 @@ const DEMO_LINES: TerminalLine[] = [
       <>
         <span className="gs-terminal-error">✗ Accessibility</span>{" "}
         <span className="gs-terminal-muted">
-          — unlabeled input, missing alt on 1 image
+          — 6 findings · unlabeled inputs, heading order, no landmarks
         </span>
       </>
     ),
@@ -108,10 +78,56 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 380,
     content: (
       <>
-        <span className="gs-terminal-warn">⚠ Form</span>{" "}
+        <span className="gs-terminal-warn">⚠ Color</span>{" "}
+        <span className="gs-terminal-muted">— 3 AA contrast fails</span>
+      </>
+    ),
+  },
+  {
+    delay: 250,
+    content: (
+      <span className="gs-terminal-muted">
+        primary-500 #2d56d2 fails AA on background-50 (3.8:1, needs 4.5:1)
+      </span>
+    ),
+  },
+  {
+    delay: 450,
+    content: (
+      <>
+        <span className="gs-terminal-warn">⚠ Forms</span>{" "}
         <span className="gs-terminal-muted">
-          — radio group not wrapped in &lt;fieldset&gt;
+          — 4 findings · unlabeled input, missing &lt;fieldset&gt;
         </span>
+      </>
+    ),
+  },
+  {
+    delay: 380,
+    content: (
+      <>
+        <span className="gs-terminal-warn">⚠ Motion</span>{" "}
+        <span className="gs-terminal-muted">
+          — 5 findings · transition: all, no reduced-motion
+        </span>
+      </>
+    ),
+  },
+  {
+    delay: 380,
+    content: (
+      <>
+        <span className="gs-terminal-warn">⚠ Copy</span>{" "}
+        <span className="gs-terminal-muted">— 3 findings · weak CTA, jargon</span>
+      </>
+    ),
+  },
+  {
+    delay: 380,
+    content: (
+      <>
+        <span className="gs-terminal-muted">· Spacing</span>{" "}
+        <span className="gs-terminal-muted">— clean (7 steps)</span>
       </>
     ),
   },
@@ -120,29 +136,7 @@ const DEMO_LINES: TerminalLine[] = [
     content: (
       <>
         <span className="gs-terminal-muted">· Navigation</span>{" "}
-        <span className="gs-terminal-muted">
-          — active link missing aria-current
-        </span>
-      </>
-    ),
-  },
-  {
-    delay: 380,
-    content: (
-      <>
-        <span className="gs-terminal-muted">· Motion</span>{" "}
-        <span className="gs-terminal-muted">
-          — transition: all on .card hover
-        </span>
-      </>
-    ),
-  },
-  {
-    delay: 380,
-    content: (
-      <>
-        <span className="gs-terminal-ok">✓ Content</span>{" "}
-        <span className="gs-terminal-muted">— no findings</span>
+        <span className="gs-terminal-muted">— clean</span>
       </>
     ),
   },
@@ -156,7 +150,7 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 250,
     content: (
       <span className="gs-terminal-summary">
-        28 findings · 6 errors · 14 warns · 8 info{"  "}
+        24 findings · 6 errors · 13 warns · 5 info{"  "}
         <span className="gs-terminal-muted">(exit 2)</span>
       </span>
     ),
@@ -165,13 +159,13 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 700,
     content: (
       <span className="gs-terminal-muted">
-        → Run color-specialist via MCP to fix the contrast issue
+        → Ask accessibility-specialist via MCP to fix the a11y errors
       </span>
     ),
   },
 ];
 
-const INDENT_LINE_INDEXES = new Set([3]);
+const INDENT_LINE_INDEXES = new Set([5]);
 
 type HeroPhase = "cli" | "email";
 
@@ -524,9 +518,9 @@ export function GetStartedPreview() {
               <EyeIcon className="gs-card-icon" aria-hidden="true" />
               <h2 className="gs-card-title">Catch drift on every run</h2>
               <p className="gs-card-body">
-                Audits your design system against AI UX patterns from
-                aiuxdesign.guide. Catches drift and pattern misuse on every
-                run.
+                Audits your design system — contrast, type scale, spacing,
+                accessibility — and flags what&apos;s drifted since the last
+                clean state. Deterministic, runs locally.
               </p>
             </article>
 
