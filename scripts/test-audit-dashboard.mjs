@@ -83,8 +83,8 @@ process.env.NO_COLOR = "1";
   const out = renderDashboard(detected, inputs, results, { reportPath: null, showInstallCta: false, cwd: "/tmp/demo", drift: null });
   if (!/What to do next:/.test(out)) fail("headline 'What to do next' block missing");
   else pass("headline 'What to do next' present");
-  // Two error categories in this fixture: accessibility + motion. Accessibility
-  // outranks motion in CATEGORY_PRIORITY (failing AA blocks shipping), so the
+  // Error categories in this fixture: accessibility + color (contrast) + motion.
+  // Accessibility outranks the rest (failing AA blocks shipping), so the
   // headline must surface accessibility-specialist.
   if (!/accessibility-specialist/.test(out)) fail("headline didn't surface accessibility-specialist for highest-priority error");
   else pass("headline surfaces accessibility-specialist for fixture");
@@ -208,6 +208,20 @@ process.env.NO_COLOR = "1";
   const parsed = JSON.parse(json);
   if (!parsed.drift || parsed.drift.hasBaseline !== true) fail("JSON drift block missing or wrong");
   else pass("JSON drift block present");
+}
+
+// --- 16. Priority banding: accessibility-first, with EAA line + CI hint ---
+{
+  const out = renderDashboard(detected, inputs, results, { reportPath: null, showInstallCta: false, cwd: "/tmp/demo", drift: null });
+  if (!/Fix before you ship/.test(out)) fail("'Fix before you ship' band header missing");
+  else pass("ship-blocker band header present");
+  if (!/EU Accessibility Act/.test(out)) fail("EAA compliance line missing when WCAG band has findings");
+  else pass("EAA compliance line shown for WCAG findings");
+  // Accessibility (WCAG band) must render before Motion (non-WCAG cleanup band).
+  if (out.indexOf("Accessibility") > out.indexOf("Motion")) fail("accessibility should band above non-WCAG categories");
+  else pass("accessibility bands above non-WCAG categories");
+  if (!/fails CI/.test(out)) fail("CI exit hint missing when errors present");
+  else pass("CI exit hint surfaced when errors present");
 }
 
 if (failed > 0) {

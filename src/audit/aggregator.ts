@@ -187,7 +187,10 @@ function buildColorResult(css: string, opts: AggregateOptions): CategoryResult {
     if (!c.aaBody && !c.aaLarge) {
       aaFailCount++;
       findings.push({
-        severity: "warn",
+        // WCAG AA contrast failures are build-blocking errors, not warnings:
+        // under the EU Accessibility Act (in force since June 2025) they are
+        // compliance failures, and dwic exits non-zero so they fail CI.
+        severity: "error",
         token: t.name,
         message: `${t.hex} on ${surface} fails WCAG AA (ratio ${ratio.toFixed(2)}; AA large 3, AA body 4.5).`,
       });

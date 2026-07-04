@@ -43,7 +43,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 0) fail(`surface tokens should not trigger contrast warns, got ${r.counts.warn}`);
+  if (r.counts.error + r.counts.warn !== 0) fail(`surface tokens should not trigger contrast warns, got ${r.counts.warn}`);
   else pass("--background-* and --surface-* tokens are skipped");
 }
 
@@ -59,7 +59,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 0) fail(`border/divider/ring tokens should not trigger contrast warns, got ${r.counts.warn}`);
+  if (r.counts.error + r.counts.warn !== 0) fail(`border/divider/ring tokens should not trigger contrast warns, got ${r.counts.warn}`);
   else pass("--border-*, --divider-*, --ring-*, --outline-* tokens are skipped");
 }
 
@@ -74,7 +74,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 0) fail(`decorative/status tokens should not trigger contrast warns, got ${r.counts.warn}`);
+  if (r.counts.error + r.counts.warn !== 0) fail(`decorative/status tokens should not trigger contrast warns, got ${r.counts.warn}`);
   else pass("--success/--warning/--shadow/--highlight tokens are skipped");
 }
 
@@ -88,7 +88,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 0) fail(`accent-subtle/-muted/-bg should be classified as surface, got ${r.counts.warn} warn`);
+  if (r.counts.error + r.counts.warn !== 0) fail(`accent-subtle/-muted/-bg should be classified as surface, got ${r.counts.warn} warn`);
   else pass("--accent-subtle / --accent-muted / --primary-bg classify as surface");
 }
 
@@ -100,8 +100,8 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 1) fail(`expected 1 warn for failing body-text token, got ${r.counts.warn}`);
-  else pass("body-text token failing AA contrast still fires");
+  if (r.counts.error !== 1) fail(`expected 1 error for failing body-text token, got ${r.counts.error}`);
+  else pass("body-text token failing AA contrast still fires (as error)");
   if (!/--text-secondary/.test(r.findings[0]?.token ?? "")) fail("finding should reference the text token");
   else pass("finding identifies the failing text token");
 }
@@ -117,7 +117,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 0) fail(`expected 0 warns for low-contrast-by-design text variants, got ${r.counts.warn}`);
+  if (r.counts.error + r.counts.warn !== 0) fail(`expected 0 warns for low-contrast-by-design text variants, got ${r.counts.warn}`);
   else pass("--text-disabled/-placeholder/-hint/-inactive treated as decorative (WCAG 1.4.3 inactive-UI exemption)");
 }
 
@@ -139,7 +139,7 @@ function runColor(css) {
   // Light --text-primary on #ffffff: ratio 14.86 (passes). Dark --text-primary
   // on light #ffffff would be 1.04 (fails) — pre-fix bug.
   // With theme-aware pairing, dark token pairs against #0f0f0f → ratio 17.99 (passes).
-  if (r.counts.warn !== 0) {
+  if (r.counts.error + r.counts.warn !== 0) {
     fail(`dark-mode --text-primary should pair against dark surface, got ${r.counts.warn} warn(s)`,
          JSON.stringify(r.findings.map(f => ({ tok: f.token, msg: f.message }))));
   } else {
@@ -156,7 +156,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 0) fail(`[data-theme="dark"] tokens should pair against dark surface, got ${r.counts.warn}`);
+  if (r.counts.error + r.counts.warn !== 0) fail(`[data-theme="dark"] tokens should pair against dark surface, got ${r.counts.warn}`);
   else pass("[data-theme=\"dark\"] scope recognized as dark");
 }
 
@@ -169,7 +169,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 0) fail(`.dark scoped tokens should pair against dark surface, got ${r.counts.warn}`);
+  if (r.counts.error + r.counts.warn !== 0) fail(`.dark scoped tokens should pair against dark surface, got ${r.counts.warn}`);
   else pass(".dark scope recognized as dark");
 }
 
@@ -181,7 +181,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 1) fail(`accent token failing AA should still warn, got ${r.counts.warn}`);
+  if (r.counts.error !== 1) fail(`accent token failing AA should error, got ${r.counts.error}`);
   else pass("accent token (used as text/CTA) still tested");
 }
 
@@ -195,7 +195,7 @@ function runColor(css) {
   `;
   const r = runColor(css);
   // Text #f0f0f0 against detected surface #fafafa → ratio ~1.05 → fails
-  if (r.counts.warn !== 1) fail(`detected surface should be used (got ${r.counts.warn} warn)`);
+  if (r.counts.error !== 1) fail(`detected surface should be used (got ${r.counts.error} error)`);
   else if (!r.findings[0].message.includes("#fafafa")) fail(`finding should mention detected surface #fafafa, got: ${r.findings[0].message}`);
   else pass("project-specific surface detected and used in pairing");
 }
@@ -243,7 +243,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 0) {
+  if (r.counts.error + r.counts.warn !== 0) {
     fail(`namespace-prefixed surface/border/disabled tokens should not warn, got ${r.counts.warn}`,
          JSON.stringify(r.findings.map(f => ({ tok: f.token, msg: f.message }))));
   } else {
@@ -259,7 +259,7 @@ function runColor(css) {
     }
   `;
   const r = runColor(css);
-  if (r.counts.warn !== 1) fail(`namespaced text token failing AA should still warn, got ${r.counts.warn}`);
+  if (r.counts.error !== 1) fail(`namespaced text token failing AA should error, got ${r.counts.error}`);
   else pass("namespace-prefixed text tokens still tested for contrast");
 }
 
