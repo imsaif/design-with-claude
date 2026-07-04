@@ -56,10 +56,8 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 700,
     content: (
       <>
-        <span className="gs-terminal-error">✗ Typography</span>{" "}
-        <span className="gs-terminal-muted">
-          — 3 findings · sizes off the scale, weak weights
-        </span>
+        <span className="gs-terminal-error">✗ Fix before you ship</span>{" "}
+        <span className="gs-terminal-muted">— 8 of 9 errors are accessibility</span>
       </>
     ),
   },
@@ -78,7 +76,7 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 380,
     content: (
       <>
-        <span className="gs-terminal-warn">⚠ Color</span>{" "}
+        <span className="gs-terminal-error">✗ Color</span>{" "}
         <span className="gs-terminal-muted">— 3 AA contrast fails</span>
       </>
     ),
@@ -92,12 +90,24 @@ const DEMO_LINES: TerminalLine[] = [
     ),
   },
   {
+    delay: 300,
+    content: (
+      <span className="gs-terminal-muted">
+        ↳ WCAG AA / EU Accessibility Act treats these as compliance failures
+      </span>
+    ),
+  },
+  {
     delay: 450,
+    content: <span className="gs-terminal-muted">Then clean up</span>,
+  },
+  {
+    delay: 380,
     content: (
       <>
-        <span className="gs-terminal-warn">⚠ Forms</span>{" "}
+        <span className="gs-terminal-error">✗ Typography</span>{" "}
         <span className="gs-terminal-muted">
-          — 4 findings · unlabeled input, missing &lt;fieldset&gt;
+          — 3 findings · sizes off the scale, weak weights
         </span>
       </>
     ),
@@ -117,13 +127,28 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 380,
     content: (
       <>
+        <span className="gs-terminal-warn">⚠ Forms</span>{" "}
+        <span className="gs-terminal-muted">
+          — 4 findings · unlabeled input, missing &lt;fieldset&gt;
+        </span>
+      </>
+    ),
+  },
+  {
+    delay: 380,
+    content: (
+      <>
         <span className="gs-terminal-warn">⚠ Copy</span>{" "}
         <span className="gs-terminal-muted">— 3 findings · weak CTA, jargon</span>
       </>
     ),
   },
   {
-    delay: 380,
+    delay: 450,
+    content: <span className="gs-terminal-muted">Clean</span>,
+  },
+  {
+    delay: 300,
     content: (
       <>
         <span className="gs-terminal-muted">· Spacing</span>{" "}
@@ -132,7 +157,7 @@ const DEMO_LINES: TerminalLine[] = [
     ),
   },
   {
-    delay: 380,
+    delay: 300,
     content: (
       <>
         <span className="gs-terminal-muted">· Navigation</span>{" "}
@@ -150,7 +175,7 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 250,
     content: (
       <span className="gs-terminal-summary">
-        24 findings · 6 errors · 13 warns · 5 info{"  "}
+        24 findings · 9 errors · 10 warns · 5 info{"  "}
         <span className="gs-terminal-muted">(exit 2)</span>
       </span>
     ),
