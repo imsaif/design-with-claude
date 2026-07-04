@@ -17,14 +17,14 @@ interface Line {
 const LINES: Line[] = [
   { kind: "scan", text: "Scanning my-app · 184 files · 8 categories" },
   { kind: "divider" },
-  { kind: "err", text: "Color · 2 errors, 1 warn" },
+  { kind: "err", text: "Accessibility · 3 errors · unlabeled inputs, no landmarks" },
+  { kind: "err", text: "Color · 2 errors · contrast below WCAG AA" },
   { kind: "warn", text: "Typography · 1 warn" },
-  { kind: "warn", text: "Spacing · 2 info" },
-  { kind: "err", text: "Accessibility · 3 errors" },
+  { kind: "warn", text: "Spacing · 1 warn" },
   { kind: "ok", text: "Forms, Navigation, Motion, Copy: clean" },
   { kind: "divider" },
   { kind: "dim", text: "8 categories · 9 findings · 5 errors · 2 warns (exit 2)" },
-  { kind: "dim", text: "→ Run accessibility-specialist via MCP" },
+  { kind: "dim", text: "→ Fix accessibility first — run accessibility-specialist via MCP" },
 ];
 
 const SEVERITY_GLYPH: Partial<Record<LineKind, string>> = {

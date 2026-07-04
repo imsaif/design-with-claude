@@ -16,7 +16,7 @@ function todayStamp(): string {
 
 function renderCategory(r: CategoryResult): string {
   const parts: string[] = [];
-  parts.push(`## ${CATEGORY_LABELS[r.category]} — ${r.severity}`);
+  parts.push(`### ${CATEGORY_LABELS[r.category]} — ${r.severity}`);
   parts.push("");
   parts.push(`_${r.gist}_`);
   parts.push("");
@@ -30,7 +30,7 @@ function renderCategory(r: CategoryResult): string {
   for (const level of ["error", "warn", "info"] as const) {
     if (byLevel[level].length === 0) continue;
     const icon = level === "error" ? "✗" : level === "warn" ? "⚠" : "·";
-    parts.push(`### ${icon} ${level.toUpperCase()}`);
+    parts.push(`#### ${icon} ${level.toUpperCase()}`);
     parts.push("");
     for (const f of byLevel[level]) {
       const tag = f.token ? `\`${f.token}\`` : f.element ? `\`${f.element}\`` : "";
@@ -82,7 +82,36 @@ export function writeMarkdownReport(
     "",
   ];
 
-  const body = results.map(renderCategory).join("---\n\n");
+  // Same priority banding as the terminal dashboard: WCAG (accessibility +
+  // contrast) first, then everything else, then what's already clean.
+  const WCAG_CATEGORIES = new Set(["accessibility", "color"]);
+  const sevRank = (s: CategoryResult["severity"]) => ({ error: 0, warn: 1, info: 2, clean: 3 }[s]);
+  const byPriority = (a: CategoryResult, b: CategoryResult) =>
+    sevRank(a.severity) - sevRank(b.severity) ||
+    b.counts.error + b.counts.warn + b.counts.info - (a.counts.error + a.counts.warn + a.counts.info);
+  const shipBlockers = results
+    .filter((r) => r.severity !== "clean" && WCAG_CATEGORIES.has(r.category))
+    .sort(byPriority);
+  const cleanup = results
+    .filter((r) => r.severity !== "clean" && !WCAG_CATEGORIES.has(r.category))
+    .sort(byPriority);
+  const cleanCats = results.filter((r) => r.severity === "clean");
+
+  const band = (title: string, note: string | null, rows: CategoryResult[]): string => {
+    if (rows.length === 0) return "";
+    const head = `## ${title}\n\n` + (note ? `${note}\n\n` : "");
+    return head + rows.map(renderCategory).join("---\n\n");
+  };
+  const body =
+    band(
+      "Fix before you ship — accessibility & contrast",
+      shipBlockers.length > 0
+        ? "> These are WCAG AA failures. Under the EU Accessibility Act (in force since June 2025) they are compliance risks. `dwic audit` exits non-zero on them so they fail CI."
+        : null,
+      shipBlockers,
+    ) +
+    band("Then clean up", null, cleanup) +
+    band("Clean", null, cleanCats);
 
   const followUps = results
     .filter((r) => r.severity === "error" || r.severity === "warn")

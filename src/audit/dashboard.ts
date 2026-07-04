@@ -159,23 +159,77 @@ export function renderDashboard(
     }
   }
 
-  lines.push("");
-  const sorted = [...results].sort((a, b) => severityRank(a.severity) - severityRank(b.severity));
-  for (const r of sorted) {
-    const label = pad(CATEGORY_LABELS[r.category], 16);
-    const icon = pad(severityIcon(r.severity), 3);
-    const count = pad(formatCount(r), 14);
-    lines.push(`  ${label}${icon}${count}${paint(ANSI.dim, r.gist)}`);
-  }
-
-  lines.push("");
-  lines.push(divider());
+  // Totals — computed once; the priority headline and the summary line share them.
   const totalFindings = results.reduce((a, r) => a + r.counts.error + r.counts.warn + r.counts.info, 0);
   const totalErr = results.reduce((a, r) => a + r.counts.error, 0);
   const totalWarn = results.reduce((a, r) => a + r.counts.warn, 0);
   const totalInfo = results.reduce((a, r) => a + r.counts.info, 0);
+
+  // Priority bands. A senior designer triages accessibility + contrast (the
+  // WCAG / EU Accessibility Act surface) before anything else, then the rest,
+  // then what's already clean. The banding *is* the opinion — not a flat dump.
+  const WCAG_CATEGORIES = new Set(["accessibility", "color"]);
+  const byPriority = (a: CategoryResult, b: CategoryResult) =>
+    severityRank(a.severity) - severityRank(b.severity) ||
+    b.counts.error + b.counts.warn + b.counts.info - (a.counts.error + a.counts.warn + a.counts.info);
+  const shipBlockers = results
+    .filter((r) => r.severity !== "clean" && WCAG_CATEGORIES.has(r.category))
+    .sort(byPriority);
+  const cleanup = results
+    .filter((r) => r.severity !== "clean" && !WCAG_CATEGORIES.has(r.category))
+    .sort(byPriority);
+  const cleanCats = results
+    .filter((r) => r.severity === "clean")
+    .sort((a, b) => CATEGORY_LABELS[a.category].localeCompare(CATEGORY_LABELS[b.category]));
+
+  const renderRows = (rows: CategoryResult[]) => {
+    for (const r of rows) {
+      const label = pad(CATEGORY_LABELS[r.category], 16);
+      const icon = pad(severityIcon(r.severity), 3);
+      const count = pad(formatCount(r), 14);
+      lines.push(`    ${label}${icon}${count}${paint(ANSI.dim, r.gist)}`);
+    }
+  };
+
+  if (shipBlockers.length > 0) {
+    lines.push("");
+    const wcagErr = shipBlockers.reduce((a, r) => a + r.counts.error, 0);
+    const header =
+      wcagErr > 0
+        ? `${paint(ANSI.red, "✗")} ${paint(ANSI.bold, "Fix before you ship")} ${paint(
+            ANSI.dim,
+            `— ${wcagErr} of ${totalErr} error${totalErr === 1 ? "" : "s"} ${wcagErr === 1 ? "is an" : "are"} accessibility failure${wcagErr === 1 ? "" : "s"}`,
+          )}`
+        : `${paint(ANSI.yellow, "⚠")} ${paint(ANSI.bold, "Fix before you ship")} ${paint(ANSI.dim, "— accessibility")}`;
+    lines.push(`  ${header}`);
+    renderRows(shipBlockers);
+    lines.push(
+      paint(ANSI.dim, "    ↳ WCAG AA / EU Accessibility Act (in force since June 2025) treats these as compliance failures."),
+    );
+  }
+
+  if (cleanup.length > 0) {
+    lines.push("");
+    lines.push(`  ${paint(ANSI.bold, "Then clean up")}`);
+    renderRows(cleanup);
+  }
+
+  if (cleanCats.length > 0) {
+    lines.push("");
+    lines.push(`  ${paint(ANSI.dim, "Clean")}`);
+    renderRows(cleanCats);
+  }
+
+  lines.push("");
+  lines.push(divider());
+  const ciHint =
+    totalErr > 0
+      ? paint(ANSI.dim, "  ·  exit 2 — fails CI")
+      : totalWarn > 0
+        ? paint(ANSI.dim, "  ·  exit 1")
+        : paint(ANSI.dim, "  ·  exit 0 — passes CI");
   lines.push(
-    `  ${results.length} categories · ${totalFindings} finding${totalFindings === 1 ? "" : "s"} · ${severityBadge("error")} ${totalErr} · ${severityBadge("warn")} ${totalWarn} · ${severityBadge("info")} ${totalInfo}`,
+    `  ${results.length} categories · ${totalFindings} finding${totalFindings === 1 ? "" : "s"} · ${severityBadge("error")} ${totalErr} · ${severityBadge("warn")} ${totalWarn} · ${severityBadge("info")} ${totalInfo}${ciHint}`,
   );
 
   // Headline action — ONE specialist with a paste-able prompt + outcome line.
