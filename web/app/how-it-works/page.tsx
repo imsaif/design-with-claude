@@ -255,7 +255,7 @@ export default function HowItWorksPage() {
             <Link href="/library" className="gs-card gs-card--link">
               <p className="gs-card-title">Free specialist library →</p>
               <p className="gs-card-body">
-                {SKILLS.length} design agents as Claude Code slash commands.
+                {SKILLS.length} design specialists as Claude Code slash commands.
                 Install one at a time.
               </p>
               <p className="gs-card-cta">/library</p>

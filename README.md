@@ -54,7 +54,7 @@ These aren't a separate product. They're the **same knowledge base dwic runs on*
 
 The difference is the runtime around them. dwic wires **12 of these specialists** as MCP tools and adds what plain prompts can't: a deterministic audit engine, project memory, and the one-line CLI. The rest of the library is free to drop into Claude Code as slash commands today.
 
-Each command is an agent file containing structured domain knowledge: WCAG specifics, token architecture patterns, motion timing curves, healthcare UX compliance rules, checkout conversion best practices. The technical guides help designers get unstuck with common walls — environment setup, database connections, auth, deployment, and error debugging. This isn't generic prompting — it's deep, opinionated expertise.
+Each command is a specialist file containing structured domain knowledge: WCAG specifics, token architecture patterns, motion timing curves, healthcare UX compliance rules, checkout conversion best practices. The technical guides help designers get unstuck with common walls — environment setup, database connections, auth, deployment, and error debugging. This isn't generic prompting — it's deep, opinionated expertise.
 
 ## Install the library
 
@@ -139,7 +139,7 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 
 | Command | What it does |
 |---|---|
-| `design-brief` | Takes a natural language brief → identifies relevant agents → outputs comprehensive design guidance |
+| `design-brief` | Takes a natural language brief → identifies relevant specialists → outputs comprehensive design guidance |
 
 ### Core Design
 
@@ -233,7 +233,7 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 /motion-designer Define transition specs for our modal and dropdown components
 /dashboard-designer Design a KPI overview page for a logistics platform
 
-# Combine agents for thorough coverage
+# Combine specialists for thorough coverage
 /form-designer Multi-step onboarding form with file uploads
 /color-specialist Define a semantic color system for light and dark themes
 /checkout-specialist Guest checkout flow for a subscription product
@@ -254,7 +254,7 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 
 ## How It Works
 
-Each command file is a markdown document containing a specialized design agent's complete knowledge. When you invoke a command, Claude loads that agent as context — giving it deep, structured expertise in that domain.
+Each command file is a markdown document containing a design specialist's complete knowledge. When you invoke a command, Claude loads that specialist as context — giving it deep, structured expertise in that domain.
 
 There's no code running, no API calls, no build step. The `commands/` directory IS the product. Claude's intelligence does the rest.
 

@@ -9,7 +9,7 @@ import { SKILLS, CATEGORIES } from "@/app/data/skills";
 
 export const metadata = {
   title: "Library — free Claude Code design skills | dwic",
-  description: `${SKILLS.length} free design agents as Claude Code slash commands, across ${CATEGORIES.length} categories. Separate from dwic (the design auditor) — install a single markdown file and get expert design guidance inside any Claude Code project.`,
+  description: `${SKILLS.length} free design specialists as Claude Code slash commands, across ${CATEGORIES.length} categories. Separate from dwic (the design auditor) — install a single markdown file and get expert design guidance inside any Claude Code project.`,
   alternates: {
     canonical: "/library",
   },
