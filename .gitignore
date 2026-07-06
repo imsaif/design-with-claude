@@ -11,3 +11,8 @@ tsconfig.tsbuildinfo
 .clerk/
 .dwic/
 .audit-findings/
+
+# Unpublished Design Research drafts + raw corpus (headed to Medium / a gist,
+# not the public product repo). The /design-research pages are the public home.
+docs/bootcamp-study-*.md
+docs/study-corpus-*.md
