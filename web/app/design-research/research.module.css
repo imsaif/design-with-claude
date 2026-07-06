@@ -17,9 +17,9 @@
   font-family: var(--font-satoshi, system-ui), sans-serif;
   color: var(--dr-ink);
   background: var(--dr-surface);
-  max-width: 1140px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 5rem 2.5rem 6rem;
+  padding: 5rem 3rem 6rem;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -41,17 +41,18 @@
   text-wrap: balance;
 }
 .lede {
-  font-size: 1.18rem;
+  font-size: 1.3rem;
   line-height: 1.55;
   color: var(--dr-secondary);
   max-width: 68ch;
   margin: 0 0 1.5rem;
+  text-wrap: pretty;
 }
 .meta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1.25rem;
-  font-size: 0.92rem;
+  font-size: 1rem;
   color: var(--dr-muted);
   padding-bottom: 2.5rem;
   border-bottom: 1px solid var(--dr-line);
@@ -82,7 +83,7 @@
 .statNum.alert { color: var(--dr-error); }
 .statLabel {
   margin-top: 0.6rem;
-  font-size: 0.92rem;
+  font-size: 1rem;
   line-height: 1.45;
   color: var(--dr-secondary);
 }
@@ -90,24 +91,25 @@
 /* ---- section ---- */
 .section { margin: 3.5rem 0; }
 .sectionHead {
-  font-size: 1.35rem;
+  font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.5rem;
 }
 .caption {
-  font-size: 0.98rem;
+  font-size: 1.08rem;
   line-height: 1.6;
   color: var(--dr-secondary);
-  max-width: 72ch;
+  max-width: 74ch;
   margin: 0 0 1.75rem;
+  text-wrap: pretty;
 }
 
 /* ---- legend ---- */
 .legend {
   display: flex;
   gap: 1.25rem;
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   color: var(--dr-secondary);
   margin-bottom: 1.25rem;
 }
@@ -115,12 +117,12 @@
 .swatch { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
 
 /* ---- horizontal bar chart ---- */
-.chart { display: flex; flex-direction: column; gap: 0.8rem; max-width: 880px; }
-.row { display: grid; grid-template-columns: 150px 1fr 52px; align-items: center; gap: 1rem; }
-.rowLabel { font-size: 0.95rem; font-weight: 500; text-align: right; color: var(--dr-ink); }
+.chart { display: flex; flex-direction: column; gap: 0.95rem; max-width: 1040px; }
+.row { display: grid; grid-template-columns: 160px 1fr 56px; align-items: center; gap: 1.1rem; }
+.rowLabel { font-size: 1.02rem; font-weight: 500; text-align: right; color: var(--dr-ink); }
 .track {
   position: relative;
-  height: 20px;
+  height: 26px;
   background: var(--dr-soft);
   border-radius: 5px;
   display: flex;
@@ -132,18 +134,18 @@
 .fill.warn  { background: var(--dr-warn); }
 /* 2px surface gap between adjacent stacked segments */
 .fill.error + .fill.warn { margin-left: 2px; }
-.rowVal { font-size: 0.95rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--dr-ink); }
+.rowVal { font-size: 1.02rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--dr-ink); }
 
 /* histogram (single-series, ordered buckets) */
 .fill.count { background: var(--dr-error); }
 .fill.clean { background: var(--dr-clean); }
 
 /* ---- robustness table ---- */
-.tableWrap { overflow-x: auto; max-width: 880px; }
+.tableWrap { overflow-x: auto; max-width: 1040px; }
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.88rem;
+  font-size: 0.95rem;
 }
 .table th, .table td {
   text-align: left;
@@ -175,16 +177,16 @@
   vertical-align: top;
 }
 .failTable tbody tr:last-child td { border-bottom: none; }
-.failName { font-weight: 700; font-size: 1rem; color: var(--dr-ink); width: 24%; }
+.failName { font-weight: 700; font-size: 1.05rem; color: var(--dr-ink); width: 24%; }
 .failPct {
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   color: var(--dr-ink);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   width: 10%;
 }
-.failFix { font-size: 1rem; line-height: 1.55; color: var(--dr-secondary); }
+.failFix { font-size: 1.05rem; line-height: 1.55; color: var(--dr-secondary); text-wrap: pretty; }
 
 @media (max-width: 640px) {
   .failName { width: auto; }
@@ -196,12 +198,12 @@
   background: var(--dr-soft);
   border: 1px solid var(--dr-line);
   border-radius: 14px;
-  padding: 2rem 2.25rem;
+  padding: 2.25rem 2.5rem;
   margin-top: 3.5rem;
-  max-width: 880px;
+  max-width: 1040px;
 }
 .method h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 0.75rem; }
-.method p { font-size: 0.92rem; line-height: 1.6; color: var(--dr-secondary); margin: 0 0 0.9rem; }
+.method p { font-size: 1.05rem; line-height: 1.6; color: var(--dr-secondary); margin: 0 0 1rem; text-wrap: pretty; }
 .method a { color: var(--dr-accent); text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
 .method a:hover { text-decoration: none; }
 .code {
@@ -216,7 +218,7 @@
 }
 .pill {
   display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.82rem; font-weight: 600;
+  font-size: 0.9rem; font-weight: 600;
   color: var(--dr-secondary);
   background: var(--dr-surface);
   border: 1px solid var(--dr-line-strong);
@@ -253,10 +255,11 @@
   font-size: clamp(1.15rem, 2.2vw, 1.4rem);
   line-height: 1.6;
   color: var(--dr-secondary);
-  max-width: 76ch;
+  max-width: 80ch;
   margin: 0 0 1rem;
   padding-bottom: 3rem;
   border-bottom: 1px solid var(--dr-line);
+  text-wrap: pretty;
 }
 
 /* ---- hub: research cards ---- */
