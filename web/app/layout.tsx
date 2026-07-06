@@ -61,11 +61,8 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Imran", url: "https://www.imranaidesign.com" }],
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "any" },
-    ],
-    apple: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: [{ url: "/favicon-light.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/favicon-light.svg", type: "image/svg+xml" }],
   },
   manifest: "/manifest.json",
 };
