@@ -263,6 +263,38 @@ function runColor(css) {
   else pass("namespace-prefixed text tokens still tested for contrast");
 }
 
+// 15. Custom-prefix non-text tokens (line/surface/soft under an arbitrary
+// namespace like --dr-*) classify as border/surface via the generic-segment
+// retry and are skipped, not false-flagged as failing body text.
+{
+  const css = `
+    :root {
+      --dr-line: #e6ebf5;
+      --dr-line-strong: #d8dde8;
+      --dr-surface: #ffffff;
+      --dr-soft: #f7f9fd;
+    }
+  `;
+  const r = runColor(css);
+  if (r.counts.error + r.counts.warn !== 0)
+    fail(`custom-prefix line/surface/soft tokens should be skipped, got ${r.counts.error}e/${r.counts.warn}w`,
+         JSON.stringify(r.findings.map((f) => f.token)));
+  else pass("custom-prefix (--dr-line / -surface / -soft) classify as border/surface, not flagged");
+}
+
+// 16. The retry must NOT suppress real failures: a custom-prefix TEXT token
+// that genuinely fails AA still fires.
+{
+  const css = `
+    :root {
+      --dr-text-secondary: #b8b8b8;
+    }
+  `;
+  const r = runColor(css);
+  if (r.counts.error !== 1) fail(`custom-prefix failing text token should error, got ${r.counts.error}`);
+  else pass("custom-prefix failing text token still flagged (retry does not hide real failures)");
+}
+
 if (failed > 0) {
   process.stderr.write(`\n${failed} test(s) failed\n`);
   process.exit(1);

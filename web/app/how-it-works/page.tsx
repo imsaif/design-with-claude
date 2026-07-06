@@ -144,6 +144,11 @@ export default function HowItWorksPage() {
               request, and exits non-zero when there are errors, which is all CI
               needs to fail a build on design-system drift.
             </p>
+            <p>
+              Add <code>--watch</code> and it re-audits on every save, showing
+              what you just resolved or introduced. So the loop is tight: audit,
+              fix, watch it clear, without leaving your editor.
+            </p>
           </div>
           <HtdwcAnimatedTerminal />
         </section>
@@ -231,13 +236,13 @@ export default function HowItWorksPage() {
             <h2 className="htdwc-h2">Where to read next.</h2>
           </div>
           <div className="gs-cards htdwc-cards-3">
-            <Link href="/how-to-design-with-claude" className="gs-card gs-card--link">
-              <p className="gs-card-title">The full workflow →</p>
+            <Link href="/design-research" className="gs-card gs-card--link">
+              <p className="gs-card-title">Design Research →</p>
               <p className="gs-card-body">
-                The day-to-day loop: install, ask specialists, audit, iterate.
-                The how-to for shipping design work with Claude Code.
+                Reproducible studies on the design quality of AI-generated
+                products. See what AI actually ships, measured.
               </p>
-              <p className="gs-card-cta">How to design with Claude</p>
+              <p className="gs-card-cta">/design-research</p>
             </Link>
             <a
               href="https://www.aiuxdesign.guide"
