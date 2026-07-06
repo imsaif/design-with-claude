@@ -37,7 +37,7 @@ export default function CorpusDataPage() {
           that identify as AI-generated. Open any of them on GitHub and check for yourself.
         </p>
         <p className={styles.caption}>
-          <b>Errors</b> are blocking (they would fail a CI check). <b>Warnings</b> and <b>info</b> are
+          <b>Errors</b> are serious: they should stop code from shipping. <b>Warnings</b> and <b>info</b> are
           lower-severity. Because the audit is deterministic, these numbers are stable, not a snapshot of one run.
         </p>
 

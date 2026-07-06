@@ -8,7 +8,7 @@ const PAGE_PATH = "/design-research/ai-generated-frontends";
 const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
 const PAGE_TITLE = "The accessibility of AI-generated UI";
 const PAGE_DESCRIPTION =
-  "A deterministic, reproducible audit of 123 public frontends built by AI coding tools. 74% would fail a CI check; accessibility is the number one defect.";
+  "A deterministic, reproducible audit of 123 public frontends built by AI coding tools. 74% ship with an error serious enough to block release; accessibility is the number one defect.";
 const DATE_MODIFIED = "2026-07-06";
 
 export const metadata = {
@@ -41,13 +41,6 @@ const DISTRIBUTION = [
   { bucket: "6 to 10", pct: 7 },
   { bucket: "11 to 20", pct: 10 },
   { bucket: "21 or more", pct: 6 },
-];
-
-const ROBUSTNESS = [
-  { metric: "Would fail CI", full: "74%", m5: "73%", m10: "72%" },
-  { metric: "Accessibility errors", full: "52%", m5: "51%", m10: "50%" },
-  { metric: "Motion errors", full: "35%", m5: "35%", m10: "35%" },
-  { metric: "Median errors / project", full: "1", m5: "1", m10: "1" },
 ];
 
 const jsonLd = {
@@ -96,11 +89,11 @@ export default function AiGeneratedFrontendsStudy() {
           </div>
           <div className={styles.stat}>
             <div className={`${styles.statNum} ${styles.alert}`}>74%</div>
-            <div className={styles.statLabel}>would fail a CI check on a blocking error</div>
+            <div className={styles.statLabel}>have an error serious enough to block shipping</div>
           </div>
           <div className={styles.stat}>
             <div className={`${styles.statNum} ${styles.alert}`}>52%</div>
-            <div className={styles.statLabel}>have blocking accessibility errors</div>
+            <div className={styles.statLabel}>have serious accessibility errors</div>
           </div>
           <div className={styles.stat}>
             <div className={`${styles.statNum} ${styles.alert}`}>1 in 3</div>
@@ -111,13 +104,13 @@ export default function AiGeneratedFrontendsStudy() {
         <section className={styles.section}>
           <h2 className={styles.sectionHead}>Where the gaps are, by category</h2>
           <p className={styles.caption}>
-            Share of the 123 frontends with a finding in each category, split into blocking errors and
-            lower-severity warnings. Only three categories produce errors that break a build. Accessibility
-            is by far the largest.
+            Share of the 123 frontends with a finding in each category, split into serious errors and
+            lower-severity warnings. Only three categories produce errors serious enough to stop code from
+            shipping. Accessibility is by far the largest.
           </p>
           <div className={styles.legend}>
-            <span><i className={styles.swatch} style={{ background: "var(--dr-error)" }} /> Blocking error</span>
-            <span><i className={styles.swatch} style={{ background: "var(--dr-warn)" }} /> Warning / info</span>
+            <span><i className={styles.swatch} style={{ background: "var(--dr-error)" }} /> Serious error</span>
+            <span><i className={styles.swatch} style={{ background: "var(--dr-warn)" }} /> Warning</span>
           </div>
           <div className={styles.chart}>
             {CATEGORIES.map((c) => {
@@ -128,7 +121,7 @@ export default function AiGeneratedFrontendsStudy() {
                   <div
                     className={styles.track}
                     role="img"
-                    aria-label={`${c.error}% blocking errors, ${warnOnly}% warnings, ${c.any}% total`}
+                    aria-label={`${c.error}% serious errors, ${warnOnly}% warnings, ${c.any}% total`}
                     title={`${c.name}: ${c.error}% errors, ${c.any}% any finding`}
                   >
                     {c.error > 0 && <div className={`${styles.fill} ${styles.error}`} style={{ width: `${c.error}%` }} />}
@@ -144,7 +137,7 @@ export default function AiGeneratedFrontendsStudy() {
         <section className={styles.section}>
           <h2 className={styles.sectionHead}>How bad is bad?</h2>
           <p className={styles.caption}>
-            Blocking errors per frontend. Most projects have only a few. A quarter are clean. A small tail is
+            Serious errors per frontend. Most projects have only a few. A quarter are clean. A small tail is
             severe, the worst with 194 errors, which is why the typical (median) project has just one.
           </p>
           <div className={styles.chart}>
@@ -163,43 +156,14 @@ export default function AiGeneratedFrontendsStudy() {
           </div>
         </section>
 
-        <section className={styles.section}>
-          <h2 className={styles.sectionHead}>Are a few bad repos carrying this?</h2>
-          <p className={styles.caption}>
-            No. Removing the 5, then 10, worst-performing projects moves the headline rates by two points at
-            most, and the medians do not move at all. The findings are not an artefact of outliers.
-          </p>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Metric</th>
-                  <th>All 123</th>
-                  <th>Minus worst 5</th>
-                  <th>Minus worst 10</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ROBUSTNESS.map((r) => (
-                  <tr key={r.metric}>
-                    <td>{r.metric}</td>
-                    <td>{r.full}</td>
-                    <td>{r.m5}</td>
-                    <td>{r.m10}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
         <div className={styles.method}>
           <h3>Method, and what we actually audited</h3>
           <p>
             We searched public GitHub for repositories that self-identify as AI-generated (v0, Lovable, bolt,
             and similar), across 150+ accounts. Of 165 cloned, 123 had an analysable frontend and form the
             sample. Every one was checked with the same deterministic tool: no model, no network, no judgement,
-            so the same repository yields the same numbers every time.
+            so the same repository yields the same numbers every time. The sample is large enough that the
+            headline rates hold to within two points if the ten worst projects are dropped.
           </p>
           <p>
             <span className={styles.pill}>No model in the loop</span>
