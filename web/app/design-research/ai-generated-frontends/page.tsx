@@ -151,16 +151,25 @@ export default function AiGeneratedFrontendsStudy() {
             Accessibility is the biggest category, so here is what specifically failed inside it, and how
             often across the 123 frontends. Every one is a small, known fix.
           </p>
-          <div className={styles.failures}>
-            {FAILURES.map((f) => (
-              <div className={styles.failure} key={f.name}>
-                <div className={styles.failurePct}>{f.pct}%</div>
-                <div>
-                  <p className={styles.failureName}>{f.name}</p>
-                  <p className={styles.failureFix}>{f.fix}</p>
-                </div>
-              </div>
-            ))}
+          <div className={styles.tableWrap} style={{ maxWidth: "880px" }}>
+            <table className={styles.failTable}>
+              <thead>
+                <tr>
+                  <th>What breaks</th>
+                  <th>Frontends</th>
+                  <th>The fix</th>
+                </tr>
+              </thead>
+              <tbody>
+                {FAILURES.map((f) => (
+                  <tr key={f.name}>
+                    <td className={styles.failName}>{f.name}</td>
+                    <td className={styles.failPct}>{f.pct}%</td>
+                    <td className={styles.failFix}>{f.fix}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </section>
 
