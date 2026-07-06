@@ -43,6 +43,17 @@ const DISTRIBUTION = [
   { bucket: "21 or more", pct: 6 },
 ];
 
+// The specific accessibility failures, % of the 123 frontends affected.
+const FAILURES = [
+  { pct: 95, name: "No skip-to-content link", fix: "Keyboard users tab through the entire nav on every page. Add one hidden “skip to content” link at the top." },
+  { pct: 53, name: "No main landmark", fix: "Screen readers can’t jump past the nav to the content. Wrap the page body in a main landmark." },
+  { pct: 49, name: "Form inputs with no label", fix: "A screen reader can’t say what the field is for. Tie a visible label to every input." },
+  { pct: 42, name: "Broken heading structure", fix: "Multiple or missing h1s break the outline screen readers navigate by. Use exactly one h1, then step down." },
+  { pct: 36, name: "Links used as buttons", fix: "A link styled as a button isn’t operable as one by keyboard. Use a real button for actions." },
+  { pct: 29, name: "Skipped heading levels", fix: "Jumping from h2 to h4 breaks the document outline. Step down one level at a time." },
+  { pct: 19, name: "Icon buttons with no name", fix: "An icon-only button just announces as “button.” Give it an aria-label." },
+];
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Dataset",
@@ -131,6 +142,25 @@ export default function AiGeneratedFrontendsStudy() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionHead}>What actually breaks</h2>
+          <p className={styles.caption}>
+            Accessibility is the biggest category, so here is what specifically failed inside it, and how
+            often across the 123 frontends. Every one is a small, known fix.
+          </p>
+          <div className={styles.failures}>
+            {FAILURES.map((f) => (
+              <div className={styles.failure} key={f.name}>
+                <div className={styles.failurePct}>{f.pct}%</div>
+                <div>
+                  <p className={styles.failureName}>{f.name}</p>
+                  <p className={styles.failureFix}>{f.fix}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 

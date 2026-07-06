@@ -157,6 +157,33 @@
 .repoLink { color: var(--dr-ink); text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
 .repoLink:hover { text-decoration: none; }
 
+/* ---- "what actually breaks" list ---- */
+.failures { display: flex; flex-direction: column; max-width: 760px; }
+.failure {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  gap: 1.4rem;
+  align-items: baseline;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--dr-line);
+}
+.failure:last-child { border-bottom: none; }
+.failurePct {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--dr-ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.failureName { font-size: 1.02rem; font-weight: 700; margin: 0 0 0.3rem; }
+.failureFix { font-size: 0.95rem; line-height: 1.55; color: var(--dr-secondary); margin: 0; }
+
+@media (max-width: 640px) {
+  .failure { grid-template-columns: 52px 1fr; gap: 1rem; }
+  .failurePct { font-size: 1.3rem; }
+}
+
 /* ---- method / reproduce ---- */
 .method {
   background: var(--dr-soft);
