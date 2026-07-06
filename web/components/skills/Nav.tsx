@@ -23,7 +23,6 @@ export function Nav() {
       <div className="skills-nav-links">
         <Link href="/how-it-works">How it works</Link>
         <Link href="/design-research">Design Research</Link>
-        <Link href="/how-to-design-with-claude">How to design</Link>
         <Link href="/library">Free library</Link>
       </div>
     </nav>
