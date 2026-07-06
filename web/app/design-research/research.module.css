@@ -3,8 +3,8 @@
 
 .page {
   --dr-ink: #162036;
-  --dr-secondary: #55607a;
-  --dr-muted: #5f6980;   /* AA: 5.5:1 on white, 5.2:1 on soft */
+  --dr-secondary: #454f66;  /* AAA: 8.2:1 on white, 7.8:1 on soft card */
+  --dr-muted: #4a556e;      /* AAA: 7.5:1 on white, 7.1:1 on soft card */
   --dr-line: #e6ebf5;
   --dr-line-strong: #d8dde8;
   --dr-surface: #ffffff;
