@@ -154,6 +154,8 @@
 .table th { font-weight: 600; color: var(--dr-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
 .table td:first-child, .table th:first-child { text-align: left; font-weight: 500; color: var(--dr-ink); }
 .table td:not(:first-child), .table th:not(:first-child) { text-align: right; }
+.repoLink { color: var(--dr-ink); text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
+.repoLink:hover { text-decoration: none; }
 
 /* ---- method / reproduce ---- */
 .method {

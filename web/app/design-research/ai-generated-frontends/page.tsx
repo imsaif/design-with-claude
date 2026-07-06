@@ -194,25 +194,29 @@ export default function AiGeneratedFrontendsStudy() {
         </section>
 
         <div className={styles.method}>
-          <h3>Method and reproducibility</h3>
+          <h3>Method, and what we actually audited</h3>
           <p>
             We searched public GitHub for repositories that self-identify as AI-generated (v0, Lovable, bolt,
             and similar), across 150+ accounts. Of 165 cloned, 123 had an analysable frontend and form the
             sample. Every one was checked with the same deterministic tool: no model, no network, no judgement,
             so the same repository yields the same numbers every time.
           </p>
-          <p>Reproduce any figure. In a project root, run:</p>
-          <span className={styles.code}>npx @imrandwc/dwic audit</span>
           <p>
             <span className={styles.pill}>No model in the loop</span>
             <span className={styles.pill}>Same input, same output</span>
             <span className={styles.pill}>Frontend-only denominator</span>
           </p>
           <p>
+            You don&rsquo;t have to take our word for any of it.{" "}
+            <Link href="/design-research/ai-generated-frontends/data">
+              See all 123 repositories and their scores &rarr;
+            </Link>{" "}
+            Open any of them on GitHub and check.
+          </p>
+          <p style={{ marginBottom: 0 }}>
             &ldquo;Accessibility error&rdquo; here means a structural markup failure: unlabelled inputs,
-            non-semantic buttons, missing landmarks, skipped headings. It is a stricter, narrower definition
-            than a full manual review. Corpus skews toward landing pages, portfolios, and small apps.{" "}
-            <a href="/get-started">Run it on your own project →</a>
+            non-semantic buttons, missing landmarks, skipped headings, a stricter, narrower definition than a
+            full manual review. The corpus skews toward landing pages, portfolios, and small apps.
           </p>
         </div>
       </main>
