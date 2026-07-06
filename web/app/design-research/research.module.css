@@ -100,9 +100,9 @@
   font-size: 1.08rem;
   line-height: 1.6;
   color: var(--dr-secondary);
-  max-width: 74ch;
+  max-width: 90ch;
   margin: 0 0 1.75rem;
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 /* ---- legend ---- */
@@ -177,7 +177,7 @@
   vertical-align: top;
 }
 .failTable tbody tr:last-child td { border-bottom: none; }
-.failName { font-weight: 700; font-size: 1.05rem; color: var(--dr-ink); width: 24%; }
+.failName { font-weight: 700; font-size: 1.05rem; color: var(--dr-ink); width: 28%; }
 .failPct {
   font-weight: 700;
   font-size: 1.3rem;

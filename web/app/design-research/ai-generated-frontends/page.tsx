@@ -151,7 +151,7 @@ export default function AiGeneratedFrontendsStudy() {
             Accessibility is the biggest category, so here is what specifically failed inside it, and how
             often across the 123 frontends. Every one is a small, known fix.
           </p>
-          <div className={styles.tableWrap} style={{ maxWidth: "880px" }}>
+          <div className={styles.tableWrap}>
             <table className={styles.failTable}>
               <thead>
                 <tr>
