@@ -110,15 +110,10 @@ export interface AggregateOptions {
 // is a surface, not an accent) before the generic prefixes.
 type TokenRole = "text" | "accent" | "surface" | "border" | "decorative" | "unknown";
 
-function classifyTokenRole(name: string): TokenRole {
-  // Strip a single leading namespace segment so namespaced systems classify
-  // correctly: Tailwind v4 (`--color-bg-*`, `--color-text-*`), shadcn-style
-  // (`--theme-text-*`), or app prefixes (`--ds-bg-*`, `--ui-border-*`). One
-  // segment is enough — multi-segment prefixes are rare and would risk
-  // matching real category words further down the name.
-  const lower = name.toLowerCase();
-  const stripped = lower.replace(/^--(?:color|theme|ds|ui|app|brand-tokens)-/, "--");
-  const n = stripped;
+// Match a normalized token name against the role patterns. Order matters —
+// check the more-specific compound patterns (e.g. `--accent-subtle` is a
+// surface, not an accent) before the generic prefixes.
+function matchTokenRole(n: string): TokenRole {
   if (/^--(accent|primary|brand)-(subtle|muted|soft|tint|background|bg|surface|fill)\b/.test(n)) return "surface";
   // Intentionally-low-contrast text variants — WCAG SC 1.4.3 exempts inactive
   // UI components, and placeholder/hint text is meant to recede so it doesn't
@@ -126,10 +121,28 @@ function classifyTokenRole(name: string): TokenRole {
   // doesn't fire on tokens whose visual semantic is "muted on purpose".
   if (/^--(text|foreground|fg|content|caption)-(disabled|placeholder|hint|inactive|ghost|faint|dim)\b/.test(n)) return "decorative";
   if (/^--(text|foreground|fg|on-|content|caption|placeholder|label-text)\b/.test(n)) return "text";
-  if (/^--(background|bg|surface|elevated|overlay|backdrop|panel|sheet|tint|fill)\b/.test(n)) return "surface";
-  if (/^--(border|divider|outline|ring|stroke|hairline|separator|rule)\b/.test(n)) return "border";
+  if (/^--(background|bg|surface|elevated|overlay|backdrop|panel|sheet|tint|fill|soft|canvas|sunken)\b/.test(n)) return "surface";
+  if (/^--(border|divider|outline|ring|stroke|hairline|separator|rule|line|keyline)\b/.test(n)) return "border";
   if (/^--(success|warning|error|danger|info|focus|state|status|muted|disabled|highlight|shadow|caret|selection)\b/.test(n)) return "decorative";
   if (/^--(accent|primary|brand|action|cta|link|interactive|button)\b/.test(n)) return "accent";
+  return "unknown";
+}
+
+function classifyTokenRole(name: string): TokenRole {
+  // Strip a single leading namespace segment so namespaced systems classify
+  // correctly: Tailwind v4 (`--color-bg-*`, `--color-text-*`), shadcn-style
+  // (`--theme-text-*`), or app prefixes (`--ds-bg-*`, `--ui-border-*`).
+  const lower = name.toLowerCase();
+  const stripped = lower.replace(/^--(?:color|theme|ds|ui|app|brand-tokens)-/, "--");
+  const role = matchTokenRole(stripped);
+  if (role !== "unknown") return role;
+  // Still unknown: retry after stripping ONE generic leading segment, so
+  // arbitrary custom prefixes classify too (`--dr-line`, `--x-surface`,
+  // `--brand2-soft`). This only ever turns an unknown — which was already
+  // being contrast-tested as if it were text — into a recognized role, so it
+  // can reduce false positives but never introduce one.
+  const reStripped = stripped.replace(/^--[a-z0-9]+-/, "--");
+  if (reStripped !== stripped) return matchTokenRole(reStripped);
   return "unknown";
 }
 
