@@ -125,11 +125,16 @@ export default function AiGeneratedFrontendsStudy() {
               return (
                 <div className={styles.row} key={c.name}>
                   <div className={styles.rowLabel}>{c.name}</div>
-                  <div className={styles.track} title={`${c.name}: ${c.error}% errors, ${c.any}% any finding`}>
+                  <div
+                    className={styles.track}
+                    role="img"
+                    aria-label={`${c.error}% blocking errors, ${warnOnly}% warnings, ${c.any}% total`}
+                    title={`${c.name}: ${c.error}% errors, ${c.any}% any finding`}
+                  >
                     {c.error > 0 && <div className={`${styles.fill} ${styles.error}`} style={{ width: `${c.error}%` }} />}
                     {warnOnly > 0 && <div className={`${styles.fill} ${styles.warn}`} style={{ width: `${warnOnly}%` }} />}
                   </div>
-                  <div className={styles.rowVal}>{c.any}%</div>
+                  <div className={styles.rowVal} aria-hidden="true">{c.any}%</div>
                 </div>
               );
             })}

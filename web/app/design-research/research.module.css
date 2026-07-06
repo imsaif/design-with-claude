@@ -35,10 +35,10 @@
 .title {
   font-size: clamp(2rem, 5vw, 3.1rem);
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.08;
   letter-spacing: -0.02em;
   margin: 0 0 1rem;
-  max-width: 18ch;
+  text-wrap: balance;
 }
 .lede {
   font-size: 1.18rem;
