@@ -3,7 +3,7 @@ import DwicIcon from "@/components/DwicIcon";
 
 export function Nav() {
   return (
-    <nav className="skills-nav">
+    <nav className="skills-nav" aria-label="Primary">
       <Link href="/" className="skills-nav-logo" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
         <DwicIcon className="h-6 w-auto" />
         <span aria-label="designwithclaude">

@@ -1,4 +1,10 @@
 import Link from "next/link";
+import MagnifyingGlassIcon from "@heroicons/react/24/outline/MagnifyingGlassIcon";
+import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
+import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
+import SpeakerWaveIcon from "@heroicons/react/24/outline/SpeakerWaveIcon";
+import CheckCircleIcon from "@heroicons/react/24/outline/CheckCircleIcon";
+import ExclamationTriangleIcon from "@heroicons/react/24/outline/ExclamationTriangleIcon";
 import { Nav } from "@/components/skills/Nav";
 import { Footer } from "@/components/skills/Footer";
 import styles from "../research.module.css";
@@ -174,10 +180,78 @@ export default function AiGeneratedFrontendsStudy() {
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionHead}>How bad is bad?</h2>
+          <h2 className={styles.sectionHead}>What this does to the person using it</h2>
           <p className={styles.caption}>
-            Serious errors per frontend. Most projects have only a few. A quarter are clean. A small tail is
-            severe, the worst with 194 errors, which is why the typical (median) project has just one.
+            These aren&rsquo;t abstract scores. Each failure has a direct cost for someone using a keyboard or a
+            screen reader. These are the users an AI tool can&rsquo;t see in a screenshot.
+          </p>
+          <ul className={styles.impact}>
+            <li className={styles.impactItem}>
+              <span className={styles.impactPct}>95%</span>
+              <span>
+                <b>No skip-to-content link.</b> A keyboard user tabs through every nav item, often 15 to 20
+                stops, to reach the content on every page.
+              </span>
+            </li>
+            <li className={styles.impactItem}>
+              <span className={styles.impactPct}>49%</span>
+              <span>
+                <b>Form inputs with no label.</b> A screen reader reaches the field and can only say
+                &ldquo;edit text.&rdquo; It gives no clue what to type.
+              </span>
+            </li>
+            <li className={styles.impactItem}>
+              <span className={styles.impactPct}>19%</span>
+              <span>
+                <b>Icon buttons with no name.</b> The close, menu, and search controls all announce as just
+                &ldquo;button.&rdquo; Identical, and meaningless.
+              </span>
+            </li>
+          </ul>
+
+          <figure className={styles.evidence}>
+            <div className={styles.evidenceCol}>
+              <p className={styles.evidenceHead}>What you see</p>
+              <div aria-hidden="true">
+                <div className={styles.mockNav}>
+                  <span className={styles.mockBtn}><MagnifyingGlassIcon className={styles.mockIcon} /></span>
+                  <span className={styles.mockBtn}><Bars3Icon className={styles.mockIcon} /></span>
+                  <span className={styles.mockBtn}><XMarkIcon className={styles.mockIcon} /></span>
+                </div>
+                <div className={styles.mockField}>
+                  <span>Search&hellip;</span>
+                  <MagnifyingGlassIcon className={styles.mockIcon} />
+                </div>
+                <div className={styles.mockField}>
+                  <span>Choose a plan</span>
+                  <span className={styles.mockCaret}>&#9662;</span>
+                </div>
+              </div>
+              <p className={styles.mockNote}>
+                <CheckCircleIcon className={styles.noteIcon} aria-hidden="true" /> Looks perfectly usable.
+              </p>
+            </div>
+            <div className={styles.evidenceCol}>
+              <p className={styles.evidenceHead}>What a screen reader hears</p>
+              <div className={styles.readout}>
+                <span className={styles.readoutLine}><SpeakerWaveIcon className={styles.readoutIcon} aria-hidden="true" /> &ldquo;button.&rdquo;</span>
+                <span className={styles.readoutLine}><SpeakerWaveIcon className={styles.readoutIcon} aria-hidden="true" /> &ldquo;button.&rdquo;</span>
+                <span className={styles.readoutLine}><SpeakerWaveIcon className={styles.readoutIcon} aria-hidden="true" /> &ldquo;button.&rdquo;</span>
+                <span className={styles.readoutLine}><SpeakerWaveIcon className={styles.readoutIcon} aria-hidden="true" /> &ldquo;edit text.&rdquo;</span>
+                <span className={styles.readoutLine}><SpeakerWaveIcon className={styles.readoutIcon} aria-hidden="true" /> &ldquo;button.&rdquo;</span>
+              </div>
+              <p className={styles.readoutNote}>
+                <ExclamationTriangleIcon className={styles.noteIcon} aria-hidden="true" /> None of it says what it does.
+              </p>
+            </div>
+          </figure>
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionHead}>Errors per project: clean to severe</h2>
+          <p className={styles.caption}>
+            Three in four frontends ship at least one serious error. The spread is wide: about a quarter are
+            clean, most land at one to five, and roughly one in six carry eleven or more. The worst had 194.
           </p>
           <div className={styles.chart}>
             {DISTRIBUTION.map((d) => (
