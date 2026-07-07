@@ -116,7 +116,7 @@ export default function DesignResearchHub() {
             </div>
             <div className={styles.principle}>
               <h3>Open</h3>
-              <p>The tool behind the numbers is free to run on your own project: <code>npx @imrandwc/dwic audit</code>.</p>
+              <p>The tool behind the numbers is free to run on your own project: <code>npx dwic-audit</code>.</p>
             </div>
           </div>
         </section>

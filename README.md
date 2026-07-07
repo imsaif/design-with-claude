@@ -5,7 +5,7 @@ dwic (design with claude) puts a senior designer inside Claude Code. It audits y
 ## The one-line audit
 
 ```
-npx @imrandwc/dwic audit
+npx dwic-audit
 ```
 
 No token, no install, no Claude Code required; it runs entirely on your machine. dwic scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), and writes a shareable markdown report to `.dwic/audit-<date>.md`. The check is deterministic (WCAG contrast math, token parsing, markup heuristics), so it's reproducible and CI-friendly via its exit code. Run against a deliberately-broken fixture:
@@ -39,7 +39,7 @@ Scanned: 2 CSS files · 1 component · Next.js 15 + Tailwind v4
 Install the MCP server and the senior designer works interactively. Ask the specialists (`color-specialist`, `accessibility-specialist`, `typography-specialist`, and the rest) to audit or fix, and dwic remembers your project's decisions across sessions instead of re-asking every time.
 
 ```
-npx @imrandwc/dwic setup --token=imr_xxx
+npx dwic-audit setup --token=imr_xxx
 ```
 
 Get a token at [designwithclaude.com/get-started](https://designwithclaude.com/get-started). For full usage docs, start there.

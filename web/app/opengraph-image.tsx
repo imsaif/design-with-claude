@@ -95,7 +95,7 @@ export default async function OpengraphImage() {
             }}
           >
             <span style={{ opacity: 0.55 }}>$</span>
-            <span>npx @imrandwc/dwic audit</span>
+            <span>npx dwic-audit</span>
           </div>
           <div style={{ fontSize: 22, fontWeight: 500, opacity: 0.6 }}>
             designwithclaude.com

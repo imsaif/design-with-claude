@@ -226,7 +226,7 @@ async function main(): Promise<void> {
     if (!config.projectId) {
       log.info(
         "DWIC_PROJECT_ID is not set — falling back to the 'default' project. " +
-          "Re-run `npx @imrandwc/dwic setup --token=<token> --project=<slug>` to bind this install to a named project.",
+          "Re-run `npx dwic-audit setup --token=<token> --project=<slug>` to bind this install to a named project.",
       );
     }
     const effectiveProject = config.projectId ?? "default";

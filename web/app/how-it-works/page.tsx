@@ -119,7 +119,7 @@ export default function HowItWorksPage() {
               reproducible: the same project always returns the same findings.
             </p>
           </div>
-          <HtdwcCliCopy command="npx @imrandwc/dwic audit" />
+          <HtdwcCliCopy command="npx dwic-audit" />
           <p className="htdwc-cli-note">
             No token, no install, no Claude Code required. Runs entirely on your
             machine.
@@ -166,7 +166,7 @@ export default function HowItWorksPage() {
               fixes. The engine finds what&rsquo;s wrong; Claude fixes it.
             </p>
           </div>
-          <HtdwcCliCopy command="npx @imrandwc/dwic setup" />
+          <HtdwcCliCopy command="npx dwic-audit setup" />
           <p className="htdwc-cli-note">
             Restart Claude Code once. The specialists appear as MCP tools you can
             invoke from any project.
@@ -273,7 +273,7 @@ export default function HowItWorksPage() {
             <h2 className="htdwc-h2">Try the one-line audit.</h2>
             <p>No token, no install. Runs on your machine in seconds.</p>
           </div>
-          <HtdwcCliCopy command="npx @imrandwc/dwic audit" />
+          <HtdwcCliCopy command="npx dwic-audit" />
         </section>
       </main>
       <Footer />

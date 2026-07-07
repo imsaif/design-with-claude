@@ -4,12 +4,12 @@
 
 ## What it is
 
-dwic is distributed as the npm package `@imrandwc/dwic`. Install it once, and Claude Code gains 14 design specialists that can audit or generate palettes, type scales, spacing ramps, component specs, copy, motion, and accessibility wiring. A persistent project profile (framework, stack, design system, tone) lives at designwithclaude.com so audits stay grounded in your actual system.
+dwic is distributed as the npm package `dwic`. Install it once, and Claude Code gains 14 design specialists that can audit or generate palettes, type scales, spacing ramps, component specs, copy, motion, and accessibility wiring. A persistent project profile (framework, stack, design system, tone) lives at designwithclaude.com so audits stay grounded in your actual system.
 
 A zero-friction CLI audit is available — no install, no account:
 
 ```
-npx @imrandwc/dwic audit
+npx dwic-audit
 ```
 
 Scans the current project, runs 8 audit categories (color, typography, spacing, accessibility, form, navigation, motion, copy), prints a severity-sorted dashboard, writes a shareable report to `.dwic/audit-<date>.md`. Exit code mirrors severity (0 clean, 1 warn, 2 error) so it slots into CI. A `--watch` flag re-audits on file change for live feedback during development.
@@ -17,7 +17,7 @@ Scans the current project, runs 8 audit categories (color, typography, spacing, 
 ## Install (full MCP product)
 
 ```
-npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>
+npx dwic-audit setup --token=imr_xxx --project=<slug>
 ```
 
 Get a token by submitting your email at [designwithclaude.com/get-started](https://designwithclaude.com/get-started). The flow is short: email → token → install command + tailored CLAUDE.md for your project.
@@ -47,7 +47,7 @@ dwic is the design-engineering rigor layer for code-first designers using Claude
 
 ## Links
 
-- npm: https://www.npmjs.com/package/@imrandwc/dwic
+- npm: https://www.npmjs.com/package/dwic
 - GitHub: https://github.com/imsaif/design-with-claude
 - Related: https://aiuxdesign.guide · https://gist.design
 
