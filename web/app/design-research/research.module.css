@@ -1,18 +1,38 @@
 /* Design Research — data-hub page. Epoch-style: restrained, chart-forward,
-   credibility through whitespace. Uses the site's Satoshi + navy/coral palette. */
+   credibility through whitespace. Type scale + palette follow the aiux design
+   system (aiuxdesign.guide/design-system): Satoshi, 7 tokens, brand navy.
+
+   PROSE-WIDTH RULE (dwc): descriptions run FULL-WIDTH. The lede, hub .mission, and
+   every section .caption carry NO max-width + text-wrap: pretty, so they match the
+   title's width and fill the column. Do NOT reintroduce a narrow max-width on prose —
+   a narrow paragraph under a full-width title reads as broken. (Recurring lesson.) */
 
 .page {
   --dr-ink: #162036;
-  --dr-secondary: #454f66;  /* AAA: 8.2:1 on white, 7.8:1 on soft card */
-  --dr-muted: #4a556e;      /* AAA: 7.5:1 on white, 7.1:1 on soft card */
+  --dr-secondary: #20294C;  /* brand --text-secondary (navy); ~13:1 on white, AAA */
+  --dr-muted: #64748b;      /* brand --text-tertiary (grey); dim/meta only, ~4.6:1 AA */
   --dr-line: #e6ebf5;
   --dr-line-strong: #d8dde8;
+  --dr-divider: #cbd4e2;    /* section separators — deliberately visible */
   --dr-surface: #ffffff;
   --dr-soft: #f7f9fd;
   --dr-error: #e0655f;   /* blocking errors — 3.2:1 vs track (graphics) */
   --dr-warn: #64748b;    /* warnings — brand gray (--text-tertiary), 4.3:1 vs track, CVD-distinct from coral */
   --dr-clean: #4f9634;   /* clean — brand green, darkened to 3.5:1 vs track */
+  --dr-error-text: #b8443e; /* coral for SMALL text — AA 4.5:1+ (bright --dr-error is graphics/large-text only) */
+  --dr-clean-text: #3f7d29; /* green for SMALL text — AA 4.5:1+ */
   --dr-accent: #162036;  /* brand accent = ink navy (the brand has no blue) */
+
+  /* type scale — aiux design system (size / weight / leading / tracking) */
+  --fs-display: 3.5rem;   /* 56px · 800 · 1.05 · -0.03em */
+  --fs-h1: 2.5rem;        /* 40px · 700 · 1.15 · -0.025em */
+  --fs-h2: 2rem;          /* 32px · 700 · 1.2  · -0.02em */
+  --fs-h3: 1.5rem;        /* 24px · 600 · 1.3  · -0.015em */
+  --fs-lead: 1.25rem;     /* 20px · lead paragraph — dwc-specific: fills the aiux gap between
+                             body (16) and h3 (24), since our ledes run long, not one-liners */
+  --fs-body: 1rem;        /* 16px · 400 · 1.6  · -0.005em */
+  --fs-caption: 0.875rem; /* 14px · 500 · 1.5  · 0 */
+  --fs-eyebrow: 0.75rem;  /* 12px · 600 · 1.4  · 0.08em */
 
   font-family: var(--font-satoshi, system-ui), sans-serif;
   color: var(--dr-ink);
@@ -25,26 +45,29 @@
 
 /* ---- header ---- */
 .eyebrow {
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
   text-transform: uppercase;
   color: var(--dr-accent);
   margin: 0 0 1rem;
 }
 .title {
-  font-size: clamp(2rem, 5vw, 3.1rem);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-  margin: 0 0 1rem;
+  font-size: clamp(2.5rem, 5vw, var(--fs-display));
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.25rem;
   text-wrap: balance;
 }
+/* lede = "lead" paragraph: h3 metrics at regular weight */
 .lede {
-  font-size: 1.3rem;
+  font-size: var(--fs-lead);
+  font-weight: 400;
   line-height: 1.55;
+  letter-spacing: -0.005em;
   color: var(--dr-secondary);
-  max-width: 68ch;
   margin: 0 0 1.5rem;
   text-wrap: pretty;
 }
@@ -52,7 +75,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1.25rem;
-  font-size: 1rem;
+  font-size: var(--fs-caption);
   color: var(--dr-muted);
   padding-bottom: 2.5rem;
   border-bottom: 1px solid var(--dr-line);
@@ -74,42 +97,48 @@
   background: var(--dr-surface);
   padding: 1.5rem 1.25rem;
 }
+/* big data figure — display-scale, capped at h1 */
 .statNum {
-  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-size: clamp(1.75rem, 4vw, var(--fs-h1));
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 1;
 }
 .statNum.alert { color: var(--dr-error); }
 .statLabel {
   margin-top: 0.6rem;
-  font-size: 1rem;
-  line-height: 1.45;
+  font-size: var(--fs-body);
+  line-height: 1.5;
   color: var(--dr-secondary);
 }
 
 /* ---- section ---- */
-.section { margin: 3.5rem 0; }
+.section {
+  margin: 4rem 0 0;
+  padding-top: 4rem;
+  border-top: 1px solid var(--dr-divider);
+}
 .sectionHead {
-  font-size: 1.6rem;
+  font-size: var(--fs-h2);
   font-weight: 700;
-  letter-spacing: -0.01em;
-  margin: 0 0 0.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.75rem;
 }
 .caption {
-  font-size: 1.08rem;
+  font-size: var(--fs-body);
   line-height: 1.6;
+  letter-spacing: -0.005em;
   color: var(--dr-secondary);
-  max-width: 90ch;
   margin: 0 0 1.75rem;
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 
 /* ---- legend ---- */
 .legend {
   display: flex;
   gap: 1.25rem;
-  font-size: 0.98rem;
+  font-size: var(--fs-caption);
   color: var(--dr-secondary);
   margin-bottom: 1.25rem;
 }
@@ -119,7 +148,7 @@
 /* ---- horizontal bar chart ---- */
 .chart { display: flex; flex-direction: column; gap: 0.95rem; max-width: 1040px; }
 .row { display: grid; grid-template-columns: 160px 1fr 56px; align-items: center; gap: 1.1rem; }
-.rowLabel { font-size: 1.02rem; font-weight: 500; text-align: right; color: var(--dr-ink); }
+.rowLabel { font-size: var(--fs-body); font-weight: 500; text-align: right; color: var(--dr-ink); }
 .track {
   position: relative;
   height: 26px;
@@ -134,7 +163,7 @@
 .fill.warn  { background: var(--dr-warn); }
 /* 2px surface gap between adjacent stacked segments */
 .fill.error + .fill.warn { margin-left: 2px; }
-.rowVal { font-size: 1.02rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--dr-ink); }
+.rowVal { font-size: var(--fs-body); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--dr-ink); }
 
 /* histogram (single-series, ordered buckets) */
 .fill.count { background: var(--dr-error); }
@@ -145,7 +174,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
 }
 .table th, .table td {
   text-align: left;
@@ -153,7 +182,7 @@
   border-bottom: 1px solid var(--dr-line);
   font-variant-numeric: tabular-nums;
 }
-.table th { font-weight: 600; color: var(--dr-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.table th { font-weight: 600; color: var(--dr-secondary); font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: 0.08em; }
 .table td:first-child, .table th:first-child { text-align: left; font-weight: 500; color: var(--dr-ink); }
 .table td:not(:first-child), .table th:not(:first-child) { text-align: right; }
 .repoLink { color: var(--dr-ink); text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
@@ -163,9 +192,9 @@
 .failTable { width: 100%; border-collapse: collapse; }
 .failTable thead th {
   text-align: left;
-  font-size: 0.8rem;
+  font-size: var(--fs-eyebrow);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   color: var(--dr-secondary);
   font-weight: 600;
   padding: 0 1.25rem 0.75rem 0;
@@ -177,20 +206,128 @@
   vertical-align: top;
 }
 .failTable tbody tr:last-child td { border-bottom: none; }
-.failName { font-weight: 700; font-size: 1.05rem; color: var(--dr-ink); width: 28%; }
+.failName { font-weight: 700; font-size: var(--fs-body); color: var(--dr-ink); width: 28%; }
+/* highlighted stat figure — h3 scale */
 .failPct {
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: var(--fs-h3);
   color: var(--dr-ink);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   width: 10%;
 }
-.failFix { font-size: 1.05rem; line-height: 1.55; color: var(--dr-secondary); text-wrap: pretty; }
+.failFix { font-size: var(--fs-body); line-height: 1.6; color: var(--dr-secondary); text-wrap: pretty; }
 
 @media (max-width: 640px) {
   .failName { width: auto; }
-  .failFix { font-size: 0.95rem; }
+}
+
+/* ---- human impact list ---- */
+.impact {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.5rem;
+  max-width: 1040px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.impactItem {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 1.1rem;
+  align-items: start;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--dr-secondary);
+}
+.impactItem b { color: var(--dr-ink); font-weight: 700; }
+.impactPct {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--dr-error);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* ---- evidence: "what you see" vs. "what a screen reader hears" ---- */
+.evidence {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--dr-line);
+  border: 1px solid var(--dr-line);
+  border-radius: 14px;
+  overflow: hidden;
+  max-width: 1040px;
+  margin: 0;
+}
+.evidenceCol { background: var(--dr-surface); padding: 1.6rem 1.75rem; }
+.evidenceCol:last-child { background: var(--dr-soft); }
+.evidenceHead {
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--dr-secondary);
+  margin: 0 0 1.25rem;
+}
+/* left column: a generic, invented UI fragment */
+.mockNav { display: flex; gap: 0.5rem; margin-bottom: 0.9rem; }
+.mockBtn {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dr-line-strong);
+  border-radius: 9px;
+  color: var(--dr-ink);
+  background: var(--dr-surface);
+}
+.mockIcon { width: 20px; height: 20px; }
+.mockField {
+  height: 44px;
+  border: 1px solid var(--dr-line-strong);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.85rem;
+  color: var(--dr-muted);
+  font-size: var(--fs-body);
+  margin-bottom: 0.7rem;
+}
+.mockField:last-of-type { margin-bottom: 0; }
+.mockCaret { color: var(--dr-muted); font-size: var(--fs-caption); }
+/* right column: the screen-reader readout of that same markup */
+.readout { display: flex; flex-direction: column; gap: 0.55rem; }
+.readoutLine {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: var(--fs-caption);
+  color: var(--dr-error-text);
+}
+.readoutIcon { width: 15px; height: 15px; color: var(--dr-muted); flex-shrink: 0; }
+/* shared verdict note under each column */
+.mockNote, .readoutNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  margin: 1.1rem 0 0;
+}
+.mockNote { color: var(--dr-clean-text); }
+.readoutNote { color: var(--dr-error-text); }
+.noteIcon { width: 16px; height: 16px; flex-shrink: 0; }
+
+@media (max-width: 640px) {
+  .evidence { grid-template-columns: 1fr; }
+  .impactItem { grid-template-columns: 52px 1fr; gap: 0.8rem; }
 }
 
 /* ---- method / reproduce ---- */
@@ -202,14 +339,14 @@
   margin-top: 3.5rem;
   max-width: 1040px;
 }
-.method h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 0.75rem; }
-.method p { font-size: 1.05rem; line-height: 1.6; color: var(--dr-secondary); margin: 0 0 1rem; text-wrap: pretty; }
+.method h3 { font-size: var(--fs-body); font-weight: 700; margin: 0 0 0.75rem; }
+.method p { font-size: var(--fs-body); line-height: 1.6; color: var(--dr-secondary); margin: 0 0 1rem; text-wrap: pretty; }
 .method a { color: var(--dr-accent); text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
 .method a:hover { text-decoration: none; }
 .code {
   display: inline-block;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.86rem;
+  font-size: var(--fs-caption);
   background: var(--dr-ink);
   color: #eaf0ff;
   padding: 0.7rem 1rem;
@@ -218,7 +355,7 @@
 }
 .pill {
   display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.9rem; font-weight: 600;
+  font-size: var(--fs-caption); font-weight: 600;
   color: var(--dr-secondary);
   background: var(--dr-surface);
   border: 1px solid var(--dr-line-strong);
@@ -230,7 +367,7 @@
 @media (max-width: 640px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
   .row { grid-template-columns: 96px 1fr 44px; gap: 0.6rem; }
-  .rowLabel { font-size: 0.78rem; }
+  .rowLabel { font-size: var(--fs-caption); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -241,7 +378,7 @@
 /* ---- back link (study post) ---- */
 .back {
   display: inline-block;
-  font-size: 0.92rem;
+  font-size: var(--fs-caption);
   font-weight: 600;
   color: var(--dr-accent);
   text-decoration: underline;
@@ -252,13 +389,12 @@
 
 /* ---- hub: mission ---- */
 .mission {
-  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
-  line-height: 1.6;
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
   color: var(--dr-secondary);
-  max-width: 80ch;
-  margin: 0 0 1rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid var(--dr-line);
+  margin: 0;
   text-wrap: pretty;
 }
 
@@ -311,14 +447,14 @@ a.card:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-caption);
   color: var(--dr-muted);
   margin-bottom: 0.7rem;
 }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--dr-ink); display: inline-block; }
-.cardTitle { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.5rem; line-height: 1.2; }
-.cardDesc { font-size: 0.92rem; line-height: 1.55; color: var(--dr-secondary); margin: 0 0 1.1rem; flex: 1; }
-.cardLink { font-size: 0.92rem; font-weight: 600; color: var(--dr-accent); text-decoration: underline; text-underline-offset: 2px; }
+.cardTitle { font-size: var(--fs-h3); font-weight: 700; line-height: 1.3; letter-spacing: -0.015em; margin: 0 0 0.6rem; }
+.cardDesc { font-size: var(--fs-body); line-height: 1.6; color: var(--dr-secondary); margin: 0 0 1.1rem; flex: 1; }
+.cardLink { font-size: var(--fs-body); font-weight: 600; color: var(--dr-accent); text-decoration: underline; text-underline-offset: 2px; }
 .cardSoon { border-style: dashed; background: var(--dr-soft); }
 .cardSoon .cardTitle, .cardSoon .cardDesc { opacity: 0.75; }
 
@@ -329,17 +465,17 @@ a.card:focus-visible {
   gap: 1.5rem;
 }
 .principle h3 {
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   font-weight: 700;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.6rem;
   padding-top: 1rem;
   border-top: 2px solid var(--dr-ink);
   display: inline-block;
 }
-.principle p { font-size: 0.9rem; line-height: 1.55; color: var(--dr-secondary); margin: 0; }
+.principle p { font-size: var(--fs-body); line-height: 1.6; color: var(--dr-secondary); margin: 0; }
 .principle code {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.82rem;
+  font-size: var(--fs-caption);
   background: var(--dr-soft);
   border: 1px solid var(--dr-line);
   border-radius: 5px;

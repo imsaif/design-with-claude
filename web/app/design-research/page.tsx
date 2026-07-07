@@ -55,10 +55,10 @@ export default function DesignResearchHub() {
 
       <main id="main-content" className={styles.page}>
         {/* mission */}
-        <p className={styles.eyebrow}>Design Research</p>
+        <p className={styles.eyebrow}>dwic Design Research</p>
         <h1 className={styles.title}>Measuring the design quality of what AI builds.</h1>
         <p className={styles.mission}>
-          AI now writes a large and growing share of the world&rsquo;s user interfaces. Design Research measures
+          AI now writes a large and growing share of the world&rsquo;s user interfaces. We measure
           what that means for the people who use them. We publish reproducible, deterministic studies on the
           design quality of AI-generated products, so designers, engineers, and the teams shipping AI can see
           what is actually being shipped.
