@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const COMMAND = "npx @imrandwc/dwic audit";
+const COMMAND = "npx dwic-audit";
 const TYPE_INTERVAL_MS = 45;
 const LINE_REVEAL_INTERVAL_MS = 280;
 const POST_TYPE_PAUSE_MS = 450;

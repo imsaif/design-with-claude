@@ -102,7 +102,7 @@ export default function CorpusDataPage() {
             row may drift if its owner edits or deletes it.
           </p>
           <p style={{ marginBottom: 0 }}>
-            Technical, and want to re-run it? In any project root: <span className={styles.code}>npx @imrandwc/dwic audit</span>
+            Technical, and want to re-run it? In any project root: <span className={styles.code}>npx dwic-audit</span>
           </p>
         </div>
       </main>

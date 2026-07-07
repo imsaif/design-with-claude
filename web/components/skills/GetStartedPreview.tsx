@@ -21,7 +21,7 @@ import {
   ArrowUturnLeftIcon,
 } from "@heroicons/react/24/outline";
 
-const CLI_COMMAND = "npx @imrandwc/dwic audit";
+const CLI_COMMAND = "npx dwic-audit";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const COPY_TO_EMAIL_DELAY_MS = 1200;
 
@@ -40,7 +40,7 @@ const DEMO_LINES: TerminalLine[] = [
     content: (
       <>
         <span className="gs-terminal-prompt">$</span>{" "}
-        <span className="gs-terminal-cmd">npx @imrandwc/dwic audit</span>
+        <span className="gs-terminal-cmd">npx dwic-audit</span>
       </>
     ),
   },

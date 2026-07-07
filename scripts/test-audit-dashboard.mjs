@@ -131,9 +131,9 @@ process.env.NO_COLOR = "1";
 {
   const withCta = renderDashboard(detected, inputs, results, { reportPath: null, showInstallCta: true, cwd: "/tmp/demo", drift: null });
   const withoutCta = renderDashboard(detected, inputs, results, { reportPath: null, showInstallCta: false, cwd: "/tmp/demo", drift: null });
-  if (!withCta.includes("dwic setup --token")) fail("install CTA missing when enabled");
+  if (!withCta.includes("dwic-audit setup --token")) fail("install CTA missing when enabled");
   else pass("install CTA shown when enabled");
-  if (withoutCta.includes("dwic setup --token")) fail("install CTA leaked when disabled");
+  if (withoutCta.includes("dwic-audit setup --token")) fail("install CTA leaked when disabled");
   else pass("install CTA hidden when disabled");
 }
 

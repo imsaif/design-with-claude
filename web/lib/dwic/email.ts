@@ -102,7 +102,7 @@ interface InstallEmailArgs {
  */
 export async function sendInstallEmail(args: InstallEmailArgs): Promise<SendResult> {
   const project = args.project || "default";
-  const command = `npx @imrandwc/dwic setup --token=${args.token} --project=${project}`;
+  const command = `npx dwic-audit setup --token=${args.token} --project=${project}`;
   const origin = (args.origin || "https://designwithclaude.com").replace(/\/+$/, "");
   const link = `${origin}/get-started?token=${args.token}&project=${project}`;
 

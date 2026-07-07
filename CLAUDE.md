@@ -3,7 +3,7 @@
 ## Project Overview
 **V2 alpha live (April 2026):** subscription product that configures Claude Code for designers via an MCP server, paired with a browser companion that renders command outputs live.
 - Live web: https://www.designwithclaude.com (start at `/start`)
-- npm package: `designwithclaude@2.0.0-alpha.1`
+- npm package: `dwic-audit` (run: `npx dwic-audit`). Older names `@imrandwc/dwic` + `designwithclaude` are deprecated pointers to it — still owned, do not unpublish. Bare `dwic` unscoped is unpublishable (npm typosquat filter vs swig/twig).
 - Persistence: Supabase (profiles + companion_events)
 - See `PROGRESS.md` at the repo root for current state; `00-product-brief.md` + `0{1,2,3,4}-*.md` on Desktop for the canonical plan.
 
@@ -11,18 +11,18 @@
 
 ## Architecture
 - **V2 MCP server (root):** TypeScript, ESM, `@modelcontextprotocol/sdk` over stdio. Tools live in `src/tools/`. Shared types in `src/tools/types.ts`. Six structured output kinds: palette, type-scale, spacing, component-spec, copy, markdown.
-- **V2 install flow:** `npx designwithclaude setup --token=imr_xxx [--scope=user|project]` writes the MCP entry. Uses `claude mcp add-json` when available, falls back to direct `~/.claude.json` edit with timestamped backup, or `.mcp.json` at the cwd for project scope.
+- **V2 install flow:** `npx dwic-audit setup --token=imr_xxx [--scope=user|project]` writes the MCP entry. Uses `claude mcp add-json` when available, falls back to direct `~/.claude.json` edit with timestamped backup, or `.mcp.json` at the cwd for project scope.
 - **V2 gating:** Pre-call `/api/gating/check`, post-call `/api/gating/consume`. Fails open when `DWC_GATING` is off (dev/alpha default).
 - **V2 events:** Post-call emit to `/api/events`. Payload shape defined in `src/api-client.ts` → `EventPayload`. The browser companion (Phase 2) subscribes via Supabase Realtime.
 - **V1 plugin (unchanged):** `.claude-plugin/plugin.json` manifest; `commands/*.md` are the knowledge base for both V1 slash commands and V2 MCP tool role prompts. `/design-brief` is the master command.
 
 ## Key Files
-- `package.json` (root) — npm package `designwithclaude`, bins: `designwithclaude` (setup CLI) + `dwc-mcp-server` (server entry)
+- `package.json` (root) — npm package `dwic-audit`, bins: `dwic-audit` → `dist/bin/setup.js` (the `npx dwic-audit` entry — a dispatcher: bare/flag-first runs an audit, `setup`/`uninstall`/`help`/`version` route explicitly) + `dwic-mcp-server` → `dist/server.js` (MCP server, launched by the installed `.mcp.json` via `npx -p dwic-audit@<v> dwic-mcp-server`)
 - `src/server.ts` — MCP server main; registers all tools; wraps handlers with gating + event emission
 - `src/tools/index.ts` — tool registry
 - `src/tools/types.ts` — `ToolDefinition`, `ToolResult`, output payload types
 - `src/tools/loadPrompt.ts` — reads and caches `commands/*.md` role prompts
-- `src/bin/setup.ts` — `npx designwithclaude setup` install flow
+- `src/bin/setup.ts` — `npx dwic-audit setup` install flow
 - `scripts/test-mcp-handshake.mjs` — stdio round-trip against `dist/server.js` (`npm run test:mcp`)
 - `scripts/test-setup-dry-run.mjs` — install/uninstall against a tmp project (`npm run test:setup`)
 - `.claude-plugin/plugin.json` — V1 plugin manifest (unchanged)

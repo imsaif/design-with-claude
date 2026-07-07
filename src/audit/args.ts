@@ -20,8 +20,12 @@ export interface AuditArgs {
 const DEFAULT_MAX_FILES = 200;
 
 export function parseAuditArgs(argv: string[]): AuditArgs {
-  // argv = [node, script, "audit", ...rest]
-  const rest = argv.slice(3);
+  // argv is [node, script, ...rest]. When reached via the `audit` subcommand
+  // the first rest token is the literal "audit"; when reached via the bare/
+  // flag-first default (`npx dwic-audit --json`) it isn't. Strip a leading
+  // "audit" if present so flags survive either way — audit takes no positionals.
+  const afterScript = argv.slice(2);
+  const rest = afterScript[0] === "audit" ? afterScript.slice(1) : afterScript;
   const args: AuditArgs = {
     cwd: process.cwd(),
     telemetry: true,
@@ -74,7 +78,7 @@ export function renderAuditHelp(): string {
     "dwic audit — scan a project for design-system gaps and drift",
     "",
     "Usage:",
-    "  npx @imrandwc/dwic audit [options]",
+    "  npx dwic-audit [options]",
     "",
     "Options:",
     "  --cwd=<path>             Project root to scan (default: cwd)",

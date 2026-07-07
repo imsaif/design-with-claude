@@ -22,11 +22,19 @@ type Args = {
 
 function parseArgs(argv: string[]): Args {
   const [, , rawCommand, ...rest] = argv;
-  const command = (rawCommand ?? "help") as Args["command"];
+  const KNOWN = ["setup", "uninstall", "help", "version", "audit"];
+  // Bare `npx dwic-audit` (and any flag-first invocation like `--watch` /
+  // `--json`) runs an audit — that's the product's front door. An explicit
+  // known subcommand routes to it; an unknown word falls back to help.
+  const command = (
+    rawCommand == null || rawCommand.startsWith("-")
+      ? "audit"
+      : KNOWN.includes(rawCommand)
+        ? rawCommand
+        : "help"
+  ) as Args["command"];
   const args: Args = {
-    command: ["setup", "uninstall", "help", "version", "audit"].includes(command)
-      ? command
-      : "help",
+    command,
     // Project-scope is the new default — keeps multi-project installs clean.
     scope: "project",
     apiUrl: DEFAULT_API,
@@ -66,8 +74,8 @@ function printHelp(): void {
     bold("dwic") + ` v${VERSION} — design auditor for Claude Code (designwithclaude.com)`,
     "",
     "Usage:",
-    "  npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>",
-    "  npx @imrandwc/dwic uninstall [--project=<slug>] [--scope=project|user]",
+    "  npx dwic-audit setup --token=imr_xxx --project=<slug>",
+    "  npx dwic-audit uninstall [--project=<slug>] [--scope=project|user]",
     "",
     "Options:",
     "  --token=imr_xxx      Your dwic token (from designwithclaude.com onboarding)",
@@ -79,9 +87,9 @@ function printHelp(): void {
     "  --skip-validate      Skip online token validation (dev)",
     "",
     "Examples:",
-    "  npx @imrandwc/dwic setup --token=imr_a7f3x92k --project=thriya",
-    "  npx @imrandwc/dwic setup --token=imr_a7f3x92k --project=acme-landing",
-    "  npx @imrandwc/dwic uninstall --project=thriya",
+    "  npx dwic-audit setup --token=imr_a7f3x92k --project=thriya",
+    "  npx dwic-audit setup --token=imr_a7f3x92k --project=acme-landing",
+    "  npx dwic-audit uninstall --project=thriya",
     "",
     "Learn more: https://designwithclaude.com",
   ].join("\n");
@@ -119,7 +127,7 @@ async function validateToken(
 }
 
 // Detects whether setup is running from a published install (npx cache, global
-// npm prefix, or an `npm i @imrandwc/dwic` in a project) or from a local clone
+// npm prefix, or an `npm i dwic` in a project) or from a local clone
 // of the repo. When published, we want the MCP entry to invoke npx so that the
 // server gets re-resolved on every Claude Code launch — pointing at the absolute
 // path inside an npx cache works for ~hours then breaks silently when npm prunes
@@ -130,7 +138,7 @@ function isPublishedInstall(): boolean {
   // at the linked source rather than the `node_modules/...` symlink that npx /
   // npm installed. Check `process.argv[1]` too — that preserves the path the
   // user actually invoked, which is what we care about.
-  const marker = `${sep}node_modules${sep}@imrandwc${sep}dwic${sep}`;
+  const marker = `${sep}node_modules${sep}dwic-audit${sep}`;
   const fromImport = fileURLToPath(import.meta.url);
   if (fromImport.includes(marker)) return true;
   const argvEntry = process.argv[1];
@@ -174,7 +182,7 @@ function buildMcpEntry(launcher: McpLauncher, token: string, apiUrl: string, pro
       // `--yes` skips the prompt; `-p` pins the package version so a Claude
       // Code launch a year from now doesn't silently float to a future major
       // that broke its config schema.
-      args: ["--yes", "-p", `@imrandwc/dwic@${launcher.pinnedVersion}`, "dwic-mcp-server"],
+      args: ["--yes", "-p", `dwic-audit@${launcher.pinnedVersion}`, "dwic-mcp-server"],
       env,
     };
   }
@@ -315,7 +323,7 @@ async function runSetup(args: Args): Promise<void> {
     process.stderr.write(
       red("Missing --token. ") +
         "Run " +
-        bold("npx @imrandwc/dwic setup --token=imr_xxx --project=<slug>") +
+        bold("npx dwic-audit setup --token=imr_xxx --project=<slug>") +
         "\n",
     );
     process.exitCode = 1;
@@ -408,7 +416,7 @@ async function runSetup(args: Args): Promise<void> {
       "Ask color-specialist to audit my design tokens\n\n" +
       dim("Or run a one-shot audit from the terminal:\n") +
       dim("    ") +
-      "npx @imrandwc/dwic audit\n",
+      "npx dwic-audit\n",
   );
 }
 

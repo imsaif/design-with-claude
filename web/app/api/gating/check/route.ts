@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       {
         allowed: false,
         reason: "invalid_token",
-        message: "Invalid or missing dwic token — rerun `npx @imrandwc/dwic setup`.",
+        message: "Invalid or missing dwic token — rerun `npx dwic-audit setup`.",
       } satisfies GatingCheckResponse,
       { status: 200 },
     );

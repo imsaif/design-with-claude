@@ -126,7 +126,7 @@ export function writeMarkdownReport(
     "",
     "## How this report was made",
     "",
-    `Ran \`dwic audit\` at the repo root on ${stamp}. Every finding above was computed by a static analyser; no LLM ran. The same audit logic runs inside Claude Code via the dwic MCP server — install it with \`npx @imrandwc/dwic setup\` to run the specialists interactively.`,
+    `Ran \`dwic audit\` at the repo root on ${stamp}. Every finding above was computed by a static analyser; no LLM ran. The same audit logic runs inside Claude Code via the dwic MCP server — install it with \`npx dwic-audit setup\` to run the specialists interactively.`,
     "",
   ].join("\n");
 

@@ -31,7 +31,7 @@ export default async function GetStartedPage({ searchParams }: Props) {
 
   const hasValidToken = isTokenShapeValid(token);
   const installCommand = hasValidToken
-    ? `npx @imrandwc/dwic setup --token=${token} --project=${project}`
+    ? `npx dwic-audit setup --token=${token} --project=${project}`
     : "";
 
   if (!hasValidToken) {
