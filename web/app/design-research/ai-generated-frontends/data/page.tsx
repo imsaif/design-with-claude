@@ -4,7 +4,7 @@ import { Footer } from "@/components/skills/Footer";
 import styles from "../../research.module.css";
 import { CORPUS } from "../corpus";
 
-const SITE_URL = "https://designwithclaude.com";
+const SITE_URL = "https://www.designwithclaude.com";
 const PAGE_PATH = "/design-research/ai-generated-frontends/data";
 const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
 const PAGE_TITLE = "The 123 frontends we audited";

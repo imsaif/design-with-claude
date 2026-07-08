@@ -5,7 +5,7 @@ import HtdwcAnimatedTerminal from "@/components/skills/HtdwcAnimatedTerminal";
 import HtdwcCliCopy from "@/components/skills/HtdwcCliCopy";
 import { SKILLS } from "@/app/data/skills";
 
-const SITE_URL = "https://designwithclaude.com";
+const SITE_URL = "https://www.designwithclaude.com";
 const PAGE_PATH = "/how-it-works";
 const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
 const PAGE_TITLE = "How it works";
