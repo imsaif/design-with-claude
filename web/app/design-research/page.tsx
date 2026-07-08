@@ -3,7 +3,7 @@ import { Nav } from "@/components/skills/Nav";
 import { Footer } from "@/components/skills/Footer";
 import styles from "./research.module.css";
 
-const SITE_URL = "https://designwithclaude.com";
+const SITE_URL = "https://www.designwithclaude.com";
 const PAGE_PATH = "/design-research";
 const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
 const PAGE_TITLE = "Design Research";

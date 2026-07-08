@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin", "/admin/*", "/api/*"],
       },
     ],
-    sitemap: "https://designwithclaude.com/sitemap.xml",
+    sitemap: "https://www.designwithclaude.com/sitemap.xml",
   };
 }
