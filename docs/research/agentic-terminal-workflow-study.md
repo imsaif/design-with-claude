@@ -66,20 +66,28 @@ counting static sites — the instability itself is disclosed.)
 **Sampling caveat (state it):** GitHub code search is relevance-ranked and caps at 1,000 results —
 NOT a random sample. Numbers are directional; a larger, multi-fingerprint sample tightens them.
 
-## 5. Pilot findings (directional — to be firmed up)
+## 5. Findings (firmed — 2026-07-12 pass; raw in `agentic-terminal-sample.csv`)
 
-| Fingerprint (files, approx) | Count |
-|---|---|
-| `CLAUDE.md` | ~590K (~¾ of all configs) |
-| `AGENTS.md` | ~150K |
-| `.cursor/rules` | ~15K |
-| `.cursorrules` | ~6K |
-| `.windsurfrules` | ~4K · `.clinerules` ~3K · `.aider.conf.yml` ~1K |
+**Scale — config-file footprint (GitHub code-search `total_count`, approximate/volatile):**
 
-- **Adoption (first-commit):** `CLAUDE.md` = 0 before 2025 → 32 (2025) → 117 (2026, ~half year).
-  `.cursorrules` = 0 before 2024 → 3 (2024) → 22 (2025) → 10 (2026). **Union curve starts ~2024, vertical 2025→26.**
-- **Frontend slice:** ~**20–25%** (n=260), a floor (static sites undercounted).
-- **Tool composition:** Claude Code dominant (~¾), then AGENTS.md, then Cursor variants.
+| Fingerprint (files) | Count | Share |
+|---|---|---|
+| `CLAUDE.md` | ~590K | ~76% |
+| `AGENTS.md` | ~150K | ~19% |
+| `.cursor/rules` ~15K · `.cursorrules` ~6K · `.windsurfrules` ~4K · `.clinerules` ~3K · `.aider.conf.yml` ~1K | ~29K | ~4% |
+| **Union** | **~770K files** (≈96% Claude Code + AGENTS.md) | — |
+
+**Frontend slice (n=278 classified, union sample):**
+- **63 / 278 = 23% build UI** (±5pp, 95% CI ≈ **18–28%**). Held steady across passes (12%@n90 → 24%@n260 → 23%@n278). This is the firmed "**~1 in 4**".
+
+**Adoption curve — first-commit of the config file, by quarter (n=278):**
+```
+2025Q2   9      2025Q4  29      2026Q2  109
+2025Q3   23     2026Q1  103     2026Q3   5 (July, partial)
+```
+Near-zero before 2025Q2; the takeoff is **2025Q4→2026Q1 (29→103, ~3.5×)**; 2026 half-over already ≈3.5× all of 2025.
+
+**Sampling note (honest):** the classified sample skewed **CLAUDE.md (237) + AGENTS.md (41)** — the Cursor/Windsurf/Cline repos sat at the pool tail and were cut by the 360-cap. So the curve represents the **dominant conventions' adoption** (which *is* ~96% of the footprint, so representative). Pilot data shows a small earlier **Cursor tail from 2024** — state it as pre-history, don't erase it. The curve reflects the config-file conventions, which are themselves a 2024→2026 phenomenon; per §3, real AI-assisted work predates all fingerprints.
 
 ## 6. Findings structure (what the page presents)
 
