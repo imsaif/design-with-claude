@@ -1,4 +1,15 @@
 import Link from "next/link";
+import PaintBrushIcon from "@heroicons/react/24/outline/PaintBrushIcon";
+import CodeBracketIcon from "@heroicons/react/24/outline/CodeBracketIcon";
+import DocumentTextIcon from "@heroicons/react/24/outline/DocumentTextIcon";
+import SparklesIcon from "@heroicons/react/24/outline/SparklesIcon";
+import CommandLineIcon from "@heroicons/react/24/outline/CommandLineIcon";
+import ChevronDownIcon from "@heroicons/react/24/outline/ChevronDownIcon";
+import EyeIcon from "@heroicons/react/24/outline/EyeIcon";
+import EyeSlashIcon from "@heroicons/react/24/outline/EyeSlashIcon";
+import ArrowTrendingUpIcon from "@heroicons/react/24/outline/ArrowTrendingUpIcon";
+import Squares2X2Icon from "@heroicons/react/24/outline/Squares2X2Icon";
+import ExclamationTriangleIcon from "@heroicons/react/24/outline/ExclamationTriangleIcon";
 import { Nav } from "@/components/skills/Nav";
 import { Footer } from "@/components/skills/Footer";
 import styles from "../research.module.css";
@@ -7,9 +18,9 @@ import { SAMPLE_N, FOOTPRINT_TOTAL, FRONTEND, CONFIG_FOOTPRINT, ADOPTION, ADOPTI
 const SITE_URL = "https://www.designwithclaude.com";
 const PAGE_PATH = "/design-research/agentic-terminal";
 const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
-const PAGE_TITLE = "How many people build in the terminal with an agent?";
+const PAGE_TITLE = "Design tools aren't the future. The terminal is.";
 const PAGE_DESCRIPTION =
-  "Working from a terminal with an AI agent leaves a fingerprint in public code: a committed instruction file. We counted them. Two years ago there were almost none; today the footprint is in the hundreds of thousands, and about one in four is building UI.";
+  "A bold claim, backed by the public record: two years ago almost nobody directed an AI agent from the terminal. Today hundreds of thousands do, and about one in four are building UI, with no design tool in the loop. Here is what the data says, and where it points.";
 const DATE_MODIFIED = "2026-07-12";
 
 export const metadata = {
@@ -52,11 +63,11 @@ export default function AgenticTerminalStudy() {
           ← Design Research
         </Link>
         <p className={styles.eyebrow}>Study &middot; Updated July 2026</p>
-        <h1 className={styles.title}>How many people build in the terminal with an agent?</h1>
+        <h1 className={styles.title}>Design tools aren&rsquo;t the future. The terminal is.</h1>
         <p className={styles.lede}>
-          Working from a terminal with an AI agent leaves a fingerprint in public code: a committed instruction
-          file. We counted them across GitHub. Two years ago there were almost none. Today the footprint is in the
-          hundreds of thousands, and about one in four is building a user interface.
+          Two years ago almost nobody directed an AI agent from the command line. Today hundreds of thousands do,
+          and about one in four are building a user interface, with no design tool anywhere in the loop. Here is
+          what the data says, and where it points.
         </p>
         <div className={styles.meta}>
           <span><b>{FOOTPRINT_TOTAL}</b> config files</span>
@@ -74,7 +85,7 @@ export default function AgenticTerminalStudy() {
             <div className={styles.statLabel}>of sampled repos are building UI (&plusmn;{FRONTEND.ciPp}pp)</div>
           </div>
           <div className={styles.stat}>
-            <div className={styles.statNum}>~96%</div>
+            <div className={styles.statNum}>96%</div>
             <div className={styles.statLabel}>are Claude Code or AGENTS.md</div>
           </div>
           <div className={styles.stat}>
@@ -82,6 +93,55 @@ export default function AgenticTerminalStudy() {
             <div className={styles.statLabel}>more adoption in 2026 so far than in all of 2025</div>
           </div>
         </div>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionHead}>What changed</h2>
+          <p className={styles.caption}>
+            For most of software&rsquo;s history, building an interface meant two separate places: a design tool
+            where you drew it, and an editor where someone rebuilt it in code. AI help, when it existed, was
+            invisible autocomplete. Around early 2025 a different shape appeared. You hand an agent a set of
+            written instructions, and it builds and edits the project for you, from the terminal. That instruction
+            file is the fingerprint. It only exists when someone is directing an agent, so counting the files
+            counts the people working this new way.
+          </p>
+          <figure className={styles.evidence}>
+            <div className={styles.evidenceCol}>
+              <p className={styles.evidenceHead}>The old way</p>
+              <div className={styles.flow}>
+                <div className={styles.flowStep}>
+                  <span className={styles.flowIcon}><PaintBrushIcon aria-hidden="true" /></span>
+                  <span className={styles.flowLabel}><b>Draw it</b> in a design tool</span>
+                </div>
+                <span className={styles.flowArrow}><ChevronDownIcon aria-hidden="true" /></span>
+                <div className={styles.flowStep}>
+                  <span className={styles.flowIcon}><CodeBracketIcon aria-hidden="true" /></span>
+                  <span className={styles.flowLabel}><b>Rebuild it</b> by hand in code</span>
+                </div>
+              </div>
+              <p className={styles.flowNote}>Two places. A handoff loses detail in between.</p>
+            </div>
+            <div className={styles.evidenceCol}>
+              <p className={styles.evidenceHead}>The new way</p>
+              <div className={styles.flow}>
+                <div className={styles.flowStep}>
+                  <span className={styles.flowIcon}><DocumentTextIcon aria-hidden="true" /></span>
+                  <span className={styles.flowLabel}><b>Write the instructions</b> once</span>
+                </div>
+                <span className={styles.flowArrow}><ChevronDownIcon aria-hidden="true" /></span>
+                <div className={styles.flowStep}>
+                  <span className={styles.flowIcon}><SparklesIcon aria-hidden="true" /></span>
+                  <span className={styles.flowLabel}><b>An agent</b> builds it</span>
+                </div>
+                <span className={styles.flowArrow}><ChevronDownIcon aria-hidden="true" /></span>
+                <div className={styles.flowStep}>
+                  <span className={styles.flowIcon}><CommandLineIcon aria-hidden="true" /></span>
+                  <span className={styles.flowLabel}><b>It runs</b> in your terminal</span>
+                </div>
+              </div>
+              <p className={styles.flowNote}>One loop. No handoff.</p>
+            </div>
+          </figure>
+        </section>
 
         <section className={styles.section}>
           <h2 className={styles.sectionHead}>The takeoff</h2>
@@ -138,6 +198,84 @@ export default function AgenticTerminalStudy() {
           </ul>
         </section>
 
+        <section className={styles.section}>
+          <h2 className={styles.sectionHead}>What this means</h2>
+          <p className={styles.caption}>
+            A large, brand-new group is shipping interfaces in a workflow with no design tool in it at all. An
+            agent is very good at the design you can see in a screenshot. It is blind to the design you cannot.
+          </p>
+          <figure className={styles.evidence}>
+            <div className={styles.evidenceCol}>
+              <p className={styles.evidenceHead}>
+                <EyeIcon className={styles.headIcon} aria-hidden="true" />
+                What shows in a screenshot
+              </p>
+              <ul className={styles.evList}>
+                <li>Layout, spacing, and alignment</li>
+                <li>Color and type</li>
+                <li>The happy-path look of a screen</li>
+              </ul>
+              <p className={styles.flowNote}>An agent optimizes for this.</p>
+            </div>
+            <div className={styles.evidenceCol}>
+              <p className={styles.evidenceHead}>
+                <EyeSlashIcon className={styles.headIcon} aria-hidden="true" />
+                What doesn&rsquo;t
+              </p>
+              <ul className={styles.evList}>
+                <li>Contrast ratios</li>
+                <li>Keyboard and focus order</li>
+                <li>Labels, roles, and landmarks</li>
+                <li>Reduced-motion and edge states</li>
+              </ul>
+              <p className={styles.readoutNote}>This is where it fails.</p>
+            </div>
+          </figure>
+          <p className={styles.caption} style={{ marginTop: "1.75rem", marginBottom: 0 }}>
+            Our first study measured the result. Of 123 frontends built by AI coding tools,{" "}
+            <Link href="/design-research/ai-generated-frontends">
+              74% would fail a basic quality check, and accessibility was the number one defect
+            </Link>
+            . That is what this workflow ships when nothing minds the invisible half.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionHead}>Where this points</h2>
+          <p className={styles.caption}>
+            This is a snapshot, not a forecast, and every number here is a floor. But three signals are hard to
+            walk back.
+          </p>
+          <ul className={styles.impact}>
+            <li className={styles.impactItem}>
+              <span className={styles.flowIcon}><ArrowTrendingUpIcon aria-hidden="true" /></span>
+              <span>
+                <b>A vertical, two-year-old curve.</b> Adoption went from almost nothing to hundreds of thousands
+                in under two years. That is the shape of a beginning, not a fad leveling off.
+              </span>
+            </li>
+            <li className={styles.impactItem}>
+              <span className={styles.flowIcon}><Squares2X2Icon aria-hidden="true" /></span>
+              <span>
+                <b>A quarter is already interfaces.</b> The design surface is moving into the terminal whether the
+                incumbent tools follow or not.
+              </span>
+            </li>
+            <li className={styles.impactItem}>
+              <span className={styles.flowIcon}><ExclamationTriangleIcon aria-hidden="true" /></span>
+              <span>
+                <b>A measured cost when ungoverned.</b>{" "}
+                <Link href="/design-research/ai-generated-frontends">Study one</Link> showed what this workflow
+                ships without a guardrail: most of it would fail a basic quality check.
+              </span>
+            </li>
+          </ul>
+          <p className={styles.caption} style={{ marginBottom: 0 }}>
+            If the curve holds, the design tool of the next decade looks less like a canvas you open and more like
+            an agent you instruct, with the guardrails built in. That is the future we are building dwic for.
+          </p>
+        </section>
+
         <div className={styles.method}>
           <h3>Method, and what this can and cannot see</h3>
           <p>
@@ -157,9 +295,25 @@ export default function AgenticTerminalStudy() {
             autocomplete from 2023) leaves no trace, so the real movement is older and larger than we can show.
           </p>
           <p style={{ marginBottom: 0 }}>
-            Counts are approximate: GitHub code-search totals are volatile and index files, not unique repos, and
-            the sample is relevance-ranked, not random. Treat magnitudes as directional. The raw sample and full
-            method are in the repo under <code>docs/research/</code>.
+            The file counts are a July 2026 snapshot that climbs week to week, so we report them as a floor. They
+            index files on GitHub, not unique repos, and the sample is relevance-ranked, not random, so treat the
+            magnitudes as directional. Check our work: the{" "}
+            <a
+              href="https://github.com/imsaif/design-with-claude/blob/main/docs/research/agentic-terminal-sample.csv"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              raw sample of {SAMPLE_N} repos
+            </a>{" "}
+            and the{" "}
+            <a
+              href="https://github.com/imsaif/design-with-claude/blob/main/docs/research/agentic-terminal-workflow-study.md"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              full method
+            </a>{" "}
+            are on GitHub.
           </p>
         </div>
       </main>
