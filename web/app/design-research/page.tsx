@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Nav } from "@/components/skills/Nav";
 import { Footer } from "@/components/skills/Footer";
+import { StudyArt } from "./StudyArt";
 import styles from "./research.module.css";
 
 const SITE_URL = "https://www.designwithclaude.com";
@@ -30,7 +31,7 @@ const STUDIES = [
     title: "Design tools aren't the future. The terminal is.",
     summary:
       "Two years ago almost nobody directed an AI agent from the terminal. Today hundreds of thousands do, and about one in four are building UI. Here is what the data says, and where it points.",
-    bars: [76, 19, 23, 9] as number[],
+    art: "terminal" as const,
   },
   {
     slug: "/design-research/ai-generated-frontends",
@@ -38,8 +39,7 @@ const STUDIES = [
     title: "The accessibility of AI-generated UI",
     summary:
       "We audited 123 public frontends built by AI coding tools. 74% would fail a basic quality check, and accessibility is the number one defect, present in half of them.",
-    // mini-chart motif for the thumbnail (mirrors the study's charts)
-    bars: [98, 39, 46, 12] as number[],
+    art: "accessibility" as const,
   },
 ];
 
@@ -74,14 +74,12 @@ export default function DesignResearchHub() {
 
         {/* research index */}
         <section className={styles.section}>
-          <h2 className={styles.sectionHead}>Explore the research</h2>
+          <h2 className={styles.visuallyHidden}>Explore the research</h2>
           <div className={styles.cards}>
             {STUDIES.map((s) => (
               <Link href={s.slug} key={s.slug} className={styles.card}>
                 <div className={styles.cardThumb} aria-hidden="true">
-                  {s.bars.map((w, i) => (
-                    <span key={i} style={{ width: `${w}%` }} data-i={i} />
-                  ))}
+                  <StudyArt kind={s.art} />
                 </div>
                 <div className={styles.cardBody}>
                   <div className={styles.cardMeta}>
@@ -96,15 +94,14 @@ export default function DesignResearchHub() {
 
             {/* placeholder tile signalling this is an ongoing program */}
             <div className={`${styles.card} ${styles.cardSoon}`}>
+              <div className={`${styles.cardThumb} ${styles.cardThumbSoon}`} aria-hidden="true">
+                <StudyArt kind="soon" />
+              </div>
               <div className={styles.cardBody}>
                 <div className={styles.cardMeta}>
                   <span className={styles.dot} /> In progress
                 </div>
                 <h3 className={styles.cardTitle}>More studies coming</h3>
-                <p className={styles.cardDesc}>
-                  Design-system drift across AI tools, motion and accessibility over time, and per-tool
-                  comparisons are in the pipeline.
-                </p>
               </div>
             </div>
           </div>

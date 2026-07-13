@@ -136,6 +136,18 @@
   letter-spacing: -0.02em;
   margin: 0 0 0.75rem;
 }
+/* keep a heading in the outline for screen readers without showing it */
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 .caption {
   font-size: var(--fs-prose);
   line-height: 1.65;
@@ -501,24 +513,29 @@ a.card:focus-visible {
   outline: 2px solid var(--dr-accent);
   outline-offset: 3px;
 }
-/* mini-chart thumbnail (mirrors the study's bar charts) */
+/* hand-drawn spot icon (react-doodle-icons, recolored to brand navy) */
 .cardThumb {
-  height: 150px;
-  background: linear-gradient(135deg, #fbf1f0 0%, #f2f5fc 100%);
-  padding: 1.5rem 1.5rem;
+  height: 200px;
+  background: var(--dr-soft);
+  border-bottom: 1px solid var(--dr-line);
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 0.7rem;
 }
-.cardThumb span {
+.cardThumb img {
   display: block;
-  height: 14px;
-  border-radius: 4px;
-  background: var(--dr-warn);
+  width: auto;
+  max-width: 45%;
+  height: 76px;
+  object-fit: contain;
 }
-.cardThumb span[data-i="0"] { background: var(--dr-error); }
-.cardThumb span[data-i="1"] { background: var(--dr-error); opacity: 0.75; }
+.cardThumbSoon {
+  background: transparent;
+  border-bottom: none;
+}
+.cardThumbSoon img {
+  opacity: 0.32; /* muted — this slot is still in the pipeline */
+}
 .cardBody { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; flex: 1; }
 .cardMeta {
   display: inline-flex;
