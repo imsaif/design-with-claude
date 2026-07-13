@@ -3,7 +3,7 @@
 // Method + limits: docs/research/agentic-terminal-workflow-study.md
 
 export const SAMPLE_N = 278;
-export const FOOTPRINT_TOTAL = "~770K";
+export const FOOTPRINT_TOTAL = "830,000+";
 
 // 95% CI ≈ 18–28%
 export const FRONTEND = { count: 63, n: SAMPLE_N, pct: 23, ciPp: 5 };
@@ -15,9 +15,9 @@ export interface FootprintRow {
   share: number;
 }
 export const CONFIG_FOOTPRINT: FootprintRow[] = [
-  { name: "CLAUDE.md", label: "Claude Code", files: "~590K", share: 76 },
-  { name: "AGENTS.md", label: "agent-agnostic", files: "~150K", share: 19 },
-  { name: "Cursor, Windsurf, Cline, Aider", label: "other tools", files: "~29K", share: 4 },
+  { name: "CLAUDE.md", label: "Claude Code", files: "639K", share: 76 },
+  { name: "AGENTS.md", label: "agent-agnostic", files: "164K", share: 20 },
+  { name: "Cursor, Windsurf, Cline, Aider", label: "other tools", files: "31K", share: 4 },
 ];
 
 // First-commit date of the agent-config file, bucketed by quarter (n=278).

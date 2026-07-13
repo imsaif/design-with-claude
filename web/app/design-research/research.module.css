@@ -5,7 +5,18 @@
    PROSE-WIDTH RULE (dwc): descriptions run FULL-WIDTH. The lede, hub .mission, and
    every section .caption carry NO max-width + text-wrap: pretty, so they match the
    title's width and fill the column. Do NOT reintroduce a narrow max-width on prose —
-   a narrow paragraph under a full-width title reads as broken. (Recurring lesson.) */
+   a narrow paragraph under a full-width title reads as broken. (Recurring lesson.)
+
+   STUDY-PAGE CONVENTIONS (dwc): EVERY Design Research study page reuses THIS stylesheet
+   and matches "How accessible is AI-generated UI?" (ai-generated-frontends) as the
+   reference. Non-negotiable:
+     • Type + color ONLY via the --fs-* / --dr-* tokens (no hardcoded px or hex). Body
+       copy is brand navy (--dr-secondary). Small colored text (<=14px) uses the AA-safe
+       --dr-error-text / --dr-clean-text, never the graphics-tuned --dr-error/-warn/-clean.
+     • A11y bar: one <h1>, ordered h2/h3 (no skips), skip-link + <main>, every chart
+       role="img" + aria-label, decorative icons/mocks aria-hidden.
+     • Verify with the with/without dwic-audit diff: a NEW study must add ZERO findings
+       vs the study #1 baseline. If the diff is non-zero, the new page introduced the debt. */
 
 .page {
   --dr-ink: #162036;
@@ -28,9 +39,9 @@
   --fs-h1: 2.5rem;        /* 40px · 700 · 1.15 · -0.025em */
   --fs-h2: 2rem;          /* 32px · 700 · 1.2  · -0.02em */
   --fs-h3: 1.5rem;        /* 24px · 600 · 1.3  · -0.015em */
-  --fs-lead: 1.25rem;     /* 20px · lead paragraph — dwc-specific: fills the aiux gap between
-                             body (16) and h3 (24), since our ledes run long, not one-liners */
-  --fs-body: 1rem;        /* 16px · 400 · 1.6  · -0.005em */
+  --fs-lead: 1.5rem;      /* 24px · lead paragraph, sits above the 20px article body */
+  --fs-body: 1rem;        /* 16px · UI labels: tile labels, chart labels, table cells, meta */
+  --fs-prose: 1.25rem;    /* 20px · article READING prose (captions, section text, lists) — epoch.ai match */
   --fs-caption: 0.875rem; /* 14px · 500 · 1.5  · 0 */
   --fs-eyebrow: 0.75rem;  /* 12px · 600 · 1.4  · 0.08em */
 
@@ -126,12 +137,24 @@
   margin: 0 0 0.75rem;
 }
 .caption {
-  font-size: var(--fs-body);
-  line-height: 1.6;
-  letter-spacing: -0.005em;
+  font-size: var(--fs-prose);
+  line-height: 1.65;
+  letter-spacing: -0.01em;
   color: var(--dr-secondary);
-  margin: 0 0 1.75rem;
+  margin: 0 0 2rem;
   text-wrap: pretty;
+}
+/* in-prose links (section captions + reading lists) — visibly clickable, not hover-only */
+.caption a,
+.impactItem a {
+  color: var(--dr-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+.caption a:hover,
+.impactItem a:hover {
+  text-decoration: none;
 }
 
 /* ---- legend ---- */
@@ -237,7 +260,7 @@
   grid-template-columns: 64px 1fr;
   gap: 1.1rem;
   align-items: start;
-  font-size: var(--fs-body);
+  font-size: var(--fs-prose);
   line-height: 1.6;
   color: var(--dr-secondary);
 }
@@ -324,6 +347,60 @@
 .mockNote { color: var(--dr-clean-text); }
 .readoutNote { color: var(--dr-error-text); }
 .noteIcon { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* ---- flow: "the old way vs. the new way" (study #2) ---- */
+.flow { display: flex; flex-direction: column; gap: 0.4rem; }
+.flowStep { display: flex; align-items: center; gap: 0.9rem; }
+.flowIcon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dr-line-strong);
+  border-radius: 10px;
+  color: var(--dr-ink);
+  background: var(--dr-surface);
+}
+.flowIcon svg { width: 22px; height: 22px; }
+.flowLabel { font-size: var(--fs-body); line-height: 1.4; color: var(--dr-secondary); }
+.flowLabel b { color: var(--dr-ink); font-weight: 700; }
+.flowArrow { display: flex; margin-left: 14px; color: var(--dr-muted); }
+.flowArrow svg { width: 16px; height: 16px; }
+.flowNote {
+  margin: 1.1rem 0 0;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--dr-secondary);
+}
+/* small inline icon inside an .evidenceHead label */
+.headIcon {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  vertical-align: -2px;
+  margin-right: 0.4rem;
+}
+/* simple bulleted list inside an evidence column */
+.evList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.evList li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: var(--fs-prose);
+  line-height: 1.55;
+  color: var(--dr-secondary);
+}
+.evList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dr-muted);
+}
 
 @media (max-width: 640px) {
   .evidence { grid-template-columns: 1fr; }

@@ -27,9 +27,9 @@ const STUDIES = [
   {
     slug: "/design-research/agentic-terminal",
     updated: "Updated July 2026",
-    title: "How many people build in the terminal with an agent?",
+    title: "Design tools aren't the future. The terminal is.",
     summary:
-      "We counted the public fingerprints of agentic terminal work. Two years ago there were almost none; today the footprint is in the hundreds of thousands, and about one in four is building UI.",
+      "Two years ago almost nobody directed an AI agent from the terminal. Today hundreds of thousands do, and about one in four are building UI. Here is what the data says, and where it points.",
     bars: [76, 19, 23, 9] as number[],
   },
   {
