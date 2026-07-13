@@ -25,6 +25,14 @@ export const metadata = {
 // One study today. The structure holds many.
 const STUDIES = [
   {
+    slug: "/design-research/agentic-terminal",
+    updated: "Updated July 2026",
+    title: "How many people build in the terminal with an agent?",
+    summary:
+      "We counted the public fingerprints of agentic terminal work. Two years ago there were almost none; today the footprint is in the hundreds of thousands, and about one in four is building UI.",
+    bars: [76, 19, 23, 9] as number[],
+  },
+  {
     slug: "/design-research/ai-generated-frontends",
     updated: "Updated July 2026",
     title: "The accessibility of AI-generated UI",
