@@ -44,6 +44,8 @@
     "test:onboarding-gate": "node scripts/test-onboarding-gate.mjs",
     "test:setup": "node scripts/test-setup-dry-run.mjs",
     "test:e2e": "node scripts/test-e2e-roundtrip.mjs",
+    "test:research-collect": "node scripts/test-research-collect.mjs",
+    "research:collect": "node scripts/research/collect/index.mjs",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
