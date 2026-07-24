@@ -58,7 +58,7 @@ export function SkillCard({ skill, isExpanded, onToggle }: SkillCardProps) {
         <span className="skill-card-tag">
           {getCategoryLabel(skill.category)}
         </span>
-        <span className="skill-card-tag">{levelLabel}</span>
+        <span className="skill-card-tag">Level: {levelLabel}</span>
       </div>
 
       <AnimatePresence>
