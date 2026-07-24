@@ -407,6 +407,14 @@ export const SKILLS: Skill[] = [
     level: "beginner",
     icon: "🔧",
   },
+  {
+    slug: "briefing-claude",
+    name: "Briefing Claude for Design",
+    description: "How to brief Claude for good UI — references, screenshots, constraints, and iterating instead of re-rolling",
+    category: "technical",
+    level: "beginner",
+    icon: "◔",
+  },
 ];
 
 export function getSkillsByCategory(categoryId: CategoryId): Skill[] {
