@@ -17,7 +17,7 @@ Ask the designer to open Terminal (Mac) or Command Prompt (Windows) and type:
 ```
 node --version
 ```
-If they see a number like `v20.0.0` — Node is installed. Skip to Step 3.
+If they see a version number for Node 22+ (any current LTS) — Node is installed. Skip to Step 3.
 If they see an error — proceed to Step 2.
 
 ### Step 2 — Install Node
