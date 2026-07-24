@@ -16,3 +16,13 @@ tsconfig.tsbuildinfo
 # not the public product repo). The /design-research pages are the public home.
 docs/bootcamp-study-*.md
 docs/study-corpus-*.md
+
+# Internal working docs (kept local, not published to the public repo)
+/PROGRESS.md
+/DISTRIBUTION.md
+/FIELD_NOTES_COGNITION.md
+/FIELD_NOTES_PORTFOLIO.md
+/ROADMAP_AUDIT_CLI.md
+/ROADMAP_FROM_COGNITION.md
+/docs/SESSION-LOG.md
+/docs/superpowers/
