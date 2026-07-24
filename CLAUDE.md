@@ -7,7 +7,7 @@
 - Persistence: Supabase (profiles + companion_events)
 - See `PROGRESS.md` at the repo root for current state; `00-product-brief.md` + `0{1,2,3,4}-*.md` on Desktop for the canonical plan.
 
-**V1 (still shipping):** 44 specialized design agents as Claude Code slash commands, available as a plugin or standalone. `commands/*.md` stays intact — the V2 MCP server reuses those files as role prompts.
+**V1 (still shipping):** 40+ specialized design skills as Claude Code slash commands, available as a plugin or standalone. `commands/*.md` stays intact — the V2 MCP server reuses those files as role prompts.
 
 ## Architecture
 - **V2 MCP server (root):** TypeScript, ESM, `@modelcontextprotocol/sdk` over stdio. Tools live in `src/tools/`. Shared types in `src/tools/types.ts`. Six structured output kinds: palette, type-scale, spacing, component-spec, copy, markdown.
