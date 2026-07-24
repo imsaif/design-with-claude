@@ -59,7 +59,7 @@ Role statement with $ARGUMENTS placeholder
 ```
 
 ## Naming Convention
-Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-designer`, `form-designer`). No `design-` prefix except for `design-brief` (the master command) and `design-system-architect`.
+Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-designer`, `form-designer`). No `design-` prefix except for `design-brief` (the master command), `design-system-architect`, and `design-critic`.
 
 ## Session History
 
