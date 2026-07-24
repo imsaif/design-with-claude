@@ -90,7 +90,7 @@ This gives you `/design-brief`, `/accessibility-specialist`, etc. directly.
 /design-brief Build a SaaS analytics dashboard with dark mode and accessibility focus
 ```
 
-The master command analyzes your brief, identifies the relevant design domains (out of 41), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
+The master command analyzes your brief, identifies the relevant design domains (out of 45), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
 
 When invoked inside a code project, commands are context-aware: they detect your stack, read your existing files, and generate output that matches your conventions.
 
@@ -102,7 +102,7 @@ When invoked inside a code project, commands are context-aware: they detect your
 Product type: B2B SaaS dashboard
 Key requirements: data visualization, dark theme, WCAG AA compliance
 
-## Relevant Domains (7 of 41)
+## Relevant Domains (7 of 45)
 1. Dashboard Designer — KPI cards, chart layout, data density
 2. Dark Mode Specialist — surface hierarchy, elevation tokens, contrast
 3. Accessibility Specialist — WCAG AA, focus management, screen readers
@@ -149,6 +149,8 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `interaction-designer` | User flows, states, gestures, feedback |
 | `design-system-architect` | Tokens, component APIs, theming |
 | `accessibility-specialist` | WCAG compliance, ARIA, keyboard nav |
+| `anti-slop-designer` | Spotting and fixing the generic AI-generated look |
+| `design-critic` | Honest, severity-ranked design critique instead of praise |
 
 ### Visual Design
 
@@ -184,6 +186,7 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `content-strategist` | Microcopy, tone of voice, content hierarchy |
 | `information-architect` | Navigation, taxonomy, content structure |
 | `conversational-ui-designer` | Chat interfaces, voice UI |
+| `ui-copywriter` | Headlines, CTAs, and landing copy that sound human |
 
 ### Industry
 
@@ -220,6 +223,7 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | `auth-implementation` | Adding login/signup with Clerk or Supabase Auth |
 | `deploy-to-vercel` | Getting your project live, fixing build errors |
 | `debug-helper` | Pasting any error, getting the exact fix |
+| `briefing-claude` | How to brief Claude for good UI: references, screenshots, constraints |
 
 ## Examples
 
