@@ -7,20 +7,30 @@ import {
   SKILLS,
   CATEGORIES,
   type CategoryId,
+  type SkillLevel,
 } from "@/app/data/skills";
+
+const LEVELS: SkillLevel[] = ["beginner", "intermediate", "advanced"];
+
+function levelLabel(level: SkillLevel): string {
+  return level.charAt(0).toUpperCase() + level.slice(1);
+}
 
 export function SkillsDirectory() {
   const [activeCategory, setActiveCategory] = useState<CategoryId | "all">(
     "all"
   );
+  const [activeLevel, setActiveLevel] = useState<SkillLevel | "all">("all");
   const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
 
   const filtered = useMemo(
     () =>
-      activeCategory === "all"
-        ? SKILLS
-        : SKILLS.filter((s) => s.category === activeCategory),
-    [activeCategory]
+      SKILLS.filter(
+        (s) =>
+          (activeCategory === "all" || s.category === activeCategory) &&
+          (activeLevel === "all" || s.level === activeLevel)
+      ),
+    [activeCategory, activeLevel]
   );
 
   return (
@@ -46,6 +56,26 @@ export function SkillsDirectory() {
         <span className="skills-filter-count">
           {filtered.length} skill{filtered.length !== 1 ? "s" : ""}
         </span>
+      </div>
+
+      <div className="skills-filter">
+        <div className="skills-filter-pills">
+          <button
+            className={`skills-filter-pill ${activeLevel === "all" ? "active" : ""}`}
+            onClick={() => setActiveLevel("all")}
+          >
+            All levels
+          </button>
+          {LEVELS.map((level) => (
+            <button
+              key={level}
+              className={`skills-filter-pill ${activeLevel === level ? "active" : ""}`}
+              onClick={() => setActiveLevel(level)}
+            >
+              {levelLabel(level)}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="skills-grid">

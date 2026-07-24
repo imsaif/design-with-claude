@@ -20,6 +20,8 @@ export function SkillCard({ skill, isExpanded, onToggle }: SkillCardProps) {
   const [copied, setCopied] = useState(false);
   const installCmd = getInstallCommand(skill.slug);
   const githubUrl = getGithubUrl(skill.slug);
+  const levelLabel =
+    skill.level.charAt(0).toUpperCase() + skill.level.slice(1);
 
   const handleCopyCommand = useCallback(
     (e: React.MouseEvent) => {
@@ -56,6 +58,7 @@ export function SkillCard({ skill, isExpanded, onToggle }: SkillCardProps) {
         <span className="skill-card-tag">
           {getCategoryLabel(skill.category)}
         </span>
+        <span className="skill-card-tag">{levelLabel}</span>
       </div>
 
       <AnimatePresence>
