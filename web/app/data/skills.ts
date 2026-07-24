@@ -13,11 +13,14 @@ export interface Category {
   label: string;
 }
 
+export type SkillLevel = "beginner" | "intermediate" | "advanced";
+
 export interface Skill {
   slug: string;
   name: string;
   description: string;
   category: CategoryId;
+  level: SkillLevel;
   icon: string;
 }
 
@@ -41,6 +44,7 @@ export const SKILLS: Skill[] = [
     name: "Design Brief",
     description: "Master command — takes a brief, identifies relevant design domains, routes to the right specialists",
     category: "core",
+    level: "beginner",
     icon: "⊛",
   },
 
@@ -50,6 +54,7 @@ export const SKILLS: Skill[] = [
     name: "Visual Hierarchy Specialist",
     description: "Visual hierarchy, layout, spacing, focal points, content grouping",
     category: "core",
+    level: "beginner",
     icon: ICONS[0],
   },
   {
@@ -57,6 +62,7 @@ export const SKILLS: Skill[] = [
     name: "Interaction Designer",
     description: "User flows, states, gestures, feedback, keyboard patterns",
     category: "core",
+    level: "advanced",
     icon: ICONS[1],
   },
   {
@@ -64,6 +70,7 @@ export const SKILLS: Skill[] = [
     name: "Design System Architect",
     description: "Tokens, component APIs, variants, theming, governance",
     category: "core",
+    level: "advanced",
     icon: ICONS[2],
   },
   {
@@ -71,7 +78,24 @@ export const SKILLS: Skill[] = [
     name: "Accessibility Specialist",
     description: "WCAG compliance, ARIA, keyboard nav, screen readers",
     category: "core",
+    level: "intermediate",
     icon: ICONS[3],
+  },
+  {
+    slug: "anti-slop-designer",
+    name: "Anti-Slop Designer",
+    description: "Spot and fix the generic AI-generated look: gradient/glassmorphism/hero-3-card tells and 'seamless/unlock/elevate' copy",
+    category: "core",
+    level: "intermediate",
+    icon: "◆",
+  },
+  {
+    slug: "design-critic",
+    name: "Design Critic",
+    description: "Honest design critique, not praise — ranks problems by severity and pushes back instead of agreeing",
+    category: "core",
+    level: "intermediate",
+    icon: "⊗",
   },
 
   // Visual Design
@@ -80,6 +104,7 @@ export const SKILLS: Skill[] = [
     name: "Typography Specialist",
     description: "Type scales, font pairing, line height, vertical rhythm, responsive typography",
     category: "visual",
+    level: "beginner",
     icon: ICONS[4],
   },
   {
@@ -87,6 +112,7 @@ export const SKILLS: Skill[] = [
     name: "Color Specialist",
     description: "Color palettes, contrast, dark mode mapping, semantic colors, accessibility",
     category: "visual",
+    level: "beginner",
     icon: ICONS[5],
   },
   {
@@ -94,6 +120,7 @@ export const SKILLS: Skill[] = [
     name: "Spacing & Layout Specialist",
     description: "Grid systems, spacing scales, density modes, padding/margin conventions",
     category: "visual",
+    level: "intermediate",
     icon: ICONS[6],
   },
 
@@ -103,6 +130,7 @@ export const SKILLS: Skill[] = [
     name: "Motion Designer",
     description: "Transitions, easing, timing, micro-interactions, reduced motion, animation performance",
     category: "interaction",
+    level: "intermediate",
     icon: ICONS[7],
   },
   {
@@ -110,6 +138,7 @@ export const SKILLS: Skill[] = [
     name: "Form Designer",
     description: "Form layout, validation timing, input types, multi-step forms, accessibility",
     category: "interaction",
+    level: "intermediate",
     icon: ICONS[8],
   },
   {
@@ -117,6 +146,7 @@ export const SKILLS: Skill[] = [
     name: "Navigation Specialist",
     description: "Sidebar, top bar, bottom tabs, breadcrumbs, mega menus, command palettes",
     category: "interaction",
+    level: "intermediate",
     icon: ICONS[9],
   },
 
@@ -126,6 +156,7 @@ export const SKILLS: Skill[] = [
     name: "Dashboard Designer",
     description: "KPI cards, data density, drill-down, filters, real-time updates, dashboard layout",
     category: "product",
+    level: "intermediate",
     icon: ICONS[10],
   },
   {
@@ -133,6 +164,7 @@ export const SKILLS: Skill[] = [
     name: "Mobile Specialist",
     description: "Touch targets, thumb zones, bottom nav, gestures, offline states, safe areas",
     category: "product",
+    level: "intermediate",
     icon: ICONS[11],
   },
   {
@@ -140,6 +172,7 @@ export const SKILLS: Skill[] = [
     name: "Responsive Design Specialist",
     description: "Breakpoints, fluid typography, container queries, responsive images, mobile-first CSS",
     category: "product",
+    level: "intermediate",
     icon: ICONS[12],
   },
   {
@@ -147,6 +180,7 @@ export const SKILLS: Skill[] = [
     name: "Landing Page Specialist",
     description: "Hero sections, CTAs, value propositions, social proof, pricing tables, conversion",
     category: "product",
+    level: "intermediate",
     icon: ICONS[13],
   },
 
@@ -156,13 +190,23 @@ export const SKILLS: Skill[] = [
     name: "Content Strategist",
     description: "Microcopy, error messages, empty states, tone of voice, content hierarchy",
     category: "content-ia",
+    level: "intermediate",
     icon: ICONS[14],
+  },
+  {
+    slug: "ui-copywriter",
+    name: "UI Copywriter",
+    description: "Human-sounding headlines, CTAs, and landing copy without the AI tells — the marketing-voice counterpart to microcopy",
+    category: "content-ia",
+    level: "intermediate",
+    icon: "✍",
   },
   {
     slug: "information-architect",
     name: "Information Architect",
     description: "Navigation structure, taxonomy, labeling, content organization, wayfinding",
     category: "content-ia",
+    level: "intermediate",
     icon: ICONS[15],
   },
   {
@@ -170,6 +214,7 @@ export const SKILLS: Skill[] = [
     name: "Conversational UI Designer",
     description: "Chat interfaces, bot personality, message design, rich messages, voice UI",
     category: "content-ia",
+    level: "advanced",
     icon: ICONS[16],
   },
 
@@ -179,6 +224,7 @@ export const SKILLS: Skill[] = [
     name: "Healthcare UX Specialist",
     description: "Clinical workflows, HIPAA UI considerations, patient data display, medical terminology",
     category: "industry",
+    level: "advanced",
     icon: ICONS[17],
   },
   {
@@ -186,6 +232,7 @@ export const SKILLS: Skill[] = [
     name: "B2B SaaS Specialist",
     description: "Enterprise patterns, RBAC UI, multi-tenant, complex onboarding, admin dashboards",
     category: "industry",
+    level: "advanced",
     icon: ICONS[18],
   },
   {
@@ -193,6 +240,7 @@ export const SKILLS: Skill[] = [
     name: "E-commerce Specialist",
     description: "Product pages, filtering, image galleries, reviews, product comparison",
     category: "industry",
+    level: "intermediate",
     icon: ICONS[19],
   },
   {
@@ -200,6 +248,7 @@ export const SKILLS: Skill[] = [
     name: "Checkout Specialist",
     description: "Cart UX, payment forms, guest checkout, trust signals, order confirmation",
     category: "industry",
+    level: "intermediate",
     icon: ICONS[20],
   },
 
@@ -209,6 +258,7 @@ export const SKILLS: Skill[] = [
     name: "Dark Mode Specialist",
     description: "Dark surfaces, color remapping, elevation hierarchy, FOUC prevention, mode switching",
     category: "specialized",
+    level: "intermediate",
     icon: ICONS[21],
   },
   {
@@ -216,6 +266,7 @@ export const SKILLS: Skill[] = [
     name: "Error Handling Specialist",
     description: "Error messages, validation, recovery flows, HTTP error pages, retry patterns",
     category: "specialized",
+    level: "intermediate",
     icon: ICONS[22],
   },
   {
@@ -223,6 +274,7 @@ export const SKILLS: Skill[] = [
     name: "Onboarding Specialist",
     description: "First-run experience, tooltip tours, empty states, checklists, feature discovery",
     category: "specialized",
+    level: "intermediate",
     icon: ICONS[23],
   },
   {
@@ -230,6 +282,7 @@ export const SKILLS: Skill[] = [
     name: "Performance Specialist",
     description: "Skeleton screens, optimistic updates, loading states, lazy loading, perceived speed",
     category: "specialized",
+    level: "advanced",
     icon: ICONS[24],
   },
   {
@@ -237,6 +290,7 @@ export const SKILLS: Skill[] = [
     name: "Data Visualization Specialist",
     description: "Chart selection, axis design, color encoding, tooltips, responsive charts, accessibility",
     category: "specialized",
+    level: "advanced",
     icon: ICONS[25],
   },
   {
@@ -244,6 +298,7 @@ export const SKILLS: Skill[] = [
     name: "Table Designer",
     description: "Data tables, sorting, pagination, row selection, inline editing, responsive tables",
     category: "specialized",
+    level: "intermediate",
     icon: ICONS[26],
   },
   {
@@ -251,6 +306,7 @@ export const SKILLS: Skill[] = [
     name: "Search Specialist",
     description: "Search UX, autocomplete, faceted filtering, search results, zero-results states",
     category: "specialized",
+    level: "intermediate",
     icon: ICONS[27],
   },
   {
@@ -258,6 +314,7 @@ export const SKILLS: Skill[] = [
     name: "Brand Designer",
     description: "Visual identity, logo usage, brand colors, typography as brand expression",
     category: "specialized",
+    level: "intermediate",
     icon: ICONS[28],
   },
   {
@@ -265,6 +322,7 @@ export const SKILLS: Skill[] = [
     name: "Internationalization Designer",
     description: "RTL layouts, string expansion, locale-aware UI, date/number formats, cultural adaptation",
     category: "specialized",
+    level: "advanced",
     icon: "🌐",
   },
   {
@@ -272,6 +330,7 @@ export const SKILLS: Skill[] = [
     name: "Auth & Security UX Specialist",
     description: "Login flows, password UX, 2FA/passkey, session management, permission prompts, trust signals",
     category: "product",
+    level: "advanced",
     icon: "🔐",
   },
   {
@@ -279,6 +338,7 @@ export const SKILLS: Skill[] = [
     name: "Drag & Drop Specialist",
     description: "Drag affordances, drop zones, reordering, canvas interactions, multi-select, direct manipulation",
     category: "interaction",
+    level: "advanced",
     icon: "⤭",
   },
   {
@@ -286,6 +346,7 @@ export const SKILLS: Skill[] = [
     name: "Print & Export Designer",
     description: "PDF generation, print stylesheets, export formatting, receipt design, download UX",
     category: "specialized",
+    level: "advanced",
     icon: "🖨",
   },
 
@@ -295,6 +356,7 @@ export const SKILLS: Skill[] = [
     name: "Setup Guide",
     description: "Install Node, Claude Code, and create your first project — terminal walkthrough for designers",
     category: "technical",
+    level: "beginner",
     icon: "⌨",
   },
   {
@@ -302,6 +364,7 @@ export const SKILLS: Skill[] = [
     name: "Code Explainer",
     description: "Paste any file or error — get a plain language explanation with no developer jargon",
     category: "technical",
+    level: "beginner",
     icon: "📖",
   },
   {
@@ -309,6 +372,7 @@ export const SKILLS: Skill[] = [
     name: "Database Setup",
     description: "Set up Supabase for your project — tables, queries, and connecting to your frontend",
     category: "technical",
+    level: "intermediate",
     icon: "🗄",
   },
   {
@@ -316,6 +380,7 @@ export const SKILLS: Skill[] = [
     name: "Environment Setup",
     description: "What .env files are, how to set them up, and what never to commit to GitHub",
     category: "technical",
+    level: "beginner",
     icon: "🔑",
   },
   {
@@ -323,6 +388,7 @@ export const SKILLS: Skill[] = [
     name: "Auth Implementation",
     description: "Implement working login and signup using Clerk or Supabase Auth — actual code, not just design guidance",
     category: "technical",
+    level: "advanced",
     icon: "🔓",
   },
   {
@@ -330,6 +396,7 @@ export const SKILLS: Skill[] = [
     name: "Deploy to Vercel",
     description: "Deploy your project to Vercel, fix build errors, and set up a custom domain",
     category: "technical",
+    level: "beginner",
     icon: "🚀",
   },
   {
@@ -337,12 +404,25 @@ export const SKILLS: Skill[] = [
     name: "Debug Helper",
     description: "Paste any error message — get a plain language explanation and exact fix",
     category: "technical",
+    level: "beginner",
     icon: "🔧",
+  },
+  {
+    slug: "briefing-claude",
+    name: "Briefing Claude for Design",
+    description: "How to brief Claude for good UI — references, screenshots, constraints, and iterating instead of re-rolling",
+    category: "technical",
+    level: "beginner",
+    icon: "◔",
   },
 ];
 
 export function getSkillsByCategory(categoryId: CategoryId): Skill[] {
   return SKILLS.filter((s) => s.category === categoryId);
+}
+
+export function getSkillsByLevel(level: SkillLevel): Skill[] {
+  return SKILLS.filter((s) => s.level === level);
 }
 
 export function getCategoryLabel(categoryId: CategoryId): string {

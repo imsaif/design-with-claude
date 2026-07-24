@@ -39,6 +39,10 @@ import KeyIcon from "@heroicons/react/24/outline/KeyIcon";
 import LockOpenIcon from "@heroicons/react/24/outline/LockOpenIcon";
 import CloudArrowUpIcon from "@heroicons/react/24/outline/CloudArrowUpIcon";
 import WrenchScrewdriverIcon from "@heroicons/react/24/outline/WrenchScrewdriverIcon";
+import NoSymbolIcon from "@heroicons/react/24/outline/NoSymbolIcon";
+import PencilSquareIcon from "@heroicons/react/24/outline/PencilSquareIcon";
+import ScaleIcon from "@heroicons/react/24/outline/ScaleIcon";
+import DocumentTextIcon from "@heroicons/react/24/outline/DocumentTextIcon";
 import { type ComponentType, type SVGProps } from "react";
 
 type HeroIcon = ComponentType<SVGProps<SVGSVGElement>>;
@@ -85,6 +89,10 @@ const SKILL_ICON_MAP: Record<string, HeroIcon> = {
   "auth-implementation": LockOpenIcon,
   "deploy-to-vercel": CloudArrowUpIcon,
   "debug-helper": WrenchScrewdriverIcon,
+  "anti-slop-designer": NoSymbolIcon,
+  "ui-copywriter": PencilSquareIcon,
+  "design-critic": ScaleIcon,
+  "briefing-claude": DocumentTextIcon,
 };
 
 export function SkillIcon({
