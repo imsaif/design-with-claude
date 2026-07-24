@@ -186,6 +186,14 @@ export const SKILLS: Skill[] = [
     icon: ICONS[14],
   },
   {
+    slug: "ui-copywriter",
+    name: "UI Copywriter",
+    description: "Human-sounding headlines, CTAs, and landing copy without the AI tells — the marketing-voice counterpart to microcopy",
+    category: "content-ia",
+    level: "intermediate",
+    icon: "✍",
+  },
+  {
     slug: "information-architect",
     name: "Information Architect",
     description: "Navigation structure, taxonomy, labeling, content organization, wayfinding",
