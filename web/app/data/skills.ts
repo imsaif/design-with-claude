@@ -89,6 +89,14 @@ export const SKILLS: Skill[] = [
     level: "intermediate",
     icon: "◆",
   },
+  {
+    slug: "design-critic",
+    name: "Design Critic",
+    description: "Honest design critique, not praise — ranks problems by severity and pushes back instead of agreeing",
+    category: "core",
+    level: "intermediate",
+    icon: "⊗",
+  },
 
   // Visual Design
   {
