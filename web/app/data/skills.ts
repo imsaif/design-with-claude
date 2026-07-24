@@ -81,6 +81,14 @@ export const SKILLS: Skill[] = [
     level: "intermediate",
     icon: ICONS[3],
   },
+  {
+    slug: "anti-slop-designer",
+    name: "Anti-Slop Designer",
+    description: "Spot and fix the generic AI-generated look: gradient/glassmorphism/hero-3-card tells and 'seamless/unlock/elevate' copy",
+    category: "core",
+    level: "intermediate",
+    icon: "◆",
+  },
 
   // Visual Design
   {
