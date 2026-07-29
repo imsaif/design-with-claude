@@ -3449,6 +3449,22 @@ kbd {
   margin: 0;
 }
 
+/* The two WCAG categories the CLI bands as ship blockers. Mirrors
+   WCAG_CATEGORIES in src/audit/dashboard.ts — keep the two in sync. */
+.htdwc-specialist--blocker {
+  border-color: var(--border-error);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.htdwc-specialist-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #b91c1c;
+  margin: 0.25rem 0 0;
+}
+
 .htdwc-specialist-prompt {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.8125rem;
