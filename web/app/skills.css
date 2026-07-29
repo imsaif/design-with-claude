@@ -76,6 +76,40 @@
   color: var(--text);
 }
 
+/* Brand cluster: logo lockup + repo link, kept together on the left. */
+.skills-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.skills-nav-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  /* ~32px tall — clears the WCAG 2.2 AA target size (24x24, SC 2.5.8)
+     with room to spare, without competing with the logo lockup. */
+  min-height: 32px;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 999px;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s
+      ease;
+}
+
+.skills-nav-github:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+  background: var(--background-grain);
+}
+
 /* Hero */
 .skills-hero {
   text-align: center;
@@ -502,7 +536,10 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: clamp(420px, 52vh, 560px);
+  /* Reserve enough height to keep the hero/demo swap from jumping, but no
+     more — this was sized around the old logo carousel, and the surplus
+     showed up as dead space above the cards once that strip came out. */
+  min-height: clamp(320px, 38vh, 420px);
 }
 
 .gs-hero-title {
@@ -1060,113 +1097,11 @@
   }
 }
 
-/* Logo carousel */
-.gs-logos {
-  width: 100%;
-  max-width: 1080px;
-  margin: clamp(1.5rem, 4vh, 2.5rem) auto 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.gs-logos-caption {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-secondary, #4a5568);
-  text-align: center;
-  margin: 0;
-}
-
-.gs-logos-caption a {
-  color: var(--text-primary, #162036);
-  font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-}
-
-.gs-logos-caption a:hover {
-  text-decoration-thickness: 2px;
-}
-
-.gs-logos-track {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 8%,
-    #000 92%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 8%,
-    #000 92%,
-    transparent
-  );
-}
-
-.gs-logos-row {
-  display: flex;
-  gap: 4rem;
-  width: max-content;
-  align-items: center;
-  animation: gs-logos-scroll 60s linear infinite;
-}
-
-.gs-logos-item {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.gs-logos-item img {
-  height: 28px;
-  width: auto;
-  object-fit: contain;
-  filter: brightness(0) saturate(100%) invert(10%) sepia(50%) saturate(2000%)
-    hue-rotate(200deg) brightness(85%) contrast(95%);
-  opacity: 0.55;
-  transition: filter 0.25s ease, opacity 0.25s ease;
-}
-
-.gs-logos-item img:hover {
-  filter: none;
-  opacity: 1;
-}
-
-@keyframes gs-logos-scroll {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gs-logos-row {
-    animation: none;
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2.5rem;
-  }
-}
-
 /* Cards */
 .gs-cards {
   max-width: 1100px;
   width: 100%;
-  margin: clamp(2rem, 5vh, 3.5rem) auto 0;
+  margin: clamp(1.5rem, 3.5vh, 2.5rem) auto 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
@@ -2075,6 +2010,15 @@
 @media (max-width: 640px) {
   .skills-nav-links {
     display: none;
+  }
+
+  /* Tighten the brand cluster; the repo pill stays visible next to the logo. */
+  .skills-nav-brand {
+    gap: 0.625rem;
+  }
+
+  .skills-nav-github {
+    padding: 0.375rem 0.625rem;
   }
 
   .skills-hero {
@@ -3220,30 +3164,29 @@ kbd {
  * Reuses .skills-hero, .gs-cards/.gs-card, .gs-card--link from elsewhere.
  * Page-specific classes: .htdwc-* */
 
+/* Article layout: one centered reading column, text left-aligned inside it.
+   Every block in a section shares the same left edge and the same measure. */
 .htdwc-section {
-  max-width: 1100px;
+  max-width: 768px;
   margin: 0 auto;
   padding: clamp(3rem, 7vh, 5rem) 1.5rem;
+  text-align: left;
 }
 
+/* The closing CTA is the one deliberately centered block. */
 .htdwc-section--cta {
   text-align: center;
   padding-bottom: clamp(4rem, 10vh, 7rem);
 }
 
-.htdwc-section--cta .htdwc-cli {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .htdwc-prose {
-  max-width: 720px;
   margin: 0 0 clamp(2rem, 4vh, 3rem);
 }
 
-.htdwc-section--cta .htdwc-prose {
-  margin-left: auto;
-  margin-right: auto;
+/* Prose that follows an artifact (grid, pill) rather than opening a section:
+   needs top spacing, and no heading of its own. */
+.htdwc-prose--after {
+  margin-top: clamp(2rem, 4vh, 3rem);
 }
 
 .htdwc-eyebrow {
@@ -3256,19 +3199,20 @@ kbd {
 }
 
 .htdwc-h2 {
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--text-primary);
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
 }
 
+/* Article body: larger, looser, with real space between paragraphs. */
 .htdwc-prose p {
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  font-size: 1.1875rem;
+  line-height: 1.7;
   color: var(--text-secondary);
-  margin: 0 0 1rem;
+  margin: 0 0 1.5rem;
 }
 
 .htdwc-prose p:last-child {
@@ -3279,12 +3223,12 @@ kbd {
   margin: 1.25rem 0 0;
   padding-left: 1.25rem;
   display: grid;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .htdwc-boundaries li {
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  font-size: 1.125rem;
+  line-height: 1.65;
   color: var(--text-secondary);
 }
 
@@ -3318,9 +3262,8 @@ kbd {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-width: 720px;
   padding: 1.25rem 1.5rem;
-  margin-top: clamp(1.5rem, 3vh, 2.25rem);
+  margin: clamp(1.5rem, 3vh, 2.25rem) 0 0;
   background: var(--background-grain);
   border: 1px solid rgba(22, 32, 54, 0.12);
   border-radius: 14px;
@@ -3434,14 +3377,9 @@ kbd {
   font-size: 0.9375rem;
   color: var(--text-secondary);
   margin: 0.875rem 0 0;
-  text-align: left;
 }
 
-.htdwc-section--cta .htdwc-cli-note {
-  text-align: center;
-}
-
-/* Cards grid override — 4-up for the loop, 3-up for "going deeper" */
+/* Cards grid override — 4-up for the loop, 3-up for "going deeper". */
 .htdwc-cards-4 {
   margin-top: 0;
   grid-template-columns: repeat(4, 1fr);
@@ -3460,11 +3398,21 @@ kbd {
   border-radius: 4px;
 }
 
-/* Specialists grid */
+/* Grids break out wider than the reading column, the way a figure does in an
+   article. Centered on the column, capped so they never overflow the viewport. */
+.htdwc-specialists,
+.htdwc-cards-3,
+.htdwc-cards-4 {
+  width: min(1000px, calc(100vw - 3rem));
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
 .htdwc-specialists {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+  margin-top: clamp(2rem, 4vh, 3rem);
 }
 
 .htdwc-specialist {
@@ -3517,8 +3465,8 @@ kbd {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.875rem;
   line-height: 1.7;
-  max-width: 720px;
   overflow-x: auto;
+  margin: 0;
 }
 
 .htdwc-terminal-line {
@@ -3661,6 +3609,14 @@ kbd {
   }
   .htdwc-specialists {
     grid-template-columns: repeat(2, 1fr);
+  }
+  /* Below the breakout width, grids sit back inside the reading column. */
+  .htdwc-specialists,
+  .htdwc-cards-3,
+  .htdwc-cards-4 {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
   }
   .htdwc-patterns {
     grid-template-columns: 1fr;
