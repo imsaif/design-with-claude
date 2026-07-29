@@ -76,6 +76,40 @@
   color: var(--text);
 }
 
+/* Brand cluster: logo lockup + repo link, kept together on the left. */
+.skills-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.skills-nav-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  /* ~32px tall — clears the WCAG 2.2 AA target size (24x24, SC 2.5.8)
+     with room to spare, without competing with the logo lockup. */
+  min-height: 32px;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 999px;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s
+      ease;
+}
+
+.skills-nav-github:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+  background: var(--background-grain);
+}
+
 /* Hero */
 .skills-hero {
   text-align: center;
@@ -502,7 +536,10 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: clamp(420px, 52vh, 560px);
+  /* Reserve enough height to keep the hero/demo swap from jumping, but no
+     more — this was sized around the old logo carousel, and the surplus
+     showed up as dead space above the cards once that strip came out. */
+  min-height: clamp(320px, 38vh, 420px);
 }
 
 .gs-hero-title {
@@ -1060,113 +1097,11 @@
   }
 }
 
-/* Logo carousel */
-.gs-logos {
-  width: 100%;
-  max-width: 1080px;
-  margin: clamp(1.5rem, 4vh, 2.5rem) auto 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.gs-logos-caption {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-secondary, #4a5568);
-  text-align: center;
-  margin: 0;
-}
-
-.gs-logos-caption a {
-  color: var(--text-primary, #162036);
-  font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-}
-
-.gs-logos-caption a:hover {
-  text-decoration-thickness: 2px;
-}
-
-.gs-logos-track {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 8%,
-    #000 92%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 8%,
-    #000 92%,
-    transparent
-  );
-}
-
-.gs-logos-row {
-  display: flex;
-  gap: 4rem;
-  width: max-content;
-  align-items: center;
-  animation: gs-logos-scroll 60s linear infinite;
-}
-
-.gs-logos-item {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.gs-logos-item img {
-  height: 28px;
-  width: auto;
-  object-fit: contain;
-  filter: brightness(0) saturate(100%) invert(10%) sepia(50%) saturate(2000%)
-    hue-rotate(200deg) brightness(85%) contrast(95%);
-  opacity: 0.55;
-  transition: filter 0.25s ease, opacity 0.25s ease;
-}
-
-.gs-logos-item img:hover {
-  filter: none;
-  opacity: 1;
-}
-
-@keyframes gs-logos-scroll {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gs-logos-row {
-    animation: none;
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2.5rem;
-  }
-}
-
 /* Cards */
 .gs-cards {
   max-width: 1100px;
   width: 100%;
-  margin: clamp(2rem, 5vh, 3.5rem) auto 0;
+  margin: clamp(1.5rem, 3.5vh, 2.5rem) auto 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
@@ -2075,6 +2010,15 @@
 @media (max-width: 640px) {
   .skills-nav-links {
     display: none;
+  }
+
+  /* Tighten the brand cluster; the repo pill stays visible next to the logo. */
+  .skills-nav-brand {
+    gap: 0.625rem;
+  }
+
+  .skills-nav-github {
+    padding: 0.375rem 0.625rem;
   }
 
   .skills-hero {
@@ -3220,30 +3164,69 @@ kbd {
  * Reuses .skills-hero, .gs-cards/.gs-card, .gs-card--link from elsewhere.
  * Page-specific classes: .htdwc-* */
 
+/* Article layout: one centered reading column, text left-aligned inside it.
+   Every block in a section shares the same left edge and the same measure. */
 .htdwc-section {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: clamp(3rem, 7vh, 5rem) 1.5rem;
+  text-align: left;
+}
+
+/* Full-bleed tinted band, like the hero, grouping Limits + Next into one
+   block. The band spans the viewport; the sections inside keep the 768px
+   reading column, so the text edge never moves. */
+.htdwc-band {
+  background: var(--background-grain);
+  border-top: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--border-primary);
+  margin-top: clamp(2rem, 5vh, 4rem);
+}
+
+/* Two columns side by side. The band is wider than the 768px article column
+   because it holds two columns, not prose. */
+.htdwc-band-inner {
   max-width: 1100px;
   margin: 0 auto;
   padding: clamp(3rem, 7vh, 5rem) 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
 }
 
+/* Inside the band the sections are grid cells, not standalone columns. */
+.htdwc-band .htdwc-section {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Half-width cells are too narrow for a 3-up grid; stack the cards. */
+.htdwc-band .htdwc-cards-3 {
+  grid-template-columns: 1fr;
+}
+
+/* Cards default to --background-grain, which is the band colour. Lift them
+   to the page surface so they stay legible as cards. */
+.htdwc-band .gs-card {
+  background: var(--background-primary);
+}
+
+/* The closing CTA is the one deliberately centered block. */
 .htdwc-section--cta {
   text-align: center;
   padding-bottom: clamp(4rem, 10vh, 7rem);
 }
 
-.htdwc-section--cta .htdwc-cli {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .htdwc-prose {
-  max-width: 720px;
   margin: 0 0 clamp(2rem, 4vh, 3rem);
 }
 
-.htdwc-section--cta .htdwc-prose {
-  margin-left: auto;
-  margin-right: auto;
+/* Prose that follows an artifact (grid, pill) rather than opening a section:
+   needs top spacing, and no heading of its own. */
+.htdwc-prose--after {
+  margin-top: clamp(2rem, 4vh, 3rem);
 }
 
 .htdwc-eyebrow {
@@ -3256,36 +3239,53 @@ kbd {
 }
 
 .htdwc-h2 {
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--text-primary);
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
 }
 
+/* Article body: larger, looser, with real space between paragraphs. */
 .htdwc-prose p {
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  font-size: 1.1875rem;
+  line-height: 1.7;
   color: var(--text-secondary);
-  margin: 0 0 1rem;
+  margin: 0 0 1.5rem;
 }
 
 .htdwc-prose p:last-child {
   margin-bottom: 0;
 }
 
+/* Same card treatment as the "Next" column opposite: .gs-card padding,
+   radius and surface; .gs-card-title / .gs-card-body type. */
 .htdwc-boundaries {
-  margin: 1.25rem 0 0;
-  padding-left: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   display: grid;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .htdwc-boundaries li {
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  padding: 1.75rem;
+  background: var(--background-primary);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  font-size: 1rem;
+  line-height: 1.55;
   color: var(--text-secondary);
+}
+
+.htdwc-boundaries strong {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
 }
 
 .htdwc-boundaries li::marker {
@@ -3318,9 +3318,8 @@ kbd {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-width: 720px;
   padding: 1.25rem 1.5rem;
-  margin-top: clamp(1.5rem, 3vh, 2.25rem);
+  margin: clamp(1.5rem, 3vh, 2.25rem) 0 0;
   background: var(--background-grain);
   border: 1px solid rgba(22, 32, 54, 0.12);
   border-radius: 14px;
@@ -3434,14 +3433,22 @@ kbd {
   font-size: 0.9375rem;
   color: var(--text-secondary);
   margin: 0.875rem 0 0;
-  text-align: left;
 }
 
-.htdwc-section--cta .htdwc-cli-note {
-  text-align: center;
+/* Pill and its qualifier on one line, so the note reads as an aside rather
+   than a second stacked step. Wraps to two lines when there isn't room. */
+.htdwc-cli-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
 }
 
-/* Cards grid override — 4-up for the loop, 3-up for "going deeper" */
+.htdwc-cli-note--inline {
+  margin: 0;
+}
+
+/* Cards grid override — 4-up for the loop, 3-up for "going deeper". */
 .htdwc-cards-4 {
   margin-top: 0;
   grid-template-columns: repeat(4, 1fr);
@@ -3460,15 +3467,16 @@ kbd {
   border-radius: 4px;
 }
 
-/* Specialists grid */
+/* Grids stay inside the reading column so they share its left edge. */
 .htdwc-specialists {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  margin-top: clamp(2rem, 4vh, 3rem);
 }
 
 .htdwc-specialist {
-  padding: 1.5rem;
+  padding: 1.25rem;
   background: var(--background-grain);
   border: 1px solid transparent;
   border-radius: 16px;
@@ -3490,6 +3498,22 @@ kbd {
   line-height: 1.5;
   color: var(--text-secondary);
   margin: 0;
+}
+
+/* The two WCAG categories the CLI bands as ship blockers. Mirrors
+   WCAG_CATEGORIES in src/audit/dashboard.ts — keep the two in sync. */
+.htdwc-specialist--blocker {
+  border-color: var(--border-error);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.htdwc-specialist-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #b91c1c;
+  margin: 0.25rem 0 0;
 }
 
 .htdwc-specialist-prompt {
@@ -3517,8 +3541,8 @@ kbd {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.875rem;
   line-height: 1.7;
-  max-width: 720px;
   overflow-x: auto;
+  margin: 0;
 }
 
 .htdwc-terminal-line {
@@ -3653,6 +3677,13 @@ kbd {
 }
 
 @media (max-width: 900px) {
+  /* Band stacks back to one column, matching the article above it. */
+  .htdwc-band-inner {
+    grid-template-columns: 1fr;
+    max-width: 768px;
+    gap: clamp(2.5rem, 6vh, 3.5rem);
+  }
+
   .htdwc-cards-4 {
     grid-template-columns: repeat(2, 1fr);
   }

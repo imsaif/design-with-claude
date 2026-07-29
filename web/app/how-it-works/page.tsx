@@ -10,9 +10,9 @@ const PAGE_PATH = "/how-it-works";
 const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
 const PAGE_TITLE = "How it works";
 const PAGE_DESCRIPTION =
-  "How dwic works under the hood: a deterministic design-system review you can run anywhere, plus a senior designer inside Claude Code that fixes what it finds and remembers your project.";
+  "One command checks your design for contrast, type, spacing and accessibility problems. Run it anywhere, or let Claude Code fix what it finds.";
 const DATE_PUBLISHED = "2026-05-29";
-const DATE_MODIFIED = "2026-05-29";
+const DATE_MODIFIED = "2026-07-29";
 
 export const metadata = {
   title: `${PAGE_TITLE} · designwithclaude`,
@@ -26,23 +26,26 @@ export const metadata = {
   },
 };
 
-// The eight audit categories and what each deterministically checks.
+// The eight things dwic checks. Order and `blocker` mirror the CLI's own
+// banding in src/audit/dashboard.ts: WCAG_CATEGORIES (accessibility, color)
+// are "Fix before you ship"; the rest are "Then clean up".
 const CATEGORIES = [
-  { name: "Color", checks: "WCAG contrast ratios, mandated-accent drift" },
-  { name: "Typography", checks: "type scale, line-height, font weights" },
-  { name: "Spacing", checks: "grid alignment, off-grid values, big jumps" },
-  { name: "Accessibility", checks: "labels, heading order, landmarks, alt text" },
-  { name: "Forms", checks: "labels, fieldsets, input types, error wiring" },
-  { name: "Navigation", checks: "landmarks, aria-current, mobile disclosure" },
-  { name: "Motion", checks: "reduced-motion, transition: all, runaway durations" },
-  { name: "Copy", checks: "weak CTAs, jargon, passive voice, shouting" },
+  { name: "Accessibility", checks: "labels, heading order, alt text", blocker: true },
+  { name: "Color", checks: "contrast, off-brand accents", blocker: true },
+  { name: "Typography", checks: "type scale, line height, font weights" },
+  { name: "Spacing", checks: "off-grid values, big jumps" },
+  { name: "Forms", checks: "labels, input types, error wiring" },
+  { name: "Navigation", checks: "landmarks, current page, mobile menu" },
+  { name: "Motion", checks: "reduced motion, long durations" },
+  { name: "Copy", checks: "weak buttons, jargon, shouting" },
 ];
 
+// Lead is the scannable claim; rest is the one-line qualifier.
 const BOUNDARIES = [
-  "It checks structure, not taste. dwic won't tell you whether your design is good. It tells you where it breaks its own rules.",
-  "It's a rules engine, not a guesser. The audit is deterministic math and parsing, so it never hallucinates a finding, but it only catches what the rules cover.",
-  "It won't redesign for you. The CLI reports; the fixes happen when you ask a specialist in Claude Code, with you in the loop.",
-  "It remembers your decisions, not your whole codebase. Memory is your project profile plus your recent specialist calls, not a semantic index of every file.",
+  { lead: "Rules, not taste.", rest: "It won't say if your design is good, only where it breaks its own rules." },
+  { lead: "No guessing.", rest: "It never invents a problem, but it only finds what the rules cover." },
+  { lead: "No redesigns.", rest: "It reports. You ask Claude for the fixes." },
+  { lead: "Choices, not code.", rest: "It remembers your decisions, not your whole codebase." },
 ];
 
 export default function HowItWorksPage() {
@@ -79,75 +82,58 @@ export default function HowItWorksPage() {
       />
       <main id="main-content">
         <section className="skills-hero">
-          <p className="skills-hero-eyebrow">How it works · 5 min read</p>
+          <p className="skills-hero-eyebrow">How it works · 2 min read</p>
           <h1>How dwic works.</h1>
           <p className="skills-hero-sub">
-            A senior designer inside your terminal. One engine, two ways to use
-            it: a deterministic review you can run anywhere, and a designer that
-            fixes what it finds inside Claude Code.
+            One command finds what&rsquo;s broken in your design. Claude Code
+            fixes it.
           </p>
         </section>
 
         <section className="htdwc-section">
           <div className="htdwc-prose">
-            <p className="htdwc-eyebrow">Why it matters</p>
-            <h2 className="htdwc-h2">Design review on every run, not every launch.</h2>
+            <p className="htdwc-eyebrow">The check</p>
+            <h2 className="htdwc-h2">One command, eight checks.</h2>
             <p>
-              Linters check your code. Type checkers check your types. Nothing
-              checks your design system, so contrast failures, a type scale that
-              drifted three sizes off, and unlabeled inputs ship quietly. Someone
-              catches them weeks later, by eye, if at all.
+              Your tools check your code. Nothing checks your design. So faint
+              text, odd font sizes and unlabelled fields ship unnoticed.
             </p>
             <p>
-              dwic turns that review into a command. It runs in seconds, returns
-              the same answer every time, and fits in CI. So checking your design
-              system stops being a thing a senior designer does occasionally and
-              becomes a thing that happens on every change.
+              dwic reads your CSS and components and lists what&rsquo;s wrong.
+              No AI. Your code stays on your computer. Same answers every time.
             </p>
           </div>
-        </section>
-
-        <section className="htdwc-section">
-          <div className="htdwc-prose">
-            <p className="htdwc-eyebrow">The engine</p>
-            <h2 className="htdwc-h2">A deterministic design review.</h2>
-            <p>
-              Under the hood, dwic reads your CSS and components and runs eight
-              category checks: WCAG contrast math, design-token parsing, and
-              markup heuristics. There is no LLM in this step and nothing
-              leaves your machine, so the result is fast, private, and
-              reproducible: the same project always returns the same findings.
+          <div className="htdwc-cli-row">
+            <HtdwcCliCopy command="npx dwic-audit" />
+            <p className="htdwc-cli-note htdwc-cli-note--inline">
+              No account. No install. Works without Claude Code.
             </p>
           </div>
-          <HtdwcCliCopy command="npx dwic-audit" />
-          <p className="htdwc-cli-note">
-            No token, no install, no Claude Code required. Runs entirely on your
-            machine.
-          </p>
           <div className="htdwc-specialists">
             {CATEGORIES.map((c) => (
-              <div key={c.name} className="htdwc-specialist">
+              <div
+                key={c.name}
+                className={`htdwc-specialist${c.blocker ? " htdwc-specialist--blocker" : ""}`}
+              >
                 <p className="htdwc-specialist-name">{c.name}</p>
                 <p className="htdwc-specialist-role">{c.checks}</p>
+                {c.blocker ? (
+                  <p className="htdwc-specialist-tag">Fix before you ship</p>
+                ) : null}
               </div>
             ))}
           </div>
-        </section>
-
-        <section className="htdwc-section">
-          <div className="htdwc-prose">
-            <p className="htdwc-eyebrow">On every run</p>
-            <h2 className="htdwc-h2">One dashboard, a report, an exit code.</h2>
+          <div className="htdwc-prose htdwc-prose--after">
             <p>
-              Each run prints a triage dashboard, writes a shareable markdown
-              report to <code>.dwic/</code> so it&rsquo;s reviewable in a pull
-              request, and exits non-zero when there are errors, which is all CI
-              needs to fail a build on design-system drift.
+              Accessibility and contrast are ranked first, under{" "}
+              <em>Fix before you ship</em>. WCAG AA failures are a compliance
+              risk under the EU Accessibility Act, in force since June 2025.
+              Everything else is cleanup.
             </p>
             <p>
-              Add <code>--watch</code> and it re-audits on every save, showing
-              what you just resolved or introduced. So the loop is tight: audit,
-              fix, watch it clear, without leaving your editor.
+              Every run prints a summary and saves a report to{" "}
+              <code>.dwic/</code> for your pull request. Errors fail the build
+              in CI. Add <code>--watch</code> to re-check on every save.
             </p>
           </div>
           <HtdwcAnimatedTerminal />
@@ -155,123 +141,93 @@ export default function HowItWorksPage() {
 
         <section className="htdwc-section">
           <div className="htdwc-prose">
-            <p className="htdwc-eyebrow">Inside Claude Code</p>
-            <h2 className="htdwc-h2">The senior designer that fixes it.</h2>
+            <p className="htdwc-eyebrow">In Claude Code</p>
+            <h2 className="htdwc-h2">Ask it to fix things.</h2>
             <p>
-              Install the MCP server and the same engine runs inside Claude Code.
-              When you ask a specialist (<code>color-specialist</code>,{" "}
-              <code>accessibility-specialist</code>, or any of the others), dwic
-              runs the deterministic checks to find the facts, then Claude
-              reasons over those findings to explain them and apply specific
-              fixes. The engine finds what&rsquo;s wrong; Claude fixes it.
+              Set it up once and dwic works inside Claude Code. Ask for the{" "}
+              <code>color-specialist</code> or the{" "}
+              <code>accessibility-specialist</code>. dwic finds the problems.
+              Claude fixes them.
             </p>
           </div>
           <HtdwcCliCopy command="npx dwic-audit setup" />
           <p className="htdwc-cli-note">
-            Restart Claude Code once. The specialists appear as MCP tools you can
-            invoke from any project.
+            Restart Claude Code once. The specialists show up as tools in every
+            project.
           </p>
-        </section>
-
-        <section className="htdwc-section">
-          <div className="htdwc-prose">
-            <p className="htdwc-eyebrow">Memory</p>
-            <h2 className="htdwc-h2">It remembers your project.</h2>
+          <div className="htdwc-prose htdwc-prose--after">
             <p>
-              The first time you call a specialist in a new project, dwic asks a
-              few questions (what you&rsquo;re building, your stack, your design
-              system) and stores the answers. After that, every
-              call carries that profile plus your most recent specialist
-              decisions, so the designer builds on what you&rsquo;ve already
-              chosen instead of re-interrogating you each session.
+              It remembers your project. The first time, it asks what
+              you&rsquo;re building and what you use. After that you
+              don&rsquo;t repeat yourself.
             </p>
             <p>
-              That&rsquo;s the difference between a one-off prompt and a designer
-              who knows your project: continuity, without you re-explaining it.
+              Nothing is hidden. Each specialist is a plain text file, free in
+              the <Link href="/library">design skill library</Link>. The{" "}
+              <code>/color-specialist</code> slash command reads the same file.
+              dwic adds the checks and the memory.
             </p>
           </div>
         </section>
 
-        <section className="htdwc-section">
-          <div className="htdwc-prose">
-            <p className="htdwc-eyebrow">Honest boundaries</p>
-            <h2 className="htdwc-h2">What dwic doesn&rsquo;t do.</h2>
-            <p>
-              A senior designer is most useful when you know exactly what they
-              will and won&rsquo;t weigh in on. So, plainly:
-            </p>
-            <ul className="htdwc-boundaries">
-              {BOUNDARIES.map((b, i) => (
-                <li key={i}>{b}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
+        <div className="htdwc-band">
+          <div className="htdwc-band-inner">
+            <section className="htdwc-section">
+              <div className="htdwc-prose">
+                <p className="htdwc-eyebrow">Limits</p>
+                <h2 className="htdwc-h2">What it won&rsquo;t do.</h2>
+                <ul className="htdwc-boundaries">
+                  {BOUNDARIES.map((b) => (
+                    <li key={b.lead}>
+                      <strong>{b.lead}</strong> {b.rest}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
 
-        <section className="htdwc-section">
-          <div className="htdwc-prose">
-            <p className="htdwc-eyebrow">One brain, two surfaces</p>
-            <h2 className="htdwc-h2">The expertise is open.</h2>
-            <p>
-              dwic isn&rsquo;t a black box. Each specialist&rsquo;s knowledge
-              lives in a plain markdown role prompt, and those prompts are the
-              free, open{" "}
-              <Link href="/library">design skill library</Link>. When you ask
-              dwic&rsquo;s <code>color-specialist</code> inside Claude Code, its
-              expertise comes from the exact same file the free{" "}
-              <code>/color-specialist</code> slash command loads.
-            </p>
-            <p>
-              dwic wires twelve of those specialists as MCP tools and adds what
-              plain prompts can&rsquo;t: a deterministic audit engine, project
-              memory, and the one-line CLI. The rest of the library is free to
-              drop into Claude Code as slash commands today.
-            </p>
+            <section className="htdwc-section">
+              <div className="htdwc-prose">
+                <p className="htdwc-eyebrow">Next</p>
+                <h2 className="htdwc-h2">Where to go from here.</h2>
+              </div>
+              <div className="gs-cards htdwc-cards-3">
+                <Link href="/design-research" className="gs-card gs-card--link">
+                  <p className="gs-card-title">Design Research →</p>
+                  <p className="gs-card-body">
+                    How well AI builds interfaces, measured.
+                  </p>
+                  <p className="gs-card-cta">/design-research</p>
+                </Link>
+                <a
+                  href="https://www.aiuxdesign.guide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="gs-card gs-card--link"
+                >
+                  <p className="gs-card-title">Pattern library →</p>
+                  <p className="gs-card-body">
+                    36 AI UX patterns from the best AI products.
+                  </p>
+                  <p className="gs-card-cta">aiuxdesign.guide</p>
+                </a>
+                <Link href="/library" className="gs-card gs-card--link">
+                  <p className="gs-card-title">Free specialist library →</p>
+                  <p className="gs-card-body">
+                    {SKILLS.length} design specialists as slash commands. Install one at a
+                    time.
+                  </p>
+                  <p className="gs-card-cta">/library</p>
+                </Link>
+              </div>
+            </section>
           </div>
-        </section>
-
-        <section className="htdwc-section">
-          <div className="htdwc-prose">
-            <p className="htdwc-eyebrow">Going deeper</p>
-            <h2 className="htdwc-h2">Where to read next.</h2>
-          </div>
-          <div className="gs-cards htdwc-cards-3">
-            <Link href="/design-research" className="gs-card gs-card--link">
-              <p className="gs-card-title">Design Research →</p>
-              <p className="gs-card-body">
-                Reproducible studies on the design quality of AI-generated
-                products. See what AI actually ships, measured.
-              </p>
-              <p className="gs-card-cta">/design-research</p>
-            </Link>
-            <a
-              href="https://www.aiuxdesign.guide"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="gs-card gs-card--link"
-            >
-              <p className="gs-card-title">Pattern library →</p>
-              <p className="gs-card-body">
-                Go deeper on AI UX: 36 patterns across 8 categories, from how the
-                best AI products are actually built.
-              </p>
-              <p className="gs-card-cta">aiuxdesign.guide</p>
-            </a>
-            <Link href="/library" className="gs-card gs-card--link">
-              <p className="gs-card-title">Free specialist library →</p>
-              <p className="gs-card-body">
-                {SKILLS.length} design specialists as Claude Code slash commands.
-                Install one at a time.
-              </p>
-              <p className="gs-card-cta">/library</p>
-            </Link>
-          </div>
-        </section>
+        </div>
 
         <section className="htdwc-section htdwc-section--cta">
           <div className="htdwc-prose">
-            <h2 className="htdwc-h2">Try the one-line audit.</h2>
-            <p>No token, no install. Runs on your machine in seconds.</p>
+            <h2 className="htdwc-h2">Try it.</h2>
+            <p>One command. Any project. Takes seconds.</p>
           </div>
           <HtdwcCliCopy command="npx dwic-audit" />
         </section>
