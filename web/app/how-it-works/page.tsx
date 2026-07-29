@@ -171,56 +171,57 @@ export default function HowItWorksPage() {
         </section>
 
         <div className="htdwc-band">
-          <section className="htdwc-section">
-            <div className="htdwc-prose">
-              <p className="htdwc-eyebrow">Limits</p>
-              <h2 className="htdwc-h2">What it won&rsquo;t do.</h2>
-              <p>Before you start:</p>
-              <ul className="htdwc-boundaries">
-                {BOUNDARIES.map((b) => (
-                  <li key={b.lead}>
-                    <strong>{b.lead}</strong> {b.rest}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
+          <div className="htdwc-band-inner">
+            <section className="htdwc-section">
+              <div className="htdwc-prose">
+                <p className="htdwc-eyebrow">Limits</p>
+                <h2 className="htdwc-h2">What it won&rsquo;t do.</h2>
+                <ul className="htdwc-boundaries">
+                  {BOUNDARIES.map((b) => (
+                    <li key={b.lead}>
+                      <strong>{b.lead}</strong> {b.rest}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
 
-          <section className="htdwc-section">
-            <div className="htdwc-prose">
-              <p className="htdwc-eyebrow">Next</p>
-              <h2 className="htdwc-h2">Where to go from here.</h2>
-            </div>
-            <div className="gs-cards htdwc-cards-3">
-              <Link href="/design-research" className="gs-card gs-card--link">
-                <p className="gs-card-title">Design Research →</p>
-                <p className="gs-card-body">
-                  How well AI builds interfaces, measured.
-                </p>
-                <p className="gs-card-cta">/design-research</p>
-              </Link>
-              <a
-                href="https://www.aiuxdesign.guide"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="gs-card gs-card--link"
-              >
-                <p className="gs-card-title">Pattern library →</p>
-                <p className="gs-card-body">
-                  36 AI UX patterns from the best AI products.
-                </p>
-                <p className="gs-card-cta">aiuxdesign.guide</p>
-              </a>
-              <Link href="/library" className="gs-card gs-card--link">
-                <p className="gs-card-title">Free specialist library →</p>
-                <p className="gs-card-body">
-                  {SKILLS.length} design specialists as slash commands. Install one at a
-                  time.
-                </p>
-                <p className="gs-card-cta">/library</p>
-              </Link>
-            </div>
-          </section>
+            <section className="htdwc-section">
+              <div className="htdwc-prose">
+                <p className="htdwc-eyebrow">Next</p>
+                <h2 className="htdwc-h2">Where to go from here.</h2>
+              </div>
+              <div className="gs-cards htdwc-cards-3">
+                <Link href="/design-research" className="gs-card gs-card--link">
+                  <p className="gs-card-title">Design Research →</p>
+                  <p className="gs-card-body">
+                    How well AI builds interfaces, measured.
+                  </p>
+                  <p className="gs-card-cta">/design-research</p>
+                </Link>
+                <a
+                  href="https://www.aiuxdesign.guide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="gs-card gs-card--link"
+                >
+                  <p className="gs-card-title">Pattern library →</p>
+                  <p className="gs-card-body">
+                    36 AI UX patterns from the best AI products.
+                  </p>
+                  <p className="gs-card-cta">aiuxdesign.guide</p>
+                </a>
+                <Link href="/library" className="gs-card gs-card--link">
+                  <p className="gs-card-title">Free specialist library →</p>
+                  <p className="gs-card-body">
+                    {SKILLS.length} design specialists as slash commands. Install one at a
+                    time.
+                  </p>
+                  <p className="gs-card-cta">/library</p>
+                </Link>
+              </div>
+            </section>
+          </div>
         </div>
 
         <section className="htdwc-section htdwc-section--cta">
