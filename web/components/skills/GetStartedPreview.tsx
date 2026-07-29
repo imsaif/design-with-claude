@@ -27,7 +27,6 @@ const COPY_TO_EMAIL_DELAY_MS = 1200;
 
 import DwicIcon from "@/components/DwicIcon";
 import { SKILLS } from "@/app/data/skills";
-import CompanyLogoCarousel from "@/components/skills/CompanyLogoCarousel";
 
 type TerminalLine = {
   content: ReactNode;
@@ -415,11 +414,6 @@ export function GetStartedPreview() {
                 <PlayIcon className="gs-demo-cta-icon" aria-hidden="true" />
                 See demo
               </button>
-
-              <div className="gs-logos" aria-label="AI products dwic learns from">
-                <p className="gs-logos-caption">Patterns from</p>
-                <CompanyLogoCarousel />
-              </div>
             </>
           )}
 
