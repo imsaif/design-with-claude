@@ -3173,6 +3173,27 @@ kbd {
   text-align: left;
 }
 
+/* Full-bleed tinted band, like the hero, grouping Limits + Next into one
+   block. The band spans the viewport; the sections inside keep the 768px
+   reading column, so the text edge never moves. */
+.htdwc-band {
+  background: var(--background-grain);
+  border-top: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--border-primary);
+  margin-top: clamp(2rem, 5vh, 4rem);
+}
+
+/* Collapse the gap between the two so they read as one block, not two. */
+.htdwc-band .htdwc-section + .htdwc-section {
+  padding-top: 0;
+}
+
+/* Cards default to --background-grain, which is the band colour. Lift them
+   to the page surface so they stay legible as cards. */
+.htdwc-band .gs-card {
+  background: var(--background-primary);
+}
+
 /* The closing CTA is the one deliberately centered block. */
 .htdwc-section--cta {
   text-align: center;
