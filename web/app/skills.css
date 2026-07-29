@@ -3384,6 +3384,19 @@ kbd {
   margin: 0.875rem 0 0;
 }
 
+/* Pill and its qualifier on one line, so the note reads as an aside rather
+   than a second stacked step. Wraps to two lines when there isn't room. */
+.htdwc-cli-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+
+.htdwc-cli-note--inline {
+  margin: 0;
+}
+
 /* Cards grid override — 4-up for the loop, 3-up for "going deeper". */
 .htdwc-cards-4 {
   margin-top: 0;
