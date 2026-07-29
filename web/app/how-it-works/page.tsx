@@ -26,12 +26,14 @@ export const metadata = {
   },
 };
 
-// The eight things dwic checks, and what it looks for in each.
+// The eight things dwic checks. Order and `blocker` mirror the CLI's own
+// banding in src/audit/dashboard.ts: WCAG_CATEGORIES (accessibility, color)
+// are "Fix before you ship"; the rest are "Then clean up".
 const CATEGORIES = [
-  { name: "Color", checks: "contrast, off-brand accents" },
+  { name: "Accessibility", checks: "labels, heading order, alt text", blocker: true },
+  { name: "Color", checks: "contrast, off-brand accents", blocker: true },
   { name: "Typography", checks: "type scale, line height, font weights" },
   { name: "Spacing", checks: "off-grid values, big jumps" },
-  { name: "Accessibility", checks: "labels, heading order, alt text" },
   { name: "Forms", checks: "labels, input types, error wiring" },
   { name: "Navigation", checks: "landmarks, current page, mobile menu" },
   { name: "Motion", checks: "reduced motion, long durations" },
@@ -109,13 +111,25 @@ export default function HowItWorksPage() {
           </div>
           <div className="htdwc-specialists">
             {CATEGORIES.map((c) => (
-              <div key={c.name} className="htdwc-specialist">
+              <div
+                key={c.name}
+                className={`htdwc-specialist${c.blocker ? " htdwc-specialist--blocker" : ""}`}
+              >
                 <p className="htdwc-specialist-name">{c.name}</p>
                 <p className="htdwc-specialist-role">{c.checks}</p>
+                {c.blocker ? (
+                  <p className="htdwc-specialist-tag">Fix before you ship</p>
+                ) : null}
               </div>
             ))}
           </div>
           <div className="htdwc-prose htdwc-prose--after">
+            <p>
+              The eight aren&rsquo;t equal. Accessibility and contrast are
+              ranked first, under <em>Fix before you ship</em>. WCAG AA
+              failures are a compliance risk under the EU Accessibility Act,
+              in force since June 2025. Everything else is cleanup.
+            </p>
             <p>
               Every run prints a summary and saves a report to{" "}
               <code>.dwic/</code> for your pull request. Errors fail the build
