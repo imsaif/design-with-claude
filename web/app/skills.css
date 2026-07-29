@@ -3160,7 +3160,8 @@ kbd {
   }
 }
 
-/* /how-to-design-with-claude — cornerstone guide page.
+/* /how-it-works — the guide page. (Formerly /how-to-design-with-claude,
+ * which now 301s here via next.config.ts; keep that redirect.)
  * Reuses .skills-hero, .gs-cards/.gs-card, .gs-card--link from elsewhere.
  * Page-specific classes: .htdwc-* */
 
@@ -3313,60 +3314,6 @@ kbd {
   text-decoration-thickness: 2px;
 }
 
-/* Routing callout — links to external content for a different audience */
-.htdwc-callout {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1.25rem 1.5rem;
-  margin: clamp(1.5rem, 3vh, 2.25rem) 0 0;
-  background: var(--background-grain);
-  border: 1px solid rgba(22, 32, 54, 0.12);
-  border-radius: 14px;
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.15s ease, transform 0.15s ease;
-}
-
-.htdwc-callout:hover,
-.htdwc-callout:focus-visible {
-  border-color: rgba(22, 32, 54, 0.28);
-  outline: none;
-  transform: translateY(-2px);
-}
-
-.htdwc-callout-eyebrow {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
-.htdwc-callout-title {
-  font-size: 1.0625rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.htdwc-callout-icon {
-  width: 14px;
-  height: 14px;
-  color: var(--text-secondary);
-  stroke-width: 2;
-  flex-shrink: 0;
-}
-
-.htdwc-callout-body {
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: var(--text-secondary);
-}
-
 /* CLI install pill — mimics .gs-hero-cli minus the morph behavior */
 .htdwc-cli {
   display: inline-flex;
@@ -3446,12 +3393,6 @@ kbd {
 
 .htdwc-cli-note--inline {
   margin: 0;
-}
-
-/* Cards grid override — 4-up for the loop, 3-up for "going deeper". */
-.htdwc-cards-4 {
-  margin-top: 0;
-  grid-template-columns: repeat(4, 1fr);
 }
 
 .htdwc-cards-3 {
@@ -3700,58 +3641,6 @@ kbd {
   }
 }
 
-/* Pattern citation cards */
-.htdwc-patterns {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.htdwc-pattern {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1.5rem;
-  background: var(--background-grain);
-  border: 1px solid transparent;
-  border-radius: 16px;
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.15s ease, transform 0.15s ease;
-}
-
-.htdwc-pattern:hover,
-.htdwc-pattern:focus-visible {
-  border-color: rgba(22, 32, 54, 0.18);
-  outline: none;
-  transform: translateY(-2px);
-}
-
-.htdwc-pattern-title {
-  font-size: 1.0625rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.htdwc-pattern-icon {
-  width: 14px;
-  height: 14px;
-  color: var(--text-secondary);
-  stroke-width: 2;
-}
-
-.htdwc-pattern-blurb {
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: var(--text-secondary);
-  margin: 0;
-}
-
 @media (max-width: 900px) {
   /* Band stacks back to one column, matching the article above it. */
   .htdwc-band-inner {
@@ -3760,24 +3649,15 @@ kbd {
     gap: clamp(2.5rem, 6vh, 3.5rem);
   }
 
-  .htdwc-cards-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .htdwc-cards-3 {
     grid-template-columns: 1fr;
   }
   .htdwc-specialists {
     grid-template-columns: repeat(2, 1fr);
   }
-  .htdwc-patterns {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 600px) {
-  .htdwc-cards-4 {
-    grid-template-columns: 1fr;
-  }
   .htdwc-specialists {
     grid-template-columns: 1fr;
   }
