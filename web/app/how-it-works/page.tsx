@@ -103,10 +103,12 @@ export default function HowItWorksPage() {
               computer. Same project, same answers, every time.
             </p>
           </div>
-          <HtdwcCliCopy command="npx dwic-audit" />
-          <p className="htdwc-cli-note">
-            No account. No install. Works without Claude Code.
-          </p>
+          <div className="htdwc-cli-row">
+            <HtdwcCliCopy command="npx dwic-audit" />
+            <p className="htdwc-cli-note htdwc-cli-note--inline">
+              No account. No install. Works without Claude Code.
+            </p>
+          </div>
           <div className="htdwc-specialists">
             {CATEGORIES.map((c) => (
               <div key={c.name} className="htdwc-specialist">
