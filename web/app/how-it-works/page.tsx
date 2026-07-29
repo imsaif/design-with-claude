@@ -38,11 +38,12 @@ const CATEGORIES = [
   { name: "Copy", checks: "weak buttons, jargon, shouting" },
 ];
 
+// Lead is the scannable claim; rest is the one-line qualifier.
 const BOUNDARIES = [
-  "It checks rules, not taste. It won't tell you if your design is good. It tells you where it breaks its own rules.",
-  "It doesn't guess. The checks are math and parsing, so it never invents a problem. It also only finds what the rules cover.",
-  "It won't redesign for you. The command reports. The fixes happen when you ask Claude, with you in the loop.",
-  "It remembers your choices, not your codebase. That means your project profile and recent calls, not every file.",
+  { lead: "Rules, not taste.", rest: "It won't say if your design is good, only where it breaks its own rules." },
+  { lead: "No guessing.", rest: "It never invents a problem, but it only finds what the rules cover." },
+  { lead: "No redesigns.", rest: "It reports. You ask Claude for the fixes." },
+  { lead: "Choices, not code.", rest: "It remembers your decisions, not your whole codebase." },
 ];
 
 export default function HowItWorksPage() {
@@ -163,8 +164,10 @@ export default function HowItWorksPage() {
             <h2 className="htdwc-h2">What it won&rsquo;t do.</h2>
             <p>Worth knowing before you start:</p>
             <ul className="htdwc-boundaries">
-              {BOUNDARIES.map((b, i) => (
-                <li key={i}>{b}</li>
+              {BOUNDARIES.map((b) => (
+                <li key={b.lead}>
+                  <strong>{b.lead}</strong> {b.rest}
+                </li>
               ))}
             </ul>
           </div>

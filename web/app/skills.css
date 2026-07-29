@@ -3232,6 +3232,11 @@ kbd {
   color: var(--text-secondary);
 }
 
+.htdwc-boundaries strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
 .htdwc-boundaries li::marker {
   color: var(--text-primary);
 }
@@ -3398,25 +3403,16 @@ kbd {
   border-radius: 4px;
 }
 
-/* Grids break out wider than the reading column, the way a figure does in an
-   article. Centered on the column, capped so they never overflow the viewport. */
-.htdwc-specialists,
-.htdwc-cards-3,
-.htdwc-cards-4 {
-  width: min(1000px, calc(100vw - 3rem));
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
+/* Grids stay inside the reading column so they share its left edge. */
 .htdwc-specialists {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin-top: clamp(2rem, 4vh, 3rem);
 }
 
 .htdwc-specialist {
-  padding: 1.5rem;
+  padding: 1.25rem;
   background: var(--background-grain);
   border: 1px solid transparent;
   border-radius: 16px;
@@ -3609,14 +3605,6 @@ kbd {
   }
   .htdwc-specialists {
     grid-template-columns: repeat(2, 1fr);
-  }
-  /* Below the breakout width, grids sit back inside the reading column. */
-  .htdwc-specialists,
-  .htdwc-cards-3,
-  .htdwc-cards-4 {
-    width: 100%;
-    margin-left: 0;
-    transform: none;
   }
   .htdwc-patterns {
     grid-template-columns: 1fr;
