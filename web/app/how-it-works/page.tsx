@@ -83,8 +83,8 @@ export default function HowItWorksPage() {
           <p className="skills-hero-eyebrow">How it works · 2 min read</p>
           <h1>How dwic works.</h1>
           <p className="skills-hero-sub">
-            One command checks your design and tells you what&rsquo;s broken.
-            Then Claude Code fixes it.
+            One command finds what&rsquo;s broken in your design. Claude Code
+            fixes it.
           </p>
         </section>
 
@@ -94,13 +94,11 @@ export default function HowItWorksPage() {
             <h2 className="htdwc-h2">One command, eight checks.</h2>
             <p>
               Your tools check your code. Nothing checks your design. So faint
-              text, odd font sizes and unlabelled form fields ship without
-              anyone noticing.
+              text, odd font sizes and unlabelled fields ship unnoticed.
             </p>
             <p>
               dwic reads your CSS and components and lists what&rsquo;s wrong.
-              There&rsquo;s no AI in this step, and your code never leaves your
-              computer. Same project, same answers, every time.
+              No AI. Your code stays on your computer. Same answers every time.
             </p>
           </div>
           <div className="htdwc-cli-row">
@@ -120,9 +118,8 @@ export default function HowItWorksPage() {
           <div className="htdwc-prose htdwc-prose--after">
             <p>
               Every run prints a summary and saves a report to{" "}
-              <code>.dwic/</code> that you can drop into a pull request. It
-              fails the build in CI when there are errors. Add{" "}
-              <code>--watch</code> and it re-checks each time you save.
+              <code>.dwic/</code> for your pull request. Errors fail the build
+              in CI. Add <code>--watch</code> to re-check on every save.
             </p>
           </div>
           <HtdwcAnimatedTerminal />
@@ -133,10 +130,10 @@ export default function HowItWorksPage() {
             <p className="htdwc-eyebrow">In Claude Code</p>
             <h2 className="htdwc-h2">Ask it to fix things.</h2>
             <p>
-              Run the setup once and dwic works inside Claude Code. Ask for the{" "}
+              Set it up once and dwic works inside Claude Code. Ask for the{" "}
               <code>color-specialist</code> or the{" "}
               <code>accessibility-specialist</code>. dwic finds the problems.
-              Claude explains them and writes the fix.
+              Claude fixes them.
             </p>
           </div>
           <HtdwcCliCopy command="npx dwic-audit setup" />
@@ -146,16 +143,15 @@ export default function HowItWorksPage() {
           </p>
           <div className="htdwc-prose htdwc-prose--after">
             <p>
-              It also remembers your project. The first time you ask, it wants to
-              know what you&rsquo;re building, your stack and your design system.
-              After that it knows, so you don&rsquo;t repeat yourself.
+              It remembers your project. The first time, it asks what
+              you&rsquo;re building and what you use. After that you
+              don&rsquo;t repeat yourself.
             </p>
             <p>
-              Nothing is hidden. Every specialist is a plain text file, and
-              they&rsquo;re all free in the{" "}
-              <Link href="/library">design skill library</Link>. The{" "}
+              Nothing is hidden. Each specialist is a plain text file, free in
+              the <Link href="/library">design skill library</Link>. The{" "}
               <code>/color-specialist</code> slash command reads the same file.
-              dwic adds the checks, the memory and the one-line command.
+              dwic adds the checks and the memory.
             </p>
           </div>
         </section>
@@ -164,7 +160,7 @@ export default function HowItWorksPage() {
           <div className="htdwc-prose">
             <p className="htdwc-eyebrow">Limits</p>
             <h2 className="htdwc-h2">What it won&rsquo;t do.</h2>
-            <p>Worth knowing before you start:</p>
+            <p>Before you start:</p>
             <ul className="htdwc-boundaries">
               {BOUNDARIES.map((b) => (
                 <li key={b.lead}>
@@ -184,7 +180,7 @@ export default function HowItWorksPage() {
             <Link href="/design-research" className="gs-card gs-card--link">
               <p className="gs-card-title">Design Research →</p>
               <p className="gs-card-body">
-                Studies on how well AI builds interfaces, with real numbers.
+                How well AI builds interfaces, measured.
               </p>
               <p className="gs-card-cta">/design-research</p>
             </Link>
@@ -196,15 +192,15 @@ export default function HowItWorksPage() {
             >
               <p className="gs-card-title">Pattern library →</p>
               <p className="gs-card-body">
-                36 AI UX patterns, taken from how the best AI products work.
+                36 AI UX patterns from the best AI products.
               </p>
               <p className="gs-card-cta">aiuxdesign.guide</p>
             </a>
             <Link href="/library" className="gs-card gs-card--link">
               <p className="gs-card-title">Free specialist library →</p>
               <p className="gs-card-body">
-                {SKILLS.length} design specialists as Claude Code slash commands.
-                Install one at a time.
+                {SKILLS.length} design specialists as slash commands. Install one at a
+                time.
               </p>
               <p className="gs-card-cta">/library</p>
             </Link>
