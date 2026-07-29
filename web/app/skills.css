@@ -3532,17 +3532,93 @@ kbd {
   font-weight: 600;
 }
 
-/* Terminal mock */
+/* Terminal mock — click to play, does not autoplay or loop. */
+.htdwc-demo {
+  position: relative;
+}
+
 .htdwc-terminal {
   background: #0e1626;
   color: #d8dde8;
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  padding: 2.25rem 2.5rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.875rem;
-  line-height: 1.7;
+  font-size: 1rem;
+  line-height: 2.05;
   overflow-x: auto;
   margin: 0;
+}
+
+.htdwc-demo-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgba(14, 22, 38, 0.72);
+}
+
+.htdwc-demo-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.75rem 1.375rem;
+  border: 1px solid rgba(245, 246, 250, 0.24);
+  border-radius: 999px;
+  background: rgba(245, 246, 250, 0.1);
+  color: #f5f6fa;
+  font-family: var(--font-satoshi), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.htdwc-demo-play:hover,
+.htdwc-demo-play:focus-visible {
+  background: rgba(245, 246, 250, 0.2);
+  border-color: rgba(245, 246, 250, 0.45);
+  outline: none;
+}
+
+.htdwc-demo-play-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
+.htdwc-demo-replay {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid rgba(245, 246, 250, 0.18);
+  border-radius: 999px;
+  background: rgba(245, 246, 250, 0.08);
+  color: rgba(245, 246, 250, 0.85);
+  font-family: var(--font-satoshi), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.htdwc-demo-replay:hover,
+.htdwc-demo-replay:focus-visible {
+  background: rgba(245, 246, 250, 0.16);
+  color: #ffffff;
+  outline: none;
+}
+
+.htdwc-demo-replay-icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
 }
 
 .htdwc-terminal-line {
@@ -3578,7 +3654,7 @@ kbd {
 .htdwc-terminal-divider {
   height: 1px;
   background: rgba(216, 221, 232, 0.12);
-  margin: 0.5rem 0;
+  margin: 0.875rem 0;
 }
 
 /* Animated terminal — typing caret + line reveals */
