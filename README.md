@@ -8,7 +8,7 @@ dwic (design with claude) puts a senior designer inside Claude Code. It audits y
 npx dwic-audit
 ```
 
-No token, no install, no Claude Code required; it runs entirely on your machine. dwic scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), and writes a shareable markdown report to `.dwic/audit-<date>.md`. The check is deterministic (WCAG contrast math, token parsing, markup heuristics), so it's reproducible and CI-friendly via its exit code. Run against a deliberately-broken fixture:
+No token, no install, no Claude Code required; your code never leaves your machine. dwic scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), and writes a shareable markdown report to `.dwic/audit-<date>.md`. The check is deterministic (WCAG contrast math, token parsing, markup heuristics), so it's reproducible and CI-friendly via its exit code. Run against a deliberately-broken fixture:
 
 ```
 dwic audit • examples/broken-project
