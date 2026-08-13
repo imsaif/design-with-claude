@@ -1,0 +1,22 @@
+Title: Blocked
+
+URL Source: https://old.reddit.com/r/SaaS/search/?q=%22not+a+designer%22&restrict_sr=1&sort=relevance&t=all
+
+Warning: Target URL returned error 403: Forbidden
+
+Markdown Content:
+## whoa there, pardner!
+
+Your request has been blocked due to a network policy.
+
+Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.
+
+If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and is something unique and descriptive and try again. if you're supplying an alternate User-Agent string, try changing back to default as that can sometimes result in a block.
+
+You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).
+
+If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?ticket_form_id=21879292693140).
+
+When contacting us, please include your Reddit account along with the following code:
+
+**019ffc08-96f8-73cc-85d7-a030aefb3b9d**

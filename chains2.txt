@@ -1,0 +1,44 @@
+############################## LEAF 49087868
+[0] id=49087868 author=Ardon type=comment title=None
+This is very cool. I can't comment on the encryption, but I did want to mention that your page design is pretty bad, which is a shame for something so useful.It looks AI generated, you can probably paste this into your LLM of choice to improve it.It has pretty subtle information hierarchy. 
+All the text sizes except for the main heading are withing 15% size of each other. More differentiation here would be the lowest hanging fruit, I think.
+I'd also say all the text needs to increase in size in general.
+It's pretty low contrast as well, made worse by the small font size. And some things, like button highlights, are too high-contrast. They pull too strongly away from the rest of the text and flow.
+You also have a lot of buttons, some of them are even just to pre-fill demo text. I'd cut it way down.I think the goal should be that the critical path to making a 'burn link' is at the very top of the information hierarchy. Big heading "Your Secret", with very well signposted text box.
+Big heading "Link Expiration" with a big range slider (with number input.)(Sliders have the advantage of structurally communicating what you're doing. You fill up the available slider to add more time, you shrink it to have less time.)The overall idea is that the eye naturally snaps to the next step when the previous one is done with zero effort. Really blast the information and steps into people's brains.I hope Flashpaper takes off!
+----------
+[1] id=49085503 author=minpym type=story title=Show HN: Flashpaper – Self-destructing secret sharing with no database
+Hi everyone! This is my first HN and I’m very new to the scene. My name is Min from Bangkok.At first, I just want to create a dead man's switch for personal use and for fun. then, I think about information that self destruct like a spy movie. after that, I try to come up with the better version of Privnote or Bitwarden with self-destruct and some kind of censoring or blocking download ability. Somehow, end up with this product. :OFlashpaper is for sending any information that would be burned after reading (with counting down timer like Mission Impossible movie ! or after 24 hrs max if not opened) Encryption happens in browser and because the key stays after # in the link; server never sees the key (Zero-knowledge for web use) and— because I’m a newbie. I don’t want to connect to database because I don’t have the money and I want things light and simple. So, that’s why Flashpaper keeps things in RAM-only, no database.For AI Agent side, Flashpaper provides a REST API and an MCP server so agents can create secret links easily in dead-drop style that can be claimed only once. The second claim would get a 404 which means someone already took it. However, for the agent API flow, the server sees the plaintext for a moment before encrypting, so this flow is not zero-knowledge like the web flow.Overall, I think it work quite well for web use, but for agent API use, I am not sure this is enough security. All the limitations are listed in SECURITY.md. Some feedback would be appreciated.  
+I make it open source with MIT license, with honorware policy for Enterprise use, like self-hosted docker.Here is my repo https://github.com/mmmpym/flashpaper
+and you can try it here https://flashpaper.appAgain ! Please feel free to tell me what I missed.Min
+----------
+  >>REPLY id=49088075 author=minpym
+  Thank you so much for constructive feedback!You caught me. The design is AI-generated, I built the whole app with AI tools.Really apprecaite the pointers; I agree with what u said, and will try re-read it again tomorrow (it 1.30 am here haha) and adjust the design.Again. Thanks a lot for your support and kind words!
+
+############################## LEAF 47740061
+[0] id=47740061 author=bmurphy1976 type=comment title=None
+I still struggle with the design, but once that's locked in getting it to implement things is pretty straightforward.  I do have to fight the AI a bit to make sure things are simple and clean, but it's pretty good at that with the right hand-holding.The design is still a problem though, precisely because I am not a designer.  I don't know what's actually good, I only know what's good enough for me.  I can't tell the difference between "this is actually good" and "this is vibe-designed slop" but I have enough experience to at least make sure the implementation is robust.
+----------
+[1] id=47739434 author=PaulHoule type=comment title=None
+Who says it sucks at front end?  Unlike Stackoverflow,  AI does a great job of "center a div."  I tend to like working from reference documentation which is great for Python and Java but challenging for CSS where you have to navigate roughly 50 documents that relate to each other in complex ways to find answers.Like I don't give it 100% responsibility for front end tasks but I feel like working together with AI I feel like I am really in control of CSS in a way I haven't been before.  If I am using something like MUI it also tends to do really good at answering questions and making layouts.Thing is,  I don't treat AI as an army of 20 slaves will get "shit" done while I sleep but rather as a coding buddy.  I very much anthropomorphize it with lots of "thank you" and "that's great!" and "does this make sense?",  "do you have any questions for me?" and "how would you go about that?" and if makes me a prototype of something I will ask pointed questions about how it works,  ask it to change things,  change the code manually a bit to make it my own,  and frequently open up a library like MUI in another IDE window and ask Junie "how do i?" and "how does it work when I set prop B?"It doesn't 10x my speed and I think the main dividend from using it for me is quality,  not compressed schedule,  because I will use the speed to do more experiments and get to the bottom of things.  Another benefit is that it helps me manage my emotional energy,  like in the morning it might be hard for me to get started and a few low-effort spikes are great to warm me up.
+----------
+[2] id=47738864 author=tobr type=story title=Why AI Sucks at Front End
+
+----------
+
+############################## LEAF 48440598
+[0] id=48440598 author=dakolli type=comment title=None
+Its an impressive project. You could get really far by just picking a softer color palette. There's an over reliance on color coding going on that's hard on the eyes.Optional pagination would be nice, I would use a Zebra pattern on the rows backgrounds and larger row heights but that's just me, and I'll admit making nice tables with lots of data look nice is hard. I'm also not a designer :/The problem is when I see this color pallete I assume everything is vibe coded and then I have a hard time taking the rest of the project seriously / trusting it. I'm not sure why every llm generated UI uses those colors, but they do. I'm not sure how it ended up so concretely in their training data either because this wasn't ever the norm. I think the models just start with Red Blue Green Yellow and then expect the user to adjust from there, idk.
+----------
+[1] id=48435112 author=MDA2AV type=comment title=None
+Unfortunately I might have to agree that the UI/UX isn't the strong point, as expected of a website built by a firmware developer using AI tools' help, I would appreciate any feedback on how to improve it though, regardless, the tough part on a project like this is what is invisible to the eye, stable hardware/harness and reviewing PRs in 20 different languages/technologies to keep the leaderboard competitive.
+----------
+[2] id=48430149 author=dakolli type=comment title=None
+LLM UI/UX is so bad. Like how hard is it to put a weekends effort into UX for something like this.
+----------
+[3] id=48427943 author=password4321 type=comment title=None
+The death of the techempower web server benchmarks means new ones like this one no longer have the chance to prove themselves.Edit: it seems I'm just falling behind and the new hotness is https://www.http-arena.com/leaderboard/. Good luck!
+----------
+  >>REPLY id=48453064 author=MDA2AV
+  Thanks for feedback, applied some simpler UI/UX with zebra pattern tables but yea it is quite rough designing these tables that pack so much information in them.
+

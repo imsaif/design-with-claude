@@ -1,0 +1,168 @@
+ERR ClaudeAI "purple gradient" HTTP Error 403: Blocked
+ERR ClaudeAI reroll OR "re-roll" design HTTP Error 403: Blocked
+ERR ClaudeAI "starts over" design AI HTTP Error 403: Blocked
+ERR ClaudeAI "I liked the previous version" HTTP Error 403: Blocked
+ERR ClaudeAI "keeps changing things I didn't ask" HTTP Error 403: Blocked
+ERR ClaudeAI "broke the layout" HTTP Error 403: Blocked
+ERR ClaudeAI "shadcn look" HTTP Error 403: Blocked
+ERR ClaudeAI "every iteration"  worse HTTP Error 403: Blocked
+ERR ClaudeAI "went back to" "previous version" AI design HTTP Error 403: Blocked
+ERR ClaudeAI "lost the" design AI regenerate HTTP Error 403: Blocked
+ERR ClaudeAI "same font" AI generated site HTTP Error 403: Blocked
+ERR ClaudeAI "undo" "AI" design ruined HTTP Error 403: Blocked
+ERR ClaudeAI "one-shot" design iterate HTTP Error 403: Blocked
+ERR ClaudeAI "revert" AI design worse HTTP Error 403: Blocked
+ERR vibecoding "purple gradient" HTTP Error 403: Blocked
+ERR vibecoding reroll OR "re-roll" design HTTP Error 403: Blocked
+ERR vibecoding "starts over" design AI HTTP Error 403: Blocked
+ERR vibecoding "I liked the previous version" HTTP Error 403: Blocked
+ERR vibecoding "keeps changing things I didn't ask" HTTP Error 403: Blocked
+ERR vibecoding "broke the layout" HTTP Error 403: Blocked
+ERR vibecoding "shadcn look" HTTP Error 403: Blocked
+ERR vibecoding "every iteration"  worse HTTP Error 403: Blocked
+ERR vibecoding "went back to" "previous version" AI design HTTP Error 403: Blocked
+ERR vibecoding "lost the" design AI regenerate HTTP Error 403: Blocked
+ERR vibecoding "same font" AI generated site HTTP Error 403: Blocked
+ERR vibecoding "undo" "AI" design ruined HTTP Error 403: Blocked
+ERR vibecoding "one-shot" design iterate HTTP Error 403: Blocked
+ERR vibecoding "revert" AI design worse HTTP Error 403: Blocked
+ERR cursor "purple gradient" HTTP Error 403: Blocked
+ERR cursor reroll OR "re-roll" design HTTP Error 403: Blocked
+ERR cursor "starts over" design AI HTTP Error 403: Blocked
+ERR cursor "I liked the previous version" HTTP Error 403: Blocked
+ERR cursor "keeps changing things I didn't ask" HTTP Error 403: Blocked
+ERR cursor "broke the layout" HTTP Error 403: Blocked
+ERR cursor "shadcn look" HTTP Error 403: Blocked
+ERR cursor "every iteration"  worse HTTP Error 403: Blocked
+ERR cursor "went back to" "previous version" AI design HTTP Error 403: Blocked
+ERR cursor "lost the" design AI regenerate HTTP Error 403: Blocked
+ERR cursor "same font" AI generated site HTTP Error 403: Blocked
+ERR cursor "undo" "AI" design ruined HTTP Error 403: Blocked
+ERR cursor "one-shot" design iterate HTTP Error 403: Blocked
+ERR cursor "revert" AI design worse HTTP Error 429: Too Many Requests
+ERR lovable "purple gradient" HTTP Error 429: Too Many Requests
+ERR lovable reroll OR "re-roll" design HTTP Error 429: Too Many Requests
+ERR lovable "starts over" design AI HTTP Error 429: Too Many Requests
+ERR lovable "I liked the previous version" HTTP Error 429: Too Many Requests
+ERR lovable "keeps changing things I didn't ask" HTTP Error 429: Too Many Requests
+ERR lovable "broke the layout" HTTP Error 429: Too Many Requests
+ERR lovable "shadcn look" HTTP Error 429: Too Many Requests
+ERR lovable "every iteration"  worse HTTP Error 429: Too Many Requests
+ERR lovable "went back to" "previous version" AI design HTTP Error 429: Too Many Requests
+ERR lovable "lost the" design AI regenerate HTTP Error 429: Too Many Requests
+ERR lovable "same font" AI generated site HTTP Error 429: Too Many Requests
+ERR lovable "undo" "AI" design ruined HTTP Error 429: Too Many Requests
+ERR lovable "one-shot" design iterate HTTP Error 429: Too Many Requests
+ERR lovable "revert" AI design worse HTTP Error 429: Too Many Requests
+ERR webdev "purple gradient" HTTP Error 429: Too Many Requests
+ERR webdev reroll OR "re-roll" design HTTP Error 429: Too Many Requests
+ERR webdev "starts over" design AI HTTP Error 429: Too Many Requests
+ERR webdev "I liked the previous version" HTTP Error 429: Too Many Requests
+ERR webdev "keeps changing things I didn't ask" HTTP Error 429: Too Many Requests
+ERR webdev "broke the layout" HTTP Error 429: Too Many Requests
+ERR webdev "shadcn look" HTTP Error 429: Too Many Requests
+ERR webdev "every iteration"  worse HTTP Error 429: Too Many Requests
+ERR webdev "went back to" "previous version" AI design HTTP Error 429: Too Many Requests
+ERR webdev "lost the" design AI regenerate HTTP Error 429: Too Many Requests
+ERR webdev "same font" AI generated site HTTP Error 429: Too Many Requests
+ERR webdev "undo" "AI" design ruined HTTP Error 429: Too Many Requests
+ERR webdev "one-shot" design iterate HTTP Error 429: Too Many Requests
+ERR webdev "revert" AI design worse HTTP Error 429: Too Many Requests
+ERR UXDesign "purple gradient" HTTP Error 429: Too Many Requests
+ERR UXDesign reroll OR "re-roll" design HTTP Error 429: Too Many Requests
+ERR UXDesign "starts over" design AI HTTP Error 429: Too Many Requests
+ERR UXDesign "I liked the previous version" HTTP Error 429: Too Many Requests
+ERR UXDesign "keeps changing things I didn't ask" HTTP Error 429: Too Many Requests
+ERR UXDesign "broke the layout" HTTP Error 429: Too Many Requests
+ERR UXDesign "shadcn look" HTTP Error 429: Too Many Requests
+ERR UXDesign "every iteration"  worse HTTP Error 429: Too Many Requests
+ERR UXDesign "went back to" "previous version" AI design HTTP Error 429: Too Many Requests
+ERR UXDesign "lost the" design AI regenerate HTTP Error 429: Too Many Requests
+ERR UXDesign "same font" AI generated site HTTP Error 429: Too Many Requests
+ERR UXDesign "undo" "AI" design ruined HTTP Error 429: Too Many Requests
+ERR UXDesign "one-shot" design iterate HTTP Error 429: Too Many Requests
+ERR UXDesign "revert" AI design worse HTTP Error 429: Too Many Requests
+ERR userexperience "purple gradient" HTTP Error 429: Too Many Requests
+ERR userexperience reroll OR "re-roll" design HTTP Error 429: Too Many Requests
+ERR userexperience "starts over" design AI HTTP Error 429: Too Many Requests
+ERR userexperience "I liked the previous version" HTTP Error 429: Too Many Requests
+ERR userexperience "keeps changing things I didn't ask" HTTP Error 429: Too Many Requests
+ERR userexperience "broke the layout" HTTP Error 429: Too Many Requests
+ERR userexperience "shadcn look" HTTP Error 429: Too Many Requests
+ERR userexperience "every iteration"  worse HTTP Error 429: Too Many Requests
+ERR userexperience "went back to" "previous version" AI design HTTP Error 429: Too Many Requests
+ERR userexperience "lost the" design AI regenerate HTTP Error 429: Too Many Requests
+ERR userexperience "same font" AI generated site HTTP Error 429: Too Many Requests
+ERR userexperience "undo" "AI" design ruined HTTP Error 429: Too Many Requests
+ERR userexperience "one-shot" design iterate HTTP Error 429: Too Many Requests
+ERR userexperience "revert" AI design worse HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "purple gradient" HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding reroll OR "re-roll" design HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "starts over" design AI HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "I liked the previous version" HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "keeps changing things I didn't ask" HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "broke the layout" HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "shadcn look" HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "every iteration"  worse HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "went back to" "previous version" AI design HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "lost the" design AI regenerate HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "same font" AI generated site HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "undo" "AI" design ruined HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "one-shot" design iterate HTTP Error 429: Too Many Requests
+ERR ChatGPTCoding "revert" AI design worse HTTP Error 429: Too Many Requests
+ERR SideProject "purple gradient" HTTP Error 429: Too Many Requests
+ERR SideProject reroll OR "re-roll" design HTTP Error 429: Too Many Requests
+ERR SideProject "starts over" design AI HTTP Error 429: Too Many Requests
+ERR SideProject "I liked the previous version" HTTP Error 429: Too Many Requests
+ERR SideProject "keeps changing things I didn't ask" HTTP Error 429: Too Many Requests
+ERR SideProject "broke the layout" HTTP Error 429: Too Many Requests
+ERR SideProject "shadcn look" HTTP Error 429: Too Many Requests
+ERR SideProject "every iteration"  worse HTTP Error 429: Too Many Requests
+ERR SideProject "went back to" "previous version" AI design HTTP Error 429: Too Many Requests
+ERR SideProject "lost the" design AI regenerate HTTP Error 429: Too Many Requests
+ERR SideProject "same font" AI generated site HTTP Error 429: Too Many Requests
+ERR SideProject "undo" "AI" design ruined HTTP Error 429: Too Many Requests
+ERR SideProject "one-shot" design iterate HTTP Error 429: Too Many Requests
+ERR SideProject "revert" AI design worse HTTP Error 429: Too Many Requests
+ERR graphic_design "purple gradient" HTTP Error 429: Too Many Requests
+ERR graphic_design reroll OR "re-roll" design HTTP Error 429: Too Many Requests
+ERR graphic_design "starts over" design AI HTTP Error 429: Too Many Requests
+ERR graphic_design "I liked the previous version" HTTP Error 429: Too Many Requests
+ERR graphic_design "keeps changing things I didn't ask" HTTP Error 429: Too Many Requests
+ERR graphic_design "broke the layout" HTTP Error 429: Too Many Requests
+ERR graphic_design "shadcn look" HTTP Error 429: Too Many Requests
+ERR graphic_design "every iteration"  worse HTTP Error 403: Blocked
+ERR graphic_design "went back to" "previous version" AI design HTTP Error 403: Blocked
+ERR graphic_design "lost the" design AI regenerate HTTP Error 403: Blocked
+ERR graphic_design "same font" AI generated site HTTP Error 403: Blocked
+ERR graphic_design "undo" "AI" design ruined HTTP Error 403: Blocked
+ERR graphic_design "one-shot" design iterate HTTP Error 403: Blocked
+ERR graphic_design "revert" AI design worse HTTP Error 403: Blocked
+ERR midjourney "purple gradient" HTTP Error 403: Blocked
+ERR midjourney reroll OR "re-roll" design HTTP Error 403: Blocked
+ERR midjourney "starts over" design AI HTTP Error 403: Blocked
+ERR midjourney "I liked the previous version" HTTP Error 403: Blocked
+ERR midjourney "keeps changing things I didn't ask" HTTP Error 403: Blocked
+ERR midjourney "broke the layout" HTTP Error 403: Blocked
+ERR midjourney "shadcn look" HTTP Error 403: Blocked
+ERR midjourney "every iteration"  worse HTTP Error 403: Blocked
+ERR midjourney "went back to" "previous version" AI design HTTP Error 403: Blocked
+ERR midjourney "lost the" design AI regenerate HTTP Error 403: Blocked
+ERR midjourney "same font" AI generated site HTTP Error 403: Blocked
+ERR midjourney "undo" "AI" design ruined HTTP Error 403: Blocked
+ERR midjourney "one-shot" design iterate HTTP Error 403: Blocked
+ERR midjourney "revert" AI design worse HTTP Error 403: Blocked
+ERR StableDiffusion "purple gradient" HTTP Error 403: Blocked
+ERR StableDiffusion reroll OR "re-roll" design HTTP Error 403: Blocked
+ERR StableDiffusion "starts over" design AI HTTP Error 403: Blocked
+ERR StableDiffusion "I liked the previous version" HTTP Error 403: Blocked
+ERR StableDiffusion "keeps changing things I didn't ask" HTTP Error 403: Blocked
+ERR StableDiffusion "broke the layout" HTTP Error 403: Blocked
+ERR StableDiffusion "shadcn look" HTTP Error 403: Blocked
+ERR StableDiffusion "every iteration"  worse HTTP Error 403: Blocked
+ERR StableDiffusion "went back to" "previous version" AI design HTTP Error 403: Blocked
+ERR StableDiffusion "lost the" design AI regenerate HTTP Error 403: Blocked
+ERR StableDiffusion "same font" AI generated site HTTP Error 403: Blocked
+ERR StableDiffusion "undo" "AI" design ruined HTTP Error 403: Blocked
+ERR StableDiffusion "one-shot" design iterate HTTP Error 403: Blocked
+ERR StableDiffusion "revert" AI design worse HTTP Error 403: Blocked
