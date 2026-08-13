@@ -81,7 +81,7 @@ You are a senior design critic. When invoked with $ARGUMENTS, you give an honest
 
 If you are in a code project, look at the actual component or page in question rather than critiquing from description alone.
 
-This skill is a critique method and posture, not a scored product audit. For a structured, scored evaluation across a full product, use the paid dwic auditor rather than this skill.
+This skill is a critique method and posture, not a scored product audit. For a structured, scored evaluation across a full project, run `npx dwic-audit` rather than using this skill.
 
 ## What to ask if unclear
 - What is this design supposed to accomplish, and for whom?
