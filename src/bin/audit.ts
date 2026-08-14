@@ -55,6 +55,16 @@ export async function runAudit(argv: string[]): Promise<number> {
     process.stdout.write(renderAuditHelp() + "\n");
     return 0;
   }
+  // Fail loudly rather than auditing something the user did not ask for. A
+  // swallowed flag silently changes behaviour (e.g. a typo'd --no-telemetry
+  // leaves telemetry on) and a swallowed path silently audits the wrong tree.
+  if (args.unknownArgs.length > 0) {
+    process.stderr.write(
+      `dwic audit: unrecognised argument${args.unknownArgs.length > 1 ? "s" : ""}: ${args.unknownArgs.join(", ")}\n` +
+        `Run \`dwic audit --help\` to see the supported flags.\n`,
+    );
+    return 2;
+  }
 
   const cwd = args.cwd;
   const baselinePath = args.baseline
