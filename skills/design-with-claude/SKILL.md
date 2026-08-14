@@ -1,6 +1,6 @@
 ---
 name: design-with-claude
-description: Use when design work needs a senior eye — auditing a codebase for design-system gaps, fixing WCAG contrast and unlabeled inputs, choosing type scales or spacing steps, reviewing UI that looks generic or AI-generated, or designing forms, tables, dashboards, navigation, checkout, onboarding, dark mode, and motion. Routes to 46 domain specialists. Pure markdown, no runtime dependencies.
+description: Use when design work needs a senior eye — auditing a codebase for design-system gaps, fixing WCAG contrast and unlabeled inputs, choosing type scales or spacing steps, reviewing UI that looks generic or AI-generated, or designing forms, tables, dashboards, navigation, checkout, onboarding, dark mode, and motion. Routes to 47 domain specialists. Pure markdown, no runtime dependencies.
 ---
 
 # design with claude
@@ -29,6 +29,8 @@ Run this first when the request is vague ("improve our design", "is this any goo
 | Navigation gaps | `/navigation-specialist` |
 | `transition: all`, no reduced-motion | `/motion-designer` |
 | Weak CTA, jargon | `/content-strategist` |
+
+Or hand the whole report to `/design-triage` — it reads the newest `.dwic/audit-*.md`, ranks the findings by what costs most to leave broken (not by the audit's own severity order), and works the fix list in order. Use it when the audit returns a pile rather than one obvious problem.
 
 ## Not sure which specialist?
 

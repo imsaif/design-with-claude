@@ -98,6 +98,14 @@ export const SKILLS: Skill[] = [
     icon: "⊗",
   },
   {
+    slug: "design-triage",
+    name: "Design Triage",
+    description: "Turns a dwic audit report into a ranked fix plan, then works through it in order",
+    category: "core",
+    level: "intermediate",
+    icon: "≡",
+  },
+  {
     slug: "design-grill",
     name: "Design Grill",
     description: "Interviews you until the design is pinned down, and writes the vocabulary and binding decisions into your repo as it goes",

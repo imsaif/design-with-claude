@@ -69,6 +69,11 @@ const EDITS = [
     re: /\*\*(\d+) design skills across 8 categories\*\* \((\d+) design specialists and (\d+) technical guides/,
     to: `**${total} design skills across 8 categories** (${specialists} design specialists and ${technical} technical guides`,
   },
+  {
+    file: "README.md",
+    re: /identifies the relevant design domains \(out of (\d+)\)/,
+    to: `identifies the relevant design domains (out of ${routable})`,
+  },
 ];
 
 let stale = 0;
