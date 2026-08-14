@@ -41,25 +41,53 @@
 - `web/supabase/{schema.sql,SETUP.md}` — schema + 5-step user setup doc for Supabase project + Vercel env
 
 ## Command File Structure
-Each command follows this format:
-```
----
-description: Short description for Claude Code's command picker
----
 
-Role statement with $ARGUMENTS placeholder
+**Read `docs/SKILL-QUALITY-STANDARD.md` before writing or editing a command.** It is the
+bar every command is held to, and it doubles as the build spec for new ones.
 
-## Expertise
-## Design Principles
-## Guidelines
-## Checklist
-## Anti-patterns
-## How to respond
-## What to ask if unclear
+New commands follow the shape of `commands/design-grill.md` or `commands/design-triage.md`:
+an evidence rule, a "skip this command when" block, a step-by-step procedure, a literal
+output template, and a falsifiable "done when" condition.
+
+The **legacy six-section template** below is what ~35 older commands still use. A
+2026-08-14 audit of all 46 found it violates seven of the ten quality rules by
+construction — no output format, no end condition, no skip rule, no severity cap, and it
+states every rule three times (Guidelines, then Checklist, then Anti-patterns), which is
+what let numeric thresholds drift apart inside a single file. **Do not use it for new
+commands.**
+
 ```
+## Expertise / ## Design Principles / ## Guidelines
+## Checklist / ## Anti-patterns / ## How to respond / ## What to ask if unclear
+```
+
+Do NOT bulk-delete those sections from existing files: several use the Checklist as their
+only stop condition, and some Anti-patterns (e.g. `motion-designer`'s `transition: all`)
+are more actionable than the prose they appear to duplicate.
+
+## Counts are generated, never typed
+
+Skill counts appear in seven places and had drifted to four different numbers. Run
+`npm run sync-counts` after adding or removing a command; `npm run build` fails on stale
+counts. Never hand-edit a count.
 
 ## Naming Convention
-Commands use pure role-based names (e.g., `accessibility-specialist`, `motion-designer`, `form-designer`). No `design-` prefix except for `design-brief` (the master command), `design-system-architect`, and `design-critic`.
+Specialists use pure role-based names (`accessibility-specialist`, `motion-designer`).
+The `design-` prefix marks commands that act on the design *process* rather than a domain:
+`design-brief`, `design-system-architect`, `design-critic`, `design-grill`, `design-triage`.
+
+## Known Issues & Learnings
+
+- **The agent cannot see.** Commands must never instruct it to judge rendered appearance
+  or runtime metrics from source. Every design command carries `## The evidence rule`;
+  keep it when editing, and mark unrenderable claims `unverified — needs rendering`.
+- **MCP tool names and slash command names differ for spacing.** The MCP tool is
+  `spacing-specialist`; the slash command is `/spacing-layout-specialist`. The audit
+  report's "Next steps" names the MCP tool, which free-library users do not have.
+- **`commands/*.md` backs both products.** The same file powers the free slash command
+  and the paid MCP specialist, so a command edit changes both.
+- **Anything under `commands/` ships as a user-visible command.** Shared partials cannot
+  live there — `commands/_shared/x.md` would appear as `/design-with-claude:_shared:x`.
 
 ## Session History
 

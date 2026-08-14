@@ -15,7 +15,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc && node scripts/chmod-bins.mjs",
+    "build": "node scripts/sync-counts.mjs --check && tsc && node scripts/chmod-bins.mjs",
+    "sync-counts": "node scripts/sync-counts.mjs",
+    "check-counts": "node scripts/sync-counts.mjs --check",
     "dev": "tsc --watch",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",

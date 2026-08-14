@@ -42,6 +42,8 @@ import WrenchScrewdriverIcon from "@heroicons/react/24/outline/WrenchScrewdriver
 import NoSymbolIcon from "@heroicons/react/24/outline/NoSymbolIcon";
 import PencilSquareIcon from "@heroicons/react/24/outline/PencilSquareIcon";
 import ScaleIcon from "@heroicons/react/24/outline/ScaleIcon";
+import QuestionMarkCircleIcon from "@heroicons/react/24/outline/QuestionMarkCircleIcon";
+import QueueListIcon from "@heroicons/react/24/outline/QueueListIcon";
 import DocumentTextIcon from "@heroicons/react/24/outline/DocumentTextIcon";
 import { type ComponentType, type SVGProps } from "react";
 
@@ -92,6 +94,8 @@ const SKILL_ICON_MAP: Record<string, HeroIcon> = {
   "anti-slop-designer": NoSymbolIcon,
   "ui-copywriter": PencilSquareIcon,
   "design-critic": ScaleIcon,
+  "design-grill": QuestionMarkCircleIcon,
+  "design-triage": QueueListIcon,
   "briefing-claude": DocumentTextIcon,
 };
 

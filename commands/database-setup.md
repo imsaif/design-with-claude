@@ -87,7 +87,24 @@ This adds a new row. Like adding a new row to a spreadsheet.
 
 **"relation does not exist":** The table name in your code doesn't match the table name in Supabase. Check the spelling exactly.
 
-**Data not showing after adding it:** Make sure Row Level Security (RLS) is disabled for development. In Supabase, go to your table → RLS → Disable.
+**Data not showing after adding it:** Row Level Security (RLS) is on by default and blocks reads until you add a policy. **Do not disable RLS.** The anon key ships in your frontend bundle, so with RLS off anyone who opens your site can read and write your whole table — including in "development", because the same project usually becomes production.
+
+Add a read policy instead. In Supabase: Authentication → Policies → your table → New policy, or run this in the SQL editor:
+
+```sql
+-- Allow anyone to read this table. Use only for genuinely public data.
+create policy "public read" on your_table
+  for select using (true);
+```
+
+If the data is per-user, scope it to the signed-in user rather than opening the table:
+
+```sql
+create policy "own rows" on your_table
+  for select using (auth.uid() = user_id);
+```
+
+Leave RLS enabled and add one policy per operation (select, insert, update) that the app actually needs.
 
 ## What to ask if unclear
 - What data does your app need to store?

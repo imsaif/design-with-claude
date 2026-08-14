@@ -26,3 +26,26 @@ docs/study-corpus-*.md
 /ROADMAP_FROM_COGNITION.md
 /docs/SESSION-LOG.md
 /docs/superpowers/
+
+# Local research scratch (HN/Reddit scrapes, scratch HTML, one-off scripts).
+# Untracked deliberately - see the stray-file cleanup commit.
+.firecrawl/
+*.html
+!web/**/*.html
+hn*.py
+hn*_out.txt
+hn_*.json
+flat*.py
+flat_*.txt
+harvest*.py
+harvest*_out.txt
+sad*.txt
+sad*.html
+rd*.py
+reddit_out.txt
+chains*.txt
+urls.txt
+ux1.txt
+j1.txt
+j2.txt
+veluthoor_readme.md

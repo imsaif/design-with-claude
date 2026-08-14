@@ -1,0 +1,447 @@
+--- 49028801 | n8n_and_coffee | 2026-07-23 | https://news.ycombinator.com/item?id=49028801
+To be honest, I did not know others are using AI to make cookie cutter looking landing pages.I've used AI to create landing pages. But from the sound of things, probably not the way others do.1) I use a custom GPT to 'swipe' the appropriate concepts from one of the hundreds of winning b2b or b2c sales letter in my swipe file collection that best matches who I am selling to, and then have the GPT convert my notes and product details and company details and avatar details into a sales offer based on the winning concepts uncovered by swiping the winning offer, _never_ copy the words, not even paraphrase2) After the GPT gives me the converted copy, I give that content to chatgpt and claude for copy improvements and then have chatgpt give me landing page HTML+CSS from the approved sales copy3) And then I find successful sites in the industry and tell ai (usually chatgpt first) to emulate what is working  behind the scenes for the winning site, and then have AI give me a second HTML+CSS based on the layout and design ideas etc uncovered from studying the winning performers within google/bing for the appropriate target market am also going after. I give the output to claude to see if chatgpt nailed it or missed the mark4) If all is well according to both llms after several rounds of back and forth and push backs, I hand edit everything to look and sound closer to what I want it to look and sound likeNothing cookie cutter about that.I assumed everyone did something similar.Oh. I do u
+
+--- 48971746 | codazoda | 2026-07-19 | https://news.ycombinator.com/item?id=48971746
+Not op, but, because I’m not a designer, I’d probably try to use an AI tool and maybe give it specific instructions to make it suck a little. Then again, not being a designer, I’d probably make it suck too, but it would take forever. 
+
+--- 48487085 | ygjb | 2026-06-11 | https://news.ycombinator.com/item?id=48487085
+Hi folks, I'm a parent, technology professional, and security engineer based in British Columbia.Over the last couple of years I've found myself having more conversations with parents who know AI is going to affect their children's future, but aren't sure where to start learning about it. Most of the material I found was either highly technical, heavily promotional, or focused almost entirely on worst-case scenarios.I started putting together a guide for friends and family, and it gradually evolved into a larger project.The guide focuses on practical questions such as:How AI is already affecting education What parents should understand about privacy and safety The difference between using AI to learn and using AI to avoid learning Skills that may become more important in an AI-enabled future Ways families can talk about AI togetherThe intended audience is parents who may not have a technical background but want to better understand the technology their children are encountering.The guide is free to read and download. I'd be interested in feedback from HN readers, particularly parents, educators, and people working in AI.I'd also be interested to hear whether others are seeing schools, districts, or governments developing guidance around AI literacy for parents.A note about content: I am not a designer, so while I researched and wrote the content myself, and collected feedback from parents, educators, and students, I did use AI tools to assist with document and web layout, and
+
+--- 48481564 | maclinz | 2026-06-10 | https://news.ycombinator.com/item?id=48481564
+Thank you, that's fair feedback. I'm a full-stack swe, not a designer, so I used Claude to help get to a clean and functional UI. As the product matures, I'll probably invest more time in developing a stronger visual identity. I really appriciate your feedback. Thanks again. 
+
+--- 48440598 | dakolli | 2026-06-08 | https://news.ycombinator.com/item?id=48440598
+Its an impressive project. You could get really far by just picking a softer color palette. There's an over reliance on color coding going on that's hard on the eyes.Optional pagination would be nice, I would use a Zebra pattern on the rows backgrounds and larger row heights but that's just me, and I'll admit making nice tables with lots of data look nice is hard. I'm also not a designer :/The problem is when I see this color pallete I assume everything is vibe coded and then I have a hard time taking the rest of the project seriously / trusting it. I'm not sure why every llm generated UI uses those colors, but they do. I'm not sure how it ended up so concretely in their training data either because this wasn't ever the norm. I think the models just start with Red Blue Green Yellow and then expect the user to adjust from there, idk. 
+
+--- 48168965 | somenameforme | 2026-05-17 | https://news.ycombinator.com/item?id=48168965
+I think there's an interesting dichotomy. I find that for things I'm already capable at, LLMs are relatively inconsequential. But for things I'm no good at, it's a huge game changer. For a large company, that's going to be able to hire out most needed roles for any given project, this means the overall effect is going to be relatively inconsequential. At best, they may be able to cut down on labor costs by having one guy do a mediocre job at 5 people's jobs in exchange for a worse product. Short-term gains for long-term costs, wcgw?But for a small studio, or independent developer, LLMs are a big game changer. Being able to do a mediocre job at 5 people's jobs is a huge leap over trying to get by without those jobs - relying on third party assets or other sorts of content, or even worse - doing a really awful job of trying to improv those jobs. See the UI of basically any program ever that was clearly laid out by a programmer and not a designer. Or there's the whole trying to rip off stuff from dribbble, but lacking the skills to do so. Whereas with AI, you can suddenly competently rip off everything and everybody - it's basically their entire MO. 
+
+--- 48083322 | fireharp | 2026-05-10 | https://news.ycombinator.com/item?id=48083322
+I'm not sure if there is a strong value proposition here. It is more of an exercise. Few hours of joy doing smth :)I’m not a designer either. I basically took Claude Design, and practiced a little bit.For me, as an engineer who doesn’t really do design at all, it feels pretty reasonable. Recently I would usually just take Tailwind and some decent default component set, like shadcn, and build from there. Now I can do a reasonable version myself with Claude, which is cool. 
+
+--- 47813174 | dbg31415 | 2026-04-18 | https://news.ycombinator.com/item?id=47813174
+Modern Figma design libraries are one of the best things to happen to product teams in the last 20 years.Reusable components. Shared styles. Auto layout. Variants. Design tokens. So many useful plugins! Interactive prototypes. Dev mode handoff. Versioned libraries. A single source of truth keeping designers, engineers, and PMs speaking the same language.It's fucking bliss when you use it right. And best of all, anyone on the team can build with the legos the designers gave us!Teams finally started treating the design system like infrastructure instead of decoration.Then Figma Make showed up.It generates pages that ignore your components, skip your tokens, and treat every screen like a fresh snowflake. Looks fine in the mockup. Lands like a brick on the dev team. Now every page is bespoke and every handoff is a rebuild. Fucking sucks.We had it all figured out, then we fucked it up.AI was supposed to accelerate momentum. But it just so completely lacks maturity. AI Tools are dragging teams back to 2010, when every page was a Photoshop file (with way too many layers and shitty names for them) and none of the designers can agree on what radius to assign to their buttons.Good design systems are a discipline. If your AI tool doesn't respect the library, it's not a designer. It's an intern with a Molotov cocktail waiting to destroy your productivity.I haven't used Claude Design yet, I'll try it, but I LOVE Figma, and I hate Figma Make. I don't have high hopes for Claude here. 
+
+--- 47807189 | jonlucc | 2026-04-17 | https://news.ycombinator.com/item?id=47807189
+Transparently, I'm not a designer, I'm a biologist. That said, the things I want designed by Claude don't need great design. I need a slide format that is consistent from one study to the next so the reader can follow. I need a tool that tracks the number of mice in each lab and flags if someone is using more resources than we expect. I need a personal site that is easy to work with that tracks my pet geckos' feed and environment.If I have a product out of my lab that makes it to human trials, there will be a full team of marketers and designers tasked to the brand image. 
+
+--- 47807022 | strickjb9 | 2026-04-17 | https://news.ycombinator.com/item?id=47807022
+First NanoBanana came for the artists, and I did not speak out— Because I was not an artist.Then Claude came for the designers with Claude Design, and I did not speak out— Because I was not a designer.... 
+
+--- 47740061 | bmurphy1976 | 2026-04-12 | https://news.ycombinator.com/item?id=47740061
+I still struggle with the design, but once that's locked in getting it to implement things is pretty straightforward.  I do have to fight the AI a bit to make sure things are simple and clean, but it's pretty good at that with the right hand-holding.The design is still a problem though, precisely because I am not a designer.  I don't know what's actually good, I only know what's good enough for me.  I can't tell the difference between "this is actually good" and "this is vibe-designed slop" but I have enough experience to at least make sure the implementation is robust. 
+
+--- 47495234 | rlustin | 2026-03-23 | https://news.ycombinator.com/item?id=47495234
+Not a designer at all, I used recraft.ai and iterated until I got something I liked. 
+
+--- 46759351 | sgenov94 | 2026-01-25 | https://news.ycombinator.com/item?id=46759351
+Hey everyone!I wanted to share a project I've been working on called [*ReplacedBy*](https://replacedby.net). It's a simple site with a straightforward goal: to track the stories of people who have been replaced by AI, automation, or robots. The idea isn't to hate on AI (I don't!), but to create a space to talk about the human side of this big technological shift.If you've been impacted, please come share your story. I've kept things simple... There's no user authentication, just some basic rate limiting and cloudflare to prevent spam. All posts are manually approved to keep the content respectful and on-topic. After enough posts are submitted, you will be able to see a very simple post carousel (that will be expanded on in the future).The entire project is open source. You can find the source code on [GitHub](https://github.com/Michaelpalacce/ReplacedBy). I'm not a designer, so a lot of the UI is AI-assisted (I hooked up the components, made them reactive, then AI placed it nicely... even tho honestly it kept messing up, but whatver). You can also find the AI disclosure in the repo's README.There is a bit of data pre-seeded, a sort of best-effort research on my end and based on articles that wre concrete in who and how was impacted. The list is by no means complete, so if you feel strongly about a mass layoff that happened, do open an issue and I will add it.There's a [roadmap](https://github.com/Michaelpalacce/ReplacedBy?tab=readme-ov-f...) in the repo if you're curious abou
+
+--- 46585749 | maxkuan | 2026-01-12 | https://news.ycombinator.com/item?id=46585749
+You probably nailed it. I'm a backend Data Scientist, not a designer, so "un-intuitive UI" is unfortunately my signature style right now.But you are 100% right about the payment friction. You shouldn't have to swipe a card just to see if the analysis is actually good.I just pushed a fix: I opened up a 'Sandbox' mode so you can see the AI Boardroom in action without paying.Thanks for the honest slap in the face. I needed that. 
+
+--- 45666029 | haiji2025 | 2025-10-22 | https://news.ycombinator.com/item?id=45666029
+About SeaGames SeaGames is a no ads free games platform featuring hundreds of popular titles. SeaGames Platform — Game Features •Fast to pick up: Minimal learning curve with low input complexity. •Polished visuals: Clean, refined art direction. •Satisfying moment-to-moment feel: Gameplay emphasizes instant fun and clear feedback. •Layered progression: Staged levels that ramp thoughtfully. •Snappy performance: Game load times must be fast for a seamless experience. Game Tags (Navigation)•Recently Played: Records the games you’ve played most recently. Log in to SeaGames to prevent progress loss. •Newest: Shows titles added today. We update SeaGames with new games every day—if you’re ever out of ideas, click this and try something fresh. The next time you see friends playing it, you can proudly say, “I played it on SeaGames first!” •Hot: Highlights the community’s favorite games from the past week—well-loved picks that are worth your time. •Updated: Lists games that received content updates within the past week (bug fixes, user-experience improvements, and more). We carefully track and respond to player feedback—your input is our greatest support. •Seaplay AI: This is AI Game Creator.The core feature of SeaGames. With our in-house tools, you can generate a playable game with one click—even if you’re not a designer, coder, or artist. Create a game and show it off to your friends!Coming soon! Category Tag: For easier browsing, our designers decided—after much discussion—to keep th
+
+--- 45114458 | masto | 2025-09-03 | https://news.ycombinator.com/item?id=45114458
+Sometimes I spend half an hour writing a prompt and realize that I’ve basically rubber-ducked the problem to the point where I know exactly what I want, so I just write the code myself.I have been doing my best to give these tools a fair shake, because I want to have an informed opinion (and certainly some fear of being left behind). I find that their utility in a given area is inversely proportional to my skill level. I have rewritten or fixed most of the backend business logic that AI spits out. Even if it’s mostly ok on a first pass, I’ve been doing this gig for decades now and I am pretty good at spotting future technical debt.On the other hand, I’m consistently impressed by its ability to save me time with UI code. Or maybe it’s not that it saves me time, but it gets me to do more ambitious things. I’d typically just throw stuff on the page with the excuse that I’m not a designer, and hope that eventually I can bring in someone else to make it look better. Now I can tell the robot I want to have drag and drop here and autocomplete there, and a share to flooberflop button, and it’ll do enough of the implementation that even if I have to fix it up, I’m not as intimidated to start. 
+
+--- 45000217 | airobus | 2025-08-24 | https://news.ycombinator.com/item?id=45000217
+Hey HN,I'm the founder of a startup, and one of my biggest time sinks was creating decent-looking banners for ads, social media, and blog posts. I'm not a designer, and tools like Photoshop have a steep learning curve. I figured others might have the same problem.So, I built aibanner.co. It's an AI-powered tool that generates banners from a simple text prompt. You just describe what you need, and it creates a bunch of options in seconds. The goal is to get professional-looking creatives without any design skills.It’s designed for marketers, founders, and anyone who needs visual content quickly. You can create banners for social media, ads, email headers, and more. It has already helped users save about 95% of their design time and has generated over a million banners.It's free to try, I'd love to hear your feedback and any suggestions for improvement! 
+
+--- 44664630 | meander_water | 2025-07-23 | https://news.ycombinator.com/item?id=44664630
+I completely agree with this. I recently helped my dad put together a presentation. He is an expert in his field, so he already had all the info ready in slides. But he's not a designer, he doesn't know how to make things look "good". I tried a handful of "AI slide deck" apps. They all had a slick interface where you could generate an entire slide deck with a few words. But absolutely useless for actually doing what users need, which is to help them beautify rather than creating content. 
+
+--- 44451989 | hadfamily | 2025-07-03 | https://news.ycombinator.com/item?id=44451989
+I built this tool to help me manage and search through hundreds of bookmarks I’ve saved over time, especially while doing research.Most existing tools felt either too heavy or too limited for my workflow. So I made Clippingmini — a lightweight, fast, and tag-based web clipping tool that just works.I'm not a designer, so the UI is minimal. But it does the things I need: - Save any URL with a custom title, memo, and tags - Search by keyword or filter by tags - Auto-categorize clippings with basic AI (still experimental) - Public mode: generate a shareable page of selected bookmarks - Simple interface optimized for fast input - Works on mobile tooIt’s built with Vue.js + Firebase and I use it almost daily.I’m sharing it here in case anyone else has felt the same pain managing bookmarks.   Would love to hear thoughts or suggestions.Thanks! 
+
+--- 45633171 | zxcholmes | 2025-10-19 | https://news.ycombinator.com/item?id=45633171
+You're absolutely right about the AI-generated look. I'm not a UI designer, so I relied too heavily on AI for the frontend. I should probably study designs from other websites and create something more custom instead. Thanks for the feedback! 
+
+--- 44274642 | thunderbat3982 | 2025-06-14 | https://news.ycombinator.com/item?id=44274642
+I am not a UI designer. I am no expert here.Like many of us, my initial reaction is to criticize because it feels like they asked ChatGPT to create the script for this demo video with a lot of filler words. It's exhausting parsing all the "connecting to the physical world" phrases just to understand they added refraction between UI elements. I wish someone would just speak these new things to me straightly.However, I can't pass over that Apple's Design team is top-notch. They absolutely take the little polishes to the highest degree they can. A lot of it doesn't look necessary. We clown on Apple but comparing the iPhone UI to Android, there are just many less visual glitches and jagged edges on iPhone. Apple is known for its polish. A lot of it looks like repeating the visual eye candy of the past that people quickly grew tired of.To me this looks like they're bridging the gap to running the UI as a full 3-dimensional physics sandbox. They talk about how the new glass surfaces are broken into 4 layers that adapt to each other. I think this is cool how this works mechanically, but I know this will be hardly be legible to most users. I'll have to train myself to get used to it. I do prefer flatter, more minimal designs with less complexity.I think the future is the UI going from 2d elements to 3d elements. I think scrollbars and buttons and such will be defined as full material objects in 3d space in the future with inherent weight and inertia, etc. I know as an outsider I'm pr
+
+--- 49269828 | LoganDark | 2026-08-12 | https://news.ycombinator.com/item?id=49269828
+Every post on this website looks AI generated but at least most of it doesn't feel like complete fluff. 
+
+--- 49267966 | amanzi | 2026-08-12 | https://news.ycombinator.com/item?id=49267966
+Even the website looks AI generated. Lots of cards with hover effects, icons in square boxes, the button shapes and behaviours, and just the general look and feel has Claude written all over it. 
+
+--- 49149565 | Animats | 2026-08-02 | https://news.ycombinator.com/item?id=49149565
+Did they publish the prompt?It looks AI-generated. All that detail. Short words in decorative fonts. AI doesn't know what "Midway" means in a fair context. 
+
+--- 49087868 | Ardon | 2026-07-28 | https://news.ycombinator.com/item?id=49087868
+This is very cool. I can't comment on the encryption, but I did want to mention that your page design is pretty bad, which is a shame for something so useful.It looks AI generated, you can probably paste this into your LLM of choice to improve it.It has pretty subtle information hierarchy.  All the text sizes except for the main heading are withing 15% size of each other. More differentiation here would be the lowest hanging fruit, I think. I'd also say all the text needs to increase in size in general. It's pretty low contrast as well, made worse by the small font size. And some things, like button highlights, are too high-contrast. They pull too strongly away from the rest of the text and flow. You also have a lot of buttons, some of them are even just to pre-fill demo text. I'd cut it way down.I think the goal should be that the critical path to making a 'burn link' is at the very top of the information hierarchy. Big heading "Your Secret", with very well signposted text box. Big heading "Link Expiration" with a big range slider (with number input.)(Sliders have the advantage of structurally communicating what you're doing. You fill up the available slider to add more time, you shrink it to have less time.)The overall idea is that the eye naturally snaps to the next step when the previous one is done with zero effort. Really blast the information and steps into people's brains.I hope Flashpaper takes off! 
+
+--- 48857980 | dnpls | 2026-07-10 | https://news.ycombinator.com/item?id=48857980
+The whole site looks AI generated. Those 3D brains are... smooth. 
+
+--- 48619614 | petterroea | 2026-06-21 | https://news.ycombinator.com/item?id=48619614
+Immediately the wallpaper looks AI generated, and for me that immediately removes any trust in "graphic design" and "attention to detail. But the rest is cool 
+
+--- 48423557 | Matumio | 2026-06-06 | https://news.ycombinator.com/item?id=48423557
+Your post looks AI generated and the rule is not to do that: https://news.ycombinator.com/item?id=47340079Also, you have to admit that when your first interaction on HN is posting a self-promotion it seems like bad manners at best. 
+
+--- 48288233 | weaksauce | 2026-05-27 | https://news.ycombinator.com/item?id=48288233
+what's funny is the website looks AI generated though that's just the style of the time i guess. 
+
+--- 48228319 | hombre_fatal | 2026-05-21 | https://news.ycombinator.com/item?id=48228319
+I'm not saying it looks AI generated, but AI made it possible to polish things to a level that very few people took the time to ever do themselves.This is a great thing, but it's also a tell since we all saw the UIs people were building by hand pre-AI.That said, I don't think it matters. What matters is whether it's low quality. 
+
+--- 48179475 | l1k | 2026-05-18 | https://news.ycombinator.com/item?id=48179475
+Fun fact (or not so fun if you're a subscriber):Somebody is spamming kernel mailing lists under the name Marian Corcodel with a 26 MByte message multiple times per day containing a collection of nonsensical patches. Looks AI-generated, perhaps with the intention to poison LLMs. This has been going on for a few days now.https://lore.kernel.org/all/CAGg4U=GNtCObd_Nbm_1Rr5FEvPb69Yz... 
+
+--- 47875497 | stared | 2026-04-23 | https://news.ycombinator.com/item?id=47875497
+As much as the website looks nice, the design looks AI generated - image loading animations, or quotation marks for species names. (Both are needles decorations.) 
+
+--- 47844009 | gaze | 2026-04-21 | https://news.ycombinator.com/item?id=47844009
+this paper looks AI generated to me... I mean, there's no experiments to go along with it. 
+
+--- 47352206 | kittikitti | 2026-03-12 | https://news.ycombinator.com/item?id=47352206
+The intent of the idea is there, and I agree that there should be more precise syntax instead of colloquial English. However, it's difficult to take CodeSpeak seriously as it looks AI generated and misses key background knowledge.I'm hoping for a framework that expands upon Behavior Driven Development (BDD) or a similar project-management concept. Here's a promising example that is ripe for an Agentic AI implementation, https://behave.readthedocs.io/en/stable/philosophy/#the-gher... 
+
+--- 47324172 | juliushuijnk | 2026-03-10 | https://news.ycombinator.com/item?id=47324172
+In case it looks AI generated and that bothers people, here's the 3 year old video of the app: https://youtu.be/BbgxvNRfq0k 
+
+--- 47226426 | tripplyons | 2026-03-03 | https://news.ycombinator.com/item?id=47226426
+As much as I like the ideas, this article looks AI generated. This line with the bullet point, bolded label and colon, em-dash, and the second clause "it's about" all point to AI writing."Fiber-optic cables: Fiber-optic cables enable higher bandwidth phone lines and television—it’s about getting more television channels to more people." 
+
+--- 47209154 | trollbridge | 2026-03-01 | https://news.ycombinator.com/item?id=47209154
+This original post looks AI-generated.Could you share the prompts you used to generate it? 
+
+--- 47050094 | MisterTea | 2026-02-17 | https://news.ycombinator.com/item?id=47050094
+That picture certainly looks AI generated as that machinery appears fictitious. And what is the little house in the center? Control room? Guard booth? It's nonsense for sure. Disappointing. 
+
+--- 47003808 | langarus | 2026-02-13 | https://news.ycombinator.com/item?id=47003808
+the character looks ai generated, doesn't inspire confidence 
+
+--- 46908795 | pseudohadamard | 2026-02-06 | https://news.ycombinator.com/item?id=46908795
+Yup.  It's so bad that the cURL folks famously stopped accepting AI-generated reports because they were drowning in slop.  So the post, which incidentally also looks AI-generated, is praising its ability to generate slop.Another thing with these success stories is that they often target old, incredibly crufty code bases which are practically guaranteed to have vulns in there somewhere, so you'll always get one or two wins in amongst the avalanche of slop.  It'd be interesting to see how well this does against standard SAST benchmarks. 
+
+--- 46868798 | SCdF | 2026-02-03 | https://news.ycombinator.com/item?id=46868798
+It's not clear why this is being upvoted.There is not a sample chapter to check, the two authors own the website and appear to be just some developers who know go, and frankly the cover looks AI generated.As a go developer, why am I supposed to care about this? 
+
+--- 46575886 | nerdponx | 2026-01-11 | https://news.ycombinator.com/item?id=46575886
+It certainly looks AI generated. Huge amount of academic "boilerplate" and not much content besides. It's broken up into chapters like a thesis but the actual novel content of each is about a page of material at most.The Ghost UI is a nice idea and the control feedback mechanism is probably worth exploring.But those are more "good ideas" rather than complete finished pieces of research. Do we even have an agreed-upon standard technique to quantify discrepancy between a prompt and an output? That might be a much more meaningful contribution than just saying that you could hypothetically use one, if it existed. Also how do you actually propose that the "modulation" be applied to the model output? It's so full of conceptual gaps.This looks like an AI-assisted attempt to dress up some interesting ideas as novel discoveries and to present them as a complete solution, rather than as a starting point for a serious research program. 
+
+--- 46503568 | AStrangeMorrow | 2026-01-05 | https://news.ycombinator.com/item?id=46503568
+Yeah I am not an absolute GenAI hater. I’ve used it quite a bit myself, and I think there are ways to be creative about it. However 95% of what we see online, especially in the Ads space, is bottom of the barrel quality. It is obvious basic AI generated images/video most of the time and for me is an instant “I’m not going to bother with that product” marker.One of the worst one was an allegedly “illustrated history” book. All Ads were of AI generated history book pages with tons of historical inconsistencies. Looked up the real book and it actually looked decent: hand drawn, well formatted etc. Why not use pictures of the actual book instead of whatever mess I was seeing.However I also keep getting Ads for this other historical book that drives me nuts: https://www.kickstarter.com/projects/vilno/the-codex-bookI might be wrong but to me most of the art is looks AI generated, and the few pages they show just don’t make any historical sense. Yet they sell it as “hand drawn”. From the animations seems like some stuff was AI generated and then redrawn by hand? But the drawing themselves are plain weird: the nonsensical castle. The archers and scoped crossbow in a page about medieval crossbows, the silly submarine 
+
+--- 46469162 | nateb2022 | 2026-01-02 | https://news.ycombinator.com/item?id=46469162
+Your post, most of your comments here, and much of the source code looks AI generated; I get the feeling you lack sufficient understanding of what you're even trying to achieve here.Also regarding the code, why are you defining private?  #define private public (https://github.com/Dealta-Foundation/DealtaCore/blob/e1598d3...)This is a massive code smell. 
+
+--- 46268445 | henning | 2025-12-14 | https://news.ycombinator.com/item?id=46268445
+This looks AI-generated, including the linked code. That explains why the .zig-cache directory and the binary is checked into Git, why there's redundant commenting, and why the README has that bold, bullet point and headers style that is typical of AI.If you can't be bothered to write it, I can't be bothered to read it. 
+
+--- 45933533 | ranger_danger | 2025-11-14 | https://news.ycombinator.com/item?id=45933533
+README looks AI-generated, I wonder how much of the entire project was made the same way. 
+
+--- 45639582 | flexagoon | 2025-10-20 | https://news.ycombinator.com/item?id=45639582
+The whole website looks AI generated (I mean the frontend itself, not just the images which obviously are). Is that the case or is your design language just very similar to that of modern LLMs?Also,https://www.colormindsai.com/category/all/charactersAre you sure about the legality of distributing coloring images of copyrighted characters on a commercial website? Especially of Nintendo characters??? 
+
+--- 45597451 | Animats | 2025-10-15 | https://news.ycombinator.com/item?id=45597451
+The picture looks AI-generated, too, or at least irrelevant clip art. 
+
+--- 45006652 | throw_m239339 | 2025-08-24 | https://news.ycombinator.com/item?id=45006652
+Is it real? I can't find any serious news outlet confirming that information. The whole site looks AI generated... 
+
+--- 44633806 | simonw | 2025-07-21 | https://news.ycombinator.com/item?id=44633806
+This looks AI generated.There are places where it includes citation references like [15] (search for "on complex problems" on https://appetals.com/promptguide/advanced-techniques-for-pow... ) that are just text, they don't resolve to anything.Other places repeat the same point twice for no apparent reason - the "Context window" section on https://appetals.com/promptguide/understanding-the-machine-m...I spotted a few "not X but Y" constructions, like "You'll learn to communicate with AI like a pro, not like someone shouting into the void."I don't think reading this is a good use of your time. 
+
+--- 44451153 | jessehorne | 2025-07-03 | https://news.ycombinator.com/item?id=44451153
+The website looks AI generated, which I'm not necessarily complaining about but I am noticing patterns with using claude to do similar things. Just a heads up.I think you could make it quite a bit clearer what this actually is. It feels like it took me too long to realize it's a prompt for asking questions about your ad data.Also, this feels like a scam, because why would there be a line for me to skip and why does it cost me $199 to do that? Seems like a weird profit strategy. 
+
+--- 44032822 | nightpool | 2025-05-19 | https://news.ycombinator.com/item?id=44032822
+This looks AI-generated and very misleading.... definitely decreases my trust in the linked library, which is unfortunate given that the overall approach seems novel and interesting. The intro starts off by saying SDB is better than rbspy because it doesn't have errors related to data races. But then in the body of the article, it says "Data races may occur if the Ruby VM updates the stack while SDB is reading it", but says that's fine because similar issues occur in other profilers. That sort of trivial contradiction (along with the vague language, overly verbose / repetitive intro and summary, and rando citations (an MIT course lecture??)) feels like the hallmark of a predictive language model with no actual understanding of the code it's explaining. 
+
+--- 44031390 | MichaelDickens | 2025-05-19 | https://news.ycombinator.com/item?id=44031390
+I'm almost positive it's AI generated. Look at the chairs at the kitchen island in the background. No human would draw chairs that look like that.The picture at https://www.inventwood.com/superwood-facade also looks AI-generated.The fact that they're using AI images on their landing pages does not give me confidence in the quality of the product. 
+
+--- 43648324 | pedalpete | 2025-04-10 | https://news.ycombinator.com/item?id=43648324
+I'm amazed that nobody is pointing out that the entire thing doesn't look "designed" it looks AI generated.Give me a clock timer that has these features.... Make me a website to sell this fake timer...Particularly the instructive text on the back. A real designer would never have all that descriptive text always visible for things you'll only use once. 
+
+--- 43622012 | sohkamyung | 2025-04-08 | https://news.ycombinator.com/item?id=43622012
+Off-topic, but the image captioned "Including workers in traditional dress handling solar infrastructure" looks AI generated. The workers on the extreme left and right are standing on solar panels, and the one in the centre is holding some metal bars that merge Escher-like with the panels behind him.Even the caption sounds like part of an AI prompt to generate the image. 
+
+--- 43529231 | JumpCrisscross | 2025-03-31 | https://news.ycombinator.com/item?id=43529231
+> You are basically putting your head in the sand and goading at people to drag it out for youNah. I pretty much agree with what Utah is doing here (though I’d prefer just not mandating it and making the decision as local as it needs to be). OP’s link list looks AI generated. That’s just not a good-faith comment. 
+
+--- 43220300 | Capricorn2481 | 2025-03-01 | https://news.ycombinator.com/item?id=43220300
+Most people I know actively hate the AI art slop that has been flooding the internet. I would wager a lot of people do, evident when a common insult is to say a piece of art looks AI generated.This reaction hasn't happened for AI programming. People just assume it will work because AI is made by programmers. 
+
+--- 43208838 | crote | 2025-02-28 | https://news.ycombinator.com/item?id=43208838
+I've personally been seeing an overall shift in the direction of a strong dislike for any kind of low-effort content.People are pretty hostile towards AI-generated content, so any platform wanting to remain relevant is going to have to take measures to keep out AI-generated content. If you allow it in, it'll quickly become 99% of your overall content and all the human consumers will leave.As a side effect I'm seeing a lot of human-generated content getting labeled as AI-generated because it looks AI-generated. Sure, a lot of blogspam is going to be replaced by AI slop, but even human-written blogspam isn't going to survive the shift, simply because its quality is so poor that it is essentially indistinguishable from AI slop.Right now we're in an in-between phase. Most people are still using low-quality aggregators like Google. This will inevitably have to change. Either Google & friends somehow get their shit together (I doubt it), or we're going to see a shift towards known-good curated content like 1990s webrings. I wouldn't be surprised to see a vetted-human Web Of Trust, but for content. 
+
+--- 42230316 | edot | 2024-11-24 | https://news.ycombinator.com/item?id=42230316
+Yeah, I have never seen something like that in America in my life. Always plenty of machines sitting around, and every few weeks some guys will hop on them for the day, but other than that they just sit there. It almost looks AI generated how densely packed those are - though I assume that this is real footage. 
+
+--- 42106328 | dgellow | 2024-11-11 | https://news.ycombinator.com/item?id=42106328
+That website is the definition of untrustworthy, looks AI generated 
+
+--- 41980314 | throwaway81523 | 2024-10-29 | https://news.ycombinator.com/item?id=41980314
+What a crap article.  The only actual info in it is that there are two models of the accelerator, and their prices, and that one is 2x faster.  It gives the speed in TOPS but that is useless since it doesn't say what the operations are.Others mention the article itself looks AI generated.  I didn't spot that, but it would explain some things. 
+
+--- 41974946 | tripplyons | 2024-10-28 | https://news.ycombinator.com/item?id=41974946
+The article you linked does not include any content related to the title you gave here, and looks AI-generated to me. 
+
+--- 41803846 | Lockal | 2024-10-10 | https://news.ycombinator.com/item?id=41803846
+Also page-source looks ai-generated. Each tag is annotated, as if <title> is not self-explanatory enough. 
+
+--- 41584050 | derefr | 2024-09-18 | https://news.ycombinator.com/item?id=41584050
+> those YouTube channels which post a new "product review" every 10 minutes, with an AI generated thumbnail and AI voice reading an AI script that was never graced by human eyes before being shat out onto the internetThe problem is that, of the signals you mention,• the highly-informative ones (posting a new review every 10 minutes, having affiliate links in the description) are contextual — i.e. they're heuristics that only work on a site-specific basis. If the point is to create a training pipeline that consumes "every video on the Internet" while automatically rejecting  the videos that are botspam, then contextual heuristics of this sort won't scale. (And Google "doesn't do things that don't scale.")• and, conversely, the context-free signals you mention (thumbnail looks AI-generated, voice is synthesized) aren't actually highly correlated with the script being LLM-barf rather than something a human wrote.Why? One of the primary causes is TikTok (because TikTok content gets cross-posted to YouTube a lot.) TikTok has a built-in voiceover tool; and many people don't like their voice, or don't have a good microphone, or can't speak fluent/unaccented English, or whatever else — so they choose to sit there typing out a script on their phone, and then have the AI read the script, rather than reading the script themselves.And then, when these videos get cross-posted, usually they're being cross-posted in some kind of compilation, through some tool that picks an AI-generated thum
+
+--- 40996493 | kylebenzle | 2024-07-18 | https://news.ycombinator.com/item?id=40996493
+Agree. I personally will not be reading any email that looks ai generated.Maybe that will be the new "spam box", ANOTHER inbox for AI generated emails. 
+
+--- 40785917 | beardyw | 2024-06-25 | https://news.ycombinator.com/item?id=40785917
+WARNING - this comment above contains an unrelated URL link, and looks AI generated. 
+
+--- 40528659 | perch56 | 2024-05-30 | https://news.ycombinator.com/item?id=40528659
+I was reading this comment and thought it looks AI generated. GPTZero’s scan resulted in detecting 100% of this text as  likely AI generated. 
+
+--- 40387520 | neglesaks | 2024-05-17 | https://news.ycombinator.com/item?id=40387520
+This article appears to be AI-created and also, it doesn't answer its own title question.Update: Checked out the host site. There's zero human fingerprints on any content made there. It all looks AI generated and completely anonymous. 
+
+--- 40254844 | AlwaysRock | 2024-05-04 | https://news.ycombinator.com/item?id=40254844
+> It was clearly the work of someone inexperienced walking through walls in an AI-fuelled coding frenzy.Isnt this what code reviews are for? I catch a decent amount of code that looks AI generated. Typically, some very foreign pattern or syntax that this engineers never used nor is common in the codebase. Or something weirdly obtuse that could be refactored and shows a lack of understanding.Normally I ask something like, "Interesting approach! Is there a reason to do it this way over (mention a similar pattern in our codebase)?" or if it's egregious, I might ask, "Can you explain this to me?".This feel similar to early career engineers copy pasting stack overflow code. Now its just faster and easier for them to do. It's still fairly easy to spot though. 
+
+--- 48928038 | techpression | 2026-07-15 | https://news.ycombinator.com/item?id=48928038
+I fully expected this to be complements for the output you get from those tools for some reason, that AI generated look. No idea why anyone would want that though. 
+
+--- 47867235 | tptacek | 2026-04-22 | https://news.ycombinator.com/item?id=47867235
+I think AI-generated look-feel and web design is basically fine, and that the real problem is that so much of the substance of these submissions is vibe-coded. Even that's OK conceptually, the real problem is that in the (bad) common case, there's no commitment and little thought to what's being shown, they're just variably cute ideas; it's like Freshmeat more than a real part of HN. 
+
+--- 45011207 | therein | 2025-08-25 | https://news.ycombinator.com/item?id=45011207
+To make people more accustomed to the AI generated look so that when they release their next Veo integration to YouTube content creator tools, these videos will stand out less as unnatural. 
+
+--- 43075615 | Fogest | 2025-02-17 | https://news.ycombinator.com/item?id=43075615
+Kinda does have that tone. Even the cover photo for the blog post has the classic AI generated look. 
+
+--- 41084709 | atorodius | 2024-07-27 | https://news.ycombinator.com/item?id=41084709
+Iconic that the first pic is AI generated (look at the hands) 
+
+--- 49287883 | sigmonsays | 2026-08-13 | https://news.ycombinator.com/item?id=49287883
+This post / OP really needs to say if it's AI SLOP or not and to what extent. This looks like AI slop. 
+
+--- 49283331 | walrus01 | 2026-08-13 | https://news.ycombinator.com/item?id=49283331
+I don't mean anything I wouldn't expect to see, just that it's a very well known thing, and also has had some recent challenges (news articles about extreme climate, etc). And similar stories going back 12+ years such as:https://www.abc.net.au/news/rural/rural-news/2015-08-22/bank...and in 2009 from the USDA: https://apps.fas.usda.gov/newgainapi/api/Report/DownloadRepo...I would also note that the original URL in OP's post seems like some kind of content blog/click farm, so some of the top ten URLs in the google results from actual known large news media might be more legit.To me this looks like AI: https://travelandtannins.com/author/maya/https://www.google.com/search?q=travel+and+tannins+maya+lint... 
+
+--- 49269098 | xnorswap | 2026-08-12 | https://news.ycombinator.com/item?id=49269098
+A few weeks ago, LinkedIn introduced a "This looks like AI slop" button and to linkedIn's credit, my feed has been a lot better since that happened.There's still some going around of course, but it's far less than the endless stereotypical linkedIn chum in the feed that there was.I don't know if engaging with that button means I'm less likely to be served such content, or whether it's cleaning up everyone's feeds.The worst were the ones starting, "I had a client phone me up", and when you'd look at the profile they wouldn't even obviously have such clients, and certainly wouldn't be the obvious person to call in that scenario.I can't imagine being that shameless, and just to boost an artificial reach. 
+
+--- 49194522 | chrisjj | 2026-08-06 | https://news.ycombinator.com/item?id=49194522
+Note that most of the complaints are his art looks like AI art. That's very different from it being AI-generated. 
+
+--- 49192942 | rf15 | 2026-08-06 | https://news.ycombinator.com/item?id=49192942
+It probably looks like AI art because they were trained on his work 
+
+--- 49192112 | kkukshtel | 2026-08-06 | https://news.ycombinator.com/item?id=49192112
+This looks like AI slop, and also a worse version of CUE.https://cuelang.org/ 
+
+--- 49184571 | mrdependable | 2026-08-05 | https://news.ycombinator.com/item?id=49184571
+It's a globalization problem that countries have a hard time creating policy against. Countries don't have the enforcement power that they used to. The best we have come up with is using our own markets as leverage. In a hundred years I imagine wealth and income will look much more uniform across the world. Unfortunately, right now, we are stuck competing with people who can earn much less than people in the US. Now we have to worry about this AI disaster waiting to happen because countries have no real power to stop it. They say it looks like AI won't destroy jobs, but I think really we are just watching the various legs on a table be kicked out. It will still stand until it doesn't. 
+
+--- 49180952 | weli | 2026-08-05 | https://news.ycombinator.com/item?id=49180952
+I'm not upset because LLM disclosure is mandatory. I'm upset about the consequences this has and how easy this makes for people to gatekeep new IC's under false and difficult to prove pretenses."This looks like AI, closed". And you as a new IC with no connections, no community visibility have no recourse to fight back against it. Anti-ai people love boasting about humans > systems and forget about those humans that will surely be negatively affected by this, even if low number.If you are a new programmer who is just learning and spend time creating a PR for a project you have a lot of respect for and the first interaction is someone falsely accuses you of using LLM's then closes your PR you've now removed someone who could have genuinely grown into your community from ever joining.Not only that but since now you are by default a suspect of having used an LLM (and you need to prove you didn't use one)  why even bother not using one? You are going to get accused of it either way. 
+
+--- 49149688 | nkrisc | 2026-08-03 | https://news.ycombinator.com/item?id=49149688
+It immediately looks like AI slop because nearly every square inch is filled with with something, however meaningless and useless it might be to the overall composition.AI is good at filling an image with shit, and bad at knowing when to leave space and what isn’t necessary. 
+
+--- 49034773 | jdw64 | 2026-07-24 | https://news.ycombinator.com/item?id=49034773
+Actually, I was taught to use em-dashes for advanced writing when I was learning English as a foreign language. But these days, people say it looks like AI and tell me not to use them. It's really confusing 
+
+--- 49003045 | adastra22 | 2026-07-22 | https://news.ycombinator.com/item?id=49003045
+And his name, if you need glasses like me, looks like AI slop. 
+
+--- 48981713 | jrm4 | 2026-07-20 | https://news.ycombinator.com/item?id=48981713
+Oh, to be technically correct:AI hallucinates and makes up stuff 100% percent of the time. Never been a fan of that word for this.Again, I fail to see the problem here that isn't solved by careful reading WHICH IS WHAT PEOPLE SHOULD BE DOING ANYWAY. I would like to see room for AI disclosure, maybe a statement of "this is how much AI I used."But this blanket X% of this looks like AI? Again, so what? 
+
+--- 48974478 | jdw64 | 2026-07-20 | https://news.ycombinator.com/item?id=48974478
+Honestly, it's just shouting into an echo chamber. They call it organizational failure, but it's really just 'come on, my side.' A consultant who does that is untrustworthy. It means they have no metrics.Same goes for their 0% claim. It's overgeneralization, isn't it?So why did they fail, what went wrong, and how should these AI projects be analyzed—and by what metrics? They skip all that and just throw out a single KPI. What insight does that offer?Honestly, there are a lot of people on HN who just shout that AI is useless because their own jobs are at risk. That's an undeniable fact. In my country, Korea, we say 'like a pheasant hiding its head in the ground.' It means denying reality and lacking self-awareness.I've also seen many failed AI projects due to a lack of proper evaluation of AI capabilities. I don't want to deny that premise.But if you're going to make that argument, you need to describe why they failed. There's none of that here, just this:'We're going to opt out because it looks like AI projects will fail.'They package it as being cautious, but when you peel back the wrapper, it really means:'We can't keep up with the AI trend. And we can't tell what works and what doesn't.'Sure, AI has a bubble. No one can deny that. But separate from that, it is useful. Do you really think millions of consumers would stick around for something useless?Social problems are arising, and people are losing jobs because of it. Let's think the other way around. It doesn't make sens
+
+--- 48965832 | ExoticPearTree | 2026-07-19 | https://news.ycombinator.com/item?id=48965832
+As someone who uses LLMS for coding, ideas validation and research, I think the article is biased against AI forctge wrong reasons.If you know what you are looking for and know what “a solution looks like”, AI is amazing at distilling ideas. If you have no clue, the AI will return “clueless” solutions.It is just like before the AI: there are people who know how to search the web, read and understand documentation and so on. And then there are peole who are incapable.AI is naking the latter category fail incredibly fast. Really, nothing new under the sun: garbage in, garbage out. 
+
+--- 48946019 | dofm | 2026-07-17 | https://news.ycombinator.com/item?id=48946019
+> If you can train a system to detect these patterns, presumably you can train systems not to generate text which matches them?I don't know. I mean, it feels like the systems that would detect them are likely qualitatively different to the machines that make them.One of the things that feels obvious to me is that LLMs are always going to write in a new way, because words do not get all that close to perfectly conveying the inner thoughts of competent writers. Competent writing is always a battle to find the better word, or even to create it.So sure, you could add another adversary that the generator has to satisfy, but "this sounds like a machine wrote it" is only an observation; it's not a prescription for not writing like a machine.Maybe it's never going to be possible.> I do struggle at times with thinking my own writing looks like AI. But I’m an average Californian who went to college half way between SF and LA…:-)You guys do just sound a certain way, in the same way Brits sound a certain way to you I expect. But I think the reality is that the final stage of training LLMs was largely done in a Californian voice and with rather Californian communication objectives.(Though equally I think much of what I am detecting is more Madison Avenue than Palo Alto) 
+
+--- 48945903 | CalRobert | 2026-07-17 | https://news.ycombinator.com/item?id=48945903
+If you can train a system to detect these patterns, presumably you can train systems not to generate text which matches them?I do struggle at times with thinking my own writing looks like AI. But I’m an average Californian who went to college half way between SF and LA… 
+
+--- 48918781 | ozim | 2026-07-15 | https://news.ycombinator.com/item?id=48918781
+Gets me wondering if it is real or they just got a backlog quick fixes dropped so it looks like AI bug hunting really works to prop up their AI bullshit narrative. 
+
+--- 48883263 | 5701652400 | 2026-07-12 | https://news.ycombinator.com/item?id=48883263
+true to that. looks like AI took shortcuts and avoided real work and real hard problems. might as well just flip a random bits for cpu hours. 
+
+--- 48854678 | throwaway81523 | 2026-07-10 | https://news.ycombinator.com/item?id=48854678
+Sadly, this looks like AI slop.  Maybe it means the AI's are getting the idea though.  Next thing though, is that they will find ways to weaponize it. 
+
+--- 48834081 | shironandonand | 2026-07-08 | https://news.ycombinator.com/item?id=48834081
+Given how much that article uses em dash (“—“) it looks like AI was used to generate some or all of that article. 
+
+--- 48809612 | lelanthran | 2026-07-06 | https://news.ycombinator.com/item?id=48809612
+I don't see a description of the format in that.What does a human write to (for example) create the diagram mentioned in "A diagram, drawn from a description rather than dragged into place."?To me this looks like AI-writes-everything and human-reads-everything. 
+
+--- 48806953 | skybrian | 2026-07-06 | https://news.ycombinator.com/item?id=48806953
+This looks like AI-written blather, but it links to an article with useful information by someone who actually checked:https://tech.yahoo.com/ai/gemini/articles/fact-check-google-... 
+
+--- 48758215 | jdw64 | 2026-07-02 | https://news.ycombinator.com/item?id=48758215
+I'm sorry, but I didn't use AI. The thing that's really hard about this is that the language I write in is Korean, and in the process of translating my words, the sentences and context I can use are limited.Most of the time, I use officially translated versions of Confucian classics, but I'm actually using Google Translate and Papago (a Korean translator) to translate them. The words I use are fixed, and since the rich vocabulary I use in my native language is restricted, I guess it's inevitable that it looks like AI. 
+
+--- 48757545 | fuzzfactor | 2026-07-02 | https://news.ycombinator.com/item?id=48757545
+>Meta plans to spend up to $135 billion on AI infrastructure through 2026 and commits $600 billion to data center buildouts through 2028And they can't afford a few extra billion that their engineers can utilize right now?Looks like AI as it develops is intended to be too expensive for regular people in the long run, but if Meta can't even afford it at that rate, who can? 
+
+--- 48753546 | bouchard | 2026-07-01 | https://news.ycombinator.com/item?id=48753546
+Their "technical validation (CFD)" document looks like AI slop... 
+
+--- 48738173 | breezybottom | 2026-06-30 | https://news.ycombinator.com/item?id=48738173
+Oh it's getting there. I've turned down several referee requests this year because the paper looks like AI slop. A lot of it seems to come from China. 
+
+--- 48614161 | l11r | 2026-06-20 | https://news.ycombinator.com/item?id=48614161
+tbh, that looks like AI psychosis caused by getting access to unlimited tokens 
+
+--- 48570002 | kenanfyi | 2026-06-17 | https://news.ycombinator.com/item?id=48570002
+I thought the same. I like the idea of it and probably use it to find nice blogs, but it looks like AI-coded. 
+
+--- 48525979 | v1ne | 2026-06-14 | https://news.ycombinator.com/item?id=48525979
+I tried to read this, and what the tool works, but this is so much text with little context. Looks like AI fluff. It sounds pretty straight-forward, so this should be a single page with a few paragraphs only. 
+
+--- 48463993 | recursive | 2026-06-09 | https://news.ycombinator.com/item?id=48463993
+But also because it has a negative connotation.  Not with everyone, but with a lot of people.  If someone says "That looks like AI", do you think they are intending to make a compliment? 
+
+--- 48463412 | devil1432 | 2026-06-09 | https://news.ycombinator.com/item?id=48463412
+Looks like AI reached it's peak already. Every new architecture is just a new wrapper that has nothing to do with ml. 
+
+--- 48462845 | nsxwolf | 2026-06-09 | https://news.ycombinator.com/item?id=48462845
+The photo in the article looks like AI slop but isn't - it was taken in 2019. It took me awhile to convince myself everything in it was real. 
+
+--- 48444514 | raincole | 2026-06-08 | https://news.ycombinator.com/item?id=48444514
+The article: it's different this time because X and Y.You: you're saying "it's different this time."I don't know. It looks like AI really rots people's brains. As if that they just shut down their minds when they see an anything AI-related. Imagine if this article were about anything else, like:Article: the stock bubble is going to burst because...Comment: your argument boils down to "the stock bubble is going to burst."It'd be so stupid. But somehow when it comes to AI this kind of weird comment is tolerated even celebrated. 
+
+--- 48443833 | thunfischbrot | 2026-06-08 | https://news.ycombinator.com/item?id=48443833
+It looks like AI generated based on https://nmb.bm/wp-content/uploads/2025/06/IMG_011054-1536x10... for what it’s worth. Would have preferred to see the original though./e: this is likely not the illustration you were referring to I realize now. 
+
+--- 48433075 | l23k4 | 2026-06-07 | https://news.ycombinator.com/item?id=48433075
+And here's some rather more clueful analysis instead of what looks like AI-generated marketing blogspam:https://www.bloomberg.com/opinion/newsletters/2025-07-07/jan... (https://archive.fo/0PQ2E) 
+
+--- 48391759 | ____tom____ | 2026-06-03 | https://news.ycombinator.com/item?id=48391759
+Really. Because it looks less useful than its source.If I search for Apple on food central, I get offered different types of Apple, like Fuji, honeycrisp, etc. with nutripedia I just get raw and cooked, which are within each type on food central.In addition, nutripedia has a bunch of what looks like AI written text that is not particularly useful.Writing an AI generated wrapper around something is not enough to be interesting. What do you see as your value add? 
+
+--- 48371073 | bflesch | 2026-06-02 | https://news.ycombinator.com/item?id=48371073
+Or we follow Occam's razor and accept that a random guy whose comment looks like AI in a tech forum discussing AI is not an advanced scribe following a certain school of writing, but rather some vibe coder who AI-optimizes their comments. 
+
+--- 48371040 | bflesch | 2026-06-02 | https://news.ycombinator.com/item?id=48371040
+It's fine to criticize a comment that looks like AI in a thread where someone complains about AI.The sentence has exactly same meaning if they'd use a single "-" as well. I don't know which browsers have <textarea>s where double "--" is turned into emdash, but on the systems I'm familiar with one needs to go certain lengths before an emdash appears.Emdash does not magically appear, and it seems some people love playing with the AI connotation. 
+
+--- 48288613 | thefourthchime | 2026-05-27 | https://news.ycombinator.com/item?id=48288613
+A lot of the copy also looks like AI.The text (especially the "About" section, key concerns, and Erin’s quote) reads like strong AI-generated or heavily AI-edited copy. It has that clean, structured, persuasive style common in tools like Claude, ChatGPT, or Grok. Many observers on Reddit and elsewhere noted it “looks 100% designed by Claude.” 
+
+--- 48281885 | nazgu1 | 2026-05-26 | https://news.ycombinator.com/item?id=48281885
+Just another anecdote to support author point of view, without any evidence. Also, looks like “ai” generated. 
+
+--- 48262774 | ventana | 2026-05-25 | https://news.ycombinator.com/item?id=48262774
+While reading the article, I remember feeling that I'm reading an LLM generated sentence a few times, but in general, this specific article look like an example of acceptable LLM usage to me. I wouldn't call it "AI slop".It is, if I may say that, _genuinely_ hard to use LLM assist and not make the text look like LLM generated. Even when I write an email in gmail and it gives its suggestions to make the text better, each one individually makes perfect sense, but when I click a few of them, the whole email now looks like AI slop, so I would normally undo the changes, going back to my imperfect hand-written non-optimized version. 
+
+--- 48217761 | eapriv | 2026-05-21 | https://news.ycombinator.com/item?id=48217761
+Looks like AI slop in (some of) the thumbnail images. Why would anyone do that? 
+
+--- 48084799 | estebarb | 2026-05-10 | https://news.ycombinator.com/item?id=48084799
+No, increasing the offer of something decreases its value, always. Do not necessarily increases its demand. That is basic economic rule. See that I use "value", not "cost". The distinction matters.Yesterday I went to a bookstore: saw an interesting book cover then I thought "ah, looks like AI"... all excitement went away. There won't be a "new complexity frontier" for artists that used to draw book covers. Or writers, actors, writers, etc.AI is currently not enabling any use case which previously was "too hard". It is just reducing the value of stuff by increasing the offer and making people delulu about what they can achieve without proper knowledge.Making good stuff requires paying attention to a lot of details. Even "simple" stuff can become incredible complex once you actually learn about how it must be done. Most of what we humans do is working on that space, not chasing projects Manhattans.What do we get if population is disconnected of the true complexity of creating stuff? Perceived value decreases and if everything is perceived equally bad people will stop caring about quality. That is why fascism likes uneducated people.So, that is about the AI contribution to "value" itself.Now, is it true that AI will allow us to create more complex stuff that is not practical now? I would strongly disagree. The reason is Kolmogorov complexity: it is not possible to find the shortest program that describes a task. Describing it with natural language will not magically give us perm
+
+--- 48031577 | thin_carapace | 2026-05-06 | https://news.ycombinator.com/item?id=48031577
+it is understood that LLM style is derived from human style, and that LLM style is now influencing human style. this doesnt make it any more obvious how to type an em dash or bidirectional inverted comma. nobody outside of academia or publishing uses these techniques of their own accord, only LLMs do. thusly i optimize out your chicken/egg conditional as it seems like a redundant branch - if something looks like AI, it's probably AI, so why does it matter what the AI was trained on? 
+
+--- 48013447 | veber-alex | 2026-05-04 | https://news.ycombinator.com/item?id=48013447
+Looks like AI slophttps://github.com/PerryTS/perry/issues/139 
+
+--- 47975475 | jfengel | 2026-05-01 | https://news.ycombinator.com/item?id=47975475
+The best photo for a dating site isn't one that makes you look good, but one that makes you look interesting. That's true now more than ever, when a very polished photo looks like AI.A good candid is much better. It conveys something of who you actually are: what you like to wear, what you like to do, and ideally looking sincerely happy.Women are generally less appearance-focused than men like to believe about them. Looking "fine" suffices for most women. Men are convinced that it's their appearance scaring off women, but in fact it's their personalities -- and an over-reliance on appearance is a strong indicator of an unpleasant or boring personality.(I give similar advice to women, who are more likely to focus on their own appearance. And that's unfortunately expected of them. But at least for me, a good candid is better than a studio shot. Since the custom is usually for men to open the conversation, it helps a lot to give me an opportunity to lead with something more insightful than "Gosh you're pretty.") 
+
+--- 47953220 | galkk | 2026-04-29 | https://news.ycombinator.com/item?id=47953220
+After your comment I went to original and it really looks like ai assisted rewrite with prompt like “give more explanations about basic concepts”… 
+
+--- 47859023 | cyberjunkie | 2026-04-22 | https://news.ycombinator.com/item?id=47859023
+Looks like AI and I look away from any image generated by a LLM. It's my easy internal filter to weed out everything that isn't art. 
+
+--- 47850671 | santiago-pl | 2026-04-21 | https://news.ycombinator.com/item?id=47850671
+This comment looks like AI-generated.However IIUC what you're asking for - it's already in the dashboard! Check the Usage page. 
+
+--- 47838012 | antirez | 2026-04-20 | https://news.ycombinator.com/item?id=47838012
+This is not in antithesis. My limited personal experience is that I wrote code under OSS licenses primarily because of my past communist believes and current left-wing and redistribution of wealth point of view. This is not to provide the simple equation of: communist China is not interested in money, but also is hard to believe that there is no cultural connection among those things. Single Chine persons want to win, but also they have a different POV on what the collective means, compared to US. Also there is the obvious fact that in this moment China is more interested in winning technologically in AI, more than economically, since, I believe, they more collectively realized before many others that LLMs are eventually commoditized in the current form, in the long run. One could assume that a breakthrough could give some lab a decisive advantage, but so far we assisted to a different reality: it looks like AI is not architecture-bound (like LeCun and others want us to believe, but so far they mis-interpreted LLMs at every step) but GPU bound, and the data-boundness is both a common ground for all, and surpassable via RL in many domains. So, if this is true, it is not trivial for any single lab to do so much better. And indeed as far as we observed right now folks with enough engineers, GPUs, money, can ship frontier models, and in China even labs with a lot less GPUs can still do it at a SOTA level. For me, Italian, this is also a protective layer. After Trump the US looks 
+
+--- 47811890 | rdmuser | 2026-04-17 | https://news.ycombinator.com/item?id=47811890
+I've been wanting something like this for a while now but as an extension that runs locally. Just something I can click to get a quick response telling me if the article seems like ai so I can focus on the writing without needing to spend energy on remembering ai styles and detecting obvious ai. I'd be pretty happy to see something like that built straight into firefox.Ultimately slop is so pervasive that I'm wasting a fair amount of time vetting text and it's affecting my ability to simply enjoy reading. I keep getting part way into an article before realizing it's low quality ai writing. Being able to get a quick heads up that it looks like ai before starting would save me a lot of energy even on articles I decide to try reading because it cuts down on mental overhead. 
+
+--- 47092772 | raw_anon_1111 | 2026-02-20 | https://news.ycombinator.com/item?id=47092772
+I have no taste with web design and haven’t touched web dev in a decade.  I absolutely hate web development and usually delegate it.On a (consulting) project I’m leading/doing the implementation, it was specifically called out that a web UI was out of scope.  But after talking to them and seeing the lay of the land, they really needed a website to manage the AWS implementation and it would help me to.I put together and ugly internal website that will only probably be used by three or four people.  I vibe coded the entire website including authentication with Amazon Cognito. The only thing I personally validated was that unauthorized users couldn’t get to it and that the database user had the appropriate permissions.That website wouldn’t have been created at all before AI.  Is it pretty? Hell no, it looks like something when I wrote an internal website in 2002 in classic ASP.  Did I look at a line of code? Nope 
+
+--- 49256779 | OsrsNeedsf2P | 2026-08-11 | https://news.ycombinator.com/item?id=49256779
+Disclaimer- ex Meta employee.Horizon was horribly managed, but also we threw all of our unannounced projects under that umbrella to make it look better for shareholders when we finally cut it. The original LLM research, smart glasses, and a bunch of other projects were under the "Reality Labs" business expense. 
+
+--- 48890284 | jraph | 2026-07-13 | https://news.ycombinator.com/item?id=48890284
+But that hit piece would be an answer to the (multi-billion dollar) studio saying how much better the result is after the rewrite to Unreal, except it's not because Unreal is better (which it could be btw, or not, or more probably it depends on the use case), it's because the studio worked hard to make it look better, which they could have done without the rewrite.Anthropic does this to sell LLM rewrites and make them look better than they actually are, Zig being the source language, they are a collateral victim of that misleading advertisement. Of course it's unfair to them and of course they should highlight this. 
+
+--- 48845655 | jnbrother | 2026-07-09 | https://news.ycombinator.com/item?id=48845655
+Benchmarks make it look better than Opus 4.8, but has anyone actually used it? I don't really trust benchmarks. Cost aside, purely on performance — is there any real reason to jump from GPT or Claude to Grok? 
+
+--- 48434015 | mexicocitinluez | 2026-06-07 | https://news.ycombinator.com/item?id=48434015
+Slightly related: I was in an interview once where it was the CEO, lead dev, and lead designer and inevitable "What are your weaknesses?" question came up. I answered honestly, which was that not only am I really bad at design, I also have issues extrapolating for design systems. It's really hard for me to land on something I think looks okay and in that process almost inevitably always makes it worse. The designer interviewing me took this personally and laid into me about it.It's not the first time, either. They didn't like the non-stop questions about how things should look and really wanted it to be a one-and-done type of handoff. Even at marketing and advertising agencies, I was fighting with them to give me samples of how things not in their design spec should look. I'm not saying I was right, but that's just a huge Achilles heal for me.So when someone says> free, unlimited iteration, unbotheredThat's immediately what comes to mind. Not necessarily money, but time and patience. Bolt (which is the tool I use for protyping) never gets mad me. It might not produce the best designs, but they are miles ahead of what I'm capable of. When I'm done, I'll have a real designer make it look better, but until then I don't have to worry about pissing someone off. 
+
+--- 48021296 | yetihehe | 2026-05-05 | https://news.ycombinator.com/item?id=48021296
+Like in that comic strip[0], where one side uses AI to inflate his bullet points to make it look better and have more content in the email, then other side uses AI to summarize it to bullet points.[0] https://marketoonist.com/2023/03/ai-written-ai-read.html 
+
+--- 47273786 | miraculixx | 2026-03-06 | https://news.ycombinator.com/item?id=47273786
+Sure because it worked great when we tried last time, right? Just spec it out first, and AI will churn out the perfect app. Not.For anyone who hasn't worked in a waterfall project and would like to try: You are kidding yourself.There is no such thing as a perfect spec. Read that again and say it outloud.It took humanity 50 years to figure out that perfect specs are impossible, unless of course you know exactly(!) what you need. And even then, the specs are never complete.The reality is that we often don't know, and can't know, what we want, exactly, until we actually see and experience what we said we wanted. Then we adjust. Try again.That's the reality for individuals already. By simply using logic we can deduct that entities made of more than one individual, aka companies, will not behave better. They just make it look better by giving you a nice document that says "we want this!", only to then come around when they see what they got, and to claim "wait, we didn't mean it like so!".That's just human nature. Not much we can do. AI will not change that.So when some people think AI will deliver perfect software given perfect specs, hence we have to write the specs first! That is just missing the boat my a mile.Agile is not a process but a human-friendly way of doing things. It simply says hey you want this? Let me build that and show you. Then let's adjust or move to the next thing. Rinse and repeat. Agile works because it matches how humans think and act. Step by step, day by
+
+--- 45524201 | viccis | 2025-10-09 | https://news.ycombinator.com/item?id=45524201
+PeopleSoft, especially before the mid-2010s and depending on how it was configured, was an exercise in terrible UX. You'd have to click through like 6 pages just to change one thing. At one point, I remember there being an encoding difference between Firefox and IE that meant that you could have longer self evaluations in IE. The way they'd configure SMART goals and such was insane and it would regularly error out and dump your written text, so people would write their stuff in notepad and paste it in to submit.Lattice is not perfect but it legitimately seems to be designed by people who understand that it's not actually useful to anyone and that the best user experience is just to make it as easy as possible to phone it in, complete with built in LLM stuff to take your poorly written self eval and make it look better. 
+
+--- 45231447 | hereme888 | 2025-09-13 | https://news.ycombinator.com/item?id=45231447
+I'm a 100% vibe-coder. AI/CS is not my field. I've made plenty of neat apps that are useful to me. Don't ask me how they work; they just do.Sure the engineering may be abysmal, but it's good enough to work.It only takes basic english to produce these results, plus complaining to the AI agent that "The GUI is ugly and overcrowded. Make it look better, and dark mode."Want specs? "include a specs.md"This isn't a 20% more productive feeling. It's productivity beyond what I will ever do on my own, given this is not my field.This is all possible because AI was trained on the outstanding work of CS engineers like ya'll.But the article is highly opinionated. It's like saying only phD's can be called scientists, or only programmers can be computer hackers. But in reality every human is a scientist and a hacker in the real world. The guy in a street corner in India came up with novel ways to make and sell his product, but never wrote a research paper on it. The guy on his fourth marriage noted a statistical correlation in the outcome when meeting women at a bar vs. at a church. The plant that grew in the crevice of a rock noted sunlight absorption was optimal at an angle of 78.3 degrees and grew in that direction. 
+
+--- 44707213 | subhajeet2107 | 2025-07-28 | https://news.ycombinator.com/item?id=44707213
+Currently working on https://exitfox.com/. After recently switching jobs, I became frustrated with the handover process to the new joiner. This experience inspired me to start building a tool that uses Gemini/Claude to ask relevant questions about the project being handed over, streamlines the exit process in a structured format, Now I am adding more features for HR managers and employees around Clearance, FnF etcInterestingly I found Claude Code to be the only LLM good at designing frontend, asking it to make it look better actually helps 
+
+--- 42595451 | ToucanLoucan | 2025-01-04 | https://news.ycombinator.com/item?id=42595451
+> There's something essentially wrong with Meta and Google where they can do tech but not products anymore.Because AI is the hype thing and adding AI to your thing makes the stock price go up, because investors and stock evaluators don't know what AI is, nor do they care. They just know it's the hot thing and what you put in your product to make it look better to Wall St.Meta AI, Google AI summaries, Apple Intelligence are all hilariously half-baked features designed to connect users with ChatGPT so the line goes brrrrrrr. Them being helpful, useful products that solve problems for users is a distant, distant next place to that. 
+
+--- 40816072 | riccardorso | 2024-06-27 | https://news.ycombinator.com/item?id=40816072
+uses a wide range of AI models based on Stable Diffusion to manipulate a photo of your room. To make it look better or to better fit a style you have chosen. You upload a photo and fill in a multiple choice form and our AI will create ideas for you. You can then use these ideas to design your room or even post them on social media free of copyright! 
+
+--- 49117904 | firasd | 2026-07-31 | https://news.ycombinator.com/item?id=49117904
+An irony to this is that the front-ends generated by older models are gonna end up looking distinctive. If you rock a Claude Sonnet 3.7 (or was it Sonnet 4) mid-2025 purple gradient background forever you've set yourself well apart 
+
+--- 48850918 | BoorishBears | 2026-07-09 | https://news.ycombinator.com/item?id=48850918
+I used to pride myself on not being the "fonts too pointy, scroll too buttery" crowd! But AI has brought me full circle and now nothing removes my interest in reading even a single word on a page faster than purple gradient greeble-afflicted tailwind-slop models put out without stronger prompting/referencesThat being said, maybe 5.6 can fix that! 
+
+--- 48401736 | wunderlotus | 2026-06-04 | https://news.ycombinator.com/item?id=48401736
+I’m so sick of this landing page style. It’s another iteration of It’s “purple gradient” slop. The other one is serif headline with mono kickers. Sprinkle in em dashes and punchy (non-UX writing) and voila! You’ve got yourself a Claude coded page. 
+
+--- 45439298 | ignaciosoffia | 2025-10-01 | https://news.ycombinator.com/item?id=45439298
+Hey there!I'm Ignacio, one of the co-founders of faces: the everyday site builder. Most website builders focus on help you "create A professional site", but the reality of many creators and entrepreneurs is different. They need many sites, constantly, to try different ideas, share ideas, conceptualize future projects...Some vibecoding tools have made it easier to generate sites, but they all look the same (purple gradient/shadcn), are a pain to work on with a chat-only UI and end up being too complicated for non-technical people.Faces takes the best of both worlds. It's fully generative, meaning you can prompt it to build what you want, but it's modular. Each section of your site is a standalone module that connects to the next. This way you get the ease of iteration of a regular builder, with the flexibility of vibecoding.Anyways, we're launching today and I'd love to hear what you think :)https://x.com/facesdotapp/status/1973410165040005591 
+
+--- 45295254 | MatveyF | 2025-09-18 | https://news.ycombinator.com/item?id=45295254
+Yes, you’re right! Our roadmap and tools are focused on helping non-technical users who build apps with platforms like Lovable, v0, etc. The “bug” isn’t just about clicking a link and it not working. For example, we’re also working on things like: 1. Branding analysis and design drift detection (this happens a lot in vibe-coded designs — e.g., one page uses a purple gradient, another uses a completely different style, which breaks consistency). 2. checking how a new user would actually interact with your app, to see if the flow makes sense.A crawler alone is just a static check. Our north star is trying to fix the last step from vibe coding to the production, like spawning a browser user agent that actually navigates through the app like a first-time user. Another roadmap idea is to build a browser agent that connects with coding AIs (like Cursor or Claude) to provide automated testing right after a feature is implemented. For example, when we use Claude to build something, we constantly have to flip between the terminal and browser to keep design consistent. The thought is: what if Claude’s code had “eyes” to test what it just built in real time?Overall, thanks so much for your response. honestly I didn’t expect anyone to reply. This is my first time on HN, and it’s been an awesome interaction! 
+
+--- 45208142 | 13point5 | 2025-09-11 | https://news.ycombinator.com/item?id=45208142
+I've seen a lot of purple gradient websites made by LLMs and I was curious if we can change a model's favorite color by messing with the activations instead of prompts.So I used Representation Engineering with just 1 pair of contrastive prompts to make Mistral-7B prefer orange as its favorite color.I used the repeng library by Theia to test this out.Next I'm gonna implement it from scratch to understand why this even works.I wonder if we can introduce "taste" into a model with methods like this.The paper is "REPRESENTATION ENGINEERING: A TOP-DOWN APPROACH TO AI TRANSPARENCY".Link: https://arxiv.org/abs/2310.01405 
+
+--- 44367278 | rub-columbia | 2025-06-24 | https://news.ycombinator.com/item?id=44367278
+Hi HN,I built a small project in every tool below and wrote up full rankings on a simple site I made with one of them (dog-fooding is fun). These are the headlinesI kept for myself:- Bolt.new – Great Figma integration that turns designs into working pages with auth; still waiting for an easy payments add-on.- Firebase Studio – Auto-scaffolds Firestore and Cloud Functions in minutes, but you’re locked to Google’s stack and unlikely to see ChatGPT-style extras.- v0 – Best front-end prompt model I tried; turns text into clean React/Next components and has an interesting MCP approach. Back-end is on you.- Lovable.dev – Excellent for front-end tweaks; click to edit anything. No real back-end story beyond Supabase.- Replit – Full cloud IDE with live collaboration; great fit for developers who already work in code.- Base44 – Auth and database included out of the box. Handy for quick prototypes, but no full code export.- Davia – Gmail, Slack, Calendar and more ready to go; feels like a mix of n8n’s workflow blocks and Lovable’s visual edits.- Solar – Interesting AI-agent approach; agents draft and refactor code together, though it can get heavy.- Combini – Aims to handle everything from hosting to database; ambition is high, docs still catching up.- Vitara.ai – Zero-setup IDE with full code download; waiting on deeper integrations.- Tempo Labs – Excellent UX for React front-ends, auto-generates PRDs and flows, but offers no back-end layer.If you want me to add some of them in my webs
+
+--- 48351344 | boca_honey | 2026-06-01 | https://news.ycombinator.com/item?id=48351344
+A person that is expressing something a lot of real people are feeling. AI is churning out this terrible UI / graphic desing that looks the same, gives aways is just vibe coded slop and is VERY ugly.Who are YOU? 
+
+--- 47336731 | raw_anon_1111 | 2026-03-11 | https://news.ycombinator.com/item?id=47336731
+My controversial opinion is I don’t for the most part except for the unit and most of the time for me the integration tests and load testing I have it generate.Other than that, I review known “this works when testing but breaks in production” - concurrency code, scalability issues, using the correct data load patterns, database indexes, etc.I also validate non functional requirements around security, logging, costs, etc.This is the same thing I did when I was working with other team leads as the “architect” who was mostly concerned with - would it fall over in production, would it cause security issues, would it cause compliance issues and are they following standards that we agreed on.On the other hand, I haven’t done any serious web development since 2002.  Now I vibe code internal web admin apps for customers where I use AWS Cognito for authentication.  I don’t look at a line of code for it.  I verify that it works, and the UX (not the UI - it’s ugly AF)The chance of any human ever looking at the “AI first” code I wrote is slim. By AI first I mean detailed markdown files with references to other markdown files that start with the contract, requirement gathering transcripts and is modular by design. 
+
+--- 47168260 | logicprog | 2026-02-26 | https://news.ycombinator.com/item?id=47168260
+> ...the wolves of white collar job automation are closing in for the middle class. You believe that we'll all become cyborg centaurs, while the managers believe we'll all become redundant.I think he doesn't think it's possible to actually make white collar workers redundant because we don't have AGI, since AGI is precisely defined as that — continually deferred, likely impossible for current technology — end goal that we know we haven't achieved yet.And FWIW, I think he's right. The fact that LLMs are inherently stochastic, cannot reason or plan sufficiently by themselves, and do not have a world model, means that you will always need humans in the loop not just to oversee, verify, and act as an accountability sink (which by itself could be pretty bad), but also to break problems down, plan, and architecture for them, and, when possible, design automated verifiability systems so that the LLM can act as the core of a cybernetic feedback loop, like a sort of linear genetic programming algorithm (which is what a Ralph loop does, incidentally). This last especially, this act of figuring out how to, either by hand or in a very tight supervised loop with an LLM that relies heavily on human expertise and judgement, specify the desired behaviors in a machine-verifiable way, looks a lot like just a higher level of programming to me. It's just red-green BDD.> . You think people will care about the sideslop everyone will build, not seeing that 'everyone will build' means 'no one will c
+
+--- 45039856 | benreesman | 2025-08-27 | https://news.ycombinator.com/item?id=45039856
+I think much like coding, the top of the game is all the old stuff and a bunch of new stuff that is impossible to master without some real math or at least outlier mathematical intuition.The old top of the game is available to more people (though mid level people trying to level up now face a headwind in a further decoupling of easily read signals and true taste, making the old way of developing good taste harder).This stuff makes people who were already "master rate" who are also nontrivially sophisticated machine learning hobbyists minimum and drives their peak and frontier out, drives break even collaboration overhead down.It's always been possible to DIY code or graphic design, it's always been possible to tell the efforts of dabblers and pros apart, and unlike many commodities? There is rarely a "good enough". In software this is because compute is finite and getting more out of it pays huge, uneven returns, in graphic design its because extreme quality work is both aesthetically pleasing as well as a mark of quality (imperfect but a statement someone will commit resources).And it's just hard to see it being different in any field. Lawyers? Opposing counsel has the best AI, your lawyer better have it too. Doctors? No amount of health is "enough" (in general).I really think HN in particular but to some extent all CNBC-adjacent news (CEO OnlyFans stuff of all categories) completely misses the forest (the gap between intermediate and advanced just skyrocketed) for the trees
+
+--- 46284341 | Kase1111 | 2025-12-16 | https://news.ycombinator.com/item?id=46284341
+AI Didn’t Steal Your Job. Invisible Labor Did.The problem with AI isn’t that it creates things too easily. It’s that it revealed something we were never forced to admit before: the copy was never the product.For centuries, we bundled two different things together and sold them as one:The work of creation — research, iteration, judgment, taste, failureThe output of creation — the image, the text, the designWe did this out of necessity. You couldn’t sell “forty hours of thinking.” You had to sell the artifact that trapped that thinking inside it. The market learned to treat the copy as valuable because it had no other way to price the work.Digital reproduction weakened that illusion. AI shattered it.Once outputs became infinite, instant, and indistinguishable at a glance, the truth became unavoidable: outputs are commodities. They always were. What people were paying for—whether they realized it or not—was the labor that produced them.Why Creators Are LosingWhen a client compares a $5 AI-generated logo to a $500 human-designed one, they aren’t rejecting craft. They’re making a rational decision with the information available to them.What they see:Two similar final imagesTwo wildly different pricesNo way to verify what actually happenedSo they conclude the expensive creator is overcharging. Not because they don’t value skill—but because skill is invisible.The market doesn’t currently price work. It prices results. And results are now free.This has created a perverse economy:Comm
+
