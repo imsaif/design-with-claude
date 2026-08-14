@@ -27,18 +27,22 @@ function parseArgs(argv: string[]): Args {
   // `--json`) runs an audit — that's the product's front door. An explicit
   // known subcommand routes to it.
   //
-  // Anything else is a path: `npx dwic-audit ./app` is what people type, and
-  // it's the form the audit help advertises. It used to fall back to help, so
-  // the documented invocation printed usage instead of auditing. Routing it to
-  // the audit is safe because runAudit rejects a path that doesn't exist — a
-  // mistyped subcommand (`setpu`) surfaces as "no such directory: .../setpu"
-  // rather than silently auditing nothing and exiting 0.
+  // An unrecognised first word is ambiguous: `./app` is a path to audit (the
+  // form the audit help advertises, which used to print usage instead), while
+  // `setpu` is a fat-fingered subcommand. Route on shape rather than sending
+  // both to the same place — a mistyped `setpu --token=x` handed to the audit
+  // complains that --token is unrecognised, which says nothing about the real
+  // mistake and lands on the first command a new user ever runs.
+  const looksLikePath = (s: string) =>
+    /[/\\]/.test(s) || s.startsWith(".") || existsSync(resolve(process.cwd(), s));
   const command = (
     rawCommand == null || rawCommand.startsWith("-")
       ? "audit"
       : KNOWN.includes(rawCommand)
         ? rawCommand
-        : "audit"
+        : looksLikePath(rawCommand)
+          ? "audit"
+          : "help"
   ) as Args["command"];
   const args: Args = {
     command,
