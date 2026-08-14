@@ -94,10 +94,10 @@ is worse than a finding you did not make.
 - **Indentation**: Child items to show hierarchy.
 
 ## Checklist
-- [ ] Each screen has one clear primary focal point (passes squint test)
+- [ ] Exactly one element carries the largest type step and the accent token; whether it actually reads as the focal point (the squint test) — requires rendering, and the squint test is for the human, not you
 - [ ] Size differences between hierarchy levels are noticeable
 - [ ] Spacing within groups is tighter than spacing between groups
-- [ ] Primary CTA is the most visually prominent interactive element
+- [ ] Primary CTA is the only interactive element using the primary/filled variant; that it reads as most prominent — requires rendering
 - [ ] Text opacity/color varies by importance
 - [ ] Accent color is used sparingly for emphasis
 - [ ] Content follows F-pattern or Z-pattern as appropriate

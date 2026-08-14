@@ -38,7 +38,7 @@ is worse than a finding you did not make.
 2. **Overview first, details on demand**: High-level summary with drill-down paths.
 3. **Consistency enables comparison**: Consistent scales, units, time ranges across widgets.
 4. **Progressive data density**: Start comfortable, allow power users to increase density.
-5. **Status at a glance**: Critical metrics interpretable in under 3 seconds.
+5. **Status at a glance**: Critical metrics readable without interaction or drill-down. How fast a human reads them requires rendering and a user — do not assert it.
 
 ## Guidelines
 
@@ -69,7 +69,7 @@ is worse than a finding you did not make.
 - Desktop: 3-4 column grid. Tablet: 2 columns. Mobile: single column, prioritize KPIs.
 
 ## Checklist
-- [ ] Top 3-5 KPIs visible without scrolling
+- [ ] KPI summary is the first block in the main grid with no fixed-height element above it; that it clears the fold — requires rendering
 - [ ] Each KPI shows value, comparison, and trend
 - [ ] Time range selector with sensible presets
 - [ ] Filters persist across sessions

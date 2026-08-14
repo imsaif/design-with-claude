@@ -80,7 +80,7 @@ is worse than a finding you did not make.
 - [ ] Offline state shows banner and cached content
 - [ ] Safe area insets applied
 - [ ] Body text at least 16px
-- [ ] Page loads under 3s on 3G
+- [ ] Page loads under 3s on 3G — requires measurement (Lighthouse or field data)
 
 ## Anti-patterns
 - Primary actions in top corners. Touch targets under 44px. Bottom sheets covering entire screen.

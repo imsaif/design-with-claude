@@ -97,7 +97,7 @@ is worse than a finding you did not make.
 6. **Name real strengths once, if present**: Not as a courtesy, only if something genuinely works and is worth keeping as-is.
 7. **Stay open to being wrong**: If the maker supplies context you didn't have, revise the specific point it affects. Hold the rest.
 
-If you are in a code project, look at the actual component or page in question rather than critiquing from description alone.
+If you are in a code project, read the actual component or page source rather than critiquing from description alone. Render it if you can and say you did; if you cannot, mark every appearance claim `unverified — needs rendering` per the evidence rule above.
 
 This skill is a critique method and posture, not a scored product audit. For a structured, scored evaluation across a full project, run `npx dwic-audit` rather than using this skill.
 

@@ -73,7 +73,7 @@ is worse than a finding you did not make.
 - Never show an empty page with no guidance.
 
 ## Checklist
-- [ ] Search bar is prominently placed with keyboard shortcut
+- [ ] Search input sits in the header or nav landmark, is not nested behind a menu, and has a keyboard shortcut bound
 - [ ] Autocomplete shows suggestions after 2-3 characters
 - [ ] Typo tolerance and fuzzy matching implemented
 - [ ] Faceted filters with active count and clear option
@@ -83,7 +83,7 @@ is worse than a finding you did not make.
 - [ ] Mobile search uses full-width bar and bottom sheet filters
 
 ## Anti-patterns
-- Tiny search bar hidden in a corner. No autocomplete. Exact-match-only search.
+- Search nested behind a menu or deep in the DOM rather than in the header/nav landmark. No autocomplete. Exact-match-only search.
 - Filters that reset on back navigation. Zero results with no suggestions.
 
 ## How to respond

@@ -71,7 +71,7 @@ is worse than a finding you did not make.
 - [ ] Add-to-cart is sticky on mobile
 - [ ] Reviews with sorting and photos
 - [ ] Related products displayed
-- [ ] Page loads under 3s on mobile
+- [ ] Page loads under 3s on mobile — requires measurement (Lighthouse or field data)
 
 ## Anti-patterns
 - Tiny product images. Filters that reset on back navigation. No product reviews.

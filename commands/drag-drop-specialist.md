@@ -96,7 +96,7 @@ is worse than a finding you did not make.
 ## Checklist
 - [ ] Draggable items have visible grab handles
 - [ ] Cursor changes to grab/grabbing appropriately
-- [ ] Drop zones visually indicate valid/invalid on drag-over
+- [ ] Drop zones toggle a distinct style class for valid and for invalid on drag-over (verify the handler and the class it sets)
 - [ ] Insertion indicator shows exact drop position for lists
 - [ ] Items animate to position on drop (not teleport)
 - [ ] Esc cancels drag and returns item to origin

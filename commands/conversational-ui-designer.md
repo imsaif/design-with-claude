@@ -78,7 +78,7 @@ is worse than a finding you did not make.
 - Response within 5 seconds for simple queries. Progress indicator for complex operations.
 
 ## Checklist
-- [ ] Messages visually distinguish bot from user
+- [ ] Bot and user messages render with different alignment and surface tokens, and carry a role attribute or class distinguishing them
 - [ ] Typing indicator shown before responses
 - [ ] Quick replies available for common responses
 - [ ] Rich messages (cards, carousels) supported

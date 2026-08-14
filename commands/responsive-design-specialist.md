@@ -75,8 +75,8 @@ is worse than a finding you did not make.
 - [ ] Base styles are mobile-first
 - [ ] Typography scales fluidly with clamp()
 - [ ] Images use srcset/sizes with width/height attributes
-- [ ] CLS under 0.1
-- [ ] No horizontal scrolling
+- [ ] CLS under 0.1 — requires measurement (Lighthouse or field data)
+- [ ] No horizontal scrolling — requires rendering at each breakpoint
 - [ ] Components adapt independently
 - [ ] Maximum content width capped for ultra-wide
 

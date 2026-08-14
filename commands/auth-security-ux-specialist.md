@@ -99,7 +99,7 @@ is worse than a finding you did not make.
 - [ ] Session timeout has a warning with extend option
 - [ ] Active sessions viewable and remotely terminable
 - [ ] Sensitive actions require re-authentication
-- [ ] OAuth providers shown with recognizable branding
+- [ ] Each OAuth button reads "Continue with <Provider>" and imports a provider-specific icon asset
 - [ ] Password reset links expire within 1 hour
 - [ ] New device login triggers email notification
 

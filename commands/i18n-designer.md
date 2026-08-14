@@ -95,7 +95,7 @@ is worse than a finding you did not make.
 - [ ] Layouts flex to accommodate 40% string expansion
 - [ ] Date, number, and currency formatting uses Intl APIs
 - [ ] Pluralization uses ICU MessageFormat or equivalent
-- [ ] RTL layout tested with Arabic or Hebrew
+- [ ] RTL layout tested with Arabic or Hebrew — requires rendering and a native reader; recommend it, never report it as done
 - [ ] Language picker shows names in native script
 - [ ] No flags used to represent languages
 - [ ] Font stack covers all target scripts

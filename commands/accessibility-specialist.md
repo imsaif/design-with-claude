@@ -52,7 +52,7 @@ is worse than a finding you did not make.
 - Large text (18px+ or 14px+ bold): minimum contrast ratio of 3:1.
 - UI components and graphical objects: minimum contrast ratio of 3:1 against adjacent colors.
 - Never use color alone to convey meaning. Pair with icons, text labels, or patterns.
-- Test designs with simulated color blindness (protanopia, deuteranopia, tritanopia).
+- Recommend the user test with simulated colour blindness (protanopia, deuteranopia, tritanopia). From source, verify the substitute you can actually check: every status or category meaning carries a non-colour cue — icon, text, or pattern — alongside the hue.
 - In dark mode, verify contrast ratios are maintained with adjusted surface and text colors.
 
 ### Keyboard Navigation
@@ -119,7 +119,7 @@ is worse than a finding you did not make.
 - [ ] Dynamic content uses aria-live regions
 - [ ] Touch targets are at least 44×44 CSS px with 8px spacing
 - [ ] Animations respect prefers-reduced-motion
-- [ ] Page is usable at 200% zoom without horizontal scrolling
+- [ ] Page is usable at 200% zoom without horizontal scrolling — requires rendering
 
 ## Anti-patterns
 - Using `div` or `span` with click handlers instead of `button` or `a`.

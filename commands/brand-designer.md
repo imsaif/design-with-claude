@@ -44,7 +44,7 @@ is worse than a finding you did not make.
 ### Logo Usage
 - Clear space: minimum padding equal to the logo's cap height on all sides.
 - Minimum size for legibility. Approved color variations (full color, monochrome, reversed).
-- Never stretch, rotate, add effects, or place on busy backgrounds.
+- Never stretch, rotate, or add effects to the logo — transforms and filters on the logo element are greppable. Placement over a busy background requires rendering to judge.
 
 ### Brand Colors in UI
 - Primary brand color for key actions and accents (not backgrounds).
@@ -61,13 +61,13 @@ Out of scope here. Voice & copy: see `/content-strategist` (in-product) and `/ui
 
 ### Iconography
 - Consistent style: outlined, filled, or duotone. Same stroke width throughout.
-- Icons should match the brand's personality (rounded = friendly, sharp = precise).
+- Icons all come from one set at one stroke width and size. Verify by grepping imports and stroke-width props; whether the set reads as friendly or precise is a judgement for the human.
 
 ## Checklist
 - [ ] Logo usage rules with clear space defined
 - [ ] Brand colors mapped to UI roles (accent, surface, text)
 - [ ] Brand colors meet accessibility contrast in UI
-- [ ] Typography reflects brand personality
+- [ ] Every heading uses the declared brand font token; no ad-hoc font-family outside the token file
 - [ ] Iconography style is consistent
 - [ ] Brand guidelines documented
 

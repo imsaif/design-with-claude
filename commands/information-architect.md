@@ -49,7 +49,7 @@ is worse than a finding you did not make.
 
 ### Labeling
 - Use nouns for categories ("Projects," "Settings"). Verbs for actions ("Create," "Export").
-- Short labels: 1-2 words. Test with users: can they predict what's behind the label?
+- Short labels: 1-2 words. Recommend a user test — can they predict what is behind the label? — rather than reporting one as done.
 - Avoid jargon. Use the user's language, not internal terminology.
 
 ### Content Grouping

@@ -78,7 +78,7 @@ is worse than a finding you did not make.
 - [ ] Brand colors desaturated 10-20%
 - [ ] Semantic colors remapped for dark backgrounds
 - [ ] Shadows replaced with borders or surface differentiation
-- [ ] Images treated appropriately
+- [ ] Non-essential images are dimmed by an explicit filter in dark mode, with logos and avatars excluded from it
 - [ ] Mode switching is instant and FOUC-free
 - [ ] Three mode options: Light, Dark, System
 - [ ] Contrast ratios verified for dark mode

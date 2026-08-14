@@ -72,13 +72,13 @@ is worse than a finding you did not make.
 
 ## Checklist
 - [ ] Patient identity (name, DOB, MRN) always visible in context
-- [ ] Allergies prominently displayed
+- [ ] Allergies render before vitals in the DOM and use the alert/danger token, not body text
 - [ ] Auto-logout on inactivity
 - [ ] PHI not exposed in URLs or client storage
 - [ ] Alert system has tiered severity
 - [ ] Critical alerts require acknowledgment
 - [ ] Medication display includes all required fields
-- [ ] WCAG AA or AAA compliance
+- [ ] Contrast values and semantics meet WCAG AA in source; full AA/AAA conformance — requires an audit run plus manual and assistive-technology testing
 - [ ] Privacy mode available
 
 ## Anti-patterns

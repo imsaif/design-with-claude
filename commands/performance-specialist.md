@@ -82,7 +82,7 @@ is worse than a finding you did not make.
 - [ ] Images below fold lazy-loaded
 - [ ] Progress indicators for operations over 300ms
 - [ ] Prefetch for likely next navigations
-- [ ] CLS under 0.1
+- [ ] CLS under 0.1 — requires measurement (Lighthouse or field data)
 - [ ] Performance budget defined and monitored
 - [ ] Button loading states prevent double submission
 

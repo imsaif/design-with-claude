@@ -86,7 +86,7 @@ is worse than a finding you did not make.
 - [ ] All animations respect prefers-reduced-motion
 - [ ] No animation exceeds 700ms
 - [ ] Exit animations faster than entrance
-- [ ] 60fps maintained under normal conditions
+- [ ] Only compositor-friendly properties (transform, opacity) are animated, never layout properties; sustained 60fps — requires measurement
 
 ## Anti-patterns
 - Animating layout properties (width, height, top, left). Same duration for all animations.

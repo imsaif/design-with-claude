@@ -80,7 +80,7 @@ is worse than a finding you did not make.
 - [ ] Order summary visible throughout checkout
 - [ ] No surprise costs (shipping, tax shown early)
 - [ ] Confirmation page with order number and email note
-- [ ] Promo code field accessible but not prominent
+- [ ] Promo code field is not a primary/filled button variant and does not precede the checkout CTA in the DOM
 
 ## Anti-patterns
 - Forcing account creation before purchase. Surprise shipping costs at final step.

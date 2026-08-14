@@ -109,7 +109,7 @@ is worse than a finding you did not make.
 - [ ] Export buttons name the format explicitly
 - [ ] Filenames are meaningful and include date/context
 - [ ] Large exports show progress and allow cancellation
-- [ ] Charts are readable in grayscale
+- [ ] Chart series are distinguished by pattern, label, or lightness step rather than hue alone; true grayscale legibility — requires rendering the print output
 - [ ] Tables repeat headers on page breaks
 
 ## Anti-patterns

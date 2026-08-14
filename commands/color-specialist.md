@@ -86,7 +86,7 @@ is worse than a finding you did not make.
 - [ ] All combinations meet WCAG AA contrast
 - [ ] Dark mode is purpose-built, not inverted
 - [ ] Color never the sole indicator of meaning
-- [ ] Palette tested with color blindness simulation
+- [ ] Palette separates under colour-blind simulation — requires measurement (compute deltaE on the token values, or recommend simulation to the user)
 - [ ] Accent color used sparingly
 - [ ] Tokens layered: primitive > semantic > component
 

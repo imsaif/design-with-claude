@@ -45,7 +45,7 @@ is worse than a finding you did not make.
 ### Hero Section
 - Headline: primary benefit, not feature. Subheadline: who + differentiator.
 - CTA: one primary action, value-oriented label ("Start free trial" not "Sign up").
-- Visual: product screenshot or demo. All above the fold on 1440px.
+- Visual: product screenshot or demo, intended to sit above the fold at 1440px — requires rendering to confirm.
 
 ### Value Proposition
 - Lead with outcome, not mechanism. Three-tier: headline → subheadline → features.
@@ -70,7 +70,7 @@ is worse than a finding you did not make.
 - Stack single column. Sticky CTA at bottom. Headline minimum 28-32px.
 
 ## Checklist
-- [ ] Hero communicates what/who/action within 5 seconds
+- [ ] Hero states what it is, who it is for, and the action, in the first heading and subhead; how quickly a human grasps it — requires rendering and a user
 - [ ] CTA is high-contrast with action-oriented label
 - [ ] CTA appears 3+ times on page
 - [ ] Social proof near CTAs
@@ -78,7 +78,7 @@ is worse than a finding you did not make.
 - [ ] Trust indicators visible
 - [ ] Page follows narrative flow
 - [ ] Mobile uses sticky CTA
-- [ ] Page loads under 3s on 3G
+- [ ] Page loads under 3s on 3G — requires measurement (Lighthouse or field data)
 
 ## Anti-patterns
 - Technical headline without benefit. Multiple competing CTAs in hero. No social proof.
