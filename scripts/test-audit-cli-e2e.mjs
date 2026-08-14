@@ -82,10 +82,30 @@ try { rmSync(join(fixturePath, ".dwic"), { recursive: true, force: true }); } ca
 }
 
 // --- 8. Bad cwd ---
+// This used to assert only `status <= 2`, which accepted the bug it looks like
+// it was guarding: a missing directory audited as clean and exited 0 — a green
+// "passes CI" for a tree that isn't there — and mkdir'd the path on its way out
+// while writing the report. Assert the exact contract instead.
 {
-  const r = runAudit(["--cwd=/nonexistent/path/for/sure", "--no-telemetry"]);
-  if (r.status > 2) fail(`bad cwd should not error-out entirely, got ${r.status}`, r.stderr);
-  else pass(`bad cwd handled (exit ${r.status})`);
+  const missing = "/nonexistent/path/for/sure";
+  const r = runAudit([`--cwd=${missing}`, "--no-telemetry"]);
+  if (r.status !== 2) fail(`bad cwd should exit 2, got ${r.status}`, r.stderr);
+  else pass("bad cwd exits 2");
+  if (!/no such directory/.test(r.stderr)) fail("bad cwd should say 'no such directory'", r.stderr);
+  else pass("bad cwd names the problem");
+  if (/passes CI|categories ·/.test(r.stdout)) fail("bad cwd must not print an audit dashboard", r.stdout);
+  else pass("bad cwd prints no dashboard");
+  if (existsSync(missing)) fail(`bad cwd must not create ${missing}`);
+  else pass("bad cwd creates nothing");
+}
+
+// --- 9. A file where a directory is expected ---
+{
+  const r = runAudit([`--cwd=${resolve(repoRoot, "README.md")}`, "--no-telemetry"]);
+  if (r.status !== 2) fail(`file-as-cwd should exit 2, got ${r.status}`, r.stderr);
+  else pass("file-as-cwd exits 2");
+  if (!/not a directory/.test(r.stderr)) fail("file-as-cwd should say 'not a directory'", r.stderr);
+  else pass("file-as-cwd names the problem");
 }
 
 // Clean up report dir the tests created

@@ -1,6 +1,8 @@
 // Argv parser for `dwic audit`. Keeps the flag surface small — auto-detect
 // should be the default experience; overrides are escape hatches.
 
+import { resolve } from "node:path";
+
 export interface AuditArgs {
   cwd: string;
   telemetry: boolean;
@@ -15,6 +17,9 @@ export interface AuditArgs {
   mandatedFontFamily: string | null;
   baseUnitPx: number | null;
   watch: boolean;
+  // Anything the parser did not recognise. Surfaced to the user rather than
+  // dropped, so a typo'd flag fails loudly instead of silently changing nothing.
+  unknownArgs: string[];
 }
 
 const DEFAULT_MAX_FILES = 200;
@@ -23,7 +28,13 @@ export function parseAuditArgs(argv: string[]): AuditArgs {
   // argv is [node, script, ...rest]. When reached via the `audit` subcommand
   // the first rest token is the literal "audit"; when reached via the bare/
   // flag-first default (`npx dwic-audit --json`) it isn't. Strip a leading
-  // "audit" if present so flags survive either way — audit takes no positionals.
+  // "audit" if present so flags survive either way.
+  //
+  // A single positional is the directory to audit (`dwic audit ./app`), which is
+  // what people type and what every comparable CLI accepts. It used to be dropped
+  // on the floor: the audit silently scanned the cwd instead and reported it as
+  // though it were the requested path. Unrecognised flags were swallowed the same
+  // way, so a typo like `--no-telemtry` left telemetry on with no warning.
   const afterScript = argv.slice(2);
   const rest = afterScript[0] === "audit" ? afterScript.slice(1) : afterScript;
   const args: AuditArgs = {
@@ -40,7 +51,9 @@ export function parseAuditArgs(argv: string[]): AuditArgs {
     mandatedFontFamily: null,
     baseUnitPx: null,
     watch: false,
+    unknownArgs: [],
   };
+  let positional: string | null = null;
   for (const raw of rest) {
     if (raw === "--help" || raw === "-h") args.help = true;
     else if (raw === "--no-telemetry") args.telemetry = false;
@@ -66,7 +79,18 @@ export function parseAuditArgs(argv: string[]): AuditArgs {
       args.cssOverrides.push(raw.slice("--css=".length));
     } else if (raw.startsWith("--markup=")) {
       args.markupOverrides.push(raw.slice("--markup=".length));
+    } else if (raw.startsWith("-")) {
+      args.unknownArgs.push(raw);
+    } else if (positional === null) {
+      positional = raw;
+    } else {
+      args.unknownArgs.push(raw);
     }
+  }
+  // An explicit --cwd= wins over the positional; otherwise the positional is
+  // the directory to audit, resolved against the real cwd.
+  if (positional !== null && !rest.some((r) => r.startsWith("--cwd="))) {
+    args.cwd = resolve(process.cwd(), positional);
   }
   // Env-based opt-out stacks on top of the flag.
   if (process.env.DWIC_TELEMETRY?.trim() === "off") args.telemetry = false;
@@ -78,10 +102,12 @@ export function renderAuditHelp(): string {
     "dwic audit — scan a project for design-system gaps and drift",
     "",
     "Usage:",
-    "  npx dwic-audit [options]",
+    "  npx dwic-audit [path] [options]",
+    "",
+    "  path                     Project root to scan (default: current directory)",
     "",
     "Options:",
-    "  --cwd=<path>             Project root to scan (default: cwd)",
+    "  --cwd=<path>             Same as the positional path; wins if both are given",
     "  --css=<path>             Additional CSS file to include (repeatable)",
     "  --markup=<path>          Additional HTML/JSX/TSX file to include (repeatable)",
     "  --max-files=<N>          Cap markup files scanned (default: 200)",

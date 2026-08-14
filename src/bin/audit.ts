@@ -2,7 +2,7 @@
 // Entry point for `dwic audit`. The `dwic` setup CLI dispatches here when
 // argv[2] === "audit". Also runnable directly: `node dist/bin/audit.js audit`.
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve as resolvePath } from "node:path";
 import { parseAuditArgs, renderAuditHelp } from "../audit/args.js";
 import { walkProject } from "../audit/walker.js";
@@ -54,6 +54,34 @@ export async function runAudit(argv: string[]): Promise<number> {
   if (args.help) {
     process.stdout.write(renderAuditHelp() + "\n");
     return 0;
+  }
+  // Fail loudly rather than auditing something the user did not ask for. A
+  // swallowed flag silently changes behaviour (e.g. a typo'd --no-telemetry
+  // leaves telemetry on) and a swallowed path silently audits the wrong tree.
+  if (args.unknownArgs.length > 0) {
+    process.stderr.write(
+      `dwic audit: unrecognised argument${args.unknownArgs.length > 1 ? "s" : ""}: ${args.unknownArgs.join(", ")}\n` +
+        `Run \`dwic audit --help\` to see the supported flags.\n`,
+    );
+    return 2;
+  }
+
+  // A path that isn't there must not audit as clean. Without this the walker
+  // finds no CSS and no components, every category reports "clean", and the
+  // run exits 0 — a green CI signal for a directory that does not exist.
+  if (!existsSync(args.cwd)) {
+    process.stderr.write(
+      `dwic audit: no such directory: ${args.cwd}\n` +
+        `Check the path, or omit it to audit the current directory.\n`,
+    );
+    return 2;
+  }
+  if (!statSync(args.cwd).isDirectory()) {
+    process.stderr.write(
+      `dwic audit: not a directory: ${args.cwd}\n` +
+        `Pass a project root, not a file. Use --css=/--markup= to add individual files.\n`,
+    );
+    return 2;
   }
 
   const cwd = args.cwd;

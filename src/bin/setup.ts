@@ -25,13 +25,24 @@ function parseArgs(argv: string[]): Args {
   const KNOWN = ["setup", "uninstall", "help", "version", "audit"];
   // Bare `npx dwic-audit` (and any flag-first invocation like `--watch` /
   // `--json`) runs an audit — that's the product's front door. An explicit
-  // known subcommand routes to it; an unknown word falls back to help.
+  // known subcommand routes to it.
+  //
+  // An unrecognised first word is ambiguous: `./app` is a path to audit (the
+  // form the audit help advertises, which used to print usage instead), while
+  // `setpu` is a fat-fingered subcommand. Route on shape rather than sending
+  // both to the same place — a mistyped `setpu --token=x` handed to the audit
+  // complains that --token is unrecognised, which says nothing about the real
+  // mistake and lands on the first command a new user ever runs.
+  const looksLikePath = (s: string) =>
+    /[/\\]/.test(s) || s.startsWith(".") || existsSync(resolve(process.cwd(), s));
   const command = (
     rawCommand == null || rawCommand.startsWith("-")
       ? "audit"
       : KNOWN.includes(rawCommand)
         ? rawCommand
-        : "help"
+        : looksLikePath(rawCommand)
+          ? "audit"
+          : "help"
   ) as Args["command"];
   const args: Args = {
     command,
