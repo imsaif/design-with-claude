@@ -106,6 +106,14 @@ export const SKILLS: Skill[] = [
     icon: "≡",
   },
   {
+    slug: "design-enforce",
+    name: "Design Enforce",
+    description: "Checks whether the code actually uses your design system \u2014 detached values, off-scale numbers, reinvented components",
+    category: "core",
+    level: "intermediate",
+    icon: "\u25c8",
+  },
+  {
     slug: "design-grill",
     name: "Design Grill",
     description: "Interviews you until the design is pinned down, and writes the vocabulary and binding decisions into your repo as it goes",

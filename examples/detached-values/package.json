@@ -1,0 +1,14 @@
+{
+  "name": "detached-values",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Fixture for /design-enforce — a SOUND design system that the code ignores. Complements broken-project, whose tokens are broken to exercise `dwic audit`. Here the tokens are fine and the violations are in the components.",
+  "dependencies": {
+    "next": "15.0.0",
+    "react": "19.0.0"
+  },
+  "devDependencies": {
+    "typescript": "5.6.0",
+    "tailwindcss": "4.0.0"
+  }
+}

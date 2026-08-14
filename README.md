@@ -48,7 +48,7 @@ Get a token at [designwithclaude.com/get-started](https://designwithclaude.com/g
 
 ## The free library — dwic's open knowledge base
 
-This repo also ships **47 design skills across 8 categories** (39 design specialists and 8 technical guides for designers) as plain Claude Code slash commands. No runtime, no dependencies, no API keys. Browse them at [designwithclaude.com/library](https://designwithclaude.com/library).
+This repo also ships **48 design skills across 8 categories** (40 design specialists and 8 technical guides for designers) as plain Claude Code slash commands. No runtime, no dependencies, no API keys. Browse them at [designwithclaude.com/library](https://designwithclaude.com/library).
 
 These aren't a separate product. They're the **same knowledge base dwic runs on**. Each specialist's expertise lives in a markdown role prompt under `commands/`, and dwic's MCP specialists load those exact files. When you ask dwic's `color-specialist` inside Claude Code, its expertise comes from the same `commands/color-specialist.md` that the free `/color-specialist` slash command loads.
 
@@ -98,7 +98,7 @@ This gives you `/design-brief`, `/accessibility-specialist`, etc. directly.
 /design-brief Build a SaaS analytics dashboard with dark mode and accessibility focus
 ```
 
-The master command analyzes your brief, identifies the relevant design domains (out of 46), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
+The master command analyzes your brief, identifies the relevant design domains (out of 47), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
 
 When invoked inside a code project, commands are context-aware: they detect your stack, read your existing files, and generate output that matches your conventions.
 
