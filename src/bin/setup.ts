@@ -25,13 +25,20 @@ function parseArgs(argv: string[]): Args {
   const KNOWN = ["setup", "uninstall", "help", "version", "audit"];
   // Bare `npx dwic-audit` (and any flag-first invocation like `--watch` /
   // `--json`) runs an audit — that's the product's front door. An explicit
-  // known subcommand routes to it; an unknown word falls back to help.
+  // known subcommand routes to it.
+  //
+  // Anything else is a path: `npx dwic-audit ./app` is what people type, and
+  // it's the form the audit help advertises. It used to fall back to help, so
+  // the documented invocation printed usage instead of auditing. Routing it to
+  // the audit is safe because runAudit rejects a path that doesn't exist — a
+  // mistyped subcommand (`setpu`) surfaces as "no such directory: .../setpu"
+  // rather than silently auditing nothing and exiting 0.
   const command = (
     rawCommand == null || rawCommand.startsWith("-")
       ? "audit"
       : KNOWN.includes(rawCommand)
         ? rawCommand
-        : "help"
+        : "audit"
   ) as Args["command"];
   const args: Args = {
     command,
