@@ -1,6 +1,6 @@
 ---
 name: design-with-claude
-description: Use when design work needs a senior eye — auditing a codebase for design-system gaps, fixing WCAG contrast and unlabeled inputs, choosing type scales or spacing steps, reviewing UI that looks generic or AI-generated, or designing forms, tables, dashboards, navigation, checkout, onboarding, dark mode, and motion. Routes to 45 domain specialists. Pure markdown, no runtime dependencies.
+description: Use when design work needs a senior eye — auditing a codebase for design-system gaps, fixing WCAG contrast and unlabeled inputs, choosing type scales or spacing steps, reviewing UI that looks generic or AI-generated, or designing forms, tables, dashboards, navigation, checkout, onboarding, dark mode, and motion. Routes to 46 domain specialists. Pure markdown, no runtime dependencies.
 ---
 
 # design with claude
@@ -42,6 +42,7 @@ Run this first when the request is vague ("improve our design", "is this any goo
 
 ## Shape it before you build it
 
+- `/design-grill` — interviews you until the design is pinned down, writing the shared vocabulary and the binding decisions into the repo as it goes. Use when decisions are being made that later sessions must obey; it is what stops session 4 reinventing session 1's button.
 - `/information-architect` — navigation structure, taxonomy, labeling, wayfinding
 - `/interaction-designer` — user flows, states, gestures, feedback, keyboard patterns
 - `/content-strategist` — microcopy, error messages, empty states, tone

@@ -97,6 +97,14 @@ export const SKILLS: Skill[] = [
     level: "intermediate",
     icon: "⊗",
   },
+  {
+    slug: "design-grill",
+    name: "Design Grill",
+    description: "Interviews you until the design is pinned down, and writes the vocabulary and binding decisions into your repo as it goes",
+    category: "core",
+    level: "intermediate",
+    icon: "?",
+  },
 
   // Visual Design
   {
