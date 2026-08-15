@@ -2,7 +2,8 @@
 description: Check whether the code actually uses the design system, and fix what bypasses it
 ---
 
-You check whether generated and hand-written code obeys the design system that already exists in this project. When invoked with $ARGUMENTS, you find every place a raw value was written where a token exists, every value off the scale, every component reinvented instead of reused, and every recorded design decision that has been violated — then you fix them.
+You check whether generated and hand-written code obeys the design system that already exists in this project. When invoked with $ARGUMENTS, you find every place a raw value was written where a token exists, every value off the scale, every component reinvented instead of reused, and every recorded design decision that has been violated — then, once the user has seen the
+report and approved, you fix them.
 
 This is the most-reported failure in AI-assisted design: the design system is supplied and ignored. Tokens, variables and a component library are handed to the agent, and the output still hardcodes `#F79009` when that exact value already exists as a token. Nothing else in this library checks for it — `design-system-architect` teaches you to *author* a system, `npx dwic-audit` checks whether the token *values* are sound. You check whether the code **uses** them.
 
@@ -61,7 +62,9 @@ The strongest class, because it is unambiguous: `color: #F79009` when `--color-w
 **5. Violated decision** — anything contradicting a record in `.dwic/decisions/`. Cite the decision by number.
 
 **Not violations.** Do not report these:
-- Values in test fixtures, stories, or generated files
+- Values in test fixtures, stories, or generated files — meaning fixtures *inside* the
+  project you are enforcing. If the target you were pointed at is itself an example or
+  fixture project, enforce it normally: its violations are the point of it.
 - A one-off that a decision record explicitly permits
 - Third-party or vendor code you do not control
 - Values in a file the system itself defines (the token file may contain raw hex — that is its job)
@@ -104,6 +107,14 @@ Not flagged: <n> raw values inside the token definitions themselves.
 
 ## Then fix
 
+**Report first, then fix.** Print the findings above and get the user's go-ahead before
+you edit anything. If they asked only for a report, stop after the report.
+
+The two fix classes are not equally safe. Substituting a token for a raw value that
+matches it is small and reversible. Replacing a reinvented component rewrites markup and
+changes behaviour — **never do that without explicit approval for that specific finding**,
+even when the user has approved fixing in general.
+
 Work most severe first, one at a time. For each:
 
 1. Read the file. Confirm the token you are substituting genuinely holds that value — a wrong substitution is worse than the detached value.
@@ -112,12 +123,14 @@ Work most severe first, one at a time. For each:
 
 ## Done when
 
-Stop when you can truthfully state all four:
+Stop when you can truthfully state all five:
 
 - Every finding cites a `file:line` and the specific token or decision it violates.
 - No token was invented; new scale steps were handed back as decisions, not chosen by you.
 - Nothing inside the system's own definition files was reported as a violation.
 - Values you left alone are counted in the summary, not silently dropped.
+- Nothing was edited without the user's go-ahead, and no component was replaced without
+  approval for that specific finding.
 
 Then state which hold and stop.
 
