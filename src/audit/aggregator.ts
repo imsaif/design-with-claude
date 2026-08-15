@@ -415,7 +415,8 @@ function buildCopyResult(markup: string): CategoryResult {
       counts: { error: 0, warn: 0, info: 0 },
     };
   }
-  const raw = runContentAudit(markup);
+  // `markup` here is concatenated component source, not markup or pasted prose.
+  const raw = runContentAudit(markup, { source: true });
   const findings: GenericFinding[] = raw.map((f) => ({
     severity: f.severity,
     element: f.element,

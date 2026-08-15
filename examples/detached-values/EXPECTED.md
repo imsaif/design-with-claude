@@ -65,13 +65,15 @@ caused entirely by that comment. Measured before and after removing it:
 |---|---|---|
 | With the answer key | 7 | 10 |
 | Without it | 1 | 4 |
+| After the copy-extractor fix | 0 (clean) | 3 |
 
-The `shouting` finding (11 all-caps words — `DETACHED`, `VALUE`, …) is gone entirely.
+The last row is a **separate bug the measurement exposed**, now fixed. The copy checks
+were reading source comments and the code after them as user-facing prose — a 43-word
+"sentence" stitched from `Button.tsx`'s comment and its `export function` line, and 88
+words the same way in `examples/broken-project`. The prose path now reads only JSX text
+nodes and user-facing attributes when the input is source. See
+`scripts/test-audit-copy-source.mjs`.
 
-**One remains, and it is an audit bug rather than a fixture problem.** The copy extractor
-treats source comments and the code following them as user-facing prose, so it still
-reports a 43-word "sentence" stitched from `Button.tsx`'s one-line comment and its
-`export function` line. This is not specific to this fixture: `examples/broken-project`
-produces an 88-word sentence the same way. Any component file with comments will generate
-phantom Copy findings for a real user. Tracked separately — do not "fix" it by deleting
-comments from the fixtures.
+Copy is expected to be **clean** on this fixture: its only user-facing strings are
+"Needs attention", "All good" and "Dismiss", none of which trip a copy check. If Copy
+ever reports a finding here again, suspect the extractor before the fixture.
