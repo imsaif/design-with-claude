@@ -1,7 +1,7 @@
 {
   "name": "dwic-audit",
   "version": "1.0.0-alpha.9",
-  "description": "dwic — the design auditor for Claude Code. MCP server that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then remembers findings across sessions.",
+  "description": "dwic — a product designer inside your terminal. MCP server + CLI that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then remembers findings across sessions.",
   "type": "module",
   "main": "./dist/server.js",
   "bin": {

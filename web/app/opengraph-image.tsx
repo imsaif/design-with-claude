@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "dwic — a senior designer inside your terminal";
+export const alt = "dwic — a product designer inside your terminal";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -59,7 +59,7 @@ export default async function OpengraphImage() {
               maxWidth: 1000,
             }}
           >
-            dwic is a senior designer inside your terminal.
+            dwic is a product designer inside your terminal.
           </div>
           <div
             style={{

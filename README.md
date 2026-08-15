@@ -1,6 +1,6 @@
-# dwic — a senior designer inside your terminal
+# dwic — a product designer inside your terminal
 
-dwic (design with claude) puts a senior designer inside Claude Code. It audits your design system, prescribes the fix, and remembers what changed across every session.
+dwic (design with claude) puts a product designer inside Claude Code. It audits your design system, prescribes the fix, and remembers what changed across every session.
 
 ## The one-line audit
 
@@ -36,7 +36,7 @@ Scanned: 2 CSS files · 1 component · Next.js 15 + Tailwind v4
 
 ## Inside Claude Code
 
-Install the MCP server and the senior designer works interactively. Ask the specialists (`color-specialist`, `accessibility-specialist`, `typography-specialist`, and the rest) to audit or fix, and dwic remembers your project's decisions across sessions instead of re-asking every time.
+Install the MCP server and the product designer works interactively. Ask the specialists (`color-specialist`, `accessibility-specialist`, `typography-specialist`, and the rest) to audit or fix, and dwic remembers your project's decisions across sessions instead of re-asking every time.
 
 ```
 npx dwic-audit setup --token=imr_xxx

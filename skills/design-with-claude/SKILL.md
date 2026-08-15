@@ -5,7 +5,7 @@ description: Use when design work needs a senior eye — auditing a codebase for
 
 # design with claude
 
-A senior designer inside your terminal. Start by measuring, then route to the specialist who fixes what you measured.
+A product designer inside your terminal. Start by measuring, then route to the specialist who fixes what you measured.
 
 ## Start here: measure before you design
 

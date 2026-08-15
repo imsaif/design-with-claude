@@ -307,7 +307,7 @@ export function GetStartedPreview() {
           {!demoActive && (
             <>
               <h1 className="gs-hero-title">
-                dwic is a senior designer inside your terminal
+                dwic is a product designer inside your terminal
                 <span className="skills-hero-cursor" aria-hidden="true" />
               </h1>
               <p className="gs-hero-sub">
