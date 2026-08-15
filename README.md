@@ -110,7 +110,7 @@ When invoked inside a code project, commands are context-aware: they detect your
 Product type: B2B SaaS dashboard
 Key requirements: data visualization, dark theme, WCAG AA compliance
 
-## Relevant Domains (7 of 45)
+## Relevant Domains (7 of 47)
 1. Dashboard Designer — KPI cards, chart layout, data density
 2. Dark Mode Specialist — surface hierarchy, elevation tokens, contrast
 3. Accessibility Specialist — WCAG AA, focus management, screen readers
@@ -148,6 +148,17 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 | Command | What it does |
 |---|---|
 | `design-brief` | Takes a natural language brief → identifies relevant specialists → outputs comprehensive design guidance |
+
+### Design Process
+
+These act on the design *process* rather than a domain. Listed in the order you'd
+normally use them: pin the decisions, check the code obeys them, work the fix list.
+
+| Command | Use when... |
+|---|---|
+| `design-grill` | Decisions need pinning down before code — interviews you, then writes the binding records later sessions must obey |
+| `design-enforce` | A system exists but the code may be ignoring it — raw values where a token holds that value, off-scale numbers, reinvented components |
+| `design-triage` | An audit came back a pile rather than one obvious problem — ranks findings by what costs most to leave broken, then works them in order |
 
 ### Core Design
 
@@ -253,6 +264,11 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 # New design skills
 /auth-security-ux-specialist Passkey login flow with 2FA fallback
 /drag-drop-specialist Kanban board with drag between columns and keyboard support
+
+# Design process — pin decisions, check compliance, work the fix list
+/design-grill Pin down the decisions for our new settings screen before I build it
+/design-enforce Check whether src/ actually uses the tokens in styles/tokens.css
+/design-triage Work the findings from the latest audit in priority order
 
 # Technical guides — get unstuck
 /setup-guide I've never used a terminal before, help me set up Claude Code

@@ -74,6 +74,13 @@ const EDITS = [
     re: /identifies the relevant design domains \(out of (\d+)\)/,
     to: `identifies the relevant design domains (out of ${routable})`,
   },
+  {
+    // Inside the sample output block. Templated deliberately: the example should
+    // move with the library rather than freeze at whatever it was when written.
+    file: "README.md",
+    re: /Relevant Domains \(7 of (\d+)\)/,
+    to: `Relevant Domains (7 of ${routable})`,
+  },
 ];
 
 let stale = 0;
@@ -99,6 +106,21 @@ for (const { file, re, to } of EDITS) {
 
 console.log(`commands: ${total} total = ${specialists} specialists + ${technical} technical guides`);
 console.log(report.join("\n"));
+
+// A correct total does not mean every command is documented. design-grill,
+// design-triage and design-enforce were all live and installable while README
+// listed 45 rows and claimed 48 — the counts were in sync the whole time.
+// Match the table-cell form so prose mentions do not count as documentation.
+const readme = readFileSync(join(ROOT, "README.md"), "utf8");
+const undocumented = slugs.filter((s) => !readme.includes(`\`${s}\``));
+if (undocumented.length > 0) {
+  console.error(`\n✗ ${undocumented.length} command(s) missing from README.md:`);
+  for (const s of undocumented) console.error(`      ${s}`);
+  console.error(`  Add a row under the matching "## Commands" heading. Cannot be auto-fixed.`);
+  process.exitCode = 1;
+} else {
+  console.log(`  ok    README.md — all ${total} commands have a table row`);
+}
 
 if (CHECK && stale > 0) {
   console.error(`\n${stale} stale count(s). Run: node scripts/sync-counts.mjs`);
