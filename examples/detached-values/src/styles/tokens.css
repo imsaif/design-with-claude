@@ -1,10 +1,6 @@
-/* A deliberately SOUND design system. Unlike examples/broken-project (whose
-   tokens are broken to exercise `dwic audit`), everything here is fine:
-   AA-passing colours, a clean 4px scale, standard weights.
-
-   The violations live in the code that ignores it — see ../components/.
-   This is the fixture for /design-enforce. Nothing in THIS file should ever
-   be reported as a finding; a raw hex in the token definition is its job. */
+/* The design system for this fixture. Unlike examples/broken-project, whose
+   tokens are broken to exercise `dwic audit`, everything here is sound:
+   AA-passing colours, a clean 4px scale, standard weights. Do not change it. */
 
 :root {
   /* colour */

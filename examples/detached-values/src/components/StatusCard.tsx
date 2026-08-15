@@ -1,17 +1,7 @@
-// Planted violations for /design-enforce. Every one is decided from source
-// alone — no rendering required.
-//
-//   1. DETACHED VALUE   #f79009 written raw; --color-warning holds exactly that
-//   2. DETACHED VALUE   #027a48 raw; --color-success holds exactly that
-//   3. DETACHED VALUE   #101828 raw; --color-text holds exactly that
-//   4. OFF-SCALE        padding 13px and 21px against a 4px scale
-//   5. OFF-SCALE        border-radius 5px; system defines 4 and 8
-//   6. ARBITRARY SYNTAX Tailwind w-[347px] and text-[#1f3b90]
-//   7. REINVENTED       a bare styled <button> when Button.tsx exists
-//
-// Decoys that must NOT be flagged:
-//   - z-index 10 is not a design-token value
-//   - the 200ms duration has no token to bypass — a gap, not a violation
+// A status card in a project that has a design system. Deliberately not
+// annotated: the expected findings live in ../../EXPECTED.md, which should not
+// be read until after /design-enforce has run against this fixture.
+// The violations here are the point of the fixture. Do not fix them.
 
 export function StatusCard({ status }: { status: "warn" | "ok" }) {
   return (
