@@ -99,7 +99,21 @@ The `design-` prefix marks commands that act on the design *process* rather than
 - **Two fixtures, two jobs.** `examples/broken-project` has *broken tokens* and exercises
   `dwic audit`. `examples/detached-values` has *sound tokens the code ignores* and
   exercises `/design-enforce`. The audit reports the second one clean — that contrast is
-  the point, so don't "fix" its tokens.
+  the point, so don't "fix" its tokens. Its expected findings live in
+  `examples/detached-values/EXPECTED.md`, deliberately *outside* the code under test —
+  don't move them back into a comment, or the fixture stops being able to fail.
+- **`markupContent` is raw source, not markup.** The aggregator hands whole `.tsx` files
+  to the a11y, form, nav and copy checks. Tag-anchored checks are safe on that; anything
+  reading the *remainder* is not, because outside `<...>` a component is comments,
+  imports and type annotations rather than user copy. That assumption shipped a bug that
+  audited code as prose. If you add a check that reads text rather than tags, it needs
+  `runContentAudit(..., { source: true })`-style extraction, and a test proving both that
+  code isn't flagged and that real copy still is.
+- **Gitignored continuity files are invisible from worktrees.** `docs/SESSION-LOG.md` and
+  `PROGRESS.md` are gitignored to keep them out of the public repo, so they don't
+  propagate into `.claude/worktrees/*`. A session working in a worktree sees no project
+  state and may create its own copy, which dies with the worktree — this already cost one
+  recovery. Read and write both only at the main checkout.
 
 ## Session History
 
