@@ -1,5 +1,6 @@
 // The component library's Button. This is the one that already exists —
-// ActionButton.tsx reinvents it, which /design-enforce should catch.
+// the bare <button> in StatusCard.tsx reinvents it, which /design-enforce
+// should catch.
 
 export function Button({
   children,
