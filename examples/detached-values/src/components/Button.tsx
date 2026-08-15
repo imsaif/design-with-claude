@@ -1,6 +1,4 @@
-// The component library's Button. This is the one that already exists —
-// the bare <button> in StatusCard.tsx reinvents it, which /design-enforce
-// should catch.
+// The component library's Button — the canonical implementation.
 
 export function Button({
   children,
