@@ -1,6 +1,6 @@
 {
   "name": "dwic-audit",
-  "version": "1.0.0-alpha.8",
+  "version": "1.0.0-alpha.9",
   "description": "dwic — the design auditor for Claude Code. MCP server that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then remembers findings across sessions.",
   "type": "module",
   "main": "./dist/server.js",
@@ -15,7 +15,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "node scripts/sync-counts.mjs --check && tsc && node scripts/chmod-bins.mjs",
+    "build": "node scripts/sync-counts.mjs --check && node scripts/sync-version.mjs --check && tsc && node scripts/chmod-bins.mjs",
+    "sync-version": "node scripts/sync-version.mjs",
     "sync-counts": "node scripts/sync-counts.mjs",
     "check-counts": "node scripts/sync-counts.mjs --check",
     "dev": "tsc --watch",
