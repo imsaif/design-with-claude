@@ -91,6 +91,11 @@ The `design-` prefix marks commands that act on the design *process* rather than
 - **Run the thing before believing it.** A 25-agent read of all 46 command files found no
   runtime bugs. The first end-to-end CLI run found one in 20 minutes (`dwic audit <path>`
   silently auditing the cwd). Reading prompts is not testing behaviour.
+- **A command's mutating tail is where defects hide.** The reporting half gets the
+  scrutiny; the "then fix" step appended after it inherits none of it. `/design-enforce`
+  shipped able to replace a whole component with no checkpoint, and its "not violations"
+  list contradicted the fixture it was built against — both in the tail, both missed by
+  reading, both found in one run. When auditing a command, read its last section first.
 - **Two fixtures, two jobs.** `examples/broken-project` has *broken tokens* and exercises
   `dwic audit`. `examples/detached-values` has *sound tokens the code ignores* and
   exercises `/design-enforce`. The audit reports the second one clean — that contrast is
