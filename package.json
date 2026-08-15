@@ -34,6 +34,7 @@
     "test:audit-form-designer": "node scripts/test-audit-form-designer.mjs",
     "test:audit-navigation-specialist": "node scripts/test-audit-navigation-specialist.mjs",
     "test:audit-content-strategist": "node scripts/test-audit-content-strategist.mjs",
+    "test:audit-copy-source": "node scripts/test-audit-copy-source.mjs",
     "test:audit-motion-designer": "node scripts/test-audit-motion-designer.mjs",
     "test:detect-project-config": "node scripts/test-detect-project-config.mjs",
     "test:audit-walker": "node scripts/test-audit-walker.mjs",

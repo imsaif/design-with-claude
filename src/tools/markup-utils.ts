@@ -103,3 +103,50 @@ export function neutralizeJsxExpressions(input: string): string {
 
   return out;
 }
+
+// Attributes whose value a user actually reads. `title` and `label` are included
+// because both surface as visible or announced text.
+const USER_FACING_ATTR_RE = /\b(?:placeholder|alt|aria-label|title|label)\s*=\s*"([^"]*)"/gi;
+
+// A candidate text node containing any of these is code that slipped through,
+// not copy. Parentheses and commas are deliberately absent — "Sign in (free)"
+// and "Yes, continue" are ordinary UI strings.
+const CODE_MARKER_RE = /[;{}=]/;
+
+/**
+ * Pull the user-facing text out of component **source**.
+ *
+ * The prose checks (jargon, passive voice, sentence length, shouting) were
+ * written for markup, where stripping `<...>` leaves user copy behind. Applied
+ * to `.tsx` that assumption inverts: what's left is comments, imports, type
+ * annotations and function bodies, so the auditor reported phantom findings —
+ * a 43-word "sentence" stitched from a one-line comment and an `export function`
+ * line, and `DETACHED`/`VALUE` counted as shouting.
+ *
+ * This keeps only what a user can read: JSX text nodes, plus the user-facing
+ * attributes above. Each fragment is terminated so the sentence splitter treats
+ * separate UI strings as separate sentences instead of stitching them into one
+ * long false positive across element and file boundaries.
+ *
+ * Expects input already passed through `neutralizeJsxExpressions`, which
+ * collapses `{children}` to `{}` so interpolations are dropped here.
+ */
+export function extractUserFacingText(input: string): string {
+  const withoutComments = input
+    .replace(/\/\*[\s\S]*?\*\//g, " ")
+    .replace(/(^|[^:])\/\/[^\n]*/g, "$1");
+
+  const fragments: string[] = [];
+
+  for (const m of withoutComments.matchAll(/>([^<>]+)</g)) {
+    const text = m[1]!.replace(/\s+/g, " ").trim();
+    if (text && !CODE_MARKER_RE.test(text)) fragments.push(text);
+  }
+
+  for (const m of withoutComments.matchAll(USER_FACING_ATTR_RE)) {
+    const text = m[1]!.replace(/\s+/g, " ").trim();
+    if (text) fragments.push(text);
+  }
+
+  return fragments.map((f) => (/[.!?]$/.test(f) ? f : `${f}.`)).join(" ");
+}

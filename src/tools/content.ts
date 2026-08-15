@@ -3,7 +3,7 @@
 // product copy: passive voice, jargon, weak CTA verbs, over-long sentences,
 // all-caps shouting, button-text length.
 
-import { neutralizeJsxExpressions } from "./markup-utils.js";
+import { neutralizeJsxExpressions, extractUserFacingText } from "./markup-utils.js";
 
 export interface ContentFinding {
   severity: "error" | "warn" | "info";
@@ -248,9 +248,24 @@ export function auditHeadingCase(markup: string): ContentFinding[] {
   return findings;
 }
 
-export function runContentAudit(input: string): ContentFinding[] {
+export interface ContentAuditOptions {
+  /**
+   * Set when `input` is component **source** rather than markup or pasted prose.
+   *
+   * The prose checks assume that stripping `<...>` leaves user copy behind —
+   * true for HTML, false for `.tsx`, where the remainder is comments, imports
+   * and type annotations. In source mode the prose path reads only JSX text
+   * nodes and user-facing attributes instead.
+   *
+   * Defaults to false so the content-strategist tool, which receives real copy
+   * (often with no tags at all), keeps its existing behaviour.
+   */
+  source?: boolean;
+}
+
+export function runContentAudit(input: string, opts: ContentAuditOptions = {}): ContentFinding[] {
   const cleaned = neutralizeJsxExpressions(input);
-  const plainText = stripTags(cleaned);
+  const plainText = opts.source ? extractUserFacingText(cleaned) : stripTags(cleaned);
   return [
     ...auditCTAs(cleaned),
     ...auditJargon(plainText),
