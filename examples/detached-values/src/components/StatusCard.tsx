@@ -10,7 +10,7 @@
 //   7. REINVENTED       a bare styled <button> when Button.tsx exists
 //
 // Decoys that must NOT be flagged:
-//   - z-index 10 and line 62's `flex: 1` are not design-token values
+//   - z-index 10 is not a design-token value
 //   - the 200ms duration has no token to bypass — a gap, not a violation
 
 export function StatusCard({ status }: { status: "warn" | "ok" }) {
