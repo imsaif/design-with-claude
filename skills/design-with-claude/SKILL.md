@@ -1,6 +1,6 @@
 ---
 name: design-with-claude
-description: Use when design work needs a senior eye — auditing a codebase for design-system gaps, fixing WCAG contrast and unlabeled inputs, choosing type scales or spacing steps, reviewing UI that looks generic or AI-generated, or designing forms, tables, dashboards, navigation, checkout, onboarding, dark mode, and motion. Routes to 47 domain specialists. Pure markdown, no runtime dependencies.
+description: Use when design work needs a senior eye — auditing a codebase for design-system gaps, fixing WCAG contrast and unlabeled inputs, choosing type scales or spacing steps, reviewing UI that looks generic or AI-generated, or designing forms, tables, dashboards, navigation, checkout, onboarding, dark mode, and motion. Routes to 48 domain specialists. Pure markdown, no runtime dependencies.
 ---
 
 # design with claude
@@ -50,6 +50,10 @@ Or hand the whole report to `/design-triage` — it reads the newest `.dwic/audi
 - `/content-strategist` — microcopy, error messages, empty states, tone
 - `/brand-designer` — visual identity, logo usage, brand color, type as brand
 - `/design-system-architect` — tokens, component APIs, variants, theming, governance
+
+## Already have a design system?
+
+`/design-enforce` checks whether the code actually **uses** it — raw values written where a token holds that exact value, numbers off the scale, components reinvented instead of reused, decisions in `.dwic/decisions/` that have been violated. The audit checks whether your token values are sound; this checks whether anything obeys them. Every finding is decided from source, so it needs no rendering.
 
 ## Foundations
 

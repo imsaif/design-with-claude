@@ -88,6 +88,13 @@ The `design-` prefix marks commands that act on the design *process* rather than
   and the paid MCP specialist, so a command edit changes both.
 - **Anything under `commands/` ships as a user-visible command.** Shared partials cannot
   live there — `commands/_shared/x.md` would appear as `/design-with-claude:_shared:x`.
+- **Run the thing before believing it.** A 25-agent read of all 46 command files found no
+  runtime bugs. The first end-to-end CLI run found one in 20 minutes (`dwic audit <path>`
+  silently auditing the cwd). Reading prompts is not testing behaviour.
+- **Two fixtures, two jobs.** `examples/broken-project` has *broken tokens* and exercises
+  `dwic audit`. `examples/detached-values` has *sound tokens the code ignores* and
+  exercises `/design-enforce`. The audit reports the second one clean — that contrast is
+  the point, so don't "fix" its tokens.
 
 ## Session History
 

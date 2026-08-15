@@ -43,6 +43,7 @@ import NoSymbolIcon from "@heroicons/react/24/outline/NoSymbolIcon";
 import PencilSquareIcon from "@heroicons/react/24/outline/PencilSquareIcon";
 import ScaleIcon from "@heroicons/react/24/outline/ScaleIcon";
 import QuestionMarkCircleIcon from "@heroicons/react/24/outline/QuestionMarkCircleIcon";
+import ShieldExclamationIcon from "@heroicons/react/24/outline/ShieldExclamationIcon";
 import QueueListIcon from "@heroicons/react/24/outline/QueueListIcon";
 import DocumentTextIcon from "@heroicons/react/24/outline/DocumentTextIcon";
 import { type ComponentType, type SVGProps } from "react";
@@ -95,6 +96,7 @@ const SKILL_ICON_MAP: Record<string, HeroIcon> = {
   "ui-copywriter": PencilSquareIcon,
   "design-critic": ScaleIcon,
   "design-grill": QuestionMarkCircleIcon,
+  "design-enforce": ShieldExclamationIcon,
   "design-triage": QueueListIcon,
   "briefing-claude": DocumentTextIcon,
 };
