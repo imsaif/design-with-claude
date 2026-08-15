@@ -19,7 +19,7 @@ const satoshi = localFont({
 });
 
 const siteUrl = "https://www.designwithclaude.com";
-const title = "dwic — a senior designer inside your terminal";
+const title = "dwic — a product designer inside your terminal";
 const description =
   "dwic (design with claude) is an MCP server that audits your design system from inside Claude Code. Flags contrast failures, mandated-accent drift, and structural gaps in your CSS — then prescribes the fix and remembers it across every session.";
 
