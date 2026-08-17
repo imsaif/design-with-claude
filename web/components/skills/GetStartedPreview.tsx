@@ -138,7 +138,7 @@ const DEMO_LINES: TerminalLine[] = [
     content: (
       <>
         <span className="gs-terminal-warn">⚠ Copy</span>{" "}
-        <span className="gs-terminal-muted">— 3 findings · weak CTA, jargon</span>
+        <span className="gs-terminal-muted">— 2 findings · weak CTA, jargon</span>
       </>
     ),
   },
@@ -174,7 +174,7 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 250,
     content: (
       <span className="gs-terminal-summary">
-        24 findings · 9 errors · 10 warns · 5 info{"  "}
+        23 findings · 9 errors · 9 warns · 5 info{"  "}
         <span className="gs-terminal-muted">(exit 2)</span>
       </span>
     ),
