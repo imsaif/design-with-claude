@@ -23,13 +23,13 @@ Scanned: 2 CSS files · 1 component · Next.js 15 + Tailwind v4
     Typography      3 findings    sizes off the scale, weak weights
     Motion          5 findings    transition: all, no reduced-motion
     Forms           4 findings    unlabeled input, missing <fieldset>
-    Copy            3 findings    weak CTA, jargon
+    Copy            2 findings    weak CTA, jargon
 
   Clean
     Spacing         clean         7 steps
     Navigation      clean
 
-  8 categories · 24 findings · error 9 · warn 10 · info 5  ·  exit 2 — fails CI
+  8 categories · 23 findings · error 9 · warn 9 · info 5  ·  exit 2 — fails CI
 ```
 
 `dwic audit` pings an anonymous counter on each run so we can see the CLI → MCP funnel. Pass `--no-telemetry` or set `DWIC_TELEMETRY=off` to disable; the payload is category-level counts only (no file contents, no paths).
