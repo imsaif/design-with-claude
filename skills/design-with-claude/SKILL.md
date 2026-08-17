@@ -1,6 +1,6 @@
 ---
 name: design-with-claude
-description: Use when design work needs a senior eye — auditing a codebase for design-system gaps, fixing WCAG contrast and unlabeled inputs, choosing type scales or spacing steps, reviewing UI that looks generic or AI-generated, or designing forms, tables, dashboards, navigation, checkout, onboarding, dark mode, and motion. Routes to 48 domain specialists. Pure markdown, no runtime dependencies.
+description: Use when design work needs a product designer's eye: auditing a codebase for design-system gaps, fixing WCAG contrast and unlabeled inputs, choosing type scales or spacing steps, reviewing UI that looks generic or AI-generated, or designing forms, tables, dashboards, navigation, checkout, onboarding, dark mode, and motion. Routes to 48 domain specialists. Pure markdown, no runtime dependencies.
 ---
 
 # design with claude

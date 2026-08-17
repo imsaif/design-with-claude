@@ -8,7 +8,7 @@ This is the "I stepped away for a week, now I want to try it again" guide. It us
 
 ## What this is, in one paragraph
 
-dwc makes Claude Code behave like a senior designer is sitting next to you. A short onboarding captures what you're building, your stack, your tone — then Claude Code knows your project in every session. A live browser companion renders your color palette, type scale, spacing, and notes as you work, instead of leaving them buried in terminal text.
+dwc puts a product designer inside your terminal. Run `npx dwic-audit` and it measures your design system, printing a dashboard of gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy) and writing a shareable report to `.dwic/`. From there, 48 design specialists fix what the audit found, and dwc remembers what changed across every session.
 
 ---
 

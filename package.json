@@ -1,6 +1,6 @@
 {
   "name": "dwic-audit",
-  "version": "1.0.0-alpha.9",
+  "version": "1.0.0-alpha.10",
   "description": "dwic — a product designer inside your terminal. MCP server + CLI that audits your design tokens + markup for WCAG contrast failures, mandated-accent drift, and structural gaps, then remembers findings across sessions.",
   "type": "module",
   "main": "./dist/server.js",
