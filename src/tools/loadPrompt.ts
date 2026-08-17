@@ -67,7 +67,7 @@ export function composeRolePrompt(args: {
     "",
     args.closingInstruction.trim(),
     "",
-    "End your response with a `## What to do next` section: 2–3 specific next moves a senior designer would suggest based on what you just generated and what's still missing from this designer's system. Frame them as momentum, not a checklist.",
+    "End your response with a `## What to do next` section: 2–3 specific next moves a product designer would suggest based on what you just generated and what's still missing from this designer's system. Frame them as momentum, not a checklist.",
   );
   return parts.join("\n");
 }
