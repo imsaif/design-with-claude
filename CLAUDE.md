@@ -114,6 +114,25 @@ The `design-` prefix marks commands that act on the design *process* rather than
   propagate into `.claude/worktrees/*`. A session working in a worktree sees no project
   state and may create its own copy, which dies with the worktree — this already cost one
   recovery. Read and write both only at the main checkout.
+- **Publishing needs `npm publish --tag latest`.** Every release is a prerelease
+  (`1.0.0-alpha.N`), so a bare `npm publish` is rejected outright — npm demands an explicit
+  tag. The trap is the recovery: `--tag alpha` succeeds and looks fine, but `latest` keeps
+  pointing at the old version, so `npx dwic-audit` and every generated `.mcp.json` keep
+  serving the release you were trying to replace. Check `npm view dwic-audit dist-tags`
+  before and after, and verify with `npx -y dwic-audit version`, not `npm view` alone —
+  the registry view is cached and lags a publish by minutes.
+- **The version lives in four files and is generated.** `package.json` plus three TS
+  constants (`src/server.ts`, `src/bin/audit.ts`, `src/bin/setup.ts`). Bump `package.json`,
+  then run `npm run sync-version`; `npm run build` fails on drift. Never hand-edit the
+  constants — `setup.ts`'s copy is written into the user's `.mcp.json` as
+  `npx -p dwic-audit@<VERSION>`, so a stale one pins installs to a release that was never
+  shipped, with no error anywhere.
+- **"senior" stays in two role prompts on purpose.** The product is *"a product designer
+  inside your terminal"* — "senior" was dropped because both target audiences hold that AI
+  tools are junior-level, so claiming it invites the one objection you cannot argue with,
+  and it contradicts the evidence rule above. But `anti-slop-designer.md` and
+  `design-grill.md` open with "You are a senior designer": there the word sets the agent's
+  judgment level and does real work in the prompt. Don't "fix" those for consistency.
 
 ## Session History
 
