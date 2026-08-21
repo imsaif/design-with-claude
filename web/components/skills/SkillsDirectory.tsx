@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { Fragment, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { LearnCTA } from "@/components/skills/LearnCTA";
 import { SkillCard } from "./SkillCard";
 import {
   SKILLS,
@@ -32,6 +33,8 @@ export function SkillsDirectory() {
       ),
     [activeCategory, activeLevel]
   );
+
+  const guideAt = Math.min(11, filtered.length);
 
   return (
     <>
@@ -78,29 +81,34 @@ export function SkillsDirectory() {
         </div>
       </div>
 
+      {/* Roughly a third of the way down a full, unfiltered grid. Falls to the
+          end when a filter leaves fewer cards than that. */}
       <div className="skills-grid">
         <AnimatePresence mode="popLayout">
-          {filtered.map((skill) => (
-            <motion.div
-              key={skill.slug}
-              layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-            >
-              <SkillCard
-                skill={skill}
-                isExpanded={expandedSlug === skill.slug}
-                onToggle={() =>
-                  setExpandedSlug(
-                    expandedSlug === skill.slug ? null : skill.slug
-                  )
-                }
-              />
-            </motion.div>
+          {filtered.map((skill, index) => (
+            <Fragment key={skill.slug}>
+              {index === guideAt && <LearnCTA />}
+              <motion.div
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
+                <SkillCard
+                  skill={skill}
+                  isExpanded={expandedSlug === skill.slug}
+                  onToggle={() =>
+                    setExpandedSlug(
+                      expandedSlug === skill.slug ? null : skill.slug
+                    )
+                  }
+                />
+              </motion.div>
+            </Fragment>
           ))}
         </AnimatePresence>
+        {guideAt >= filtered.length && <LearnCTA />}
       </div>
     </>
   );
