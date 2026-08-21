@@ -71,6 +71,17 @@ Skill counts appear in seven places and had drifted to four different numbers. R
 `npm run sync-counts` after adding or removing a command; `npm run build` fails on stale
 counts. Never hand-edit a count.
 
+## Card descriptions are generated, never typed
+
+The library card on `web/app/data/skills.ts` is derived from the **first sentence** of the
+matching `commands/<slug>.md` description. Run `npm run sync-skill-descriptions` after
+editing any description; `npm run build` fails on drift, on a first sentence over 121
+characters, and on a command with no card or a card with no command. Never hand-edit a
+card description — the two copies silently diverged the moment one side changed.
+
+Every description is written as two sentences: the symptom (which becomes the card), then
+the concrete situations (which only Claude reads).
+
 ## Naming Convention
 Specialists use pure role-based names (`accessibility-specialist`, `motion-designer`).
 The `design-` prefix marks commands that act on the design *process* rather than a domain:
@@ -127,6 +138,15 @@ The `design-` prefix marks commands that act on the design *process* rather than
   constants — `setup.ts`'s copy is written into the user's `.mcp.json` as
   `npx -p dwic-audit@<VERSION>`, so a stale one pins installs to a release that was never
   shipped, with no error anywhere.
+- **A command's `description` is its entire trigger surface.** Every `commands/*.md`
+  carries only `description` in frontmatter and none set `disable-model-invocation`, so
+  all 48 are model-invocable and that one line is all Claude reads when deciding whether
+  to reach for a skill. A description that names a topic ("Cart UX, payment forms") tells
+  it what the command is *about* but never *when* to fire, so it mostly does not. Lead
+  with the symptom the user is actually experiencing. All 48 were rewritten this way on
+  2026-08-21; the same change took an aiex skill pack from 0/4 to 3/3 on trigger tests.
+  **Firing here is still unmeasured** — there is no eval suite, so treat it as
+  well-founded rather than proven until `claude plugin eval` cases exist.
 - **"senior" stays in two role prompts on purpose.** The product is *"a product designer
   inside your terminal"* — "senior" was dropped because both target audiences hold that AI
   tools are junior-level, so claiming it invites the one objection you cannot argue with,
