@@ -15,10 +15,12 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "node scripts/sync-counts.mjs --check && node scripts/sync-version.mjs --check && tsc && node scripts/chmod-bins.mjs",
+    "build": "node scripts/sync-counts.mjs --check && node scripts/sync-version.mjs --check && node scripts/sync-skill-descriptions.mjs --check && tsc && node scripts/chmod-bins.mjs",
     "sync-version": "node scripts/sync-version.mjs",
     "sync-counts": "node scripts/sync-counts.mjs",
     "check-counts": "node scripts/sync-counts.mjs --check",
+    "sync-skill-descriptions": "node scripts/sync-skill-descriptions.mjs",
+    "check-skill-descriptions": "node scripts/sync-skill-descriptions.mjs --check",
     "dev": "tsc --watch",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",

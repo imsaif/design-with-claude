@@ -42,7 +42,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "design-brief",
     name: "Design Brief",
-    description: "Master command — takes a brief, identifies relevant design domains, routes to the right specialists",
+    description: "Use when a design request is broad or unclear and you do not know which specialist it needs.",
     category: "core",
     level: "beginner",
     icon: "⊛",
@@ -52,7 +52,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "visual-hierarchy-specialist",
     name: "Visual Hierarchy Specialist",
-    description: "Visual hierarchy, layout, spacing, focal points, content grouping",
+    description: "Use when everything on a screen shouts equally.",
     category: "core",
     level: "beginner",
     icon: ICONS[0],
@@ -60,7 +60,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "interaction-designer",
     name: "Interaction Designer",
-    description: "User flows, states, gestures, feedback, keyboard patterns",
+    description: "Use when deciding how something should behave rather than how it looks.",
     category: "core",
     level: "advanced",
     icon: ICONS[1],
@@ -68,7 +68,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "design-system-architect",
     name: "Design System Architect",
-    description: "Tokens, component APIs, variants, theming, governance",
+    description: "Use when a design system needs structure rather than more components.",
     category: "core",
     level: "advanced",
     icon: ICONS[2],
@@ -76,7 +76,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "accessibility-specialist",
     name: "Accessibility Specialist",
-    description: "WCAG compliance, ARIA, keyboard nav, screen readers",
+    description: "Use when a screen might fail WCAG.",
     category: "core",
     level: "intermediate",
     icon: ICONS[3],
@@ -84,7 +84,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "anti-slop-designer",
     name: "Anti-Slop Designer",
-    description: "Spot and fix the generic AI-generated look: gradient/glassmorphism/hero-3-card tells and 'seamless/unlock/elevate' copy",
+    description: "Use when a UI looks machine-made rather than decided.",
     category: "core",
     level: "intermediate",
     icon: "◆",
@@ -92,7 +92,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "design-critic",
     name: "Design Critic",
-    description: "Honest design critique, not praise — ranks problems by severity and pushes back instead of agreeing",
+    description: "Use when you want an honest read on a design instead of encouragement.",
     category: "core",
     level: "intermediate",
     icon: "⊗",
@@ -100,7 +100,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "design-triage",
     name: "Design Triage",
-    description: "Turns a dwic audit report into a ranked fix plan, then works through it in order",
+    description: "Use when a dwic audit report is full of findings and there is no plan.",
     category: "core",
     level: "intermediate",
     icon: "≡",
@@ -108,7 +108,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "design-enforce",
     name: "Design Enforce",
-    description: "Checks whether the code actually uses your design system \u2014 detached values, off-scale numbers, reinvented components",
+    description: "Use when code has drifted off the design system.",
     category: "core",
     level: "intermediate",
     icon: "\u25c8",
@@ -116,7 +116,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "design-grill",
     name: "Design Grill",
-    description: "Interviews you until the design is pinned down, and writes the vocabulary and binding decisions into your repo as it goes",
+    description: "Use when a design keeps getting reinvented every session.",
     category: "core",
     level: "intermediate",
     icon: "?",
@@ -126,7 +126,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "typography-specialist",
     name: "Typography Specialist",
-    description: "Type scales, font pairing, line height, vertical rhythm, responsive typography",
+    description: "Use when type is doing no work.",
     category: "visual",
     level: "beginner",
     icon: ICONS[4],
@@ -134,7 +134,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "color-specialist",
     name: "Color Specialist",
-    description: "Color palettes, contrast, dark mode mapping, semantic colors, accessibility",
+    description: "Use when colour is failing.",
     category: "visual",
     level: "beginner",
     icon: ICONS[5],
@@ -142,7 +142,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "spacing-layout-specialist",
     name: "Spacing & Layout Specialist",
-    description: "Grid systems, spacing scales, density modes, padding/margin conventions",
+    description: "Use when spacing looks arbitrary.",
     category: "visual",
     level: "intermediate",
     icon: ICONS[6],
@@ -152,7 +152,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "motion-designer",
     name: "Motion Designer",
-    description: "Transitions, easing, timing, micro-interactions, reduced motion, animation performance",
+    description: "Use when animation feels wrong.",
     category: "interaction",
     level: "intermediate",
     icon: ICONS[7],
@@ -160,7 +160,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "form-designer",
     name: "Form Designer",
-    description: "Form layout, validation timing, input types, multi-step forms, accessibility",
+    description: "Use when a form is losing people.",
     category: "interaction",
     level: "intermediate",
     icon: ICONS[8],
@@ -168,7 +168,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "navigation-specialist",
     name: "Navigation Specialist",
-    description: "Sidebar, top bar, bottom tabs, breadcrumbs, mega menus, command palettes",
+    description: "Use when people get lost.",
     category: "interaction",
     level: "intermediate",
     icon: ICONS[9],
@@ -178,7 +178,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "dashboard-designer",
     name: "Dashboard Designer",
-    description: "KPI cards, data density, drill-down, filters, real-time updates, dashboard layout",
+    description: "Use when a dashboard is dense but not useful.",
     category: "product",
     level: "intermediate",
     icon: ICONS[10],
@@ -186,7 +186,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "mobile-specialist",
     name: "Mobile Specialist",
-    description: "Touch targets, thumb zones, bottom nav, gestures, offline states, safe areas",
+    description: "Use when a design will be used on phones.",
     category: "product",
     level: "intermediate",
     icon: ICONS[11],
@@ -194,7 +194,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "responsive-design-specialist",
     name: "Responsive Design Specialist",
-    description: "Breakpoints, fluid typography, container queries, responsive images, mobile-first CSS",
+    description: "Use when a layout breaks between sizes.",
     category: "product",
     level: "intermediate",
     icon: ICONS[12],
@@ -202,7 +202,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "landing-page-specialist",
     name: "Landing Page Specialist",
-    description: "Hero sections, CTAs, value propositions, social proof, pricing tables, conversion",
+    description: "Use when a landing page is not converting.",
     category: "product",
     level: "intermediate",
     icon: ICONS[13],
@@ -212,7 +212,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "content-strategist",
     name: "Content Strategist",
-    description: "Microcopy, error messages, empty states, tone of voice, content hierarchy",
+    description: "Use when the words inside a product are doing damage.",
     category: "content-ia",
     level: "intermediate",
     icon: ICONS[14],
@@ -220,7 +220,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "ui-copywriter",
     name: "UI Copywriter",
-    description: "Human-sounding headlines, CTAs, and landing copy without the AI tells — the marketing-voice counterpart to microcopy",
+    description: "Use when writing marketing or landing copy.",
     category: "content-ia",
     level: "intermediate",
     icon: "✍",
@@ -228,7 +228,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "information-architect",
     name: "Information Architect",
-    description: "Navigation structure, taxonomy, labeling, content organization, wayfinding",
+    description: "Use when users cannot find things.",
     category: "content-ia",
     level: "intermediate",
     icon: ICONS[15],
@@ -236,7 +236,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "conversational-ui-designer",
     name: "Conversational UI Designer",
-    description: "Chat interfaces, bot personality, message design, rich messages, voice UI",
+    description: "Use when designing a chat or assistant interface.",
     category: "content-ia",
     level: "advanced",
     icon: ICONS[16],
@@ -246,7 +246,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "healthcare-ux-specialist",
     name: "Healthcare UX Specialist",
-    description: "Clinical workflows, HIPAA UI considerations, patient data display, medical terminology",
+    description: "Use when designing clinical or patient-facing interfaces.",
     category: "industry",
     level: "advanced",
     icon: ICONS[17],
@@ -254,7 +254,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "b2b-saas-specialist",
     name: "B2B SaaS Specialist",
-    description: "Enterprise patterns, RBAC UI, multi-tenant, complex onboarding, admin dashboards",
+    description: "Use when building enterprise software.",
     category: "industry",
     level: "advanced",
     icon: ICONS[18],
@@ -262,7 +262,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "ecommerce-specialist",
     name: "E-commerce Specialist",
-    description: "Product pages, filtering, image galleries, reviews, product comparison",
+    description: "Use when shoppers cannot find or evaluate products.",
     category: "industry",
     level: "intermediate",
     icon: ICONS[19],
@@ -270,7 +270,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "checkout-specialist",
     name: "Checkout Specialist",
-    description: "Cart UX, payment forms, guest checkout, trust signals, order confirmation",
+    description: "Use when a cart or checkout is losing people.",
     category: "industry",
     level: "intermediate",
     icon: ICONS[20],
@@ -280,7 +280,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "dark-mode-specialist",
     name: "Dark Mode Specialist",
-    description: "Dark surfaces, color remapping, elevation hierarchy, FOUC prevention, mode switching",
+    description: "Use when dark mode looks wrong.",
     category: "specialized",
     level: "intermediate",
     icon: ICONS[21],
@@ -288,7 +288,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "error-handling-specialist",
     name: "Error Handling Specialist",
-    description: "Error messages, validation, recovery flows, HTTP error pages, retry patterns",
+    description: "Use when things go wrong badly.",
     category: "specialized",
     level: "intermediate",
     icon: ICONS[22],
@@ -296,7 +296,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "onboarding-specialist",
     name: "Onboarding Specialist",
-    description: "First-run experience, tooltip tours, empty states, checklists, feature discovery",
+    description: "Use when new users leave before their first success.",
     category: "specialized",
     level: "intermediate",
     icon: ICONS[23],
@@ -304,7 +304,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "performance-specialist",
     name: "Performance Specialist",
-    description: "Skeleton screens, optimistic updates, loading states, lazy loading, perceived speed",
+    description: "Use when a product feels slow even when it is not.",
     category: "specialized",
     level: "advanced",
     icon: ICONS[24],
@@ -312,7 +312,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "data-visualization-specialist",
     name: "Data Visualization Specialist",
-    description: "Chart selection, axis design, color encoding, tooltips, responsive charts, accessibility",
+    description: "Use when a chart misleads or confuses.",
     category: "specialized",
     level: "advanced",
     icon: ICONS[25],
@@ -320,7 +320,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "table-designer",
     name: "Table Designer",
-    description: "Data tables, sorting, pagination, row selection, inline editing, responsive tables",
+    description: "Use when a data table is hard to use.",
     category: "specialized",
     level: "intermediate",
     icon: ICONS[26],
@@ -328,7 +328,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "search-specialist",
     name: "Search Specialist",
-    description: "Search UX, autocomplete, faceted filtering, search results, zero-results states",
+    description: "Use when search is failing users.",
     category: "specialized",
     level: "intermediate",
     icon: ICONS[27],
@@ -336,7 +336,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "brand-designer",
     name: "Brand Designer",
-    description: "Visual identity, logo usage, brand colors, typography as brand expression",
+    description: "Use when a product looks like a template with no personality.",
     category: "specialized",
     level: "intermediate",
     icon: ICONS[28],
@@ -344,7 +344,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "i18n-designer",
     name: "Internationalization Designer",
-    description: "RTL layouts, string expansion, locale-aware UI, date/number formats, cultural adaptation",
+    description: "Use when a product has to work in more than one language.",
     category: "specialized",
     level: "advanced",
     icon: "🌐",
@@ -352,7 +352,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "auth-security-ux-specialist",
     name: "Auth & Security UX Specialist",
-    description: "Login flows, password UX, 2FA/passkey, session management, permission prompts, trust signals",
+    description: "Use when a login or security flow feels either unsafe or full of friction.",
     category: "product",
     level: "advanced",
     icon: "🔐",
@@ -360,7 +360,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "drag-drop-specialist",
     name: "Drag & Drop Specialist",
-    description: "Drag affordances, drop zones, reordering, canvas interactions, multi-select, direct manipulation",
+    description: "Use when building drag and drop or direct manipulation.",
     category: "interaction",
     level: "advanced",
     icon: "⤭",
@@ -368,7 +368,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "print-export-designer",
     name: "Print & Export Designer",
-    description: "PDF generation, print stylesheets, export formatting, receipt design, download UX",
+    description: "Use when something has to leave the screen.",
     category: "specialized",
     level: "advanced",
     icon: "🖨",
@@ -378,7 +378,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "setup-guide",
     name: "Setup Guide",
-    description: "Install Node, Claude Code, and create your first project — terminal walkthrough for designers",
+    description: "Use when someone is starting from nothing and the terminal is unfamiliar.",
     category: "technical",
     level: "beginner",
     icon: "⌨",
@@ -386,7 +386,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "code-explainer",
     name: "Code Explainer",
-    description: "Paste any file or error — get a plain language explanation with no developer jargon",
+    description: "Use when a designer is staring at code or an error and needs it in plain English.",
     category: "technical",
     level: "beginner",
     icon: "📖",
@@ -394,7 +394,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "database-setup",
     name: "Database Setup",
-    description: "Set up Supabase for your project — tables, queries, and connecting to your frontend",
+    description: "Use when a project needs to store data and has no database yet.",
     category: "technical",
     level: "intermediate",
     icon: "🗄",
@@ -402,7 +402,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "environment-setup",
     name: "Environment Setup",
-    description: "What .env files are, how to set them up, and what never to commit to GitHub",
+    description: "Use when handling secrets and config.",
     category: "technical",
     level: "beginner",
     icon: "🔑",
@@ -410,7 +410,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "auth-implementation",
     name: "Auth Implementation",
-    description: "Implement working login and signup using Clerk or Supabase Auth — actual code, not just design guidance",
+    description: "Use when a project needs real working login and signup rather than advice.",
     category: "technical",
     level: "advanced",
     icon: "🔓",
@@ -418,7 +418,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "deploy-to-vercel",
     name: "Deploy to Vercel",
-    description: "Deploy your project to Vercel, fix build errors, and set up a custom domain",
+    description: "Use when a project runs locally but is not on the internet yet, or a Vercel deploy is failing.",
     category: "technical",
     level: "beginner",
     icon: "🚀",
@@ -426,7 +426,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "debug-helper",
     name: "Debug Helper",
-    description: "Paste any error message — get a plain language explanation and exact fix",
+    description: "Use when something is broken and the error message is unreadable.",
     category: "technical",
     level: "beginner",
     icon: "🔧",
@@ -434,7 +434,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "briefing-claude",
     name: "Briefing Claude for Design",
-    description: "How to brief Claude for good UI — references, screenshots, constraints, and iterating instead of re-rolling",
+    description: "Use when Claude keeps building the wrong UI and you are re-rolling prompts.",
     category: "technical",
     level: "beginner",
     icon: "◔",
