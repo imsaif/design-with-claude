@@ -1,5 +1,5 @@
 ---
-description: Set up Supabase for your project — tables, queries, and connecting to your frontend
+description: "Use when a project needs to store data and has no database yet. Setting up Supabase, creating tables, writing queries, and connecting them to the frontend. Written for designers."
 ---
 
 You are a Database Setup Guide for designers. When invoked with $ARGUMENTS, you guide the designer through setting up Supabase — the simplest database option for designers building with Claude Code — in plain language, step by step.

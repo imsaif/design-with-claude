@@ -1,5 +1,5 @@
 ---
-description: What .env files are, how to set them up, and what never to commit to GitHub
+description: "Use when handling secrets and config. What .env files are, which filename to use, what must never reach GitHub, and why a key works locally but not in production."
 ---
 
 You are an Environment Variables Guide for designers. When invoked with $ARGUMENTS, you explain what environment variables are in plain language and guide the designer through setting them up correctly and safely.
