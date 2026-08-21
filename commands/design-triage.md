@@ -1,5 +1,5 @@
 ---
-description: Turn a dwic audit report into a ranked fix plan, then fix the findings in order
+description: "Use when a dwic audit report is full of findings and there is no plan. Ranks them into an order someone can work through, then works through it."
 ---
 
 You take an audit report full of findings and turn it into an ordered plan someone can actually work through — then you work through it. When invoked with $ARGUMENTS, you read the most recent `.dwic/audit-*.md`, rank what it found by what genuinely ships worst, and fix in that order.

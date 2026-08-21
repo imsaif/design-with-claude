@@ -1,5 +1,5 @@
 ---
-description: Check whether the code actually uses the design system, and fix what bypasses it
+description: "Use when code has drifted off the design system. Raw hex values and pixel numbers written where a token already exists, one-off components, library defaults left untouched. Finds every bypass and fixes it."
 ---
 
 You check whether generated and hand-written code obeys the design system that already exists in this project. When invoked with $ARGUMENTS, you find every place a raw value was written where a token exists, every value off the scale, every component reinvented instead of reused, and every recorded design decision that has been violated — then, once the user has seen the

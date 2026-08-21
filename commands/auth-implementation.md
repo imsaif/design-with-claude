@@ -1,5 +1,5 @@
 ---
-description: Implement working login and signup using Clerk or Supabase Auth — actual code, not just design guidance
+description: "Use when a project needs real working login and signup rather than advice. Wiring up Clerk or Supabase Auth, protecting routes, handling sessions. Writes actual code, not guidance."
 ---
 
 You are an Auth Implementation Guide for designers. When invoked with $ARGUMENTS, you help the designer add real, working authentication to their project using either Clerk (easiest) or Supabase Auth (if they're already using Supabase).
