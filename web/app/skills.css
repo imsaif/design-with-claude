@@ -1399,167 +1399,89 @@
 }
 
 /* Install Banner */
+/* Lives inside .skills-hero, which already carries the page padding and the
+   grain background, so this only needs the gap under the headline. */
 .skills-install {
-  max-width: 1200px;
-  margin: 5rem auto 2rem;
-  padding: 0 2rem;
-}
-
-.skills-install-inner {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2.5rem;
-}
-
-.skills-install-title {
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  word-spacing: 0.08em;
-  color: var(--text);
-  margin-bottom: 2rem;
+  margin: 2rem auto 0;
   text-align: center;
 }
 
-.skills-install-steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+.skills-install .gs-hero-cli-row {
+  width: auto;
+  display: inline-flex;
 }
 
-.skills-install-step {
-  text-align: center;
+.skills-install .gs-hero-cli-row {
+  gap: 0.6rem;
+  padding: 0.45rem 0.45rem 0.45rem 1.1rem;
 }
 
-.skills-install-step-num {
-  font-family: var(--font-dm-mono), monospace;
-  font-size: 0.875rem;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.75rem;
+/* The briefcase marks the row as an install control, the way Anthropic's plugin
+   pages do. Decorative: the label already says what the row is. */
+.skills-install-mark {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+  color: #ffffff;
 }
 
-.skills-install-step-title {
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 1.125rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  word-spacing: 0.08em;
-  color: var(--text);
-  margin-bottom: 0.5rem;
-}
-
-.skills-install-step-desc {
+.skills-install-dest {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 1rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-/* The plugin path. Leads the banner because it is the smaller ask once someone
-   wants more than one skill. Sits on --background so it reads as a raised panel
-   against the --surface card, rather than needing a new accent colour. */
-.skills-install-plugin {
-  background: var(--background);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.skills-install-plugin .skills-install-step-desc {
-  max-width: 46rem;
-  margin: 0 auto 1.5rem;
-}
-
-/* Separator between the two install paths. The rule is drawn with borders on the
-   pseudo-elements so the label sits in a gap rather than on top of a line. */
-.skills-install-or {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  font-family: var(--font-dm-mono), monospace;
-  font-size: 0.875rem;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.skills-install-or::before,
-.skills-install-or::after {
-  content: "";
-  flex: 1;
-  border-top: 1px solid var(--border);
-}
-
-.skills-install-footer {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 0.9375rem;
-  color: var(--text-dim);
-  text-align: center;
-  line-height: 1.6;
+  font-weight: 500;
+  color: #f4f6fb;
+  text-align: left;
 }
 
 /* Learn CTA */
-.skills-learn-cta {
-  max-width: 1200px;
-  margin: 0 auto 5rem;
-  padding: 0 2rem;
-}
-
-.skills-learn-cta-inner {
+.skills-guide-card {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: 1.5rem 2rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-}
-
-.skills-learn-cta-label {
-  color: var(--text);
-  font-weight: 500;
-}
-
-.skills-learn-cta-desc {
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 1rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.skills-learn-cta-btn {
-  font-family: var(--font-dm-mono), monospace;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  padding: 0.875rem 1.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
   background: var(--accent);
-  color: var(--bg);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.5rem;
   text-decoration: none;
-  white-space: nowrap;
   transition: opacity 0.15s ease;
-  flex-shrink: 0;
 }
 
-.skills-learn-cta-btn:hover {
-  opacity: 0.9;
+.skills-guide-card:hover {
+  opacity: 0.92;
+}
+
+.skills-guide-card-label {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.skills-guide-card-desc {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.skills-guide-card-link {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.875rem;
+  color: #ffffff;
 }
 
 /* Filter */
+/* The learn banner used to sit between the hero and these filters and supplied
+   the gap by accident. It is a card in the grid now, so the space has to be
+   declared rather than inherited from a neighbour. */
 .skills-filter {
   max-width: 1200px;
-  margin: 0 auto 1.5rem;
+  margin: 4rem auto 1.5rem;
   padding: 0 2rem;
   display: flex;
   align-items: center;
@@ -2077,32 +1999,12 @@
     justify-content: center;
   }
 
-  .skills-learn-cta {
-    padding: 0 1.25rem;
-  }
-
-  .skills-learn-cta-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.5rem;
-  }
-
   .skills-install {
     padding: 0 1.25rem;
   }
 
-  .skills-install-inner {
-    padding: 1.5rem;
-  }
 
-  .skills-install-steps {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
 
-  .skills-install-plugin {
-    padding: 1.5rem;
-  }
 
   .skills-filter {
     padding: 0 1.25rem;
