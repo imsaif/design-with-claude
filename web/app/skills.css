@@ -1459,6 +1459,44 @@
   line-height: 1.5;
 }
 
+/* The plugin path. Leads the banner because it is the smaller ask once someone
+   wants more than one skill. Sits on --background so it reads as a raised panel
+   against the --surface card, rather than needing a new accent colour. */
+.skills-install-plugin {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.skills-install-plugin .skills-install-step-desc {
+  max-width: 46rem;
+  margin: 0 auto 1.5rem;
+}
+
+/* Separator between the two install paths. The rule is drawn with borders on the
+   pseudo-elements so the label sits in a gap rather than on top of a line. */
+.skills-install-or {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.875rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.skills-install-or::before,
+.skills-install-or::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--border);
+}
+
 .skills-install-footer {
   margin-top: 2rem;
   padding-top: 1.5rem;
@@ -2060,6 +2098,10 @@
   .skills-install-steps {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .skills-install-plugin {
+    padding: 1.5rem;
   }
 
   .skills-filter {

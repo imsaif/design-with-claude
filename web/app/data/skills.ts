@@ -386,7 +386,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "code-explainer",
     name: "Code Explainer",
-    description: "Use when a designer is staring at code or an error and needs it in plain English.",
+    description: "Use when a designer needs to understand code that already works.",
     category: "technical",
     level: "beginner",
     icon: "📖",
@@ -426,7 +426,7 @@ export const SKILLS: Skill[] = [
   {
     slug: "debug-helper",
     name: "Debug Helper",
-    description: "Use when something is broken and the error message is unreadable.",
+    description: "Use when something is broken and you need it diagnosed.",
     category: "technical",
     level: "beginner",
     icon: "🔧",
