@@ -49,3 +49,15 @@ ux1.txt
 j1.txt
 j2.txt
 veluthoor_readme.md
+
+# One-off research scrapers and their output. Kept locally, never shipped:
+# the plugin source is the whole repo, so anything tracked here lands in a
+# stranger's install.
+chain.py
+check.py
+dig.py
+filt.py
+craft_dedup.txt
+fig.txt
+filtered.txt
+iter_out.txt

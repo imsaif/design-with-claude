@@ -1,7 +1,7 @@
 {
   "name": "design-with-claude",
   "description": "A product designer inside your terminal: 48 specialized design skills as slash commands, covering accessibility, motion, color, checkout, dashboards, and more",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "imsaif"
   },
