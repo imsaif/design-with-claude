@@ -2,7 +2,7 @@
 
 ## Project Overview
 **V2 alpha live (April 2026):** subscription product that configures Claude Code for designers via an MCP server, paired with a browser companion that renders command outputs live.
-- Live web: https://www.designwithclaude.com (start at `/start`)
+- Live web: https://www.designwithclaude.com (start at `/get-started`)
 - npm package: `dwic-audit` (run: `npx dwic-audit`). Older names `@imrandwc/dwic` + `designwithclaude` are deprecated pointers to it — still owned, do not unpublish. Bare `dwic` unscoped is unpublishable (npm typosquat filter vs swig/twig).
 - Persistence: Supabase (profiles + companion_events)
 - See `PROGRESS.md` at the repo root for current state; `00-product-brief.md` + `0{1,2,3,4}-*.md` on Desktop for the canonical plan.
