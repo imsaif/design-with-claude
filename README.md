@@ -10,27 +10,7 @@ npx dwic-audit
 
 No token, no install, no Claude Code required; your code never leaves your machine. dwic scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), and writes a shareable markdown report to `.dwic/audit-<date>.md`. The check is deterministic (WCAG contrast math, token parsing, markup heuristics), so it's reproducible and CI-friendly via its exit code. Run against a deliberately-broken fixture:
 
-```
-dwic audit • examples/broken-project
-Scanned: 2 CSS files · 1 component · Next.js 15 + Tailwind v4
-
-  ✗ Fix before you ship — 8 of 9 errors are accessibility failures
-    Accessibility   6 findings    unlabeled inputs, heading order, no landmarks
-    Color           3 AA fails    contrast below WCAG AA
-    ↳ WCAG AA / EU Accessibility Act (in force since June 2025) treats these as compliance failures.
-
-  Then clean up
-    Typography      3 findings    sizes off the scale, weak weights
-    Motion          5 findings    transition: all, no reduced-motion
-    Forms           4 findings    unlabeled input, missing <fieldset>
-    Copy            2 findings    weak CTA, jargon
-
-  Clean
-    Spacing         clean         7 steps
-    Navigation      clean
-
-  8 categories · 23 findings · error 9 · warn 9 · info 5  ·  exit 2 — fails CI
-```
+![dwic audit running against a broken project: 8 categories, 23 findings, 9 errors, exit 2](https://raw.githubusercontent.com/imsaif/design-with-claude/main/media/dwic-audit.gif)
 
 `dwic audit` pings an anonymous counter on each run so we can see the CLI → MCP funnel. Pass `--no-telemetry` or set `DWIC_TELEMETRY=off` to disable; the payload is category-level counts only (no file contents, no paths).
 
