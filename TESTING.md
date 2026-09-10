@@ -1,6 +1,13 @@
 # Testing designwithclaude — plain-language guide
 
-Last updated: April 14, 2026
+Last updated: September 10, 2026
+
+> ⚠️ **The walkthrough below is stale.** It was written against the V2 companion
+> flow (`/start` → `/profile` → `/install` → `/companion`), which no longer exists —
+> those pages were removed and `/get-started` replaced all of them. The facts table
+> immediately below is current; the step-by-step sections after it are not, and
+> describe screens you will not see. Start at
+> **https://www.designwithclaude.com/get-started** and run `npx dwic-audit`.
 
 This is the "I stepped away for a week, now I want to try it again" guide. It uses no dev jargon. If a sentence confuses you, flag it — it should read easily.
 
@@ -17,9 +24,10 @@ dwc puts a product designer inside your terminal. Run `npx dwic-audit` and it me
 | Thing | URL / name |
 |---|---|
 | Public site | https://www.designwithclaude.com |
-| First screen for any designer | https://www.designwithclaude.com/start |
-| Terminal install command | `npx designwithclaude@latest setup --token=imr_xxx --project=<slug>` |
-| npm package | https://www.npmjs.com/package/designwithclaude (version `2.0.0-alpha.2`) |
+| First screen for any designer | https://www.designwithclaude.com/get-started |
+| Try it, no install or token | `npx dwic-audit` |
+| Terminal install command | `npx dwic-audit setup --token=imr_xxx` |
+| npm package | https://www.npmjs.com/package/dwic-audit (version `1.0.0-alpha.10`) — `designwithclaude` and `@imrandwc/dwic` are deprecated pointers |
 | Data store | Your Supabase project (`dwc-alpha`) |
 | Code | https://github.com/imsaif/design-with-claude (branch `main`) |
 
@@ -33,7 +41,7 @@ dwc puts a product designer inside your terminal. Run `npx dwic-audit` and it me
 
 Pretend you're a designer who's never seen this before.
 
-1. **Open https://www.designwithclaude.com/start in a fresh browser tab (or incognito so nothing interferes).**
+1. **Open https://www.designwithclaude.com/get-started in a fresh browser tab (or incognito so nothing interferes).**
 2. Fill in the 5 questions — what you're building, stack, design system, experience, tone. Chips are optional; the description box is what matters. Click Continue through each.
 3. You'll land on a **preview of your CLAUDE.md file**. This is what Claude Code will read to know you. Click **Looks good — install →**.
 4. Copy the install command. It looks like: `npx designwithclaude@latest setup --token=imr_xxx --project=<slug>`
@@ -65,11 +73,11 @@ Pretend you're a designer who's never seen this before.
 
 For alpha:
 
-1. Send them **https://www.designwithclaude.com/start**.
+1. Send them **https://www.designwithclaude.com/get-started**.
 2. They follow the same steps. They get their own token (their own account) — your projects stay yours.
 3. They'll need Claude Code installed. Tell them: `npm install -g @anthropic-ai/claude-code` (or see https://claude.com/claude-code for current install).
 
-The site has no signup screen yet — the `/start` wizard IS the signup. The token they get in the URL is their login. Tell them to bookmark `/account?token=imr_xxx` so they can come back.
+The site has no signup screen yet — the `/get-started` page IS the signup. The token they get in the URL is their login. Tell them to bookmark `/account?token=imr_xxx` so they can come back.
 
 ---
 
@@ -119,7 +127,7 @@ MCP server tools (the skills Claude Code learns):
 ## What's NOT live yet
 
 - **Payments** — the "Upgrade" button doesn't charge anyone yet. Dodo Payments integration is the next big piece.
-- **V2 homepage** — `designwithclaude.com/` still shows the old skills directory. The V2 flow starts at `/start`. Eventually the homepage gets a rewrite.
+- **V2 homepage** — `designwithclaude.com/` still shows the old skills directory. The V2 flow starts at `/get-started`. Eventually the homepage gets a rewrite.
 - **Password / email login** — there isn't one. The token IS the login. Bookmark `/account?token=imr_xxx` or save your token somewhere safe.
 - **Realtime** — the companion polls every 2.5s. Fast enough for alpha; we'd switch to realtime streams if it gets busy.
 
