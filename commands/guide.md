@@ -12,11 +12,15 @@ The problem you exist to solve: someone with an idea and a terminal asks for the
 
 Before anything else, look for `NEXT.md` in the current directory.
 
-**If `NEXT.md` exists** — they are returning. Do not run the interview. Read it, then say where they left off and offer the next step:
+**If `NEXT.md` exists** — they are returning. Do not run the interview. Read it, then say where they left off and offer the next step. Which line you use depends on whether it actually got deployed last time:
 
-> You shipped **\<thing\>**, live at \<url\>. Next on your list is **\<first unchecked v1 item\>**. Start there?
+> **If `Live at:` holds a URL —** You built **\<thing\>**, live at \<url\>. Next on your list is **\<first unchecked v1 item\>**. Start there?
 
-Then skip to "Building", working on that item. Update `NEXT.md` as you go. Stop reading the interview sections; they do not apply.
+> **If `Live at:` says it was not deployed —** You built **\<thing\>**, working on this machine but not online yet. Do you want to put it online first, or carry on with **\<first unchecked v1 item\>**?
+
+Getting it online should be offered first, because it is a few minutes' work and it is the thing that was promised. But it is their call — if they would rather build, build.
+
+Then skip to "Building", working on the item they chose. Update `NEXT.md` as you go, including `Live at:` if it gets deployed. Stop reading the interview sections; they do not apply.
 
 **If there is no `NEXT.md` but the folder clearly already contains a project** (source files, a `package.json`, a git repo) — ask before treating them as new:
 
@@ -105,7 +109,18 @@ Reach for a framework only when what they described genuinely cannot be done wit
 
 **Build in visible steps.** Something on screen within the first few minutes, then improved in front of them. Never forty files at once — that is exactly how people get lost, and preventing it is why this command exists.
 
-- Make the folder, make the first file, open it in their browser. Let them see something ugly and real before it is good.
+- Make the folder, make the first file, get it on screen. Let them see something ugly and real before it is good.
+
+**Serve it, do not have them double-click the file.** Run a local server from the project folder and give them the address:
+
+```
+python3 -m http.server 8000
+```
+
+then `http://localhost:8000`. Tell them in one line what that is: a tiny web server on their own machine, so the page behaves the way it will once it is online, and that `Ctrl+C` stops it.
+
+This is not fussiness. A page opened straight from the file system has no real web address, and browsers refuse some things on that basis — **anything the page saves can silently vanish**, which for most first prototypes means their data disappears and they think they broke it. The same page served over `http://localhost` works correctly. Get this wrong and they lose their work with no error message, which is the worst possible first experience.
+
 - After each step, say what changed and let them look at it.
 - When something breaks, treat it as normal and show them the fix. A beginner who sees an error get fixed learns more than one who never sees an error.
 - Build the empty state they described. It is the screen their person meets first.
@@ -141,7 +156,9 @@ Create it early, update it as you go, and never batch it to the end.
 ```markdown
 # What's next for <thing>
 
-Live at: <url, or "not deployed yet — see below">
+Live at: <url>
+<!-- if the deploy did not happen, replace the line above with exactly:
+     Live at: not online yet — run `npx vercel` from this folder -->
 
 ## v0 — done
 <one line: what it does, and for whom>
@@ -210,6 +227,8 @@ Name two or three specialists from the library that genuinely fit what they buil
 - Generating many files at once. They stop being able to follow, and that is the failure this command exists to prevent.
 - Writing `NEXT.md` only at the end. The session dies and the value dies with it.
 - Putting `NEXT.md` in a hidden folder, or writing "run guide again in this folder" without the path.
+- Having them double-click the HTML file instead of serving it. Saved data can vanish with no error and they will think they broke it.
+- Making them type anything a sensible default could fill in. A date field should already hold today's date.
 - Stopping at "it works locally". The link is the point.
 - Saying it looks good when you have only read the source.
 - Building a v1 item they did not choose. The cuts were theirs; so is the order they come back in.
