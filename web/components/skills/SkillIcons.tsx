@@ -1,4 +1,5 @@
 import CommandLineIcon from "@heroicons/react/24/outline/CommandLineIcon";
+import LightBulbIcon from "@heroicons/react/24/outline/LightBulbIcon";
 import EyeIcon from "@heroicons/react/24/outline/EyeIcon";
 import CursorArrowRaysIcon from "@heroicons/react/24/outline/CursorArrowRaysIcon";
 import SwatchIcon from "@heroicons/react/24/outline/SwatchIcon";
@@ -51,6 +52,7 @@ import { type ComponentType, type SVGProps } from "react";
 type HeroIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 const SKILL_ICON_MAP: Record<string, HeroIcon> = {
+  guide: LightBulbIcon,
   "design-brief": CommandLineIcon,
   "visual-hierarchy-specialist": EyeIcon,
   "interaction-designer": CursorArrowRaysIcon,

@@ -41,18 +41,18 @@ const routable = total - 1;
 const EDITS = [
   {
     file: ".claude-plugin/plugin.json",
-    re: /(\d+) specialized design skills/,
-    to: `${total} specialized design skills`,
+    re: /(\d+) design skills as slash commands \((\d+) specialists and (\d+) technical guides\)/,
+    to: `${total} design skills as slash commands (${specialists} specialists and ${technical} technical guides)`,
   },
   {
     file: ".claude-plugin/marketplace.json",
-    re: /fix it with (\d+) specialists/,
-    to: `fix it with ${total} specialists`,
+    re: /fix it with (\d+) design skills/,
+    to: `fix it with ${total} design skills`,
   },
   {
     file: ".claude-plugin/marketplace.json",
-    re: /with (\d+) design specialists:/,
-    to: `with ${total} design specialists:`,
+    re: /fix what it finds with (\d+) design skills \((\d+) specialists and (\d+) technical guides\)/,
+    to: `fix what it finds with ${total} design skills (${specialists} specialists and ${technical} technical guides)`,
   },
   {
     file: "skills/design-with-claude/SKILL.md",
