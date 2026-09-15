@@ -1,7 +1,7 @@
 {
   "name": "design-with-claude",
   "description": "A product designer inside your terminal: 49 design skills as slash commands (39 specialists and 8 technical guides), covering accessibility, motion, color, checkout, dashboards, and more",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": {
     "name": "imsaif"
   },
