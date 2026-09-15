@@ -138,9 +138,22 @@ The `design-` prefix marks commands that act on the design *process* rather than
   constants — `setup.ts`'s copy is written into the user's `.mcp.json` as
   `npx -p dwic-audit@<VERSION>`, so a stale one pins installs to a release that was never
   shipped, with no error anywhere.
+- **The plugin version is cached per-version on disk.** Claude Code stores each install
+  under `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/` — the path literally
+  contains the number — and skips any plugin whose resolved version matches what the user
+  already has. Pushing new commits to `main` without bumping `version` in
+  `.claude-plugin/{plugin,marketplace}.json` therefore serves installers the old build, with
+  no error anywhere. It sat at 1.0.4 through three merges before that was noticed. Bump it on
+  every release that touches `commands/`, and verify by installing from the *published*
+  marketplace in a clean directory — the repo being right proves nothing about what users get.
+- **`/plugin install` does not switch a plugin on — `/reload-plugins` does.** Claude Code's
+  own string is "Run /reload-plugins to activate successfully installed plugins." Skip that
+  line and the commands simply do not exist, silently, for everyone at once. Any install
+  instructions we hand out (README, onboarding copy, workshop slides) need all three lines:
+  marketplace add, install, reload.
 - **A command's `description` is its entire trigger surface.** Every `commands/*.md`
   carries only `description` in frontmatter and none set `disable-model-invocation`, so
-  all 48 are model-invocable and that one line is all Claude reads when deciding whether
+  every one is model-invocable and that one line is all Claude reads when deciding whether
   to reach for a skill. A description that names a topic ("Cart UX, payment forms") tells
   it what the command is *about* but never *when* to fire, so it mostly does not. Lead
   with the symptom the user is actually experiencing. All 48 were rewritten this way on
