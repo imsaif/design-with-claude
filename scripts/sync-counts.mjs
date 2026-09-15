@@ -28,31 +28,37 @@ const TECHNICAL_GUIDES = new Set([
   "briefing-claude",
 ]);
 
+// Neither a design specialist nor a technical guide. `guide` is the front door
+// you run before there is a project; `design-brief` is the router over the rest.
+// Counting either as a specialist inflates the specialist number in the README,
+// the plugin manifest and the public marketplace listing.
+const NOT_SPECIALISTS = new Set(["guide", "design-brief"]);
+
 const slugs = readdirSync(join(ROOT, "commands"))
   .filter((f) => f.endsWith(".md"))
   .map((f) => f.slice(0, -3));
 
 const total = slugs.length;
 const technical = slugs.filter((s) => TECHNICAL_GUIDES.has(s)).length;
-const specialists = total - technical;
+const specialists = total - technical - slugs.filter((s) => NOT_SPECIALISTS.has(s)).length;
 // design-brief is the router; it counts the *others* it can route to.
 const routable = total - 1;
 
 const EDITS = [
   {
     file: ".claude-plugin/plugin.json",
-    re: /(\d+) specialized design skills/,
-    to: `${total} specialized design skills`,
+    re: /(\d+) design skills as slash commands \((\d+) specialists and (\d+) technical guides\)/,
+    to: `${total} design skills as slash commands (${specialists} specialists and ${technical} technical guides)`,
   },
   {
     file: ".claude-plugin/marketplace.json",
-    re: /fix it with (\d+) specialists/,
-    to: `fix it with ${total} specialists`,
+    re: /fix it with (\d+) design skills/,
+    to: `fix it with ${total} design skills`,
   },
   {
     file: ".claude-plugin/marketplace.json",
-    re: /with (\d+) design specialists:/,
-    to: `with ${total} design specialists:`,
+    re: /fix what it finds with (\d+) design skills \((\d+) specialists and (\d+) technical guides\)/,
+    to: `fix what it finds with ${total} design skills (${specialists} specialists and ${technical} technical guides)`,
   },
   {
     file: "skills/design-with-claude/SKILL.md",

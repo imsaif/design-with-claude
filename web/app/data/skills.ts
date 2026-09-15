@@ -38,6 +38,16 @@ export const CATEGORIES: Category[] = [
 const ICONS = ["✦", "⬡", "◈", "⊞", "⬚", "✎", "◎", "⇄", "⌖", "◐", "⌤", "⊙", "⋯", "⊛", "⊕", "⊗", "⬧", "◉", "⊜", "⌘", "⊘", "⊡", "◫", "⌂", "⊿", "◬", "⊚", "⊞", "◈"];
 
 export const SKILLS: Skill[] = [
+  // Start here
+  {
+    slug: "guide",
+    name: "Guide",
+    description: "Use when you have an idea and nothing else.",
+    category: "core",
+    level: "beginner",
+    icon: "⌖",
+  },
+
   // Master Command
   {
     slug: "design-brief",
