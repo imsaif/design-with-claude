@@ -54,6 +54,9 @@ npx skills add imsaif/design-with-claude
 
 # Install the plugin
 /plugin install design-with-claude@design-with-claude
+
+# Switch it on (without this, the commands don't appear)
+/reload-plugins
 ```
 
 Commands are namespaced: `/design-with-claude:design-brief`, `/design-with-claude:accessibility-specialist`, etc.

@@ -13,17 +13,21 @@ import {
 //
 // What sits inside differs, because the two pages install different things. The
 // homepage shows `$ npx dwic-audit`, one short shell command. This installs a
-// Claude Code plugin, which is two slash commands typed inside Claude Code, and
+// Claude Code plugin, which is three slash commands typed inside Claude Code, and
 // they do not fit a single nowrap row. So the pill carries the destination, the
 // way Anthropic's own plugin pages do (claude.com/plugins/<name> shows
-// "Install in / Claude Code" and never renders the command), and Copy puts both
-// commands on the clipboard.
+// "Install in / Claude Code" and never renders the command), and Copy puts all
+// three commands on the clipboard.
 //
 // Step 2 is `design-with-claude`, not `design-with-claude@design-with-claude`:
 // the suffix names the marketplace, which here shares the plugin's name.
+//
+// Step 3 is not optional: `/plugin install` leaves the plugin switched off, and
+// without `/reload-plugins` none of the commands exist, with no error shown.
 const PLUGIN_INSTALL = [
   "/plugin marketplace add imsaif/design-with-claude",
   "/plugin install design-with-claude",
+  "/reload-plugins",
 ].join("\n");
 
 export function InstallBanner() {
