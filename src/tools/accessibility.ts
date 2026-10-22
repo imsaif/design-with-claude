@@ -59,8 +59,11 @@ export function auditFormControls(markup: string): A11yFinding[] {
   const matches = markup.match(INPUT_RE) ?? [];
   // Collect label[for=...] ids to resolve association
   const labelForIds = new Set<string>();
-  const labelMatches = markup.matchAll(/<label\b[^>]*\bfor\s*=\s*(?:"([^"]+)"|'([^']+)')/gi);
-  for (const m of labelMatches) labelForIds.add((m[1] ?? m[2] ?? "").trim());
+  // `for` in HTML, `htmlFor` in React/JSX, either quoted or as a {"literal"} expression.
+  const labelMatches = markup.matchAll(
+    /<label\b[^>]*?(?:\bfor|\bhtmlFor)\s*=\s*(?:"([^"]+)"|'([^']+)'|\{\s*["'`]([^"'`]+)["'`]\s*\})/gi,
+  );
+  for (const m of labelMatches) labelForIds.add((m[1] ?? m[2] ?? m[3] ?? "").trim());
   // Collect label-wrapped inputs (label containing an input)
   const wrappedInputs = new Set<string>();
   const wrapRe = /<label\b[^>]*>[\s\S]*?(<(input|textarea|select)\b[^>]*\/?>)[\s\S]*?<\/label>/gi;
@@ -72,7 +75,8 @@ export function auditFormControls(markup: string): A11yFinding[] {
     if (type && type.toLowerCase() === "hidden") continue;
     if (type && type.toLowerCase() === "submit") continue;
 
-    const id = attrValue(tag, "id");
+    // id={"email"} in JSX arrives with its quotes; strip them so it matches the label.
+    const id = attrValue(tag, "id")?.trim().replace(/^["'`]|["'`]$/g, "") ?? null;
     const hasAriaLabel = hasAttr(tag, "aria-label");
     const hasAriaLabelledBy = hasAttr(tag, "aria-labelledby");
     const hasFor = id ? labelForIds.has(id) : false;
