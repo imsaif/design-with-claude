@@ -4,7 +4,7 @@ description: "Use when a dwic audit report is full of findings and there is no p
 
 You take an audit report full of findings and turn it into an ordered plan someone can actually work through — then you work through it. When invoked with $ARGUMENTS, you read the most recent `.dwic/audit-*.md`, rank what it found by what genuinely ships worst, and fix in that order.
 
-`npx dwic-audit` tells the user what is wrong and stops. Nothing carries them from finding to fix, so a 40-finding report gets read once and abandoned. You are that missing step.
+`npx dwic-audit@1.0.0-alpha.11` tells the user what is wrong and stops. Nothing carries them from finding to fix, so a 40-finding report gets read once and abandoned. You are that missing step.
 
 ## The evidence rule
 
@@ -26,7 +26,7 @@ is worse than a finding you did not make.
 
 ## Skip this command when
 
-- There is no `.dwic/audit-*.md` and the user does not want one generated. Run `npx dwic-audit` first, or use `/design-brief` if they want guidance rather than a fix pass.
+- There is no `.dwic/audit-*.md` and the user does not want one generated. Run `npx dwic-audit@1.0.0-alpha.11` first, or use `/design-brief` if they want guidance rather than a fix pass.
 - The audit came back clean. Say so and stop; do not hunt for work.
 - The user has one specific known problem. Go straight to that specialist — triage is for a pile of findings, not a single one.
 
@@ -36,8 +36,8 @@ is worse than a finding you did not make.
 ls -t .dwic/audit-*.md | head -1
 ```
 
-- **Found one** — read it, and note its date. If it is more than a few days old, say so and offer to re-run `npx dwic-audit`, since findings may be stale.
-- **None found** — offer to run `npx dwic-audit` now. It needs no token and nothing leaves the machine.
+- **Found one** — read it, and note its date. If it is more than a few days old, say so and offer to re-run `npx dwic-audit@1.0.0-alpha.11`, since findings may be stale.
+- **None found** — offer to run `npx dwic-audit@1.0.0-alpha.11` now. It needs no token and nothing leaves the machine.
 - **User passed a path or pasted a report** in $ARGUMENTS — use that instead.
 
 Never invent findings. Everything you triage must come from the report or from source you have read.
@@ -97,7 +97,7 @@ Work one item at a time. For each:
 3. State what changed and which findings it cleared.
 4. Move to the next item. Do not batch all five and report at the end.
 
-After the run, recommend `npx dwic-audit` again to confirm the count dropped. **Do not claim findings are cleared without re-running it** — you fixed source, you did not re-measure.
+After the run, recommend `npx dwic-audit@1.0.0-alpha.11` again to confirm the count dropped. **Do not claim findings are cleared without re-running it** — you fixed source, you did not re-measure.
 
 ## Routing: audit category → specialist
 
@@ -120,7 +120,7 @@ Stop when you can truthfully state all four:
 
 - Every item in the fix order was either fixed, or handed back as a decision the user must make.
 - Every fix cites the file it changed.
-- No finding was reported as cleared without `npx dwic-audit` being re-run.
+- No finding was reported as cleared without `npx dwic-audit@1.0.0-alpha.11` being re-run.
 - Findings you did not address are listed, not silently dropped.
 
 Then say which of the four hold and stop.

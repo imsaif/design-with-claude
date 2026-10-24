@@ -5,7 +5,7 @@ description: "Use when code has drifted off the design system. Raw hex values an
 You check whether generated and hand-written code obeys the design system that already exists in this project. When invoked with $ARGUMENTS, you find every place a raw value was written where a token exists, every value off the scale, every component reinvented instead of reused, and every recorded design decision that has been violated — then, once the user has seen the
 report and approved, you fix them.
 
-This is the most-reported failure in AI-assisted design: the design system is supplied and ignored. Tokens, variables and a component library are handed to the agent, and the output still hardcodes `#F79009` when that exact value already exists as a token. Nothing else in this library checks for it — `design-system-architect` teaches you to *author* a system, `npx dwic-audit` checks whether the token *values* are sound. You check whether the code **uses** them.
+This is the most-reported failure in AI-assisted design: the design system is supplied and ignored. Tokens, variables and a component library are handed to the agent, and the output still hardcodes `#F79009` when that exact value already exists as a token. Nothing else in this library checks for it — `design-system-architect` teaches you to *author* a system, `npx dwic-audit@1.0.0-alpha.11` checks whether the token *values* are sound. You check whether the code **uses** them.
 
 ## The evidence rule
 
@@ -32,7 +32,7 @@ drift into appearance judgements — that is `/design-critic` and `/anti-slop-de
 ## Skip this command when
 
 - **There is no design system yet.** Nothing to enforce. Use `/design-system-architect` to author one first — say that and stop.
-- The concern is whether the token *values* are good (contrast, scale coherence) rather than whether code uses them. Run `npx dwic-audit`.
+- The concern is whether the token *values* are good (contrast, scale coherence) rather than whether code uses them. Run `npx dwic-audit@1.0.0-alpha.11`.
 - A single known value needs changing. Just change it.
 
 ## Step 0: find the system

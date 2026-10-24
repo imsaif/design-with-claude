@@ -1,12 +1,20 @@
 {
   "name": "design-with-claude",
   "description": "A product designer inside your terminal: 49 design skills as slash commands (39 specialists and 8 technical guides), covering accessibility, motion, color, checkout, dashboards, and more",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": {
     "name": "imsaif"
   },
   "homepage": "https://www.designwithclaude.com",
+  "icon": "./icon.png",
   "repository": "https://github.com/imsaif/design-with-claude",
   "license": "MIT",
-  "keywords": ["design", "ux", "ui", "accessibility", "design-system", "agents"]
+  "keywords": [
+    "design",
+    "ux",
+    "ui",
+    "accessibility",
+    "design-system",
+    "agents"
+  ]
 }

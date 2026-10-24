@@ -134,7 +134,7 @@ The live URL is the whole payoff. Do not stop at "it works on your machine".
 From the project folder:
 
 ```
-npx vercel
+npx vercel@65.2.0
 ```
 
 A static folder needs no configuration. Explain what is about to happen before it does: they will be asked to log in, it will ask a couple of questions they can accept the defaults on, and then it will print a link.
@@ -158,7 +158,7 @@ Create it early, update it as you go, and never batch it to the end.
 
 Live at: <url>
 <!-- if the deploy did not happen, replace the line above with exactly:
-     Live at: not online yet — run `npx vercel` from this folder -->
+     Live at: not online yet — run `npx vercel@65.2.0` from this folder -->
 
 ## v0 — done
 <one line: what it does, and for whom>
