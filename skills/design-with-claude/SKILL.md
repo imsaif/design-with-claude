@@ -10,7 +10,7 @@ A product designer inside your terminal. Start by measuring, then route to the s
 ## Start here: measure before you design
 
 ```bash
-npx dwic-audit
+npx dwic-audit@1.0.0-alpha.11
 ```
 
 Deterministic scan of the current project across 8 categories — color, typography, spacing, accessibility, forms, navigation, motion, copy. WCAG contrast math, token parsing, markup heuristics. Writes `.dwic/audit-<date>.md` and exits non-zero on errors, so it works in CI. Nothing leaves the machine.
@@ -89,12 +89,12 @@ Or hand the whole report to `/design-triage` — it reads the newest `.dwic/audi
 
 - Backend logic, data modelling, or infra with no interface
 - A one-line CSS tweak you already know how to make
-- When `npx dwic-audit` already reported clean and there is no specific design question
+- When `npx dwic-audit@1.0.0-alpha.11` already reported clean and there is no specific design question
 
 ## Install
 
 ```bash
-npx skills add imsaif/design-with-claude
+npx skills@1.7.4 add imsaif/design-with-claude
 ```
 
 Claude Code plugin: `/plugin marketplace add imsaif/design-with-claude`

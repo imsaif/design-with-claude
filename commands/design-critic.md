@@ -99,7 +99,7 @@ is worse than a finding you did not make.
 
 If you are in a code project, read the actual component or page source rather than critiquing from description alone. Render it if you can and say you did; if you cannot, mark every appearance claim `unverified — needs rendering` per the evidence rule above.
 
-This skill is a critique method and posture, not a scored product audit. For a structured, scored evaluation across a full project, run `npx dwic-audit` rather than using this skill.
+This skill is a critique method and posture, not a scored product audit. For a structured, scored evaluation across a full project, run `npx dwic-audit@1.0.0-alpha.11` rather than using this skill.
 
 ## What to ask if unclear
 - What is this design supposed to accomplish, and for whom?

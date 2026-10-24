@@ -10,7 +10,7 @@
 //   node scripts/sync-version.mjs          rewrite the constants from package.json
 //   node scripts/sync-version.mjs --check  exit 1 if any are stale (for CI)
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -44,6 +44,41 @@ for (const { file, re, to } of EDITS) {
   stale++;
   report.push(`  STALE ${file}\n          was: ${m[1]}\n          now: ${version}`);
   if (!CHECK) writeFileSync(path, text.replace(re, to), "utf8");
+}
+
+// Plugin text that tells Claude to run the CLI must name an exact version: Anthropic's
+// plugin directory rejects `npx pkg` and `pkg@latest` (review of 1.0.5, 2026-10-06).
+// Every `dwic-audit@<v>` in the shipped plugin files follows package.json, and a bare
+// `npx dwic-audit` with no version is an error, not something to rewrite silently.
+const PLUGIN_TEXT = ["commands", "skills", ".claude-plugin", "README.md", ".claude/CLAUDE.md"];
+const PIN_RE = /dwic-audit@(\d+\.\d+\.\d+[\w.-]*)/g;
+const BARE_RE = /npx(?: -y| --yes)? dwic-audit(?![@\w-])/g;
+
+function walk(rel) {
+  const abs = join(ROOT, rel);
+  if (!existsSync(abs)) return [];
+  if (!statSync(abs).isDirectory()) return /\.(md|json)$/.test(rel) ? [rel] : [];
+  return readdirSync(abs).flatMap((name) => walk(join(rel, name)));
+}
+
+let bare = 0;
+for (const file of PLUGIN_TEXT.flatMap(walk)) {
+  const path = join(ROOT, file);
+  const text = readFileSync(path, "utf8");
+  const bareHits = text.match(BARE_RE) ?? [];
+  if (bareHits.length) {
+    bare += bareHits.length;
+    report.push(`  BARE  ${file} — ${bareHits.length} unpinned \`npx dwic-audit\` (write dwic-audit@${version})`);
+  }
+  const old = [...text.matchAll(PIN_RE)].filter((m) => m[1] !== version);
+  if (!old.length) continue;
+  stale++;
+  report.push(`  STALE ${file} — ${old.length} pin(s) at ${[...new Set(old.map((m) => m[1]))].join(", ")}`);
+  if (!CHECK) writeFileSync(path, text.replace(PIN_RE, `dwic-audit@${version}`), "utf8");
+}
+if (bare > 0) {
+  console.error(`\n${bare} unpinned \`npx dwic-audit\` in plugin text. Pin it to dwic-audit@${version}.`);
+  process.exitCode = 1;
 }
 
 console.log(`version: ${version} (from package.json)`);

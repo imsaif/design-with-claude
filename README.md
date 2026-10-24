@@ -5,7 +5,7 @@ dwic (design with claude) puts a product designer inside Claude Code. It audits 
 ## The one-line audit
 
 ```
-npx dwic-audit
+npx dwic-audit@1.0.0-alpha.11
 ```
 
 No token, no install, no Claude Code required; your code never leaves your machine. dwic scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), and writes a shareable markdown report to `.dwic/audit-<date>.md`. The check is deterministic (WCAG contrast math, token parsing, markup heuristics), so it's reproducible and CI-friendly via its exit code. Run against a deliberately-broken fixture:
@@ -19,7 +19,7 @@ No token, no install, no Claude Code required; your code never leaves your machi
 Install the MCP server and the product designer works interactively. Ask the specialists (`color-specialist`, `accessibility-specialist`, `typography-specialist`, and the rest) to audit or fix, and dwic remembers your project's decisions across sessions instead of re-asking every time.
 
 ```
-npx dwic-audit setup --token=imr_xxx
+npx dwic-audit@1.0.0-alpha.11 setup --token=imr_xxx
 ```
 
 Get a token at [designwithclaude.com/get-started](https://designwithclaude.com/get-started). For full usage docs, start there.
@@ -43,7 +43,7 @@ Each command is a specialist file containing structured domain knowledge: WCAG s
 Works in Claude Code, Cursor, Cline, Gemini CLI, Antigravity and others — no Claude Code required:
 
 ```bash
-npx skills add imsaif/design-with-claude
+npx skills@1.7.4 add imsaif/design-with-claude
 ```
 
 ### As a Plugin (recommended)

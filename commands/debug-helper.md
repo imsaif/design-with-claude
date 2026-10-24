@@ -99,7 +99,7 @@ Fix: Check the path against the real folder structure. A leading `/` or a wrong 
 
 **"Port 3000 is already in use"**
 Something else is already running on that port, usually a dev server you did not close.
-Fix: Stop the other terminal, or run `npx kill-port 3000`.
+Fix: Stop the other terminal, or run `npx kill-port@2.0.1 3000`.
 
 ### Supabase errors
 

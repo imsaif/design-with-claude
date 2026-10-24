@@ -3,7 +3,7 @@
 ## Project Overview
 **V2 alpha live (April 2026):** subscription product that configures Claude Code for designers via an MCP server, paired with a browser companion that renders command outputs live.
 - Live web: https://www.designwithclaude.com (start at `/get-started`)
-- npm package: `dwic-audit` (run: `npx dwic-audit`). Older names `@imrandwc/dwic` + `designwithclaude` are deprecated pointers to it — still owned, do not unpublish. Bare `dwic` unscoped is unpublishable (npm typosquat filter vs swig/twig).
+- npm package: `dwic-audit` (run: `npx dwic-audit@1.0.0-alpha.11`). Older names `@imrandwc/dwic` + `designwithclaude` are deprecated pointers to it — still owned, do not unpublish. Bare `dwic` unscoped is unpublishable (npm typosquat filter vs swig/twig).
 - Persistence: Supabase (profiles + companion_events)
 - See `PROGRESS.md` at the repo root for current state; `00-product-brief.md` + `0{1,2,3,4}-*.md` on Desktop for the canonical plan.
 
@@ -11,18 +11,18 @@
 
 ## Architecture
 - **V2 MCP server (root):** TypeScript, ESM, `@modelcontextprotocol/sdk` over stdio. Tools live in `src/tools/`. Shared types in `src/tools/types.ts`. Six structured output kinds: palette, type-scale, spacing, component-spec, copy, markdown.
-- **V2 install flow:** `npx dwic-audit setup --token=imr_xxx [--scope=user|project]` writes the MCP entry. Uses `claude mcp add-json` when available, falls back to direct `~/.claude.json` edit with timestamped backup, or `.mcp.json` at the cwd for project scope.
+- **V2 install flow:** `npx dwic-audit@1.0.0-alpha.11 setup --token=imr_xxx [--scope=user|project]` writes the MCP entry. Uses `claude mcp add-json` when available, falls back to direct `~/.claude.json` edit with timestamped backup, or `.mcp.json` at the cwd for project scope.
 - **V2 gating:** Pre-call `/api/gating/check`, post-call `/api/gating/consume`. Fails open when `DWC_GATING` is off (dev/alpha default).
 - **V2 events:** Post-call emit to `/api/events`. Payload shape defined in `src/api-client.ts` → `EventPayload`. The browser companion (Phase 2) subscribes via Supabase Realtime.
 - **V1 plugin (unchanged):** `.claude-plugin/plugin.json` manifest; `commands/*.md` are the knowledge base for both V1 slash commands and V2 MCP tool role prompts. `/design-brief` is the master command.
 
 ## Key Files
-- `package.json` (root) — npm package `dwic-audit`, bins: `dwic-audit` → `dist/bin/setup.js` (the `npx dwic-audit` entry — a dispatcher: bare/flag-first runs an audit, `setup`/`uninstall`/`help`/`version` route explicitly) + `dwic-mcp-server` → `dist/server.js` (MCP server, launched by the installed `.mcp.json` via `npx -p dwic-audit@<v> dwic-mcp-server`)
+- `package.json` (root) — npm package `dwic-audit`, bins: `dwic-audit` → `dist/bin/setup.js` (the `npx dwic-audit@1.0.0-alpha.11` entry — a dispatcher: bare/flag-first runs an audit, `setup`/`uninstall`/`help`/`version` route explicitly) + `dwic-mcp-server` → `dist/server.js` (MCP server, launched by the installed `.mcp.json` via `npx -p dwic-audit@<v> dwic-mcp-server`)
 - `src/server.ts` — MCP server main; registers all tools; wraps handlers with gating + event emission
 - `src/tools/index.ts` — tool registry
 - `src/tools/types.ts` — `ToolDefinition`, `ToolResult`, output payload types
 - `src/tools/loadPrompt.ts` — reads and caches `commands/*.md` role prompts
-- `src/bin/setup.ts` — `npx dwic-audit setup` install flow
+- `src/bin/setup.ts` — `npx dwic-audit@1.0.0-alpha.11 setup` install flow
 - `scripts/test-mcp-handshake.mjs` — stdio round-trip against `dist/server.js` (`npm run test:mcp`)
 - `scripts/test-setup-dry-run.mjs` — install/uninstall against a tmp project (`npm run test:setup`)
 - `.claude-plugin/plugin.json` — V1 plugin manifest (unchanged)
@@ -128,9 +128,9 @@ The `design-` prefix marks commands that act on the design *process* rather than
 - **Publishing needs `npm publish --tag latest`.** Every release is a prerelease
   (`1.0.0-alpha.N`), so a bare `npm publish` is rejected outright — npm demands an explicit
   tag. The trap is the recovery: `--tag alpha` succeeds and looks fine, but `latest` keeps
-  pointing at the old version, so `npx dwic-audit` and every generated `.mcp.json` keep
+  pointing at the old version, so `npx dwic-audit@1.0.0-alpha.11` and every generated `.mcp.json` keep
   serving the release you were trying to replace. Check `npm view dwic-audit dist-tags`
-  before and after, and verify with `npx -y dwic-audit version`, not `npm view` alone —
+  before and after, and verify with `npx -y dwic-audit@1.0.0-alpha.11 version`, not `npm view` alone —
   the registry view is cached and lags a publish by minutes.
 - **The version lives in four files and is generated.** `package.json` plus three TS
   constants (`src/server.ts`, `src/bin/audit.ts`, `src/bin/setup.ts`). Bump `package.json`,
@@ -138,6 +138,14 @@ The `design-` prefix marks commands that act on the design *process* rather than
   constants — `setup.ts`'s copy is written into the user's `.mcp.json` as
   `npx -p dwic-audit@<VERSION>`, so a stale one pins installs to a release that was never
   shipped, with no error anywhere.
+- **Plugin text must pin every package it runs.** Anthropic's plugin directory blocked 1.0.5
+  (review 2026-10-06) because commands and skills ran dwic-audit, vercel and other packages
+  through npx with no version. Write `pkg@x.y.z` everywhere in `commands/`, `skills/`, `.claude-plugin/`,
+  the README and this file. `npm run sync-version` rewrites every `dwic-audit@<v>` to the
+  package version and the build fails on an unversioned dwic-audit run; third-party tools
+  (`vercel`, `skills`, `kill-port`) are pinned by hand. This file lives in `.claude/` rather
+  than the repo root because the repo root is the plugin root, where a CLAUDE.md is not
+  loaded and the directory scan warns about it.
 - **The plugin version is cached per-version on disk.** Claude Code stores each install
   under `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/` — the path literally
   contains the number — and skips any plugin whose resolved version matches what the user
