@@ -46,8 +46,13 @@ export function auditFormWrapperBySource(sources: Array<{ path: string; content:
   const chunks = perSource.flatMap((s) => s.chunks);
   const inputCount = chunks.reduce((n, c) => n + (c.match(INPUT_RE) ?? []).filter(isLive).length, 0);
   if (inputCount === 0) return [];
-  if (!chunks.some((c) => FORM_RE.test(c) && ((FORM_RE.lastIndex = 0), true))) {
-    return auditFormWrapper(chunks.join("\n").replace(INPUT_RE, (tag) => (isLive(tag) ? tag : "")));
+  // Search filters and live-saving fields rightly have no form, and source can't
+  // tell them from a missed wrap, so these stay notes for a person to check.
+  if (!chunks.some((c) => (c.match(FORM_RE) ?? []).length > 0)) {
+    return auditFormWrapper(chunks.join("\n").replace(INPUT_RE, (tag) => (isLive(tag) ? tag : ""))).map((f) => ({
+      ...f,
+      severity: "info" as const,
+    }));
   }
   const findings: FormFinding[] = [];
   for (const { path, chunks: fileChunks } of perSource) {
@@ -61,7 +66,7 @@ export function auditFormWrapperBySource(sources: Array<{ path: string; content:
     }
     if (stray > 0) {
       findings.push({
-        severity: "warn",
+        severity: "info",
         element: `<input> outside <form> (${path})`,
         message: `${stray} input(s) live outside any <form>. Confirm those are genuinely standalone and not a missed wrap.`,
       });
@@ -161,15 +166,14 @@ export function auditPasswordFields(markup: string): FormFinding[] {
 }
 
 // Inputs with error hints should use aria-describedby to wire the message.
-// We can't know if text IS an error; we flag inputs adjacent to elements
-// with id containing "error"/"hint" that aren't referenced.
+// We can't know if text IS an error, so we go by the element's id: a native
+// element with "error"/"hint" in its id that nothing references. Words near an
+// id prove nothing (`<input id="email" />{errors.email}`).
 export function auditErrorWiring(markup: string): FormFinding[] {
   const findings: FormFinding[] = [];
-  const errorHintIds = Array.from(
-    markup.matchAll(/<[^>]+\bid\s*=\s*(?:"([^"]+)"|'([^']+)')[^>]*>(?:[^<]*(?:error|hint|help|invalid))/gi),
-  )
+  const errorHintIds = Array.from(markup.matchAll(/<[a-z][^>]*(?<![\w-])id\s*=\s*(?:"([^"]+)"|'([^']+)')/g))
     .map((m) => (m[1] ?? m[2] ?? "").trim())
-    .filter(Boolean);
+    .filter((id) => /error|hint|help|invalid/i.test(id));
   if (errorHintIds.length === 0) return findings;
   const referencedIds = new Set<string>();
   const describedByMatches = markup.matchAll(/aria-describedby\s*=\s*(?:"([^"]+)"|'([^']+)')/gi);

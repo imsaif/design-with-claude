@@ -141,7 +141,8 @@ const USER_FACING_ATTR_RE = /\b(?:placeholder|alt|aria-label|title|label)\s*=\s*
 const CODE_MARKER_RE = /[;{}=]/;
 
 // What's left between two tags inside a children block: `) : cond ? (`, `&&`.
-const EXPRESSION_RESIDUE_RE = /^[)(:?&|]|[(?&|]$|\s[?:]\s/;
+// Also TypeScript between generics: `, React.ComponentProps`, `Math.random()`.
+const EXPRESSION_RESIDUE_RE = /^[)(:?&|,]|[(?&|]$|\s[?:]\s|[a-zA-Z]\.[a-zA-Z]{2,}/;
 
 /**
  * Pull the user-facing text out of component **source**.

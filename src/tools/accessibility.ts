@@ -87,6 +87,9 @@ export function auditFormControls(markup: string): A11yFinding[] {
 
   for (const tag of matches) {
     if (hasSpread(tag)) continue;
+    // Out of the accessibility tree at every size, so nothing announces it.
+    // `md:hidden` and `overflow-hidden` don't count.
+    if (/(?<![\w:-])hidden(?![\w:-])/.test(tag.replace(/\btype\s*=\s*["'][^"']*["']/i, ""))) continue;
     const type = attrValue(tag, "type");
     if (type && type.toLowerCase() === "hidden") continue;
     if (type && type.toLowerCase() === "submit") continue;

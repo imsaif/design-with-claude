@@ -4,12 +4,15 @@
 // and comment examples as live markup. Each block pairs the false alarm with the
 // real problem that must still fire.
 
-import { dirname, resolve } from "node:path";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dist = resolve(here, "../dist");
 const { aggregate } = await import(resolve(dist, "audit/aggregator.js"));
+const { walkProject } = await import(resolve(dist, "audit/walker.js"));
 const { neutralizeJsxExpressions } = await import(resolve(dist, "tools/markup-utils.js"));
 const { parseTypeTokensFromCss, auditSizeTokens, auditLineHeightTokens } = await import(resolve(dist, "tools/typography.js"));
 const { runMotionAudit } = await import(resolve(dist, "tools/motion.js"));
@@ -179,6 +182,62 @@ const wrap = (body) => `export default function Page() {\n  return (\n    <main>
   const kf = (body) => runMotionAudit(`@keyframes a {\n  from { ${body} }\n}`).filter((f) => f.element === "animated property");
   check(kf(`--inset-top: 1px; opacity: 0;`).length === 0, "a custom property ending in -top isn't a layout property");
   check(kf(`top: 1px;`).length === 1, "animating top is still flagged");
+}
+
+// --- 9. Tests and stories aren't UI ---------------------------------------------
+{
+  const root = mkdtempSync(join(tmpdir(), "dwic-coverage-"));
+  try {
+    const paths = ["src/App.tsx", "src/App.test.tsx", "src/App.spec.jsx", "src/App.stories.tsx", "src/__tests__/a.tsx", "src/__mocks__/b.tsx", "tests/c.tsx", "e2e/d.tsx", "src/latest/Page.tsx", "src/contest.tsx"];
+    for (const p of paths) {
+      mkdirSync(dirname(join(root, p)), { recursive: true });
+      writeFileSync(join(root, p), `<h1>x</h1>`);
+    }
+    const seen = walkProject(root).markupFiles.sort();
+    check(JSON.stringify(seen) === JSON.stringify(["src/App.tsx", "src/contest.tsx", "src/latest/Page.tsx"]), "test and story files are skipped, similar names aren't", seen);
+    const explicit = walkProject(root, { markupOverrides: ["src/App.test.tsx"] }).markupFiles;
+    check(explicit.includes("src/App.test.tsx"), "a file named on the command line is still scanned", explicit);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+}
+
+// --- 10. Hidden controls aren't announced, so they need no label ---------------
+{
+  check(!has(audit(wrap(`<input type="file" className="hidden" />`)), /no accessible label/), "class hidden needs no label");
+  check(!has(audit(wrap(`<input type="file" hidden />`)), /no accessible label/), "hidden attribute needs no label");
+  check(has(audit(wrap(`<input type="text" className="md:hidden" />`)), /no accessible label/), "hidden at one breakpoint still needs a label");
+  check(has(audit(wrap(`<input type="text" className="overflow-hidden" />`)), /no accessible label/), "overflow-hidden still needs a label");
+  check(has(audit(wrap(`<input type="text" className="sr-only" />`)), /no accessible label/), "sr-only is still announced and needs a label");
+}
+
+// --- 11. "Outside a form" is a question, so it's a note ------------------------
+{
+  const none = audit(wrap(`<input id="a" aria-label="x" type="text" />`)).find((f) => /outside any <form>/.test(f.msg));
+  check(none?.sev === "info", "no forms in the project is a note", none);
+  const beside = audit(`export default function F() {\n  return <main><form><input aria-label="x" type="text" /></form><input aria-label="y" type="text" /></main>;\n}\n`).find((f) => /outside any <form>/.test(f.msg));
+  check(beside?.sev === "info", "an input beside a form is a note", beside);
+}
+
+// --- 12. Hint wiring: only elements that are hints -----------------------------
+{
+  const wired = (body) => has(audit(wrap(body)), /error\/hint element/);
+  check(!wired(`<input id="email" aria-label="x" type="email" />\n{errors.email && <span>{errors.email}</span>}`), "an input's id before the word errors isn't a hint");
+  check(!wired(`<FilterSection id="filter-reasons">help text</FilterSection>`), "a custom component isn't a hint");
+  check(!wired(`<p id="intro">Get help with your account</p>`), "a paragraph mentioning help isn't a hint");
+  check(!wired(`<input aria-describedby="email-error" aria-label="x" type="email" /><p id="email-error">Required</p>`), "a referenced hint is fine");
+  check(wired(`<input aria-label="x" type="email" /><p id="email-error">Required</p>`), "an unreferenced hint is still flagged");
+  check(wired(`<input aria-label="x" type="email" /><p id="email-hint">We won't share it</p>`), "an unreferenced hint id is still flagged");
+}
+
+// --- 13. Code isn't copy ---------------------------------------------------------
+{
+  const words = Array(32).fill("word").join(" ");
+  const src = `const P = forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Root>>((p, r) => {\n  return <main><p>No timezone found</p></main>;\n});\nconst t = (Math.random() * 8000 + 2000) as ReturnType<typeof setTimeout>;\n`;
+  const code = runContentAudit(`${src}${src}${src}${src}`, { source: true });
+  check(!code.some((f) => /ComponentProps|Math\.random/.test(f.message)), "type annotations and code aren't stitched into sentences", code);
+  const real = runContentAudit(`<p>${words}</p>`, { source: true });
+  check(real.some((f) => /sentence/.test(f.element)), "a really long sentence is still flagged", real);
 }
 
 if (failed > 0) {
