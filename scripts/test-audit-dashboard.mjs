@@ -224,6 +224,22 @@ process.env.NO_COLOR = "1";
   else pass("CI exit hint surfaced when errors present");
 }
 
+// --- 17. Notes alone never claim a compliance failure the exit code denies ---
+{
+  const note = { severity: "info", token: "--color-x", message: "note" };
+  const notesOnly = results.map((r) => ({
+    ...r,
+    severity: r.category === "color" ? "info" : "clean",
+    findings: r.category === "color" ? [note] : [],
+    counts: { error: 0, warn: 0, info: r.category === "color" ? 1 : 0 },
+  }));
+  const out = renderDashboard(detected, inputs, notesOnly, { reportPath: null, showInstallCta: false, cwd: "/tmp/demo", drift: null });
+  if (/Fix before you ship|EU Accessibility Act/.test(out)) fail("info-only result must not show the ship-blocker band");
+  else pass("info-only result stays out of the ship-blocker band");
+  if (!/Then clean up/.test(out) || !/Color/.test(out)) fail("info-only result should still be listed under cleanup");
+  else pass("info-only result is still listed");
+}
+
 if (failed > 0) {
   process.stderr.write(`\n${failed} check(s) failed.\n`);
   process.exit(1);
