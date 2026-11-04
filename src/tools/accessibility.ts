@@ -15,13 +15,22 @@ export interface A11yFinding {
   message: string;
 }
 
-const IMG_RE = /<img\b[^>]*\/?>/gi;
-const INPUT_RE = /<(input|textarea|select)\b[^>]*\/?>/gi;
-const HEADING_RE = /<h([1-6])\b[^>]*>/gi;
-const ANCHOR_RE = /<a\b[^>]*>/gi;
-const BUTTON_RE = /<button\b([^>]*)>([\s\S]*?)<\/button>/gi;
-const LANDMARK_RE = /<(main|nav|header|footer|aside)\b/gi;
+// Case-sensitive on purpose: `<Input>` and `<Image>` are custom components whose
+// own markup is what gets audited, not native elements.
+const IMG_RE = /<img\b[^>]*\/?>/g;
+const INPUT_RE = /<(input|textarea|select)\b[^>]*\/?>/g;
+const HEADING_RE = /<h([1-6])\b[^>]*>/g;
+const ANCHOR_RE = /<a\b[^>]*>/g;
+const BUTTON_RE = /<button\b([^>]*)>([\s\S]*?)<\/button>/g;
+const SELF_CLOSED_BUTTON_RE = /<button\b[^>]*\/>/g;
+const LANDMARK_RE = /<(main|nav|header|footer|aside)\b/g;
 const SKIP_LINK_RE = /#(main|content|skip)|\bskip[-\s]?to[-\s]?(main|content)/i;
+
+// `<input {...props} />`: a reusable piece whose label, alt or href comes from
+// whoever uses it. Source can't show that, so it isn't a finding here.
+function hasSpread(tag: string): boolean {
+  return /\{\s*\.\.\./.test(tag);
+}
 
 function hasAttr(tag: string, name: string): boolean {
   const re = new RegExp(`\\b${name}\\s*=`, "i");
@@ -39,6 +48,7 @@ export function auditImages(markup: string): A11yFinding[] {
   const findings: A11yFinding[] = [];
   const matches = markup.match(IMG_RE) ?? [];
   for (const tag of matches) {
+    if (hasSpread(tag)) continue;
     if (!hasAttr(tag, "alt")) {
       findings.push({
         severity: "error",
@@ -76,6 +86,7 @@ export function auditFormControls(markup: string): A11yFinding[] {
   while ((w = wrapRe.exec(markup)) !== null) wrappedInputs.add(w[1]);
 
   for (const tag of matches) {
+    if (hasSpread(tag)) continue;
     const type = attrValue(tag, "type");
     if (type && type.toLowerCase() === "hidden") continue;
     if (type && type.toLowerCase() === "submit") continue;
@@ -119,8 +130,57 @@ export function auditFormControls(markup: string): A11yFinding[] {
   return findings;
 }
 
+interface HeadingRun {
+  // Always rendered, in source order.
+  fixed: number[];
+  // Inside a `{...}` children block: rendered only sometimes.
+  conditional: number[];
+}
+
+// Walks cleaned source and groups headings into runs that can share a page.
+// Each top-level `return` starts a run, because early returns are exclusive.
+function headingRuns(markup: string): HeadingRun[] {
+  const runs: HeadingRun[] = [{ fixed: [], conditional: [] }];
+  let childDepth = 0;
+  let lastChildClose = -1;
+  for (const m of markup.matchAll(/[{}]|\breturn\b|<h([1-6])\b/g)) {
+    const token = m[0];
+    if (token === "{") {
+      if (childDepth > 0 || opensChildren(markup, m.index, lastChildClose)) childDepth++;
+    } else if (token === "}") {
+      if (childDepth > 0 && --childDepth === 0) lastChildClose = m.index;
+    } else if (token === "return") {
+      if (childDepth === 0) runs.push({ fixed: [], conditional: [] });
+    } else {
+      const run = runs[runs.length - 1]!;
+      (childDepth > 0 ? run.conditional : run.fixed).push(parseInt(m[1]!, 10));
+    }
+  }
+  return runs;
+}
+
+// True for a `{` straight after a JSX tag or another children block. Not for
+// `=> {` or `Component<P> {`.
+function opensChildren(markup: string, at: number, lastChildClose: number): boolean {
+  let i = at - 1;
+  while (i >= 0 && /\s/.test(markup[i]!)) i--;
+  if (i === lastChildClose) return true;
+  if (markup[i] !== ">" || markup[i - 1] === "=") return false;
+  const open = markup.lastIndexOf("<", i);
+  if (open < 0) return false;
+  return markup[open + 1] === "/" || !/\w/.test(markup[open - 1] ?? "");
+}
+
 function headingLevels(markup: string): number[] {
   return Array.from(markup.matchAll(HEADING_RE), (m) => parseInt(m[1], 10));
+}
+
+function tooManyH1sInRun(run: HeadingRun, where = ""): A11yFinding[] {
+  const fixed = run.fixed.filter((l) => l === 1).length;
+  const conditional = run.conditional.filter((l) => l === 1).length;
+  // Conditional <h1>s alone are usually alternatives. Beside a fixed one, any of
+  // them showing makes two.
+  return fixed === 0 ? [] : tooManyH1s(Array(fixed + conditional).fill(1), where);
 }
 
 function tooManyH1s(levels: number[], where = ""): A11yFinding[] {
@@ -161,7 +221,12 @@ export function auditHeadings(markup: string): A11yFinding[] {
   const levels = headingLevels(markup);
   if (levels.length === 0) return [];
   const missing = levels.includes(1) ? [] : [NO_H1];
-  return [...missing, ...tooManyH1s(levels), ...firstSkippedLevel(levels)];
+  const runs = headingRuns(markup);
+  return [
+    ...missing,
+    ...runs.flatMap((run) => tooManyH1sInRun(run)),
+    ...runs.flatMap((run) => firstSkippedLevel(run.fixed)).slice(0, 1),
+  ];
 }
 
 // Whole-project variant. Source order across files says nothing about what
@@ -171,15 +236,15 @@ export function auditHeadings(markup: string): A11yFinding[] {
 export function auditHeadingsBySource(sources: MarkupSource[]): A11yFinding[] {
   const perSource = sources.map(({ path, content }) => ({
     where: ` (${path})`,
-    chunks: splitComponents(neutralizeJsxExpressions(content)).map(headingLevels),
+    runs: splitComponents(neutralizeJsxExpressions(content)).flatMap(headingRuns),
   }));
-  const all = perSource.flatMap((s) => s.chunks.flat());
+  const all = perSource.flatMap((s) => s.runs.flatMap((r) => [...r.fixed, ...r.conditional]));
   if (all.length === 0) return [];
 
   const findings: A11yFinding[] = all.includes(1) ? [] : [NO_H1];
-  for (const { where, chunks } of perSource) {
-    findings.push(...chunks.flatMap((levels) => tooManyH1s(levels, where)));
-    findings.push(...chunks.flatMap((levels) => firstSkippedLevel(levels, where)).slice(0, 1));
+  for (const { where, runs } of perSource) {
+    findings.push(...runs.flatMap((run) => tooManyH1sInRun(run, where)));
+    findings.push(...runs.flatMap((run) => firstSkippedLevel(run.fixed, where)).slice(0, 1));
   }
   return findings;
 }
@@ -188,6 +253,7 @@ export function auditAnchors(markup: string): A11yFinding[] {
   const findings: A11yFinding[] = [];
   const matches = markup.match(ANCHOR_RE) ?? [];
   for (const tag of matches) {
+    if (hasSpread(tag)) continue;
     const href = attrValue(tag, "href");
     if (!hasAttr(tag, "href")) {
       findings.push({
@@ -211,14 +277,23 @@ export function auditAnchors(markup: string): A11yFinding[] {
 export function auditButtons(markup: string): A11yFinding[] {
   const findings: A11yFinding[] = [];
   let m: RegExpExecArray | null;
-  const re = new RegExp(BUTTON_RE.source, "gi");
-  while ((m = re.exec(markup)) !== null) {
+  const re = new RegExp(BUTTON_RE.source, "g");
+  // A self-closed <button {...props} /> would otherwise pair with the next
+  // </button> and pull unrelated markup into its name.
+  const open = markup.replace(SELF_CLOSED_BUTTON_RE, "");
+  while ((m = re.exec(open)) !== null) {
     const openAttrs = m[1] ?? "";
-    const inner = (m[2] ?? "").replace(/<[^>]+>/g, "").trim();
+    const rawInner = m[2] ?? "";
+    const inner = rawInner.replace(/<[^>]+>/g, "").trim();
     const openTag = `<button${openAttrs}>`;
-    const hasAriaLabel = hasAttr(openTag, "aria-label");
-    const hasAriaLabelledBy = hasAttr(openTag, "aria-labelledby");
-    if (!inner && !hasAriaLabel && !hasAriaLabelledBy) {
+    const named =
+      hasSpread(openTag) ||
+      hasAttr(openTag, "aria-label") ||
+      hasAttr(openTag, "aria-labelledby") ||
+      hasAttr(openTag, "title") ||
+      // A named icon inside the button names the button.
+      /\b(?:aria-label|aria-labelledby|title|alt)\s*=/i.test(rawInner);
+    if (!inner && !named) {
       findings.push({
         severity: "error",
         element: "<button>",
