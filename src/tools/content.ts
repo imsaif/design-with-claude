@@ -212,9 +212,14 @@ export function auditSentenceLength(text: string): ContentFinding[] {
 
 export function auditShouting(text: string): ContentFinding[] {
   const findings: ContentFinding[] = [];
-  const words = text.match(/\b[A-Z]{4,}\b/g) ?? [];
-  const nonAcronym = words.filter(
-    (w) => !/^(HTML|HTTPS?|JSON|API|CLI|MCP|CSS|ARIA|WCAG|PDF|CSV|JPEG|PNG|GIF|SVG|URL|UUID|PCOS|NOTE|TODO|FIXME|OK)$/.test(w),
+  // Distinct words: one term used repeatedly is vocabulary, not shouting.
+  const words = new Set(text.match(/\b[A-Z]{4,}\b/g) ?? []);
+  const nonAcronym = [...words].filter(
+    (w) =>
+      !/^(HTML|HTTPS?|JSON|API|CLI|MCP|CSS|ARIA|WCAG|PDF|CSV|JPEG|PNG|GIF|SVG|URL|UUID|PCOS|NOTE|TODO|FIXME|OK)$/.test(w) &&
+      // No vowels means it can only be spelled out (CNPJ, HTML, RTFM), whatever
+      // the language: an acronym, where no allowlist could ever be complete.
+      /[AEIOUY]/.test(w),
   );
   if (nonAcronym.length >= 2) {
     findings.push({

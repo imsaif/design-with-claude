@@ -29,6 +29,10 @@
  *  - Comments inside expressions (`/* * /`, `//`).
  *  - Regex literals (`/ab>cd/`) — could carry `>` but uncommon in attrs.
  */
+export function splitComponents(source: string): string[] {
+  return source.split(/^(?=(?:export\s+(?:default\s+)?)?(?:async\s+)?(?:function|const|let|class)\s+[A-Z])/m);
+}
+
 export function neutralizeJsxExpressions(input: string): string {
   let out = "";
   let i = 0;

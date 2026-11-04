@@ -2,7 +2,12 @@
 // Regex-based (not a full parser) — we flag patterns, not AST shapes. The
 // payoff is that we can audit any snippet a designer pastes without babel.
 
-import { neutralizeJsxExpressions } from "./markup-utils.js";
+import { neutralizeJsxExpressions, splitComponents } from "./markup-utils.js";
+
+export interface MarkupSource {
+  path: string;
+  content: string;
+}
 
 export interface A11yFinding {
   severity: "error" | "warn" | "info";
@@ -114,38 +119,67 @@ export function auditFormControls(markup: string): A11yFinding[] {
   return findings;
 }
 
-export function auditHeadings(markup: string): A11yFinding[] {
-  const findings: A11yFinding[] = [];
-  const levels: number[] = [];
-  const matches = markup.matchAll(HEADING_RE);
-  for (const m of matches) levels.push(parseInt(m[1], 10));
+function headingLevels(markup: string): number[] {
+  return Array.from(markup.matchAll(HEADING_RE), (m) => parseInt(m[1], 10));
+}
 
-  if (levels.length === 0) return findings;
-
+function tooManyH1s(levels: number[], where = ""): A11yFinding[] {
   const h1Count = levels.filter((l) => l === 1).length;
-  if (h1Count === 0) {
-    findings.push({
+  if (h1Count <= 1) return [];
+  return [
+    {
       severity: "warn",
-      element: "headings",
-      message: "no <h1> found — most pages should have exactly one.",
-    });
-  } else if (h1Count > 1) {
-    findings.push({
-      severity: "warn",
-      element: "headings",
+      element: `headings${where}`,
       message: `${h1Count} <h1> elements — usually only one per page (document-outline algorithm aside).`,
-    });
-  }
+    },
+  ];
+}
 
+// One finding is enough per ladder; noise otherwise.
+function firstSkippedLevel(levels: number[], where = ""): A11yFinding[] {
   for (let i = 1; i < levels.length; i++) {
     if (levels[i] > levels[i - 1] + 1) {
-      findings.push({
-        severity: "warn",
-        element: `h${levels[i - 1]} → h${levels[i]}`,
-        message: `heading level skipped (h${levels[i - 1]} to h${levels[i]}) — screen readers rely on a linear ladder.`,
-      });
-      break; // one finding is enough; noise otherwise
+      return [
+        {
+          severity: "warn",
+          element: `h${levels[i - 1]} → h${levels[i]}${where}`,
+          message: `heading level skipped (h${levels[i - 1]} to h${levels[i]}) — screen readers rely on a linear ladder.`,
+        },
+      ];
     }
+  }
+  return [];
+}
+
+const NO_H1: A11yFinding = {
+  severity: "warn",
+  element: "headings",
+  message: "no <h1> found — most pages should have exactly one.",
+};
+
+export function auditHeadings(markup: string): A11yFinding[] {
+  const levels = headingLevels(markup);
+  if (levels.length === 0) return [];
+  const missing = levels.includes(1) ? [] : [NO_H1];
+  return [...missing, ...tooManyH1s(levels), ...firstSkippedLevel(levels)];
+}
+
+// Whole-project variant. Source order across files says nothing about what
+// shares a page, and within a file a helper can be defined above the component
+// that renders it, so <h1> count and heading order are judged per component.
+// Only "no <h1>" stays project-wide: most component files rightly have none.
+export function auditHeadingsBySource(sources: MarkupSource[]): A11yFinding[] {
+  const perSource = sources.map(({ path, content }) => ({
+    where: ` (${path})`,
+    chunks: splitComponents(neutralizeJsxExpressions(content)).map(headingLevels),
+  }));
+  const all = perSource.flatMap((s) => s.chunks.flat());
+  if (all.length === 0) return [];
+
+  const findings: A11yFinding[] = all.includes(1) ? [] : [NO_H1];
+  for (const { where, chunks } of perSource) {
+    findings.push(...chunks.flatMap((levels) => tooManyH1s(levels, where)));
+    findings.push(...chunks.flatMap((levels) => firstSkippedLevel(levels, where)).slice(0, 1));
   }
   return findings;
 }
@@ -195,6 +229,22 @@ export function auditButtons(markup: string): A11yFinding[] {
   return findings;
 }
 
+// A skip link is defined by what it does, not what it's called: an in-page link
+// to the main landmark's id, in whatever language the project is written in.
+function linksToMainLandmark(markup: string): boolean {
+  const mainIds = new Set<string>();
+  for (const tag of markup.match(/<[a-z][^>]*>/gi) ?? []) {
+    if (!/^<main\b/i.test(tag) && !/\brole\s*=\s*["']main["']/i.test(tag)) continue;
+    const id = tag.match(/(?<![\w-])id\s*=\s*["']([^"']+)["']/i);
+    if (id) mainIds.add(id[1]);
+  }
+  if (mainIds.size === 0) return false;
+  for (const m of markup.matchAll(/<a\b[^>]*\bhref\s*=\s*["']#([^"']+)["']/gi)) {
+    if (mainIds.has(m[1])) return true;
+  }
+  return false;
+}
+
 export function auditLandmarks(markup: string): A11yFinding[] {
   const findings: A11yFinding[] = [];
   const seen = new Set<string>();
@@ -217,7 +267,7 @@ export function auditLandmarks(markup: string): A11yFinding[] {
     });
   }
 
-  if (!SKIP_LINK_RE.test(markup)) {
+  if (!SKIP_LINK_RE.test(markup) && !linksToMainLandmark(markup)) {
     findings.push({
       severity: "info",
       element: "skip link",
@@ -227,14 +277,14 @@ export function auditLandmarks(markup: string): A11yFinding[] {
   return findings;
 }
 
-export function runA11yAudit(markup: string): A11yFinding[] {
+export function runA11yAudit(markup: string, sources?: MarkupSource[]): A11yFinding[] {
   // Strip JSX expression blocks before regex-based tag matching — see
   // src/tools/markup-utils.ts for why.
   const cleaned = neutralizeJsxExpressions(markup);
   return [
     ...auditImages(cleaned),
     ...auditFormControls(cleaned),
-    ...auditHeadings(cleaned),
+    ...(sources?.length ? auditHeadingsBySource(sources) : auditHeadings(cleaned)),
     ...auditAnchors(cleaned),
     ...auditButtons(cleaned),
     ...auditLandmarks(cleaned),
