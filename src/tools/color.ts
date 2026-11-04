@@ -1,3 +1,5 @@
+import { stripCssComments } from "./css-utils.js";
+
 type Hsl = { h: number; s: number; l: number };
 
 export function hexToHsl(hex: string): Hsl {
@@ -110,8 +112,9 @@ export function classifyContrast(ratio: number): ContrastClassification {
 // Accepts #rgb / #rrggbb and rgb()/rgba() forms. Ignores hsl() and var() refs
 // for now — those need a resolution step we can add once there's a caller need.
 export function parseTokensFromCss(
-  css: string,
+  rawCss: string,
 ): Array<{ name: string; hex: string; scope?: string }> {
+  const css = stripCssComments(rawCss);
   const tokens: Array<{ name: string; hex: string; scope?: string }> = [];
   // Split into selector blocks so we can capture scope (e.g. `html[data-theme="dark"]`).
   const blockRe = /([^{}]+)\{([^}]*)\}/g;

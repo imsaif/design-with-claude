@@ -1,6 +1,8 @@
 // Typography token parsing + audit helpers for typography-specialist audit mode.
 // Mirrors the shape of color.ts so the test/rollout pattern stays consistent.
 
+import { stripCssComments } from "./css-utils.js";
+
 export type TypeTokenKind = "size" | "lineHeight" | "weight" | "family";
 
 export interface TypeToken {
@@ -26,7 +28,8 @@ function classifyName(name: string): TypeTokenKind | null {
   return null;
 }
 
-export function parseTypeTokensFromCss(css: string): TypeToken[] {
+export function parseTypeTokensFromCss(rawCss: string): TypeToken[] {
+  const css = stripCssComments(rawCss);
   const out: TypeToken[] = [];
   const blockRe = /([^{}]+)\{([^}]*)\}/g;
   let blockMatch: RegExpExecArray | null;

@@ -1,6 +1,8 @@
 // Spacing token parsing + audit helpers for spacing-specialist audit mode.
 // Mirrors the shape of color.ts / typography.ts so the test pattern stays consistent.
 
+import { stripCssComments } from "./css-utils.js";
+
 export interface SpacingToken {
   name: string;
   value: string;
@@ -22,7 +24,8 @@ function lengthToPx(raw: string): number | null {
   return null;
 }
 
-export function parseSpacingTokensFromCss(css: string): SpacingToken[] {
+export function parseSpacingTokensFromCss(rawCss: string): SpacingToken[] {
+  const css = stripCssComments(rawCss);
   const out: SpacingToken[] = [];
   const blockRe = /([^{}]+)\{([^}]*)\}/g;
   let blockMatch: RegExpExecArray | null;

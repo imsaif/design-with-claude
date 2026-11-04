@@ -3,6 +3,8 @@
 // no prefers-reduced-motion fallback, runaway durations, animation on layout
 // properties, `transition: all`, infinite loops without pause.
 
+import { stripCssComments } from "./css-utils.js";
+
 export interface MotionFinding {
   severity: "error" | "warn" | "info";
   element: string;
@@ -176,7 +178,8 @@ export function auditEasing(css: string): MotionFinding[] {
   return findings;
 }
 
-export function runMotionAudit(css: string): MotionFinding[] {
+export function runMotionAudit(rawCss: string): MotionFinding[] {
+  const css = stripCssComments(rawCss);
   return [
     ...auditReducedMotion(css),
     ...auditDurations(css),
