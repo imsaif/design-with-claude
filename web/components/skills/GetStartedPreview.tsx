@@ -56,7 +56,7 @@ const DEMO_LINES: TerminalLine[] = [
     content: (
       <>
         <span className="gs-terminal-error">✗ Fix before you ship</span>{" "}
-        <span className="gs-terminal-muted">— 8 of 9 errors are accessibility</span>
+        <span className="gs-terminal-muted">— 5 of 7 errors are accessibility</span>
       </>
     ),
   },
@@ -76,7 +76,7 @@ const DEMO_LINES: TerminalLine[] = [
     content: (
       <>
         <span className="gs-terminal-error">✗ Color</span>{" "}
-        <span className="gs-terminal-muted">— 3 AA contrast fails</span>
+        <span className="gs-terminal-muted">— 1 AA contrast fail</span>
       </>
     ),
   },
@@ -84,7 +84,7 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 250,
     content: (
       <span className="gs-terminal-muted">
-        primary-500 #2d56d2 fails AA on background-50 (3.8:1, needs 4.5:1)
+        accent-500 #00b7bd fails AA on #ffffff (2.5:1, needs 4.5:1)
       </span>
     ),
   },
@@ -115,9 +115,9 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 380,
     content: (
       <>
-        <span className="gs-terminal-warn">⚠ Motion</span>{" "}
+        <span className="gs-terminal-error">✗ Motion</span>{" "}
         <span className="gs-terminal-muted">
-          — 5 findings · transition: all, no reduced-motion
+          — 6 findings · transition: all, no reduced-motion
         </span>
       </>
     ),
@@ -128,7 +128,7 @@ const DEMO_LINES: TerminalLine[] = [
       <>
         <span className="gs-terminal-warn">⚠ Forms</span>{" "}
         <span className="gs-terminal-muted">
-          — 4 findings · unlabeled input, missing &lt;fieldset&gt;
+          — 2 findings · unlabeled input, missing &lt;fieldset&gt;
         </span>
       </>
     ),
@@ -174,7 +174,7 @@ const DEMO_LINES: TerminalLine[] = [
     delay: 250,
     content: (
       <span className="gs-terminal-summary">
-        23 findings · 9 errors · 9 warns · 5 info{"  "}
+        22 findings · 7 errors · 10 warns · 5 info{"  "}
         <span className="gs-terminal-muted">(exit 2)</span>
       </span>
     ),
