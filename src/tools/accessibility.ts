@@ -15,14 +15,16 @@ export interface A11yFinding {
   message: string;
 }
 
-// Case-sensitive on purpose: `<Input>` and `<Image>` are custom components whose
-// own markup is what gets audited, not native elements.
+// Case-sensitive on purpose: `<Image>`, `<Select>` and `<A>` are custom components
+// whose own markup is what gets audited. `<Button>`, `<Input>` and `<Textarea>` are
+// the exception: in shadcn-style projects they're thin wrappers whose name has to
+// come from the caller, so `<Button><X /></Button>` really is an unnamed button.
 const IMG_RE = /<img\b[^>]*\/?>/g;
-const INPUT_RE = /<(input|textarea|select)\b[^>]*\/?>/g;
+const INPUT_RE = /<(input|textarea|select|Input|Textarea)\b[^>]*\/?>/g;
 const HEADING_RE = /<h([1-6])\b[^>]*>/g;
 const ANCHOR_RE = /<a\b[^>]*>/g;
-const BUTTON_RE = /<button\b([^>]*)>([\s\S]*?)<\/button>/g;
-const SELF_CLOSED_BUTTON_RE = /<button\b[^>]*\/>/g;
+const BUTTON_RE = /<(button|Button)\b([^>]*)>([\s\S]*?)<\/\1>/g;
+const SELF_CLOSED_BUTTON_RE = /<(?:button|Button)\b[^>]*\/>/g;
 const LANDMARK_RE = /<(main|nav|header|footer|aside)\b/g;
 const SKIP_LINK_RE = /#(main|content|skip)|\bskip[-\s]?to[-\s]?(main|content)/i;
 
@@ -96,7 +98,8 @@ export function auditFormControls(markup: string): A11yFinding[] {
 
     // id={"email"} in JSX arrives with its quotes; strip them so it matches the label.
     const id = attrValue(tag, "id")?.trim().replace(/^["'`]|["'`]$/g, "") ?? null;
-    const hasAriaLabel = hasAttr(tag, "aria-label");
+    // A wrapper's `label` prop is usually how it receives its label.
+    const hasAriaLabel = hasAttr(tag, "aria-label") || (/^<[A-Z]/.test(tag) && hasAttr(tag, "label"));
     const hasAriaLabelledBy = hasAttr(tag, "aria-labelledby");
     const hasFor = id ? labelForIds.has(id) : false;
     const isWrapped = wrappedInputs.has(tag);
@@ -285,8 +288,9 @@ export function auditButtons(markup: string): A11yFinding[] {
   // </button> and pull unrelated markup into its name.
   const open = markup.replace(SELF_CLOSED_BUTTON_RE, "");
   while ((m = re.exec(open)) !== null) {
-    const openAttrs = m[1] ?? "";
-    const rawInner = m[2] ?? "";
+    const isCustom = m[1] === "Button";
+    const openAttrs = m[2] ?? "";
+    const rawInner = m[3] ?? "";
     const inner = rawInner.replace(/<[^>]+>/g, "").trim();
     const openTag = `<button${openAttrs}>`;
     const named =
@@ -294,6 +298,8 @@ export function auditButtons(markup: string): A11yFinding[] {
       hasAttr(openTag, "aria-label") ||
       hasAttr(openTag, "aria-labelledby") ||
       hasAttr(openTag, "title") ||
+      // A wrapper's `label` prop is usually how it receives its name.
+      (isCustom && hasAttr(openTag, "label")) ||
       // A named icon inside the button names the button.
       /\b(?:aria-label|aria-labelledby|title|alt)\s*=/i.test(rawInner);
     if (!inner && !named) {

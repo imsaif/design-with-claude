@@ -108,9 +108,23 @@ const wrap = (body) => `export default function Page() {\n  return (\n    <main>
   check(!has(audit(`<!-- <img src="a.png"> --><main><h1>T</h1></main>`), /no alt/), "markup in an HTML comment is ignored");
   check(has(audit(wrap(`<a href="https://x.dev/*.png">y</a><img src="a.png" />`)), /no alt/), "`/*` inside a URL isn't a comment");
 
-  const custom = wrap(`<Input id="a" />\n<Textarea />\n<Select />\n<Image src="a.png" />\n<Button><svg /></Button>\n<A onClick={f}>x</A>`);
+  const custom = wrap(`<Select />\n<Image src="a.png" />\n<A onClick={f}>x</A>`);
   const f = audit(custom);
   check(!has(f, /no accessible label|no alt|no text content|without href/), "custom components aren't judged as native elements", f);
+
+  // shadcn-style wrappers get their name from the caller, so they're still judged.
+  check(has(audit(wrap(`<Button size="icon"><X /></Button>`)), /no text content/), "an icon-only <Button> with no name is flagged");
+  check(!has(audit(wrap(`<Button size="icon" aria-label="Close"><X /></Button>`)), /no text content/), "a <Button> with aria-label is fine");
+  check(!has(audit(wrap(`<Button label="Close"><X /></Button>`)), /no text content/), "a <Button> with a label prop is fine");
+  check(!has(audit(wrap(`<Button>Save</Button>`)), /no text content/), "a <Button> with text is fine");
+  check(!has(audit(wrap(`<Button>{label}</Button>`)), /no text content/), "a <Button> with dynamic text is fine");
+  check(!has(audit(wrap(`<Button {...props} />\n<p>x</p>\n<Button>Go</Button>`)), /no text content/), "a self-closed <Button> doesn't pair with a later close");
+  check(has(audit(wrap(`<Input placeholder="Search" />`)), /no accessible label/), "an <Input> with only a placeholder is flagged");
+  check(has(audit(wrap(`<Textarea placeholder="Notes" />`)), /no accessible label/), "a <Textarea> with only a placeholder is flagged");
+  check(!has(audit(wrap(`<Label htmlFor="a">Email</Label><Input id="a" />`)), /no accessible label/), "a <Label htmlFor> names an <Input>");
+  check(!has(audit(wrap(`<Label>Email <Input /></Label>`)), /no accessible label/), "a wrapping <Label> names an <Input>");
+  check(!has(audit(wrap(`<Input label="Email" />`)), /no accessible label/), "an <Input> with a label prop is fine");
+  check(!has(audit(wrap(`<FormControl><Input {...field} /></FormControl>`)), /no accessible label/), "an <Input> with spread props is fine");
 }
 
 // --- 5. Reusable pieces get their label and link from whoever uses them -------
@@ -172,10 +186,14 @@ const wrap = (body) => `export default function Page() {\n  return (\n    <main>
   const reduced = (css, markup) => runMotionAudit(css, markup).some((f) => f.element === "@media (prefers-reduced-motion)");
   const a = `.a { transition: transform 200ms; }`;
   check(reduced(a, ""), "unguarded motion still errors");
-  check(!reduced(`${a} @media (prefers-reduced-motion: no-preference) { .a { color: red; } }`, ""), "a no-preference guard counts");
-  check(!reduced(a, `<div className="motion-reduce:transition-none" />`), "Tailwind motion-reduce counts");
-  check(!reduced(a, `<div className="motion-safe:animate-spin" />`), "Tailwind motion-safe counts");
-  check(reduced(a, `<div className="motion-x" />`), "unrelated classes don't count");
+  check(!reduced(`@media (prefers-reduced-motion: no-preference) { .a { transition: transform 200ms; } }`, ""), "motion entirely inside a no-preference guard is fine");
+  const partial = runMotionAudit(`${a} @media (prefers-reduced-motion: no-preference) { .logo { animation: spin 2s; } }`).find((f) => f.element === "@media (prefers-reduced-motion)");
+  check(partial?.severity === "error", "motion outside a no-preference guard still errors", partial);
+  for (const markup of [`<div className="motion-reduce:transition-none" />`, `<div className="motion-safe:animate-spin" />`, `const r = useReducedMotion();`]) {
+    const note = runMotionAudit(a, markup).find((f) => f.element === "@media (prefers-reduced-motion)");
+    check(note?.severity === "info", `component-level guard becomes a note: ${markup.slice(0, 30)}`, note);
+  }
+  check(runMotionAudit(a, `<div className="motion-x" />`).find((f) => f.element === "@media (prefers-reduced-motion)")?.severity === "error", "unrelated classes don't count");
   const durs = (css) => runMotionAudit(css).filter((f) => f.element === "duration" && /longer/.test(f.message));
   check(durs(`.s { animation: spin 2s linear infinite; }`).length === 0, "a loop's period isn't a slow transition");
   check(durs(`.s { transition: opacity 2s; }`).length === 1, "a slow transition is still flagged");
