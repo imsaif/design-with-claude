@@ -3,10 +3,14 @@
 // no external dependencies — keeps startup < 50ms on a typical repo.
 
 import { readFileSync, readdirSync, statSync } from "node:fs";
-import { extname, join, relative } from "node:path";
+import { extname, join, relative, resolve } from "node:path";
 
 const SKIP_DIRS = new Set([
   ".git",
+  // Agent worktrees hold whole copies of the project; scanning them doubles
+  // every finding.
+  ".claude",
+  ".worktrees",
   ".next",
   ".turbo",
   ".dwic",
@@ -40,6 +44,9 @@ export interface WalkedInputs {
   markupFiles: string[];
   cssContent: string;
   markupContent: string;
+  // The same markup, file by file. Checks whose meaning depends on what shares
+  // a page (heading order, <h1> count) use this instead of the concatenation.
+  markupSources?: Array<{ path: string; content: string }>;
   totals: {
     cssCount: number;
     markupCount: number;
@@ -100,8 +107,17 @@ export function walkProject(
   const cssAll: Array<{ path: string; content: string; highSignal: boolean }> = [];
   const markupAll: Array<{ path: string; content: string }> = [];
   const maxFiles = overrides?.maxFiles ?? 200;
+  // An override naming a file the walk already found must not scan it twice.
+  const seenPaths = new Set<string>();
+  const firstSighting = (abs: string): boolean => {
+    const key = resolve(abs);
+    if (seenPaths.has(key)) return false;
+    seenPaths.add(key);
+    return true;
+  };
 
   const absorbCssFile = (abs: string) => {
+    if (!firstSighting(abs)) return;
     const content = safeReadFile(abs);
     if (content === null) return;
     const base = abs.split("/").pop() ?? "";
@@ -109,6 +125,7 @@ export function walkProject(
     cssAll.push({ path: abs, content, highSignal });
   };
   const absorbMarkupFile = (abs: string) => {
+    if (!firstSighting(abs)) return;
     const content = safeReadFile(abs);
     if (content === null) return;
     const ext = extname(abs).toLowerCase();
@@ -150,6 +167,7 @@ export function walkProject(
     markupFiles: markupPicked.map((f) => relative(cwd, f.path) || f.path),
     cssContent: cssAll.map((f) => `/* ${relative(cwd, f.path) || f.path} */\n${f.content}`).join("\n\n"),
     markupContent: markupPicked.map((f) => f.content).join("\n\n"),
+    markupSources: markupPicked.map((f) => ({ path: relative(cwd, f.path) || f.path, content: f.content })),
     totals: {
       cssCount: cssAll.length,
       markupCount: markupAll.length,

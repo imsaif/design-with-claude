@@ -4,6 +4,7 @@
 
 import type { WalkedInputs } from "./walker.js";
 import { parseTokensFromCss, contrastRatio, classifyContrast } from "../tools/color.js";
+import { stripCssComments } from "../tools/css-utils.js";
 import {
   parseTypeTokensFromCss,
   auditSizeTokens,
@@ -162,12 +163,36 @@ function detectSurface(tokens: Array<{ name: string; hex: string; scope?: string
   const wantDark = dark;
   const candidate = tokens.find((t) => {
     if (isDarkScope(t.scope) !== wantDark) return false;
-    return /^--(background|bg|surface)(-(primary|default|base|main|page|app|0|50|elevated))?$/i.test(t.name);
+    const name = t.name.replace(/^--(?:color|theme|ds|ui|app)-/i, "--");
+    return /^--(background|bg|surface)(-(primary|default|base|main|page|app|0|50|elevated))?$/i.test(name);
   });
   return candidate?.hex ?? (wantDark ? "#121212" : "#ffffff");
 }
 
-function buildColorResult(css: string, opts: AggregateOptions): CategoryResult {
+// A name in any language outside the role patterns says nothing about what a
+// token does, but its usage does. Reads Tailwind utilities (`text-papel`,
+// `bg-[var(--papel)]`, `bg-(--papel)`) and CSS declarations on `var(--papel)`.
+function tokenUsage(name: string, css: string, markup: string): { text: boolean; nonText: boolean } {
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const v = esc(name);
+  const suffix = name.toLowerCase().startsWith("--color-") ? esc(name.slice("--color-".length)) : null;
+  const utility = (prefixes: string) => {
+    const forms = [`\\[var\\(${v}\\)\\]`, `\\(${v}\\)`];
+    if (suffix) forms.push(suffix);
+    return new RegExp(`(?<![\\w-])(?:${prefixes})-(?:${forms.join("|")})(?![\\w-])`);
+  };
+  const declared = (props: string) => new RegExp(`(?<![\\w-])(?:${props})\\s*:[^;}]*var\\(\\s*${v}\\s*[,)]`, "i");
+  const classes = `${css}\n${markup}`;
+  return {
+    text: utility("text").test(classes) || declared("color").test(css),
+    nonText:
+      utility("bg|border(?:-[trblxyse])?|ring|divide|outline|fill|stroke|shadow|from|via|to|accent|caret|decoration").test(classes) ||
+      declared("background(?:-color)?|border(?:-[a-z-]+)?|outline(?:-color)?|box-shadow|fill|stroke").test(css),
+  };
+}
+
+function buildColorResult(rawCss: string, opts: AggregateOptions, markup = ""): CategoryResult {
+  const css = stripCssComments(rawCss);
   const tokens = parseTokensFromCss(css);
   const findings: GenericFinding[] = [];
   if (tokens.length === 0) {
@@ -191,6 +216,11 @@ function buildColorResult(css: string, opts: AggregateOptions): CategoryResult {
       skippedRole++;
       continue;
     }
+    const usage = role === "unknown" ? tokenUsage(t.name, css, markup) : null;
+    if (usage?.nonText && !usage.text) {
+      skippedRole++;
+      continue;
+    }
     // Text + accent + unknown get tested against the surface that matches
     // their scope. Pairing a dark-mode --text-primary against #ffffff is the
     // class of false positive this whole helper exists to prevent.
@@ -198,6 +228,16 @@ function buildColorResult(css: string, opts: AggregateOptions): CategoryResult {
     const ratio = contrastRatio(t.hex, surface);
     const c = classifyContrast(ratio);
     if (!c.aaBody && !c.aaLarge) {
+      // Unknown role and no usage found: it may be text in a file type we don't
+      // scan, so say so, but don't fail a build on a guess.
+      if (usage && !usage.text) {
+        findings.push({
+          severity: "info",
+          token: t.name,
+          message: `${t.hex} on ${surface} would fail WCAG AA (ratio ${ratio.toFixed(2)}) if used as text, but no use of this token was found in the scanned files. Check it if it colors text.`,
+        });
+        continue;
+      }
       aaFailCount++;
       findings.push({
         // WCAG AA contrast failures are build-blocking errors, not warnings:
@@ -310,7 +350,7 @@ function buildSpacingResult(css: string, opts: AggregateOptions): CategoryResult
   return { category: "spacing", severity: worstSeverity(findings), findings, gist, counts: counts(findings) };
 }
 
-function buildA11yResult(markup: string): CategoryResult {
+function buildA11yResult(markup: string, sources?: WalkedInputs["markupSources"]): CategoryResult {
   if (!markup.trim()) {
     return {
       category: "accessibility",
@@ -320,7 +360,7 @@ function buildA11yResult(markup: string): CategoryResult {
       counts: { error: 0, warn: 0, info: 0 },
     };
   }
-  const raw = runA11yAudit(markup);
+  const raw = runA11yAudit(markup, sources);
   const findings: GenericFinding[] = raw.map((f) => ({
     severity: f.severity,
     element: f.element,
@@ -433,12 +473,12 @@ function buildCopyResult(markup: string): CategoryResult {
 }
 
 export function aggregate(inputs: WalkedInputs, opts: AggregateOptions = {}): CategoryResult[] {
-  const { cssContent, markupContent } = inputs;
+  const { cssContent, markupContent, markupSources } = inputs;
   return [
-    buildColorResult(cssContent, opts),
+    buildColorResult(cssContent, opts, markupContent),
     buildTypographyResult(cssContent, opts),
     buildSpacingResult(cssContent, opts),
-    buildA11yResult(markupContent),
+    buildA11yResult(markupContent, markupSources),
     buildFormResult(markupContent),
     buildNavResult(markupContent),
     buildMotionResult(cssContent),

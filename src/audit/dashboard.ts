@@ -173,10 +173,10 @@ export function renderDashboard(
     severityRank(a.severity) - severityRank(b.severity) ||
     b.counts.error + b.counts.warn + b.counts.info - (a.counts.error + a.counts.warn + a.counts.info);
   const shipBlockers = results
-    .filter((r) => r.severity !== "clean" && WCAG_CATEGORIES.has(r.category))
+    .filter((r) => (r.severity === "error" || r.severity === "warn") && WCAG_CATEGORIES.has(r.category))
     .sort(byPriority);
   const cleanup = results
-    .filter((r) => r.severity !== "clean" && !WCAG_CATEGORIES.has(r.category))
+    .filter((r) => r.severity !== "clean" && !shipBlockers.includes(r))
     .sort(byPriority);
   const cleanCats = results
     .filter((r) => r.severity === "clean")
