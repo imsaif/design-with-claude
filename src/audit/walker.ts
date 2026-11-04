@@ -23,7 +23,17 @@ const SKIP_DIRS = new Set([
   "coverage",
   ".nyc_output",
   ".pnpm-store",
+  // Test code renders markup too, but no user ever sees it.
+  "__tests__",
+  "__mocks__",
+  "__fixtures__",
+  "tests",
+  "test",
+  "e2e",
+  "cypress",
 ]);
+
+const NON_UI_FILE_RE = /\.(test|spec|stories|story)\.[a-z]+$/i;
 
 const CSS_EXTS = new Set([".css"]);
 const MARKUP_EXTS = new Set([".html", ".htm", ".jsx", ".tsx"]);
@@ -135,6 +145,7 @@ export function walkProject(
   };
 
   walkSync(cwd, (abs) => {
+    if (NON_UI_FILE_RE.test(abs)) return;
     const ext = extname(abs).toLowerCase();
     if (CSS_EXTS.has(ext)) absorbCssFile(abs);
     else if (MARKUP_EXTS.has(ext)) absorbMarkupFile(abs);

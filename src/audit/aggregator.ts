@@ -374,7 +374,7 @@ function buildA11yResult(markup: string, sources?: WalkedInputs["markupSources"]
   return { category: "accessibility", severity: worstSeverity(findings), findings, gist, counts: c };
 }
 
-function buildFormResult(markup: string): CategoryResult {
+function buildFormResult(markup: string, sources?: WalkedInputs["markupSources"]): CategoryResult {
   if (!/<(form|input|textarea|select|button)\b/i.test(markup)) {
     return {
       category: "form",
@@ -384,7 +384,7 @@ function buildFormResult(markup: string): CategoryResult {
       counts: { error: 0, warn: 0, info: 0 },
     };
   }
-  const raw = runFormAudit(markup);
+  const raw = runFormAudit(markup, sources);
   const findings: GenericFinding[] = raw.map((f) => ({
     severity: f.severity,
     element: f.element,
@@ -420,7 +420,7 @@ function buildNavResult(markup: string): CategoryResult {
   return { category: "navigation", severity: worstSeverity(findings), findings, gist, counts: counts(findings) };
 }
 
-function buildMotionResult(css: string): CategoryResult {
+function buildMotionResult(css: string, markup: string): CategoryResult {
   if (!/\b(transition|animation|@keyframes)\b/i.test(css)) {
     return {
       category: "motion",
@@ -430,7 +430,7 @@ function buildMotionResult(css: string): CategoryResult {
       counts: { error: 0, warn: 0, info: 0 },
     };
   }
-  const raw = runMotionAudit(css);
+  const raw = runMotionAudit(css, markup);
   const findings: GenericFinding[] = raw.map((f) => ({
     severity: f.severity,
     element: f.element,
@@ -479,9 +479,9 @@ export function aggregate(inputs: WalkedInputs, opts: AggregateOptions = {}): Ca
     buildTypographyResult(cssContent, opts),
     buildSpacingResult(cssContent, opts),
     buildA11yResult(markupContent, markupSources),
-    buildFormResult(markupContent),
+    buildFormResult(markupContent, markupSources),
     buildNavResult(markupContent),
-    buildMotionResult(cssContent),
+    buildMotionResult(cssContent, markupContent),
     buildCopyResult(markupContent),
   ];
 }

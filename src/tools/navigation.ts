@@ -10,8 +10,9 @@ export interface NavFinding {
   message: string;
 }
 
-const NAV_BLOCK_RE = /<nav\b([^>]*)>([\s\S]*?)<\/nav>/gi;
-const ANCHOR_RE = /<a\b([^>]*)>/gi;
+// Case-sensitive on purpose: `<Nav>` and `<A>` are custom components.
+const NAV_BLOCK_RE = /<nav\b([^>]*)>([\s\S]*?)<\/nav>/g;
+const ANCHOR_RE = /<a\b([^>]*)>/g;
 
 function hasAttr(tag: string, name: string): boolean {
   const re = new RegExp(`\\b${name}\\s*=|\\b${name}\\b(?=\\s|/|>)`, "i");

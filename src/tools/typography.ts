@@ -20,6 +20,9 @@ const KIND_BY_NAME: Array<{ kind: TypeTokenKind; re: RegExp }> = [
 ];
 
 function classifyName(name: string): TypeTokenKind | null {
+  // Tailwind v4 pairs each size with `--text-base--letter-spacing` and friends,
+  // and these share the `--text-` prefix without being sizes.
+  if (/letter-spacing|tracking|^--text-(shadow|indent|decoration|underline)/i.test(name)) return null;
   if (/line-height|leading|^--lh/i.test(name)) return "lineHeight";
   if (/weight|^--fw/i.test(name)) return "weight";
   if (/family/i.test(name)) return "family";
@@ -165,8 +168,10 @@ export function auditLineHeightTokens(lhTokens: TypeToken[]): AuditFinding[] {
   for (const t of lhTokens) {
     const n = readUnitlessNumber(t.value);
     if (n === null) continue;
-    const isBodyish = /body|base|text|md|sm|paragraph/i.test(t.name);
-    const isHeadingish = /h[1-6]|display|heading|hero/i.test(t.name);
+    // `--text-3xl--line-height` is judged by its size step, not the word "text".
+    const step = t.name.match(/^--[a-z-]*?-([a-z0-9]+)--line-height$/i)?.[1]?.toLowerCase();
+    const isBodyish = step ? /^(sm|base|md|lg)$/.test(step) : /body|base|text|md|sm|paragraph/i.test(t.name);
+    const isHeadingish = step ? /^[3-9]xl$/.test(step) : /h[1-6]|display|heading|hero/i.test(t.name);
     if (isBodyish && (n < 1.4 || n > 1.8)) {
       findings.push({
         severity: "warn",

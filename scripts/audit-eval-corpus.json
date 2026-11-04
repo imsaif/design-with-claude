@@ -1,0 +1,29 @@
+{
+  "tuning": {
+    "BartoszJarocki/cv": "8faa527766b0504f4a016bc283dbd960b0707314",
+    "LivioAlvarenga/Nlw-Setup": "512db0e662e876434c5d69301401f8ad933f267b",
+    "Snouzy/workout-cool": "d52f9f62d2a5fcbb78d67a95dc8763f9a34dbf9e",
+    "boxyhq/saas-starter-kit": "abc9b686823cbfb4973c79bc36fea37a3244be6c",
+    "cruip/tailwind-landing-page-template": "909e38e3249ac575017864a202188b48ef016c9c",
+    "dingyi214/slash-admin": "63e113c241b2a87f823b14cee2ec2961a8356dbc",
+    "fastapi/full-stack-fastapi-template": "aabb90126964a164e02aff39e7c385bb0598236d",
+    "gitify-app/gitify": "58ff1f96d5dd9dbe7adc888f77c140e90af0ffae",
+    "leerob/next-mdx-blog": "c9893c6bf4a53d21adf1df5bd4e0ca691a7eafc3",
+    "midudev/manitas.dev": "ca4f1793f6c92b3fca128ebec131eaa34a505aa4",
+    "midudev/midufest": "fac04ad82ff59bbc5c3abd65ee672efe0b48b38d",
+    "miurla/morphic": "fc6125771a5215c5ed71221c0653a39c9c8611a4",
+    "rbbydotdev/someday": "c4ed0475d0aedfbfd7fd5404cec22c3736bd35e5",
+    "tavareshenrique/nlw-spacetime": "5e02a55b77a6cc737032a977c9fc48b2e0a8c5b4",
+    "xitanggg/open-resume": "4f8255a2c763479837f69f1dccf2a3338730cd79"
+  },
+  "holdout": {
+    "Blazity/next-enterprise": "97c4f3ed6be0a5b255d0e71606c7b355138281a9",
+    "LuanRoger/electron-shadcn": "34b8047c7fee971a57408109ad902b1878730638",
+    "carlos-hfc/next-saas-rbac": "9070cb812147ff34e74ccc93e2fa013f37cbbfd0",
+    "kriasoft/react-starter-kit": "dbdb0d4991bbaae1671ff62180089f2733dd406a",
+    "midudev/midu-timeszones-latam": "d213ed406d79170e9ec03787e9cd4e75cad3f307",
+    "noodle-run/noodle": "4e26fb7c990ccccce203f1c30f79126ef1bfbcaa",
+    "shadcndashboard/shadcndashboard": "386235c3199168fa743db593d7acf014a40f1ca1",
+    "tutods/ignite-lab": "3edf483adcc7b416d9e9b1e50b62d3deb9b93305"
+  }
+}

@@ -122,8 +122,13 @@ export function auditCTAs(markup: string): ContentFinding[] {
   for (const b of buttons) {
     const tagName = b[1].toLowerCase();
     const attrs = b[2];
+    // `<a {...props} />` closes itself, so the match ran on to a later </a>.
+    if (/\/\s*$/.test(attrs)) continue;
     const inner = stripTags(b[3]);
     if (!inner) continue;
+    // Text from an expression, such as `{t("save")}` or `{busy ? "…" : "Save"}`,
+    // is only known at runtime: its code isn't its copy.
+    if (/[{}]/.test(inner)) continue;
 
     // Skip anchors that clearly aren't CTAs (no explicit role="button" and
     // the text is a long phrase — probably body-link, not a CTA).

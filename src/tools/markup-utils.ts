@@ -33,7 +33,20 @@ export function splitComponents(source: string): string[] {
   return source.split(/^(?=(?:export\s+(?:default\s+)?)?(?:async\s+)?(?:function|const|let|class)\s+[A-Z])/m);
 }
 
-export function neutralizeJsxExpressions(input: string): string {
+// A children block with no markup inside, such as `{label}` or `{"text"}`.
+const CHILD_VALUE_RE = /^\{\s*(?:[^{}<>'"`]*|`[^`<]*`|"[^"<]*"|'[^'<]*')\s*\}/;
+
+// Markup in a comment isn't live. `/*` after a word or quote is a path or glob
+// (`"src/*.png"`, `.dev/*`), not a comment.
+function stripSourceComments(input: string): string {
+  return input
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/(?<![\w"'`*/:.-])\/\*[\s\S]*?\*\//g, "")
+    .replace(/^[ \t]*\/\/[^\n]*$/gm, "");
+}
+
+export function neutralizeJsxExpressions(rawInput: string): string {
+  const input = stripSourceComments(rawInput);
   let out = "";
   let i = 0;
   const len = input.length;
@@ -47,36 +60,46 @@ export function neutralizeJsxExpressions(input: string): string {
       continue;
     }
 
-    // Only treat `{` as a JSX expression block when it's preceded by `=` (JSX
-    // attribute value) or `>` (JSX children). Otherwise it's a TS/JS construct
-    // — function body, object literal, type definition, destructure — and we
-    // must leave it alone or we'll strip code we need (e.g. a component's
-    // entire return-body, including the JSX it produces).
+    // Only an attribute value (`attr={...}`) is collapsed, because that's what
+    // breaks tag matching. A `{` after any other `>` might be a children block,
+    // an arrow body (`=> {`) or a generic (`Component<P> {`), and all of them
+    // can hold the JSX we're auditing, so they stay. Only a block with no markup
+    // inside collapses: nothing can be lost from `{label}`.
     let lookback = i - 1;
     while (lookback >= 0 && /\s/.test(input[lookback]!)) lookback--;
     const prev = lookback >= 0 ? input[lookback] : null;
-    if (prev !== "=" && prev !== ">") {
+    if (prev === ">") {
+      const value = input.slice(i).match(CHILD_VALUE_RE);
+      if (value) {
+        out += "{}";
+        i += value[0].length;
+        continue;
+      }
+    }
+    if (prev !== "=") {
       out += ch;
       i++;
       continue;
     }
 
-    // Found a JSX `{` — walk to the balanced `}` and replace the whole span.
+    // Found an attribute `{` — walk to the balanced `}` and replace the span.
     let depth = 1;
     let j = i + 1;
 
     while (j < len && depth > 0) {
       const c = input[j]!;
 
-      // Skip string literals — they may contain `{`, `}`, or both.
+      // Skip string literals — they may contain `{`, `}`, or both. A JS string
+      // can't span lines, so a quote with no partner on its line is an
+      // apostrophe in JSX text ("Don't") and must not swallow what follows.
       if (c === '"' || c === "'") {
         const quote = c;
-        j++;
-        while (j < len && input[j] !== quote) {
-          if (input[j] === "\\" && j + 1 < len) j += 2;
-          else j++;
+        let k = j + 1;
+        while (k < len && input[k] !== quote && input[k] !== "\n") {
+          if (input[k] === "\\" && k + 1 < len) k += 2;
+          else k++;
         }
-        j++; // past the closing quote (or end-of-input)
+        j = input[k] === quote ? k + 1 : j + 1;
         continue;
       }
 
@@ -117,6 +140,10 @@ const USER_FACING_ATTR_RE = /\b(?:placeholder|alt|aria-label|title|label)\s*=\s*
 // and "Yes, continue" are ordinary UI strings.
 const CODE_MARKER_RE = /[;{}=]/;
 
+// What's left between two tags inside a children block: `) : cond ? (`, `&&`.
+// Also TypeScript between generics: `, React.ComponentProps`, `Math.random()`.
+const EXPRESSION_RESIDUE_RE = /^[)(:?&|,]|[(?&|]$|\s[?:]\s|[a-zA-Z]\.[a-zA-Z]{2,}/;
+
 /**
  * Pull the user-facing text out of component **source**.
  *
@@ -133,7 +160,7 @@ const CODE_MARKER_RE = /[;{}=]/;
  * long false positive across element and file boundaries.
  *
  * Expects input already passed through `neutralizeJsxExpressions`, which
- * collapses `{children}` to `{}` so interpolations are dropped here.
+ * collapses `{value}` children to `{}` so interpolations are dropped here.
  */
 export function extractUserFacingText(input: string): string {
   const withoutComments = input
@@ -144,7 +171,7 @@ export function extractUserFacingText(input: string): string {
 
   for (const m of withoutComments.matchAll(/>([^<>]+)</g)) {
     const text = m[1]!.replace(/\s+/g, " ").trim();
-    if (text && !CODE_MARKER_RE.test(text)) fragments.push(text);
+    if (text && !CODE_MARKER_RE.test(text) && !EXPRESSION_RESIDUE_RE.test(text) && /\p{L}/u.test(text)) fragments.push(text);
   }
 
   for (const m of withoutComments.matchAll(USER_FACING_ATTR_RE)) {

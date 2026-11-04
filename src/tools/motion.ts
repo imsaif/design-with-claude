@@ -40,6 +40,34 @@ const TRANSITION_DECL_RE = /transition(?:-[a-z-]+)?\s*:\s*([^;{}]+)/gi;
 const ANIMATION_DECL_RE = /animation(?:-[a-z-]+)?\s*:\s*([^;{}]+)/gi;
 const DURATION_RE = /(\d*\.?\d+)\s*(ms|s)\b/i;
 const REDUCED_MOTION_RE = /@media[^{]*\(\s*prefers-reduced-motion\s*:\s*reduce\s*\)/i;
+const MARKUP_MOTION_GUARD_RE = /(?<![\w-])motion-(?:reduce|safe):|\buseReducedMotion\b/;
+const MOTION_DECL_RE = /\b(transition|animation)(?:-[a-z-]+)?\s*:|@keyframes\b/i;
+
+// `no-preference` is the inverse guard: motion declared inside it only reaches
+// people who haven't asked to reduce it. It only settles the question when no
+// motion is declared outside it.
+function motionOutsideNoPreferenceGuards(css: string): string {
+  let out = "";
+  let i = 0;
+  for (const m of css.matchAll(/@media[^{]*\(\s*prefers-reduced-motion\s*:\s*no-preference\s*\)[^{]*\{/gi)) {
+    if (m.index < i) continue;
+    out += css.slice(i, m.index);
+    let depth = 1;
+    let j = m.index + m[0].length;
+    while (j < css.length && depth > 0) {
+      if (css[j] === "{") depth++;
+      else if (css[j] === "}") depth--;
+      j++;
+    }
+    i = j;
+  }
+  return out + css.slice(i);
+}
+
+function fullyGuardedByNoPreference(css: string): boolean {
+  const outside = motionOutsideNoPreferenceGuards(css);
+  return outside.length < css.length && !MOTION_DECL_RE.test(outside);
+}
 const KEYFRAMES_RE = /@keyframes\s+[a-zA-Z_][\w-]*\s*\{/g;
 
 function toMs(value: string): number | null {
@@ -56,18 +84,28 @@ function extractProperty(transitionValue: string): string {
   return (first ?? "").toLowerCase();
 }
 
-export function auditReducedMotion(css: string): MotionFinding[] {
+export function auditReducedMotion(css: string, markup = ""): MotionFinding[] {
   const findings: MotionFinding[] = [];
   const hasAnimation = /\b(transition|animation)(?:-[a-z-]+)?\s*:/i.test(css) || KEYFRAMES_RE.test(css);
   if (!hasAnimation) return findings;
-  if (!REDUCED_MOTION_RE.test(css)) {
+  if (REDUCED_MOTION_RE.test(css) || fullyGuardedByNoPreference(css)) return findings;
+  // Guards in markup show the concern is handled somewhere, but one `motion-safe:`
+  // doesn't cover every animation in the CSS. Source can't tell, so it's a note.
+  if (MARKUP_MOTION_GUARD_RE.test(markup)) {
     findings.push({
-      severity: "error",
+      severity: "info",
       element: "@media (prefers-reduced-motion)",
       message:
-        "Animations/transitions declared but no `@media (prefers-reduced-motion: reduce)` rule. Users with vestibular disorders (~35% of adults experience motion-triggered discomfort) have no escape hatch. Wrap non-essential motion in a reduced-motion guard, or set `animation: none`/`transition: none` inside one.",
+        "Reduced-motion handling appears in components (`motion-safe:`, `motion-reduce:` or `useReducedMotion`), but the CSS has no `prefers-reduced-motion` rule of its own. Check that the CSS animations are covered too.",
     });
+    return findings;
   }
+  findings.push({
+    severity: "error",
+    element: "@media (prefers-reduced-motion)",
+    message:
+      "Animations/transitions declared but no `@media (prefers-reduced-motion: reduce)` rule. Users with vestibular disorders (~35% of adults experience motion-triggered discomfort) have no escape hatch. Wrap non-essential motion in a reduced-motion guard, or set `animation: none`/`transition: none` inside one.",
+  });
   return findings;
 }
 
@@ -77,6 +115,8 @@ export function auditDurations(css: string): MotionFinding[] {
   const tooLong: string[] = [];
   const tooShort: string[] = [];
   for (const m of all) {
+    // A loop's period isn't how long an interaction takes.
+    if (/\binfinite\b/i.test(m[1])) continue;
     const ms = toMs(m[1]);
     if (ms === null) continue;
     if (ms > 1000) tooLong.push(`${ms}ms`);
@@ -125,7 +165,8 @@ export function auditExpensiveProperties(css: string): MotionFinding[] {
   for (const kf of css.matchAll(kfRe)) {
     const body = kf[1];
     for (const prop of EXPENSIVE_PROPS) {
-      const re = new RegExp(`\\b${prop.replace(/-/g, "\\-")}\\s*:`, "i");
+      // Not preceded by `-`: `--inset-top:` is a custom property, not `top`.
+      const re = new RegExp(`(?<![\\w-])${prop.replace(/-/g, "\\-")}\\s*:`, "i");
       if (re.test(body)) hits.push(prop);
     }
   }
@@ -178,10 +219,10 @@ export function auditEasing(css: string): MotionFinding[] {
   return findings;
 }
 
-export function runMotionAudit(rawCss: string): MotionFinding[] {
+export function runMotionAudit(rawCss: string, markup = ""): MotionFinding[] {
   const css = stripCssComments(rawCss);
   return [
-    ...auditReducedMotion(css),
+    ...auditReducedMotion(css, markup),
     ...auditDurations(css),
     ...auditTransitionAll(css),
     ...auditExpensiveProperties(css),
