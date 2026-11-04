@@ -184,6 +184,16 @@ const wrap = (body) => `export default function Page() {\n  return (\n    <main>
   check(kf(`top: 1px;`).length === 1, "animating top is still flagged");
 }
 
+// --- 8b. Button text is only judged when it's written out ----------------------
+{
+  const cta = (body) => audit(wrap(body)).filter((f) => /CTA/.test(f.msg));
+  check(cta(`<button type="button">{status === "loading" ? "Setting up, one moment" : "Get token"}</button>`).length === 0, "conditional button text isn't read as code");
+  check(cta(`<button type="button">{t('login.device.scope_full_title', 'Public and Private')}</button>`).length === 0, "translated button text isn't read as code");
+  check(cta(`<a {...props} />\n<p>A long stretch of ordinary text with many words here</p>\n<a href="/x">y</a>`).length === 0, "a self-closed link doesn't swallow what follows");
+  check(cta(`<button type="button">Click here</button>`).length === 1, "a generic written-out CTA is still flagged");
+  check(cta(`<button type="button">Please click this very long button label to continue onward now</button>`).length > 0, "a long written-out CTA is still flagged");
+}
+
 // --- 9. Tests and stories aren't UI ---------------------------------------------
 {
   const root = mkdtempSync(join(tmpdir(), "dwic-coverage-"));
