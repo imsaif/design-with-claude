@@ -1,0 +1,38 @@
+{
+  "tuning": [
+    { "id": "contrast-fix", "want": "color-specialist", "prompt": "The turquoise accent in src/styles/themes.css is hard to read on white. Can you sort this out properly?" },
+    { "id": "contrast-palette", "want": "color-specialist", "prompt": "Our palette in src/styles/themes.css feels random and I think some of it fails contrast. What should we do?" },
+    { "id": "form-abandon", "want": "form-designer|design-triage", "prompt": "People keep abandoning the signup form in src/components/Signup.tsx. What's going wrong?" },
+    { "id": "form-improve", "want": "form-designer", "prompt": "Can you improve the signup form in src/components/Signup.tsx? Validation and field grouping feel off." },
+    { "id": "motion-audit", "want": "motion-designer", "prompt": "The animations in src/styles/motion.css feel janky and I'm told some people get motion sick. Please audit them." },
+    { "id": "motion-timing", "want": "motion-designer", "prompt": "The card transition in src/styles/motion.css feels sluggish. What timing should it have?" },
+    { "id": "type-scale", "want": "typography-specialist", "prompt": "The type in src/styles/themes.css has no hierarchy and the small text is hard to read. How should the scale work?" },
+    { "id": "spacing-tokens", "want": "spacing-layout-specialist", "prompt": "Spacing in src/styles/themes.css looks arbitrary. Can you check whether it follows a system?" },
+    { "id": "a11y-review", "want": "accessibility-specialist", "prompt": "Our client says this signup form fails accessibility. Can you review src/components/Signup.tsx for WCAG problems?" },
+    { "id": "copy-errors", "want": "content-strategist|ui-copywriter", "prompt": "Our error messages and empty states say nothing useful and the labels confuse people. Can you help me rewrite the words in src/components/Signup.tsx?" },
+    { "id": "looks-generic", "want": "anti-slop-designer|design-critic|brand-designer", "prompt": "This UI looks machine-made, violet gradients and identical cards in a grid. Help me make it look decided rather than generated." },
+    { "id": "nav-lost", "want": "navigation-specialist|information-architect", "prompt": "People get lost moving around our app and can't find settings. How should I restructure the navigation?" }
+  ],
+  "holdout": [
+    { "id": "h-contrast", "want": "color-specialist", "prompt": "My client says the grey caption text on our cards is too faint. Is #94a3b8 on white acceptable, and what should I use instead?" },
+    { "id": "h-motion", "want": "motion-designer", "prompt": "We've got a spinner and a bouncing badge in src/styles/motion.css. Are these ok? Anything we should change?" },
+    { "id": "h-form", "want": "form-designer", "prompt": "I'm designing a three-step checkout address form. Where should the error messages go and how should required fields be marked?" },
+    { "id": "h-dark", "want": "dark-mode-specialist|color-specialist", "prompt": "Our dark mode is just the light theme inverted and it looks muddy. How do I do it properly?" },
+    { "id": "h-hierarchy", "want": "visual-hierarchy-specialist|design-critic", "prompt": "Everything on our pricing page shouts at the same volume. How do I decide what should stand out?" },
+    { "id": "h-table", "want": "table-designer", "prompt": "We have a data table with 14 columns and it's unusable on a laptop. What should I do with it?" },
+    { "id": "h-onboarding", "want": "onboarding-specialist", "prompt": "New users sign up and leave before they ever create a project. How should the first run work?" },
+    { "id": "h-responsive", "want": "responsive-design-specialist|mobile-specialist", "prompt": "Our sidebar layout falls apart on tablets. How should it adapt between breakpoints?" }
+  ],
+  "negative": [
+    { "id": "n-package", "prompt": "What does package.json in this folder contain? Answer in one sentence." },
+    { "id": "n-rename", "prompt": "Rename the Signup function in src/components/Signup.tsx to SignupForm." },
+    { "id": "n-regex", "prompt": "Write me a regular expression that matches a UK postcode." },
+    { "id": "n-git", "prompt": "How do I undo my last git commit but keep the changes?" }
+  ],
+  "smallEdit": [
+    { "id": "s-type", "prompt": "Change the first input's type to email in src/components/Signup.tsx." },
+    { "id": "s-label", "prompt": "Change the button text in src/components/Signup.tsx to Sign up." },
+    { "id": "s-token", "prompt": "Change --space-3 to 12px in src/styles/themes.css." },
+    { "id": "s-find", "prompt": "Which file sets the card transition in this project?" }
+  ]
+}

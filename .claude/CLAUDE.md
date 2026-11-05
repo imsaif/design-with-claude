@@ -166,8 +166,18 @@ The `design-` prefix marks commands that act on the design *process* rather than
   it what the command is *about* but never *when* to fire, so it mostly does not. Lead
   with the symptom the user is actually experiencing. All 48 were rewritten this way on
   2026-08-21; the same change took an aiex skill pack from 0/4 to 3/3 on trigger tests.
-  **Firing here is still unmeasured** — there is no eval suite, so treat it as
-  well-founded rather than proven until `claude plugin eval` cases exist.
+  That rewrite alone wasn't enough: measured on 2026-11-05 with
+  `scripts/skill-trigger-test.mjs`, the right skill fired on 6 of 24 runs. Claude reads a
+  description and often answers by itself. Adding a `when_to_use` line starting "Invoke
+  before answering anything about ..." took it to 19 of 24, and 14 of 16 on requests the
+  wording wasn't written for, with no firing on non-design requests or small edits. Direct
+  contrast questions and form abandonment still mostly miss. Use it on design specialists,
+  not on technical commands, where over-firing is a nuisance.
+- **Skill descriptions share a limited space.** Claude Code drops descriptions, least-used
+  first, when a session's whole list overflows, and a skill with no description almost
+  never fires (2 of 16). This plugin alone fits on default settings, and needs roughly 20,000
+  characters to show every description. Next to many other plugins it won't fit, so keep
+  `when_to_use` short and don't grow descriptions without measuring.
 - **"senior" stays in two role prompts on purpose.** The product is *"a product designer
   inside your terminal"* — "senior" was dropped because both target audiences hold that AI
   tools are junior-level, so claiming it invites the one objection you cannot argue with,
