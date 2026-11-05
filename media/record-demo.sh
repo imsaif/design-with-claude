@@ -8,7 +8,7 @@ DEMO=/Users/Shared/acme-web
 rm -rf "$DEMO"
 cp -R "$HERE/../examples/broken-project" "$DEMO"
 rm -rf "$DEMO/.dwic"
-asciinema rec --window-size 114x37 --overwrite -c "$HERE/record-demo-session.sh" "$HERE/dwic.cast"
+asciinema rec --window-size 114x43 --overwrite -c "$HERE/record-demo-session.sh" "$HERE/dwic.cast"
 agg --theme dracula --font-size 18 --line-height 1.35 --last-frame-duration 4 "$HERE/dwic.cast" "$HERE/dwic-audit.gif"
 rm -rf "$DEMO"
 echo "wrote $HERE/dwic-audit.gif"
@@ -20,7 +20,7 @@ echo "wrote $HERE/dwic-audit.gif"
 rm -rf "$DEMO"
 cp -R "$HERE/../examples/broken-project" "$DEMO"
 rm -rf "$DEMO/.dwic"
-asciinema rec --window-size 114x44 --overwrite -c "$HERE/record-demo-30s-session.sh" "$HERE/dwic-30s.cast"
+asciinema rec --window-size 114x53 --overwrite -c "$HERE/record-demo-30s-session.sh" "$HERE/dwic-30s.cast"
 agg --theme dracula --font-size 17 --line-height 1.35 --idle-time-limit 12 \
     --last-frame-duration 3 "$HERE/dwic-30s.cast" "$HERE/dwic-audit-30s.gif"
 ffmpeg -y -v error -i "$HERE/dwic-audit-30s.gif" -movflags +faststart -pix_fmt yuv420p \
