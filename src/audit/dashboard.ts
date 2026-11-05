@@ -2,10 +2,13 @@
 // and non-TTY outputs so pipes / CI logs stay clean.
 
 import type { WalkedInputs } from "./walker.js";
-import { CATEGORY_LABELS, type CategoryResult, type Severity } from "./aggregator.js";
+import { CATEGORY_LABELS, type CategoryResult, type GenericFinding, type Severity } from "./aggregator.js";
+import { formatPlace } from "./locate.js";
 import type { DetectedProjectConfig } from "../utils/detect-project-config.js";
 import type { DriftReport } from "./drift.js";
 import { pickHeadlineAction } from "./headline-action.js";
+
+const TOP_PROBLEMS = 5;
 
 const ANSI = {
   reset: "\x1b[0m",
@@ -234,6 +237,29 @@ export function renderDashboard(
   lines.push(
     `  ${results.length} categories · ${totalFindings} finding${totalFindings === 1 ? "" : "s"} · ${severityBadge("error")} ${totalErr} · ${severityBadge("warn")} ${totalWarn} · ${severityBadge("info")} ${totalInfo}${ciHint}`,
   );
+
+  // The first few real problems and where they are, so the summary can be acted on
+  // without opening the report. Findings with a location come first in each band.
+  const rank = (f: GenericFinding) => (f.severity === "error" ? 0 : 2) + (f.files?.length ? 0 : 1);
+  const serious = results
+    .flatMap((r) => r.findings)
+    .filter((f) => f.severity !== "info")
+    .sort((a, b) => rank(a) - rank(b));
+  if (serious.length > 0) {
+    lines.push("");
+    lines.push(paint(ANSI.bold, "Where to start:"));
+    for (const f of serious.slice(0, TOP_PROBLEMS)) {
+      const mark = f.severity === "error" ? paint(ANSI.red, "✗") : paint(ANSI.yellow, "⚠");
+      const firstClause = f.message.split(/ — |\. /)[0]!.replace(/\.$/, "").replace(/\s*\(ratio ([\d.]+);.*\)$/, " ($1:1)");
+      const claim = (f.token?.startsWith("--") ? `${f.token}: ${firstClause}` : firstClause).slice(0, 80);
+      const place = formatPlace(f);
+      lines.push(`  ${mark} ${claim}${place ? `  ${paint(ANSI.dim, place)}` : ""}`);
+    }
+    if (serious.length > TOP_PROBLEMS) {
+      const rest = serious.length - TOP_PROBLEMS;
+      lines.push(`  ${paint(ANSI.dim, `and ${rest} more${opts.reportPath ? " in the report" : ""}`)}`);
+    }
+  }
 
   // Headline action — ONE specialist with a paste-able prompt + outcome line.
   const headline = pickHeadlineAction(results);

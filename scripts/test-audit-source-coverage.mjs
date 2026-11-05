@@ -266,6 +266,72 @@ const wrap = (body) => `export default function Page() {\n  return (\n    <main>
   check(find(/transition: all|`transition: all`/)[0]?.files?.[0] === "m.css", "motion findings name their file", find(/`transition: all`/));
   check(!find(/no skip-to-content/)[0]?.files, "a project-wide finding names no file", find(/no skip-to-content/));
   check(!find(/declared but no/)[0]?.files, "missing reduced motion names no file", find(/declared but no/));
+
+  // Line numbers survive multi-line tags, comments and repeated elements.
+  const file = [
+    `// <img src="comment.png" />`, // 1
+    `export default function P() {`, // 2
+    `  return (`, // 3
+    `    <main>`, // 4
+    `      <h1>T</h1>`, // 5
+    `      <input`, // 6
+    `        id="x"`, // 7
+    `        onChange={(e) => {`, // 8
+    `          set(e.target.value);`, // 9
+    `        }}`, // 10
+    `        type="text"`, // 11
+    `      />`, // 12
+    `      <Button size="icon">Save</Button>`, // 13
+    `      <Button size="icon"><X /></Button>`, // 14
+    `      <img src="a.png" />`, // 15
+    `      <img src="a.png" />`, // 16
+    `      <button type="button">Click here</button>`, // 17
+    `    </main>`, // 18
+    `  );`, // 19
+    `}`, // 20
+  ].join("\n");
+  const lines = aggregate({
+    cssFiles: ["t.css"],
+    markupFiles: ["P.tsx"],
+    cssContent: `\n\n:root {\n  --text-primary: #eeeeee;\n}\n.a {\n  transition: all 1s;\n}`,
+    markupContent: file,
+    markupSources: [{ path: "P.tsx", content: file }],
+    cssSources: [{ path: "t.css", content: `/* --text-primary: #000;\n*/\n:root {\n  --text-primary: #eeeeee;\n}\n.a {\n  transition: all 1s;\n}` }],
+    totals: { cssCount: 1, markupCount: 1, cappedAt: null },
+  }).flatMap((r) => r.findings);
+  const at = (re) => lines.filter((f) => re.test(f.message)).map((f) => f.line);
+  check(JSON.stringify(at(/no accessible label/)) === "[6]", "a multi-line tag points to where it starts", at(/no accessible label/));
+  check(JSON.stringify(at(/no text content/)) === "[14]", "the unnamed button, not the named one beside it", at(/no text content/));
+  check(JSON.stringify(at(/no alt/)) === "[15,16]", "repeated elements each get their own line, skipping comments", at(/no alt/));
+  check(JSON.stringify(at(/CTA text/)) === "[17]", "button copy points to its button", at(/CTA text/));
+  check(JSON.stringify(at(/fails WCAG/)) === "[4]", "a token points to its live declaration, not a comment", at(/fails WCAG/));
+  check(JSON.stringify(at(/`transition: all`/)) === "[7]", "transition: all points to its declaration", at(/`transition: all`/));
+}
+
+// --- 8a3. The terminal summary says where to start ---------------------------------
+{
+  const { renderDashboard } = await import(resolve(dist, "audit/dashboard.js"));
+  const finding = (severity, message, extra = {}) => ({ severity, message, ...extra });
+  const result = (category, severity, findings) => ({ category, severity, findings, gist: "x", counts: { error: findings.filter((f) => f.severity === "error").length, warn: findings.filter((f) => f.severity === "warn").length, info: findings.filter((f) => f.severity === "info").length } });
+  const detected = { framework: "nextjs", frameworkVersion: "15", techStack: [], slug: "x" };
+  const inputs = { cssFiles: [], markupFiles: [], cssContent: "", markupContent: "", totals: { cssCount: 1, markupCount: 1, cappedAt: null } };
+  const render = (rs) => renderDashboard(detected, inputs, rs, { reportPath: ".dwic/r.md", showInstallCta: false, cwd: "/x", drift: null }).replace(/\u001b\[[0-9;]*m/g, "");
+  const out = render([
+    result("copy", "warn", [finding("warn", "Warning first in the list — detail", { files: ["W.tsx"], line: 3 })]),
+    result("accessibility", "error", [
+      finding("error", "no location — detail"),
+      finding("error", "no accessible label — needs a label", { files: ["src/Signup.tsx"], line: 18 }),
+      finding("info", "just a note", { files: ["N.tsx"] }),
+    ]),
+  ]);
+  check(/no accessible label\s+src\/Signup\.tsx:18/.test(out), "the summary names the problem, file and line", out);
+  check(!/needs a label/.test(out), "and keeps it to the first clause", out);
+  check(!/just a note/.test(out), "notes stay out of it", out);
+  const order = ["no accessible label", "no location", "Warning first"].map((s) => out.indexOf(s));
+  check(order[0] < order[1] && order[1] < order[2], "errors come first, located ones before others", order);
+  const many = render([result("accessibility", "error", Array.from({ length: 8 }, (_, i) => finding("error", `problem ${i}`, { files: ["A.tsx"], line: i + 1 })))]);
+  check(/problem 4/.test(many) && !/problem 5/.test(many) && /and 3 more in the report/.test(many), "it stops at five and says how many are left", many);
+  check(!/Where to start/.test(render([result("copy", "info", [finding("info", "note")])])), "nothing serious, no list");
 }
 
 // --- 8b. Button text is only judged when it's written out ----------------------

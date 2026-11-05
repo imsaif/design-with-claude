@@ -13,6 +13,9 @@ export interface A11yFinding {
   severity: "error" | "warn" | "info";
   element: string;
   message: string;
+  // Lets the audit say which line, when `element` is only a label like "<button>".
+  tag?: string;
+  nth?: number;
 }
 
 // Case-sensitive on purpose: `<Image>`, `<Select>` and `<A>` are custom components
@@ -292,9 +295,13 @@ export function auditButtons(markup: string): A11yFinding[] {
   // A self-closed <button {...props} /> would otherwise pair with the next
   // </button> and pull unrelated markup into its name.
   const open = markup.replace(SELF_CLOSED_BUTTON_RE, "");
+  const seenTags = new Map<string, number>();
   while ((m = re.exec(open)) !== null) {
     const isCustom = m[1] === "Button";
     const openAttrs = m[2] ?? "";
+    const realTag = `<${m[1]}${openAttrs}>`;
+    const nth = seenTags.get(realTag) ?? 0;
+    seenTags.set(realTag, nth + 1);
     const rawInner = m[3] ?? "";
     const inner = rawInner.replace(/<[^>]+>/g, "").trim();
     const openTag = `<button${openAttrs}>`;
@@ -311,6 +318,8 @@ export function auditButtons(markup: string): A11yFinding[] {
       findings.push({
         severity: "error",
         element: "<button>",
+        tag: realTag,
+        nth,
         message: "button with no text content and no aria-label — screen readers announce it as an unnamed button.",
       });
     }

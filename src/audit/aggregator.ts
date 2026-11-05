@@ -39,6 +39,8 @@ export interface GenericFinding {
   element?: string;
   // Where it lives. Absent when a finding is about the whole project.
   files?: string[];
+  // Set when it's one element in one file.
+  line?: number;
 }
 
 export interface CategoryResult {
