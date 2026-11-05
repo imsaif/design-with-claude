@@ -4,6 +4,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { CATEGORY_LABELS, type CategoryResult } from "./aggregator.js";
+import { formatPlace } from "./locate.js";
 import type { DetectedProjectConfig } from "../utils/detect-project-config.js";
 
 function todayStamp(): string {
@@ -34,7 +35,8 @@ function renderCategory(r: CategoryResult): string {
     parts.push("");
     for (const f of byLevel[level]) {
       const tag = f.token ? `\`${f.token}\`` : f.element ? `\`${f.element}\`` : "";
-      parts.push(`- ${tag ? `${tag} — ` : ""}${f.message}`);
+      const where = formatPlace(f);
+      parts.push(`- ${tag ? `${tag} — ` : ""}${f.message}${where ? ` In \`${where}\`.` : ""}`);
     }
     parts.push("");
   }
@@ -126,7 +128,7 @@ export function writeMarkdownReport(
     "",
     "## How this report was made",
     "",
-    `Ran \`dwic audit\` at the repo root on ${stamp}. Every finding above was computed by a static analyser; no LLM ran. The same audit logic runs inside Claude Code via the dwic MCP server — install it with \`npx dwic-audit setup\` to run the specialists interactively.`,
+    `Ran \`dwic audit\` at the repo root on ${stamp}. Every finding above was computed by a static analyser; no LLM ran. The same audit logic runs inside Claude Code via the dwic MCP server — install it with \`npx dwic-audit setup --token=<token> --project=<your-project-name>\` (get a token at designwithclaude.com/get-started) to run the specialists interactively.`,
     "",
   ].join("\n");
 

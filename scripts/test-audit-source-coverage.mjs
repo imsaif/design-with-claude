@@ -202,6 +202,138 @@ const wrap = (body) => `export default function Page() {\n  return (\n    <main>
   check(kf(`top: 1px;`).length === 1, "animating top is still flagged");
 }
 
+// --- 8a. Stress-test regressions --------------------------------------------------
+{
+  const upper = `<HTML><BODY><MAIN><H1>x</H1><IMG SRC="a.png"></MAIN></BODY></HTML>`;
+  const f = audit([{ path: "index.html", content: upper }]);
+  check(has(f, /no alt/) && !has(f, /no <main>|no <h1>/), "uppercase HTML tags are read", f);
+  check(!has(audit(wrap(`<NAVBAR /><FORMAT />`)), /no alt/), "unrelated all-caps components aren't native tags");
+
+  const stars = (input) => audit(wrap(`<label htmlFor="a">Email *</label>${input}`)).filter((x) => /asterisk/.test(x.msg));
+  check(stars(`<Input id="a" required />`).length === 0, "<Input required> satisfies the required check");
+  check(stars(`<input id="a" required />`).length === 0, "<input required> satisfies the required check");
+  check(stars(`<Input id="a" />`).length === 1, "a starred label with no required input is flagged");
+
+  // A label that closes before an input doesn't wrap it.
+  const after = (body) => has(audit(wrap(body)), /no accessible label/);
+  check(after(`<label>Name</label><input id="p" type="text" /><label>Email</label>`), "an input after a closed label isn't called wrapped");
+  check(after(`<Label>Name</Label><Input placeholder="p" /><Label>Email</Label>`), "same for <Label> and <Input>");
+  check(!after(`<label>Name <input type="text" /></label>`), "a truly wrapped input is fine");
+  check(!after(`<label>Name <span>x</span><input type="text" /></label>`), "a wrapped input after other content is fine");
+  check(!after(`<label htmlFor="a">Name</label><input id="a" type="text" />`), "a label pointing at the input is fine");
+
+  check(after(`<Label htmlFor="other" /><Input placeholder="p" /><Label>Email</Label>`), "a self-closed <Label /> wraps nothing");
+  check(!after(`<Label htmlFor={id}>Name</Label><Input id={id} />`), "a dynamic id with a dynamic label is fine");
+  check(after(`<Input id={id} />`), "a dynamic id with no label is flagged");
+
+  const prop = wrap(`<Card icon={<img src="a.png" />} />`);
+  check(has(audit(prop), /no alt/), "JSX in a prop is checked");
+  const render = wrap(`<List renderItem={(x) => <img key={x} src={x} />} />`);
+  check(has(audit(render), /no alt/), "JSX in a render prop is checked");
+  const nested = wrap(`<Card a={<Box b={<img src="a.png" />} />} />`);
+  check(has(audit(nested), /no alt/), "JSX nested in props is checked");
+  const obj = `const map = { a: <img src="a.png" /> };\nexport default function P() {\n  return <main><h1>T</h1>{map.a}</main>;\n}\n`;
+  check(has(audit(obj), /no alt/), "JSX in an object is checked");
+  const propH = wrap(`<Card header={<h3>Sub</h3>} />`);
+  check(!has(audit(propH), /heading level skipped/), "a heading in a prop isn't called a skip");
+  check(!has(audit(`<main style={{ color: "red" }}><h1>T</h1></main>`), /no <main>/), "a plain attribute value still collapses");
+  check(has(audit(wrap(`<input value={a < b ? 1 : 2} id="z" />`)), /no accessible label/), "a comparison in an attribute doesn't break the tag");
+}
+
+// --- 8a2. Findings say where they live ---------------------------------------------
+{
+  const page = (body) => `export default function P() {\n  return <main><h1>T</h1>${body}</main>;\n}\n`;
+  const sources = [
+    { path: "src/A.tsx", content: page(`<img src="a.png" /><button type="button"><svg /></button>`) },
+    { path: "src/B.tsx", content: `export const B = () => <section><img src="b.png" /><button type="button"><svg /></button><a href="/x">x</a></section>;\n` },
+    { path: "src/C.tsx", content: `export const C = () => <section><input id="z" type="text" /></section>;\n` },
+  ];
+  const results = aggregate({
+    cssFiles: ["t.css", "m.css"],
+    markupFiles: sources.map((s) => s.path),
+    cssContent: `:root { --text-primary: #eeeeee; } .a { transition: all 200ms; }`,
+    markupContent: sources.map((s) => s.content).join("\n\n"),
+    markupSources: sources,
+    cssSources: [{ path: "t.css", content: `/* --text-primary: #000 */ :root { --text-primary: #eeeeee; }` }, { path: "m.css", content: `.a { transition: all 200ms; }` }],
+    totals: { cssCount: 2, markupCount: 3, cappedAt: null },
+  });
+  const all = results.flatMap((r) => r.findings);
+  const find = (re) => all.filter((f) => re.test(f.message));
+  check(JSON.stringify(find(/no alt/).map((f) => f.files?.[0]).sort()) === JSON.stringify(["src/A.tsx", "src/B.tsx"]), "two identical problems each name their own file", find(/no alt/));
+  check(JSON.stringify(find(/no text content/).map((f) => f.files?.[0]).sort()) === JSON.stringify(["src/A.tsx", "src/B.tsx"]), "unnamed buttons name their file", find(/no text content/));
+  check(find(/no accessible label/)[0]?.files?.[0] === "src/C.tsx", "an unlabelled input names its file", find(/no accessible label/));
+  check(find(/fails WCAG/)[0]?.files?.[0] === "t.css", "a token names the file declaring it", find(/fails WCAG/));
+  check(find(/transition: all|`transition: all`/)[0]?.files?.[0] === "m.css", "motion findings name their file", find(/`transition: all`/));
+  check(!find(/no skip-to-content/)[0]?.files, "a project-wide finding names no file", find(/no skip-to-content/));
+  check(!find(/declared but no/)[0]?.files, "missing reduced motion names no file", find(/declared but no/));
+
+  // Line numbers survive multi-line tags, comments and repeated elements.
+  const file = [
+    `// <img src="comment.png" />`, // 1
+    `export default function P() {`, // 2
+    `  return (`, // 3
+    `    <main>`, // 4
+    `      <h1>T</h1>`, // 5
+    `      <input`, // 6
+    `        id="x"`, // 7
+    `        onChange={(e) => {`, // 8
+    `          set(e.target.value);`, // 9
+    `        }}`, // 10
+    `        type="text"`, // 11
+    `      />`, // 12
+    `      <Button size="icon">Save</Button>`, // 13
+    `      <Button size="icon"><X /></Button>`, // 14
+    `      <img src="a.png" />`, // 15
+    `      <img src="a.png" />`, // 16
+    `      <button type="button">Click here</button>`, // 17
+    `    </main>`, // 18
+    `  );`, // 19
+    `}`, // 20
+  ].join("\n");
+  const lines = aggregate({
+    cssFiles: ["t.css"],
+    markupFiles: ["P.tsx"],
+    cssContent: `\n\n:root {\n  --text-primary: #eeeeee;\n}\n.a {\n  transition: all 1s;\n}`,
+    markupContent: file,
+    markupSources: [{ path: "P.tsx", content: file }],
+    cssSources: [{ path: "t.css", content: `/* --text-primary: #000;\n*/\n:root {\n  --text-primary: #eeeeee;\n}\n.a {\n  transition: all 1s;\n}` }],
+    totals: { cssCount: 1, markupCount: 1, cappedAt: null },
+  }).flatMap((r) => r.findings);
+  const at = (re) => lines.filter((f) => re.test(f.message)).map((f) => f.line);
+  check(JSON.stringify(at(/no accessible label/)) === "[6]", "a multi-line tag points to where it starts", at(/no accessible label/));
+  check(JSON.stringify(at(/no text content/)) === "[14]", "the unnamed button, not the named one beside it", at(/no text content/));
+  check(JSON.stringify(at(/no alt/)) === "[15,16]", "repeated elements each get their own line, skipping comments", at(/no alt/));
+  check(JSON.stringify(at(/CTA text/)) === "[17]", "button copy points to its button", at(/CTA text/));
+  check(JSON.stringify(at(/fails WCAG/)) === "[4]", "a token points to its live declaration, not a comment", at(/fails WCAG/));
+  check(JSON.stringify(at(/`transition: all`/)) === "[7]", "transition: all points to its declaration", at(/`transition: all`/));
+}
+
+// --- 8a3. The terminal summary says where to start ---------------------------------
+{
+  const { renderDashboard } = await import(resolve(dist, "audit/dashboard.js"));
+  const finding = (severity, message, extra = {}) => ({ severity, message, ...extra });
+  const result = (category, severity, findings) => ({ category, severity, findings, gist: "x", counts: { error: findings.filter((f) => f.severity === "error").length, warn: findings.filter((f) => f.severity === "warn").length, info: findings.filter((f) => f.severity === "info").length } });
+  const detected = { framework: "nextjs", frameworkVersion: "15", techStack: [], slug: "x" };
+  const inputs = { cssFiles: [], markupFiles: [], cssContent: "", markupContent: "", totals: { cssCount: 1, markupCount: 1, cappedAt: null } };
+  const render = (rs) => renderDashboard(detected, inputs, rs, { reportPath: ".dwic/r.md", showInstallCta: false, cwd: "/x", drift: null }).replace(/\u001b\[[0-9;]*m/g, "");
+  const out = render([
+    result("copy", "warn", [finding("warn", "Warning first in the list — detail", { files: ["W.tsx"], line: 3 })]),
+    result("accessibility", "error", [
+      finding("error", "no location — detail"),
+      finding("error", "no accessible label — needs a label", { files: ["src/Signup.tsx"], line: 18 }),
+      finding("info", "just a note", { files: ["N.tsx"] }),
+    ]),
+  ]);
+  check(/no accessible label\s+src\/Signup\.tsx:18/.test(out), "the summary names the problem, file and line", out);
+  check(!/needs a label/.test(out), "and keeps it to the first clause", out);
+  check(!/just a note/.test(out), "notes stay out of it", out);
+  const order = ["no accessible label", "no location", "Warning first"].map((s) => out.indexOf(s));
+  check(order[0] < order[1] && order[1] < order[2], "errors come first, located ones before others", order);
+  const many = render([result("accessibility", "error", Array.from({ length: 8 }, (_, i) => finding("error", `problem ${i}`, { files: ["A.tsx"], line: i + 1 })))]);
+  check(/problem 4/.test(many) && !/problem 5/.test(many) && /and 3 more in the report/.test(many), "it stops at five and says how many are left", many);
+  check(!/Where to start/.test(render([result("copy", "info", [finding("info", "note")])])), "nothing serious, no list");
+}
+
 // --- 8b. Button text is only judged when it's written out ----------------------
 {
   const cta = (body) => audit(wrap(body)).filter((f) => /CTA/.test(f.msg));

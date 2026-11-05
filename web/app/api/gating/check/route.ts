@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import {
+  accountExists,
   ensureAccount,
   freeTierRemaining,
   isFreeTierExhausted,
@@ -40,6 +41,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  if (!(await accountExists(token!))) {
+    return Response.json({
+      allowed: false,
+      reason: "invalid_token",
+      message: "Invalid or missing dwic token — rerun `npx dwic-audit setup`.",
+    } satisfies GatingCheckResponse);
+  }
   const account = await ensureAccount(token!);
 
   if (account.status === "cancelled") {

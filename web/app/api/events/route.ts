@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { recordEvent, recordAnonymousEvent } from "@/lib/dwic/store";
+import { accountExists, recordEvent, recordAnonymousEvent } from "@/lib/dwic/store";
 import {
   ANONYMOUS_TOOL_ALLOWLIST,
   isAnonymousTokenShapeValid,
@@ -47,6 +47,10 @@ export async function POST(request: NextRequest) {
   const rawProject = body?.project?.trim();
   if (rawProject && !isValidSlug(rawProject)) {
     return Response.json({ ok: false, reason: "invalid_project_slug" }, { status: 400 });
+  }
+
+  if (!(await accountExists(token))) {
+    return Response.json({ ok: false, reason: "unknown_token" }, { status: 200 });
   }
 
   const { stored, projectAutoCreated } = await recordEvent({

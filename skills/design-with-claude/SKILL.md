@@ -13,7 +13,7 @@ A product designer inside your terminal. Start by measuring, then route to the s
 npx dwic-audit@1.0.0-alpha.11
 ```
 
-Deterministic scan of the current project across 8 categories — color, typography, spacing, accessibility, forms, navigation, motion, copy. WCAG contrast math, token parsing, markup heuristics. Writes `.dwic/audit-<date>.md` and exits non-zero on errors, so it works in CI. Nothing leaves the machine.
+Deterministic scan of the current project across 8 categories — color, typography, spacing, accessibility, forms, navigation, motion, copy. WCAG contrast math, token parsing, markup heuristics. Writes `.dwic/audit-<date>.md` and exits non-zero on errors, so it works in CI. Your code stays on the machine; it sends one anonymous count of the findings unless `--no-telemetry` is passed.
 
 Run this first when the request is vague ("improve our design", "is this any good?"). The findings tell you which specialist to invoke instead of guessing.
 

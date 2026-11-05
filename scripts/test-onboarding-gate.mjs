@@ -64,9 +64,9 @@ function startStubApi() {
       res.end(JSON.stringify(payload));
     };
 
-    // GET /api/profile?token=...&project=... — returns 404 unless persisted.
+    // GET /api/profile?project=... with a bearer token — returns 404 unless persisted.
     if (req.method === "GET" && url.pathname === "/api/profile") {
-      const token = url.searchParams.get("token");
+      const token = req.headers.authorization?.replace(/^Bearer\s+/i, "");
       const project = url.searchParams.get("project");
       const key = `${token}:${project}`;
       const profile = state.profiles.get(key);

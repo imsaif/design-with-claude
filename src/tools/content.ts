@@ -9,6 +9,8 @@ export interface ContentFinding {
   severity: "error" | "warn" | "info";
   element: string;
   message: string;
+  // Lets the audit say which line, when `element` is only a label like "<button>".
+  tag?: string;
 }
 
 const BUTTON_RE = /<(button|a)\b([^>]*)>([\s\S]*?)<\/\1>/gi;
@@ -142,6 +144,7 @@ export function auditCTAs(markup: string): ContentFinding[] {
       findings.push({
         severity: "warn",
         element: `<${tagName}>`,
+        tag: `<${b[1]}${attrs}>`,
         message: `CTA text "${truncate(inner)}" is generic. Weak verbs like "${weak}" don't tell the user what happens next. Prefer action-outcome phrasing (e.g. "Create account", "Get the report").`,
       });
     }
@@ -151,6 +154,7 @@ export function auditCTAs(markup: string): ContentFinding[] {
       findings.push({
         severity: "info",
         element: `<${tagName}>`,
+        tag: `<${b[1]}${attrs}>`,
         message: `CTA "${truncate(inner)}" is ${wordCount} words. Most buttons land at 2–4 words — longer text reads as a sentence, not an action.`,
       });
     }
@@ -158,6 +162,7 @@ export function auditCTAs(markup: string): ContentFinding[] {
       findings.push({
         severity: "info",
         element: `<${tagName}>`,
+        tag: `<${b[1]}${attrs}>`,
         message: `CTA "${truncate(inner)}" is ${inner.length} chars — will wrap on mobile widths (< 360px). Shorten or verify the wrap is acceptable.`,
       });
     }

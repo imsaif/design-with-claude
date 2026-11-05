@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { generateClaudeMd } from "@/lib/claude-md-generator";
-import { setOnboarding, getProfile, getAccountState } from "@/lib/dwic/store";
-import { isTokenShapeValid, mintToken } from "@/lib/dwic/tokens";
+import { accountExists, setOnboarding, getProfile, getAccountState } from "@/lib/dwic/store";
+import { isTokenShapeValid, mintToken, tokenFromRequest } from "@/lib/dwic/tokens";
 import { isValidSlug, normalizeSlug } from "@/lib/dwic/projects";
 import type { OnboardingAnswers } from "@/lib/dwic/types";
 
@@ -85,6 +85,9 @@ export async function POST(request: NextRequest) {
     if (!isTokenShapeValid(rawToken)) {
       return Response.json({ ok: false, reason: "invalid_token" }, { status: 400 });
     }
+    if (!(await accountExists(rawToken))) {
+      return Response.json({ ok: false, reason: "unknown_token" }, { status: 401 });
+    }
     token = rawToken;
   } else {
     token = mintToken();
@@ -131,9 +134,12 @@ export async function POST(request: NextRequest) {
  * - without `project`: returns AccountState (status + list of the designer's projects).
  */
 export async function GET(request: NextRequest) {
-  const token = request.nextUrl.searchParams.get("token")?.trim() ?? "";
+  const token = tokenFromRequest(request);
   if (!isTokenShapeValid(token)) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 400 });
+  }
+  if (!(await accountExists(token))) {
+    return Response.json({ ok: false, reason: "unknown_token" }, { status: 401 });
   }
 
   const rawProject = request.nextUrl.searchParams.get("project")?.trim();

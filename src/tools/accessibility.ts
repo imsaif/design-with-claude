@@ -13,6 +13,9 @@ export interface A11yFinding {
   severity: "error" | "warn" | "info";
   element: string;
   message: string;
+  // Lets the audit say which line, when `element` is only a label like "<button>".
+  tag?: string;
+  nth?: number;
 }
 
 // Case-sensitive on purpose: `<Image>`, `<Select>` and `<A>` are custom components
@@ -82,10 +85,12 @@ export function auditFormControls(markup: string): A11yFinding[] {
   );
   for (const m of labelMatches) labelForIds.add((m[1] ?? m[2] ?? m[3] ?? "").trim());
   // Collect label-wrapped inputs (label containing an input)
+  // Only inside that label's own close: a single match running on to a later
+  // </label> would count the next unrelated input as wrapped.
   const wrappedInputs = new Set<string>();
-  const wrapRe = /<label\b[^>]*>[\s\S]*?(<(input|textarea|select)\b[^>]*\/?>)[\s\S]*?<\/label>/gi;
-  let w: RegExpExecArray | null;
-  while ((w = wrapRe.exec(markup)) !== null) wrappedInputs.add(w[1]);
+  for (const block of markup.match(/<label\b[^>]*(?<!\/)>[\s\S]*?<\/label>/gi) ?? []) {
+    for (const tag of block.match(/<(?:input|textarea|select)\b[^>]*\/?>/gi) ?? []) wrappedInputs.add(tag);
+  }
 
   for (const tag of matches) {
     if (hasSpread(tag)) continue;
@@ -101,7 +106,10 @@ export function auditFormControls(markup: string): A11yFinding[] {
     // A wrapper's `label` prop is usually how it receives its label.
     const hasAriaLabel = hasAttr(tag, "aria-label") || (/^<[A-Z]/.test(tag) && hasAttr(tag, "label"));
     const hasAriaLabelledBy = hasAttr(tag, "aria-labelledby");
-    const hasFor = id ? labelForIds.has(id) : false;
+    // `id={id}` with `htmlFor={id}`: both are only known at runtime, so source
+    // can't prove they differ.
+    const hasDynamicFor = /\bid\s*=\s*\{\}/.test(tag) && /<label\b[^>]*\b(?:for|htmlFor)\s*=\s*\{\}/i.test(markup);
+    const hasFor = hasDynamicFor || (id ? labelForIds.has(id) : false);
     const isWrapped = wrappedInputs.has(tag);
 
     if (!hasFor && !hasAriaLabel && !hasAriaLabelledBy && !isWrapped) {
@@ -287,9 +295,13 @@ export function auditButtons(markup: string): A11yFinding[] {
   // A self-closed <button {...props} /> would otherwise pair with the next
   // </button> and pull unrelated markup into its name.
   const open = markup.replace(SELF_CLOSED_BUTTON_RE, "");
+  const seenTags = new Map<string, number>();
   while ((m = re.exec(open)) !== null) {
     const isCustom = m[1] === "Button";
     const openAttrs = m[2] ?? "";
+    const realTag = `<${m[1]}${openAttrs}>`;
+    const nth = seenTags.get(realTag) ?? 0;
+    seenTags.set(realTag, nth + 1);
     const rawInner = m[3] ?? "";
     const inner = rawInner.replace(/<[^>]+>/g, "").trim();
     const openTag = `<button${openAttrs}>`;
@@ -306,6 +318,8 @@ export function auditButtons(markup: string): A11yFinding[] {
       findings.push({
         severity: "error",
         element: "<button>",
+        tag: realTag,
+        nth,
         message: "button with no text content and no aria-label — screen readers announce it as an unnamed button.",
       });
     }

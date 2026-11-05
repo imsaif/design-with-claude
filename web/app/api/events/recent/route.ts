@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { getOrCreateProfile, getRecentEvents } from "@/lib/dwic/store";
-import { isTokenShapeValid } from "@/lib/dwic/tokens";
+import { isTokenShapeValid, tokenFromRequest } from "@/lib/dwic/tokens";
 import { isValidSlug, normalizeSlug } from "@/lib/dwic/projects";
 
 export const runtime = "nodejs";
@@ -12,7 +12,7 @@ export const runtime = "nodejs";
  * DWIC_ALLOW_IMPLICIT_PROJECT off and this call 400s without an explicit project.
  */
 export async function GET(request: NextRequest) {
-  const token = request.nextUrl.searchParams.get("token")?.trim() ?? "";
+  const token = tokenFromRequest(request);
   const rawProject = request.nextUrl.searchParams.get("project")?.trim();
   const limitRaw = request.nextUrl.searchParams.get("limit");
   const limit = limitRaw ? Math.min(200, Math.max(1, Number(limitRaw) || 50)) : 50;

@@ -132,7 +132,10 @@ export function auditRequiredMarkers(markup: string): FormFinding[] {
   const labelWithAsterisk = markup.matchAll(/<label\b[^>]*>([^<]*\*[^<]*)<\/label>/gi);
   const starLabels = Array.from(labelWithAsterisk);
   // Find inputs with required attribute
-  const requiredInputs = (markup.match(INPUT_RE) ?? []).filter((t) => hasAttr(t, "required"));
+  // Includes wrappers: `<Input required>` passes `required` to its native input.
+  const requiredInputs = (markup.match(/<(?:input|textarea|select|Input|Textarea|Select)\b[^>]*\/?>/g) ?? []).filter((t) =>
+    hasAttr(t, "required"),
+  );
   if (starLabels.length > 0 && requiredInputs.length === 0) {
     findings.push({
       severity: "warn",
