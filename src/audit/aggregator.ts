@@ -3,6 +3,7 @@
 // dashboard + markdown report both render from.
 
 import type { WalkedInputs } from "./walker.js";
+import { locateMarkupFindings, locateTokenFindings } from "./locate.js";
 import { parseTokensFromCss, contrastRatio, classifyContrast } from "../tools/color.js";
 import { stripCssComments } from "../tools/css-utils.js";
 import {
@@ -36,6 +37,8 @@ export interface GenericFinding {
   message: string;
   token?: string;
   element?: string;
+  // Where it lives. Absent when a finding is about the whole project.
+  files?: string[];
 }
 
 export interface CategoryResult {
@@ -473,16 +476,21 @@ function buildCopyResult(markup: string): CategoryResult {
 }
 
 export function aggregate(inputs: WalkedInputs, opts: AggregateOptions = {}): CategoryResult[] {
-  const { cssContent, markupContent, markupSources } = inputs;
+  const { cssContent, markupContent, markupSources = [], cssSources = [] } = inputs;
+  const withFiles = (r: CategoryResult, findings: GenericFinding[]): CategoryResult => ({ ...r, findings });
+  const tokens = (r: CategoryResult) => withFiles(r, locateTokenFindings(r.findings, cssSources));
+  const markup = (r: CategoryResult, audit: (content: string) => Array<{ element: string; message: string }>) =>
+    withFiles(r, locateMarkupFindings(r.findings, markupSources, audit));
+  const motion = buildMotionResult(cssContent, markupContent);
   return [
-    buildColorResult(cssContent, opts, markupContent),
-    buildTypographyResult(cssContent, opts),
-    buildSpacingResult(cssContent, opts),
-    buildA11yResult(markupContent, markupSources),
-    buildFormResult(markupContent, markupSources),
-    buildNavResult(markupContent),
-    buildMotionResult(cssContent, markupContent),
-    buildCopyResult(markupContent),
+    tokens(buildColorResult(cssContent, opts, markupContent)),
+    tokens(buildTypographyResult(cssContent, opts)),
+    tokens(buildSpacingResult(cssContent, opts)),
+    markup(buildA11yResult(markupContent, markupSources), (c) => runA11yAudit(c)),
+    markup(buildFormResult(markupContent, markupSources), (c) => runFormAudit(c)),
+    markup(buildNavResult(markupContent), (c) => runNavAudit(c)),
+    withFiles(motion, locateMarkupFindings(motion.findings, cssSources, (c) => runMotionAudit(c))),
+    markup(buildCopyResult(markupContent), (c) => runContentAudit(c, { source: true })),
   ];
 }
 

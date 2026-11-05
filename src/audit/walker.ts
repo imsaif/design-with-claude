@@ -57,6 +57,7 @@ export interface WalkedInputs {
   // The same markup, file by file. Checks whose meaning depends on what shares
   // a page (heading order, <h1> count) use this instead of the concatenation.
   markupSources?: Array<{ path: string; content: string }>;
+  cssSources?: Array<{ path: string; content: string }>;
   totals: {
     cssCount: number;
     markupCount: number;
@@ -193,6 +194,7 @@ export function walkProject(
     cssContent: cssAll.map((f) => `/* ${relative(cwd, f.path) || f.path} */\n${f.content}`).join("\n\n"),
     markupContent: markupPicked.map((f) => f.content).join("\n\n"),
     markupSources: markupPicked.map((f) => ({ path: relative(cwd, f.path) || f.path, content: f.content })),
+    cssSources: cssAll.map((f) => ({ path: relative(cwd, f.path) || f.path, content: f.content })),
     totals: {
       cssCount: cssAll.length,
       markupCount: markupAll.length,

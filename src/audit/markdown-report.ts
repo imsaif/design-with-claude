@@ -4,6 +4,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { CATEGORY_LABELS, type CategoryResult } from "./aggregator.js";
+import { formatFiles } from "./locate.js";
 import type { DetectedProjectConfig } from "../utils/detect-project-config.js";
 
 function todayStamp(): string {
@@ -34,7 +35,8 @@ function renderCategory(r: CategoryResult): string {
     parts.push("");
     for (const f of byLevel[level]) {
       const tag = f.token ? `\`${f.token}\`` : f.element ? `\`${f.element}\`` : "";
-      parts.push(`- ${tag ? `${tag} — ` : ""}${f.message}`);
+      const where = formatFiles(f.files);
+      parts.push(`- ${tag ? `${tag} — ` : ""}${f.message}${where ? ` In ${where}.` : ""}`);
     }
     parts.push("");
   }

@@ -240,6 +240,34 @@ const wrap = (body) => `export default function Page() {\n  return (\n    <main>
   check(has(audit(wrap(`<input value={a < b ? 1 : 2} id="z" />`)), /no accessible label/), "a comparison in an attribute doesn't break the tag");
 }
 
+// --- 8a2. Findings say where they live ---------------------------------------------
+{
+  const page = (body) => `export default function P() {\n  return <main><h1>T</h1>${body}</main>;\n}\n`;
+  const sources = [
+    { path: "src/A.tsx", content: page(`<img src="a.png" /><button type="button"><svg /></button>`) },
+    { path: "src/B.tsx", content: `export const B = () => <section><img src="b.png" /><button type="button"><svg /></button><a href="/x">x</a></section>;\n` },
+    { path: "src/C.tsx", content: `export const C = () => <section><input id="z" type="text" /></section>;\n` },
+  ];
+  const results = aggregate({
+    cssFiles: ["t.css", "m.css"],
+    markupFiles: sources.map((s) => s.path),
+    cssContent: `:root { --text-primary: #eeeeee; } .a { transition: all 200ms; }`,
+    markupContent: sources.map((s) => s.content).join("\n\n"),
+    markupSources: sources,
+    cssSources: [{ path: "t.css", content: `/* --text-primary: #000 */ :root { --text-primary: #eeeeee; }` }, { path: "m.css", content: `.a { transition: all 200ms; }` }],
+    totals: { cssCount: 2, markupCount: 3, cappedAt: null },
+  });
+  const all = results.flatMap((r) => r.findings);
+  const find = (re) => all.filter((f) => re.test(f.message));
+  check(JSON.stringify(find(/no alt/).map((f) => f.files?.[0]).sort()) === JSON.stringify(["src/A.tsx", "src/B.tsx"]), "two identical problems each name their own file", find(/no alt/));
+  check(JSON.stringify(find(/no text content/).map((f) => f.files?.[0]).sort()) === JSON.stringify(["src/A.tsx", "src/B.tsx"]), "unnamed buttons name their file", find(/no text content/));
+  check(find(/no accessible label/)[0]?.files?.[0] === "src/C.tsx", "an unlabelled input names its file", find(/no accessible label/));
+  check(find(/fails WCAG/)[0]?.files?.[0] === "t.css", "a token names the file declaring it", find(/fails WCAG/));
+  check(find(/transition: all|`transition: all`/)[0]?.files?.[0] === "m.css", "motion findings name their file", find(/`transition: all`/));
+  check(!find(/no skip-to-content/)[0]?.files, "a project-wide finding names no file", find(/no skip-to-content/));
+  check(!find(/declared but no/)[0]?.files, "missing reduced motion names no file", find(/declared but no/));
+}
+
 // --- 8b. Button text is only judged when it's written out ----------------------
 {
   const cta = (body) => audit(wrap(body)).filter((f) => /CTA/.test(f.msg));
