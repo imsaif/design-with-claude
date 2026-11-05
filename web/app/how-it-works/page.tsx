@@ -150,7 +150,7 @@ export default function HowItWorksPage() {
               Claude fixes them.
             </p>
           </div>
-          <HtdwcCliCopy command="npx dwic-audit setup" />
+          <HtdwcCliCopy command="npx dwic-audit setup --token=imr_xxx --project=my-app" />
           <p className="htdwc-cli-note">
             Restart Claude Code once. The specialists show up as tools in every
             project.

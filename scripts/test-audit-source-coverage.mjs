@@ -214,6 +214,18 @@ const wrap = (body) => `export default function Page() {\n  return (\n    <main>
   check(stars(`<input id="a" required />`).length === 0, "<input required> satisfies the required check");
   check(stars(`<Input id="a" />`).length === 1, "a starred label with no required input is flagged");
 
+  // A label that closes before an input doesn't wrap it.
+  const after = (body) => has(audit(wrap(body)), /no accessible label/);
+  check(after(`<label>Name</label><input id="p" type="text" /><label>Email</label>`), "an input after a closed label isn't called wrapped");
+  check(after(`<Label>Name</Label><Input placeholder="p" /><Label>Email</Label>`), "same for <Label> and <Input>");
+  check(!after(`<label>Name <input type="text" /></label>`), "a truly wrapped input is fine");
+  check(!after(`<label>Name <span>x</span><input type="text" /></label>`), "a wrapped input after other content is fine");
+  check(!after(`<label htmlFor="a">Name</label><input id="a" type="text" />`), "a label pointing at the input is fine");
+
+  check(after(`<Label htmlFor="other" /><Input placeholder="p" /><Label>Email</Label>`), "a self-closed <Label /> wraps nothing");
+  check(!after(`<Label htmlFor={id}>Name</Label><Input id={id} />`), "a dynamic id with a dynamic label is fine");
+  check(after(`<Input id={id} />`), "a dynamic id with no label is flagged");
+
   const prop = wrap(`<Card icon={<img src="a.png" />} />`);
   check(has(audit(prop), /no alt/), "JSX in a prop is checked");
   const render = wrap(`<List renderItem={(x) => <img key={x} src={x} />} />`);

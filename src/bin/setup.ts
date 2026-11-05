@@ -52,7 +52,9 @@ function parseArgs(argv: string[]): Args {
     command,
     // Project-scope is the new default — keeps multi-project installs clean.
     scope: "project",
-    apiUrl: DEFAULT_API,
+    // Same setting the MCP server and audit honour. Ignoring it here once sent a
+    // test run's fake token to the live database.
+    apiUrl: process.env.DWIC_API_URL?.trim() || DEFAULT_API,
     skipValidate: false,
     cwd: process.cwd(),
     unknownArgs: [],
@@ -210,13 +212,8 @@ function readProjectConfig(cwd: string): Record<string, unknown> | null {
 
 // The token is a credential and .mcp.json is a file people commit.
 function isGitIgnored(cwd: string, file: string): boolean {
-  try {
-    return readFileSync(join(cwd, ".gitignore"), "utf8")
-      .split(/\r?\n/)
-      .some((line) => line.trim().replace(/^\//, "") === file);
-  } catch {
-    return false;
-  }
+  const r = spawnSync("git", ["check-ignore", "-q", file], { cwd });
+  return r.status === 0;
 }
 
 function buildMcpEntry(launcher: McpLauncher, token: string, apiUrl: string, project: string) {

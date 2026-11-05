@@ -261,7 +261,7 @@ export function renderDashboard(
   if (opts.showInstallCta) {
     lines.push("");
     lines.push(paint(ANSI.dim, "Want this inside Claude Code? Install the MCP and call the specialists interactively:"));
-    lines.push(`  ${paint(ANSI.cyan, "npx dwic-audit setup --token=<get one at designwithclaude.com/get-started>")}`);
+    lines.push(`  ${paint(ANSI.cyan, "npx dwic-audit setup --token=<get one at designwithclaude.com/get-started> --project=<your-project-name>")}`);
   }
 
   lines.push("");

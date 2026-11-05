@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 // What setup and the audit do to a user's machine and to the server. Everything
-// runs against a local stub with a throwaway HOME. setup only obeys --api=, not
-// DWIC_API_URL, so every setup call here passes it: without it, this test would
-// write to the live database.
+// runs against a local stub with a throwaway HOME, and DWIC_API_URL always points
+// away from the live site.
 
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { createServer } from "node:http";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -106,6 +105,14 @@ try {
     check(r.code === 0 && existsSync(join(p, ".mcp.json")) && /could not validate/.test(r.out), `${label} still installs, with a warning`, r.out);
   }
 
+  // --- DWIC_API_URL is honoured, so a test can't reach live by accident -------------
+  reply = { status: 200, body: { valid: true } };
+  {
+    requests.length = 0;
+    const r = await run(["setup", "--token=imr_abc12345", "--project=acme"], project(), { DWIC_API_URL: stubUrl });
+    check(requests.some((q) => q.url === "/api/tokens/validate"), "setup obeys DWIC_API_URL", r.out);
+  }
+
   // --- Setup leaves a user's files alone ------------------------------------------
   reply = { status: 200, body: { valid: true } };
   {
@@ -127,8 +134,12 @@ try {
   {
     const r = await run(good, project());
     check(/\.gitignore/.test(r.out) && /token/i.test(r.out), "warns when .mcp.json isn't ignored by git", r.out);
-    const quiet = await run(good, project({ ".gitignore": "node_modules\n.mcp.json\n" }));
-    check(!/\.gitignore/.test(quiet.out), "stays quiet when it is ignored", quiet.out);
+    for (const [label, pattern] of [["by name", ".mcp.json"], ["by pattern", "*.json"]]) {
+      const q = project({ ".gitignore": `node_modules\n${pattern}\n` });
+      spawnSync("git", ["init", "-q"], { cwd: q });
+      const quiet = await run(good, q);
+      check(!/\.gitignore/.test(quiet.out), `stays quiet when it's ignored ${label}`, quiet.out);
+    }
   }
 
   // --- Audit: the anonymous ping arrives, and carries no project content -------------
