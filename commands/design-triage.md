@@ -37,7 +37,7 @@ ls -t .dwic/audit-*.md | head -1
 ```
 
 - **Found one** — read it, and note its date. If it is more than a few days old, say so and offer to re-run `npx dwic-audit@1.0.0-alpha.11`, since findings may be stale.
-- **None found** — offer to run `npx dwic-audit@1.0.0-alpha.11` now. It needs no token and nothing leaves the machine.
+- **None found** — offer to run `npx dwic-audit@1.0.0-alpha.11` now. It needs no token and your code stays on the machine. It sends one anonymous count of the findings unless `--no-telemetry` is passed.
 - **User passed a path or pasted a report** in $ARGUMENTS — use that instead.
 
 Never invent findings. Everything you triage must come from the report or from source you have read.
