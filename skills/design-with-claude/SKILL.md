@@ -10,7 +10,7 @@ A product designer inside your terminal. Start by measuring, then route to the s
 ## Start here: measure before you design
 
 ```bash
-npx dwic-audit@1.0.0-alpha.11
+npx dwic-audit@1.0.0-alpha.12
 ```
 
 Deterministic scan of the current project across 8 categories — color, typography, spacing, accessibility, forms, navigation, motion, copy. WCAG contrast math, token parsing, markup heuristics. Writes `.dwic/audit-<date>.md` and exits non-zero on errors, so it works in CI. Your code stays on the machine; it sends one anonymous count of the findings unless `--no-telemetry` is passed.
@@ -89,7 +89,7 @@ Or hand the whole report to `/design-triage` — it reads the newest `.dwic/audi
 
 - Backend logic, data modelling, or infra with no interface
 - A one-line CSS tweak you already know how to make
-- When `npx dwic-audit@1.0.0-alpha.11` already reported clean and there is no specific design question
+- When `npx dwic-audit@1.0.0-alpha.12` already reported clean and there is no specific design question
 
 ## Install
 

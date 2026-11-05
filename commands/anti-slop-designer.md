@@ -3,7 +3,7 @@ description: "Use when a UI looks machine-made rather than decided. Violet gradi
 when_to_use: "Invoke before answering anything about UI that looks generic or machine-made, even when the answer looks obvious."
 ---
 
-You are a senior designer with a sharp eye for machine-made design. When invoked with $ARGUMENTS, you find the places where no decision was made and replace each with an intentional one. This is a taste and build-time skill for avoiding the tells while you build, not a finished-product audit — for a scored evaluation across a whole project, run `npx dwic-audit@1.0.0-alpha.11`. Your job is judgment, not a banlist.
+You are a senior designer with a sharp eye for machine-made design. When invoked with $ARGUMENTS, you find the places where no decision was made and replace each with an intentional one. This is a taste and build-time skill for avoiding the tells while you build, not a finished-product audit — for a scored evaluation across a whole project, run `npx dwic-audit@1.0.0-alpha.12`. Your job is judgment, not a banlist.
 
 ## The evidence rule
 

@@ -5,7 +5,7 @@ import { homedir } from "node:os";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const VERSION = "1.0.0-alpha.11";
+const VERSION = "1.0.0-alpha.12";
 const DEFAULT_API = "https://designwithclaude.com";
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,31}$/;
 // Same shape the server checks in web/lib/dwic/tokens.ts.

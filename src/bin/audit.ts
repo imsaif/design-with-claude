@@ -14,7 +14,7 @@ import { emitAuditTelemetry, maybePrintFirstRunNotice } from "../audit/telemetry
 import { buildBaselineFile, diff, parseBaselineFile, type BaselineFile, type DriftReport } from "../audit/drift.js";
 import { startWatcher } from "../audit/watcher.js";
 
-const CLI_VERSION = "1.0.0-alpha.11";
+const CLI_VERSION = "1.0.0-alpha.12";
 const DEFAULT_BASELINE_REL = ".dwic/baseline.json";
 
 interface AuditPass {
