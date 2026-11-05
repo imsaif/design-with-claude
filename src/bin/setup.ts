@@ -8,6 +8,8 @@ import { fileURLToPath } from "node:url";
 const VERSION = "1.0.0-alpha.11";
 const DEFAULT_API = "https://designwithclaude.com";
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,31}$/;
+// Same shape the server checks in web/lib/dwic/tokens.ts.
+const TOKEN_PATTERN = /^imr_[A-Za-z0-9_-]{8,}$/;
 
 type Scope = "user" | "project";
 type Args = {
@@ -18,6 +20,8 @@ type Args = {
   apiUrl: string;
   skipValidate: boolean;
   cwd: string;
+  // Anything setup/uninstall didn't recognise. The audit parses its own flags.
+  unknownArgs: string[];
 };
 
 function parseArgs(argv: string[]): Args {
@@ -51,6 +55,7 @@ function parseArgs(argv: string[]): Args {
     apiUrl: DEFAULT_API,
     skipValidate: false,
     cwd: process.cwd(),
+    unknownArgs: [],
   };
   for (const arg of rest) {
     if (arg.startsWith("--token=")) args.token = arg.slice("--token=".length);
@@ -60,6 +65,7 @@ function parseArgs(argv: string[]): Args {
     else if (arg.startsWith("--api=")) args.apiUrl = arg.slice("--api=".length);
     else if (arg === "--skip-validate") args.skipValidate = true;
     else if (arg === "--dev") args.skipValidate = true;
+    else args.unknownArgs.push(arg);
   }
   return args;
 }
@@ -115,7 +121,7 @@ async function validateToken(
   token: string,
   apiUrl: string,
   project: string | undefined,
-): Promise<{ ok: boolean; reason?: string; projectKnown?: boolean }> {
+): Promise<{ ok: boolean; rejected?: boolean; reason?: string; projectKnown?: boolean }> {
   const url = `${apiUrl.replace(/\/$/, "")}/api/tokens/validate`;
   try {
     const res = await fetch(url, {
@@ -127,11 +133,20 @@ async function validateToken(
     if (res.status === 404) {
       return { ok: true, reason: "api-404-alpha-ok" };
     }
+    // The server answering "no" is different from the server not answering: only
+    // the first says anything about the token.
+    if (res.status === 400 || res.status === 401 || res.status === 403) {
+      const body = (await res.json().catch(() => null)) as { reason?: string } | null;
+      return { ok: false, rejected: true, reason: body?.reason ?? `validation ${res.status}` };
+    }
     if (!res.ok) {
       return { ok: false, reason: `validation ${res.status}` };
     }
-    const body = (await res.json()) as { valid?: boolean; projectKnown?: boolean };
-    return { ok: body?.valid !== false, projectKnown: body?.projectKnown };
+    const body = (await res.json()) as { valid?: boolean; reason?: string; projectKnown?: boolean };
+    if (body?.valid === false) {
+      return { ok: false, rejected: true, reason: body.reason ?? "rejected" };
+    }
+    return { ok: true, projectKnown: body?.projectKnown };
   } catch (err) {
     return { ok: false, reason: err instanceof Error ? err.message : String(err) };
   }
@@ -177,6 +192,31 @@ function resolveLauncher(): McpLauncher {
     return { kind: "npx", pinnedVersion: VERSION };
   }
   return { kind: "local", serverPath: resolveLocalServerPath() };
+}
+
+// Throws rather than treating a damaged file as empty: writing over it would lose
+// the user's other servers.
+function readProjectConfig(cwd: string): Record<string, unknown> | null {
+  const path = join(cwd, ".mcp.json");
+  if (!existsSync(path)) return null;
+  try {
+    return JSON.parse(readFileSync(path, "utf8"));
+  } catch (err) {
+    throw new Error(
+      `${path} is not valid JSON, so setup stopped without changing it. Fix or remove it, then run setup again. (${err instanceof Error ? err.message : String(err)})`,
+    );
+  }
+}
+
+// The token is a credential and .mcp.json is a file people commit.
+function isGitIgnored(cwd: string, file: string): boolean {
+  try {
+    return readFileSync(join(cwd, ".gitignore"), "utf8")
+      .split(/\r?\n/)
+      .some((line) => line.trim().replace(/^\//, "") === file);
+  } catch {
+    return false;
+  }
 }
 
 function buildMcpEntry(launcher: McpLauncher, token: string, apiUrl: string, project: string) {
@@ -238,14 +278,7 @@ function writeProjectConfig(
   key: string,
 ): string {
   const path = join(cwd, ".mcp.json");
-  let json: Record<string, unknown> = {};
-  if (existsSync(path)) {
-    try {
-      json = JSON.parse(readFileSync(path, "utf8"));
-    } catch {
-      json = {};
-    }
-  }
+  const json = readProjectConfig(cwd) ?? {};
   const servers = (json.mcpServers as Record<string, unknown>) ?? {};
   servers[key] = entry;
   json.mcpServers = servers;
@@ -329,12 +362,32 @@ async function emitConnectedEvent(
   }
 }
 
+function rejectUnknownArgs(args: Args): boolean {
+  if (args.unknownArgs.length === 0) return false;
+  process.stderr.write(
+    red(`Unrecognised: ${args.unknownArgs.join(" ")}. `) + "Run " + bold("npx dwic-audit help") + " for the options.\n",
+  );
+  process.exitCode = 1;
+  return true;
+}
+
 async function runSetup(args: Args): Promise<void> {
+  if (rejectUnknownArgs(args)) return;
   if (!args.token) {
     process.stderr.write(
       red("Missing --token. ") +
         "Run " +
         bold("npx dwic-audit setup --token=imr_xxx --project=<slug>") +
+        "\n",
+    );
+    process.exitCode = 1;
+    return;
+  }
+  if (!TOKEN_PATTERN.test(args.token)) {
+    process.stderr.write(
+      red("That doesn't look like a dwic token. ") +
+        "Tokens start with imr_. Get yours at " +
+        bold("designwithclaude.com/get-started") +
         "\n",
     );
     process.exitCode = 1;
@@ -361,6 +414,9 @@ async function runSetup(args: Args): Promise<void> {
     return;
   }
 
+  // Before anything reaches the server, so a damaged file changes nothing anywhere.
+  if (args.scope === "project") readProjectConfig(args.cwd);
+
   process.stdout.write(`${bold("dwic")} ${dim("v" + VERSION)}\n\n`);
 
   if (args.scope === "user") {
@@ -374,6 +430,16 @@ async function runSetup(args: Args): Promise<void> {
   if (!args.skipValidate) {
     process.stdout.write(dim("→ validating token…\n"));
     const v = await validateToken(args.token, args.apiUrl, args.project);
+    if (v.rejected) {
+      process.stderr.write(
+        red(`  ✘ the server rejected this token (${v.reason}). `) +
+          "Nothing was installed. Get a token at " +
+          bold("designwithclaude.com/get-started") +
+          "\n",
+      );
+      process.exitCode = 1;
+      return;
+    }
     if (!v.ok) {
       process.stdout.write(
         yellow(
@@ -417,6 +483,12 @@ async function runSetup(args: Args): Promise<void> {
     green(`  ✔ registered project "${args.project}"`) + dim(` → ${writtenAt}\n`),
   );
 
+  if (args.scope === "project" && !isGitIgnored(args.cwd, ".mcp.json")) {
+    process.stdout.write(
+      yellow("  ⚠ .mcp.json now holds your token. Add it to .gitignore so it isn't committed.\n"),
+    );
+  }
+
   await emitConnectedEvent(args.apiUrl, args.token, args.project);
 
   process.stdout.write(
@@ -432,6 +504,7 @@ async function runSetup(args: Args): Promise<void> {
 }
 
 async function runUninstall(args: Args): Promise<void> {
+  if (rejectUnknownArgs(args)) return;
   // With --project: remove just that entry.
   // Without: remove any/all dwic* entries in the chosen scope.
   const projectSlug = args.project?.trim();

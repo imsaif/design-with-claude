@@ -98,12 +98,13 @@ export class ApiClient {
 
   async getProfile(token: string, project: string | undefined): Promise<DesignerProfile | null> {
     try {
-      const params = new URLSearchParams({ token });
+      const params = new URLSearchParams();
       if (project) params.set("project", project);
       const url = `${this.config.apiUrl}/api/profile?${params.toString()}`;
+      // In a header, because URLs end up in server and proxy logs.
       const res = await fetch(url, {
         method: "GET",
-        headers: { "User-Agent": "dwic-mcp/1.0" },
+        headers: { "User-Agent": "dwic-mcp/1.0", Authorization: `Bearer ${token}` },
         signal: AbortSignal.timeout(5000),
       });
       if (!res.ok) return null;
@@ -124,12 +125,12 @@ export class ApiClient {
     limit = 10,
   ): Promise<RecentEvent[]> {
     try {
-      const params = new URLSearchParams({ token, limit: String(limit) });
+      const params = new URLSearchParams({ limit: String(limit) });
       if (project) params.set("project", project);
       const url = `${this.config.apiUrl}/api/events/recent?${params.toString()}`;
       const res = await fetch(url, {
         method: "GET",
-        headers: { "User-Agent": "dwic-mcp/1.0" },
+        headers: { "User-Agent": "dwic-mcp/1.0", Authorization: `Bearer ${token}` },
         signal: AbortSignal.timeout(3000),
       });
       if (!res.ok) return [];

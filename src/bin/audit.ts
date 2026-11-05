@@ -127,7 +127,9 @@ export async function runAudit(argv: string[]): Promise<number> {
   if (!args.noBaseline) writeBaseline(baselinePath, first.results, first.detected.framework);
 
   if (args.telemetry) {
-    void emitAuditTelemetry({
+    // Awaited because the caller exits straight after this returns, which would
+    // cancel the request. It gives up after 2s and never throws.
+    await emitAuditTelemetry({
       version: CLI_VERSION,
       results: first.results,
       detected: first.detected,

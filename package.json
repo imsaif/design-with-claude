@@ -51,6 +51,7 @@
     "test:audit-cli-e2e": "node scripts/test-audit-cli-e2e.mjs",
     "test:onboarding-gate": "node scripts/test-onboarding-gate.mjs",
     "test:setup": "node scripts/test-setup-dry-run.mjs",
+    "test:cli-safety": "node scripts/test-cli-safety.mjs",
     "test:e2e": "node scripts/test-e2e-roundtrip.mjs",
     "prepublishOnly": "npm run build"
   },

@@ -19,7 +19,7 @@ No token, no install, no Claude Code required; your code never leaves your machi
 Install the MCP server and the product designer works interactively. Ask the specialists (`color-specialist`, `accessibility-specialist`, `typography-specialist`, and the rest) to audit or fix, and dwic remembers your project's decisions across sessions instead of re-asking every time.
 
 ```
-npx dwic-audit@1.0.0-alpha.11 setup --token=imr_xxx
+npx dwic-audit@1.0.0-alpha.11 setup --token=imr_xxx --project=my-app
 ```
 
 Get a token at [designwithclaude.com/get-started](https://designwithclaude.com/get-started). For full usage docs, start there.
