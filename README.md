@@ -10,7 +10,7 @@ npx dwic-audit@1.0.0-alpha.12
 
 No token, no install, no Claude Code required; your code never leaves your machine. dwic scans your project, prints a dashboard of design-system gaps across 8 categories (color, typography, spacing, accessibility, forms, navigation, motion, copy), and writes a shareable markdown report to `.dwic/audit-<date>.md`. The check is deterministic (WCAG contrast math, token parsing, markup heuristics), so it's reproducible and CI-friendly via its exit code. Run against a deliberately-broken fixture:
 
-![dwic audit running against a broken project: 8 categories, 23 findings, 9 errors, exit 2](https://raw.githubusercontent.com/imsaif/design-with-claude/main/media/dwic-audit.gif)
+![dwic audit running against a broken project: 8 categories, 22 findings, 7 errors, exit 2](https://raw.githubusercontent.com/imsaif/design-with-claude/main/media/dwic-audit.gif)
 
 `dwic audit` pings an anonymous counter on each run so we can see the CLI → MCP funnel. Pass `--no-telemetry` or set `DWIC_TELEMETRY=off` to disable; the payload is category-level counts only (no file contents, no paths).
 
