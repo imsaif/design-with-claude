@@ -222,12 +222,15 @@ export function renderDashboard(
 
   lines.push("");
   lines.push(divider());
+  const nothingRead = inputs.totals.cssCount === 0 && inputs.totals.markupCount === 0;
   const ciHint =
     totalErr > 0
       ? paint(ANSI.dim, "  ·  exit 2 — fails CI")
       : totalWarn > 0
         ? paint(ANSI.dim, "  ·  exit 1")
-        : paint(ANSI.dim, "  ·  exit 0 — passes CI");
+        : nothingRead
+          ? paint(ANSI.dim, "  ·  exit 0 — nothing checked")
+          : paint(ANSI.dim, "  ·  exit 0 — passes CI");
   lines.push(
     `  ${results.length} categories · ${totalFindings} finding${totalFindings === 1 ? "" : "s"} · ${severityBadge("error")} ${totalErr} · ${severityBadge("warn")} ${totalWarn} · ${severityBadge("info")} ${totalInfo}${ciHint}`,
   );
@@ -240,6 +243,11 @@ export function renderDashboard(
     lines.push(`  ${paint(ANSI.cyan, ">")} In Claude Code, ask ${paint(ANSI.bold, headline.tool)} to:`);
     lines.push(`     ${paint(ANSI.cyan, `"${headline.prompt}"`)}`);
     lines.push(`  ${paint(ANSI.dim, headline.outcome)}`);
+  } else if (nothingRead) {
+    lines.push("");
+    lines.push(
+      paint(ANSI.yellow, "Nothing to audit: dwic reads .css, .html, .jsx and .tsx files and found none here. Vue, Svelte and Astro files aren't read yet."),
+    );
   } else {
     lines.push("");
     lines.push(paint(ANSI.green, "No errors or warnings — system looks consistent on static analysis."));

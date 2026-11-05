@@ -202,6 +202,32 @@ const wrap = (body) => `export default function Page() {\n  return (\n    <main>
   check(kf(`top: 1px;`).length === 1, "animating top is still flagged");
 }
 
+// --- 8a. Stress-test regressions --------------------------------------------------
+{
+  const upper = `<HTML><BODY><MAIN><H1>x</H1><IMG SRC="a.png"></MAIN></BODY></HTML>`;
+  const f = audit([{ path: "index.html", content: upper }]);
+  check(has(f, /no alt/) && !has(f, /no <main>|no <h1>/), "uppercase HTML tags are read", f);
+  check(!has(audit(wrap(`<NAVBAR /><FORMAT />`)), /no alt/), "unrelated all-caps components aren't native tags");
+
+  const stars = (input) => audit(wrap(`<label htmlFor="a">Email *</label>${input}`)).filter((x) => /asterisk/.test(x.msg));
+  check(stars(`<Input id="a" required />`).length === 0, "<Input required> satisfies the required check");
+  check(stars(`<input id="a" required />`).length === 0, "<input required> satisfies the required check");
+  check(stars(`<Input id="a" />`).length === 1, "a starred label with no required input is flagged");
+
+  const prop = wrap(`<Card icon={<img src="a.png" />} />`);
+  check(has(audit(prop), /no alt/), "JSX in a prop is checked");
+  const render = wrap(`<List renderItem={(x) => <img key={x} src={x} />} />`);
+  check(has(audit(render), /no alt/), "JSX in a render prop is checked");
+  const nested = wrap(`<Card a={<Box b={<img src="a.png" />} />} />`);
+  check(has(audit(nested), /no alt/), "JSX nested in props is checked");
+  const obj = `const map = { a: <img src="a.png" /> };\nexport default function P() {\n  return <main><h1>T</h1>{map.a}</main>;\n}\n`;
+  check(has(audit(obj), /no alt/), "JSX in an object is checked");
+  const propH = wrap(`<Card header={<h3>Sub</h3>} />`);
+  check(!has(audit(propH), /heading level skipped/), "a heading in a prop isn't called a skip");
+  check(!has(audit(`<main style={{ color: "red" }}><h1>T</h1></main>`), /no <main>/), "a plain attribute value still collapses");
+  check(has(audit(wrap(`<input value={a < b ? 1 : 2} id="z" />`)), /no accessible label/), "a comparison in an attribute doesn't break the tag");
+}
+
 // --- 8b. Button text is only judged when it's written out ----------------------
 {
   const cta = (body) => audit(wrap(body)).filter((f) => /CTA/.test(f.msg));

@@ -2,7 +2,7 @@
 // audit helpers need, cheaply. Single-pass, sync, skip-set aware. No globs,
 // no external dependencies — keeps startup < 50ms on a typical repo.
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, realpathSync, statSync } from "node:fs";
 import { extname, join, relative, resolve } from "node:path";
 
 const SKIP_DIRS = new Set([
@@ -88,10 +88,24 @@ function isDir(path: string): boolean {
   }
 }
 
+function realPath(path: string): string {
+  try {
+    return realpathSync(path);
+  } catch {
+    return resolve(path);
+  }
+}
+
 function walkSync(root: string, onFile: (abs: string) => void): void {
   const stack: string[] = [root];
+  // Each real folder once: a symlink back up the tree would otherwise scan the
+  // same files over and over and multiply every finding.
+  const visited = new Set<string>();
   while (stack.length > 0) {
     const cur = stack.pop()!;
+    const real = realPath(cur);
+    if (visited.has(real)) continue;
+    visited.add(real);
     for (const name of safeReaddir(cur)) {
       if (name.startsWith(".") && SKIP_DIRS.has(name)) continue;
       if (SKIP_DIRS.has(name)) continue;
@@ -120,7 +134,7 @@ export function walkProject(
   // An override naming a file the walk already found must not scan it twice.
   const seenPaths = new Set<string>();
   const firstSighting = (abs: string): boolean => {
-    const key = resolve(abs);
+    const key = realPath(abs);
     if (seenPaths.has(key)) return false;
     seenPaths.add(key);
     return true;

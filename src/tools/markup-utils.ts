@@ -45,8 +45,23 @@ function stripSourceComments(input: string): string {
     .replace(/^[ \t]*\/\/[^\n]*$/gm, "");
 }
 
+// `<IMG>` in old HTML is an `<img>`. Only known native tags: `<NAVBAR>` isn't one,
+// and `<A>` could be a component in JSX.
+function lowercaseNativeTags(input: string): string {
+  return input.replace(
+    /<(\/?)(IMG|INPUT|TEXTAREA|SELECT|BUTTON|FORM|FIELDSET|LABEL|MAIN|NAV|HEADER|FOOTER|ASIDE|UL|OL|LI|H[1-6])(?=[\s/>])/g,
+    (_, slash: string, tag: string) => `<${slash}${tag.toLowerCase()}`,
+  );
+}
+
+const JSX_TAG_RE = /<[A-Za-z][\w.]*[\s/>]/;
+
 export function neutralizeJsxExpressions(rawInput: string): string {
-  const input = stripSourceComments(rawInput);
+  const input = lowercaseNativeTags(stripSourceComments(rawInput));
+  // JSX from attribute values and object literals (`icon={<img />}`). It can't stay
+  // in place without breaking tag matching, so it's kept and checked after the
+  // rest, inside a children block so it counts as rendered only sometimes.
+  const recovered: string[] = [];
   let out = "";
   let i = 0;
   const len = input.length;
@@ -124,11 +139,13 @@ export function neutralizeJsxExpressions(rawInput: string): string {
       if (depth > 0 || c !== "}") j++;
     }
 
+    const inner = input.slice(i + 1, j);
+    if (JSX_TAG_RE.test(inner)) recovered.push(neutralizeJsxExpressions(inner));
     out += "{}";
     i = j + 1;
   }
 
-  return out;
+  return out + recovered.map((r) => `\n<x>{${r}}</x>`).join("");
 }
 
 // Attributes whose value a user actually reads. `title` and `label` are included
