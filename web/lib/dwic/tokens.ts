@@ -3,6 +3,19 @@ import { createHash, randomBytes } from "node:crypto";
 const TOKEN_PATTERN = /^imr_[A-Za-z0-9_-]{8,}$/;
 const ANONYMOUS_TOKEN_PATTERN = /^anon_[A-Za-z0-9_-]{6,}$/;
 
+/**
+ * The token on a GET request: from the Authorization header, which is what the
+ * MCP server sends, or the older `?token=` query, which released versions still
+ * use. Headers stay out of server and proxy logs.
+ */
+export function tokenFromRequest(request: {
+  headers: Headers;
+  nextUrl: { searchParams: URLSearchParams };
+}): string {
+  const header = request.headers.get("authorization")?.match(/^Bearer\s+(\S+)$/i)?.[1];
+  return (header ?? request.nextUrl.searchParams.get("token") ?? "").trim();
+}
+
 export function isTokenShapeValid(token: string | undefined | null): boolean {
   if (!token) return false;
   return TOKEN_PATTERN.test(token);

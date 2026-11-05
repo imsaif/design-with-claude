@@ -242,6 +242,23 @@ export async function ensureAccount(token: string, email?: string): Promise<{
   };
 }
 
+/**
+ * Whether this token was ever minted. Unlike ensureAccount this never creates a
+ * row, so a made-up token can't write to the database. Without Supabase (local
+ * development) there's nothing to check against, so every token counts.
+ */
+export async function accountExists(token: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return true;
+  const { data, error } = await sb
+    .from("profiles")
+    .select("token_hash")
+    .eq("token_hash", hashToken(token))
+    .maybeSingle();
+  if (error) throw new Error(`profiles lookup failed: ${error.message}`);
+  return Boolean(data);
+}
+
 /** Per-(token, project) profile read/write. */
 export async function getOrCreateProfile(
   token: string,

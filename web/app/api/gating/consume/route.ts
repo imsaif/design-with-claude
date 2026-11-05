@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { incrementCommandCount } from "@/lib/dwic/store";
+import { accountExists, incrementCommandCount } from "@/lib/dwic/store";
 import { isTokenShapeValid } from "@/lib/dwic/tokens";
 
 export const runtime = "nodejs";
@@ -17,6 +17,10 @@ export async function POST(request: NextRequest) {
 
   if (!isTokenShapeValid(token) || !toolName) {
     return Response.json({ ok: false, reason: "invalid_token" }, { status: 200 });
+  }
+
+  if (!(await accountExists(token!))) {
+    return Response.json({ ok: false, reason: "unknown_token" }, { status: 200 });
   }
 
   const { accountCount, projectCount } = await incrementCommandCount(

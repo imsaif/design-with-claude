@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { ensureAccount } from "@/lib/dwic/store";
+import { accountExists, ensureAccount } from "@/lib/dwic/store";
 import { resolveProject, isValidSlug } from "@/lib/dwic/projects";
 import { isTokenShapeValid } from "@/lib/dwic/tokens";
 
@@ -21,6 +21,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // A real check: tokens come from minting, and this route must not create them.
+  if (!(await accountExists(token!))) {
+    return Response.json({ valid: false, reason: "unknown_token" }, { status: 401 });
+  }
   const account = await ensureAccount(token!);
 
   // If a project slug is supplied, report whether it exists on this account.
