@@ -33,3 +33,17 @@ One command per AI rating:
 - **debug-helper** (Implementation, strong): Claude acts freely, and stops only at destructive steps.
 
 Each is run on a fixture before and after the change, and the outputs compared.
+
+## Pilot result, 2026-11-11
+
+Each command gained a `## Where AI stands` section. Two runs each, Sonnet, on fixtures in
+`scripts/ai-stage-pilot/`.
+
+| Command | Before | After |
+|---|---|---|
+| design-critic | 2/2 opened with "Verdict: don't ship this week" | 0/2 gave a verdict; 2/2 ended with `## Your call`, each blocker costed |
+| form-designer | 2/2 cut six fields with no question; 1/2 invented "14-day trial, no credit card" | 2/2 kept every field and invented nothing; 2/2 listed the cuts under `## Your call` |
+| debug-helper | 0/2 made the fix; 1/2 ended "Want me to make the change?" | 2/2 made the fix and reran the script to confirm it |
+
+Two runs is enough to see the direction, not to claim a rate. The form test also shows the
+trade-off: the "after" form is still ten fields long until the designer answers.
