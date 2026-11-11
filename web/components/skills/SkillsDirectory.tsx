@@ -41,6 +41,12 @@ export function SkillsDirectory() {
   );
 
   const guideAt = Math.min(11, filtered.length);
+  const isFiltered = activeCategory !== "all" || activeLevel !== "all" || activeStage !== "all";
+  const clearFilters = () => {
+    setActiveCategory("all");
+    setActiveLevel("all");
+    setActiveStage("all");
+  };
 
   return (
     <>
@@ -62,48 +68,43 @@ export function SkillsDirectory() {
             </button>
           ))}
         </div>
-        <span className="skills-filter-count">
-          {filtered.length} skill{filtered.length !== 1 ? "s" : ""}
-        </span>
-      </div>
-
-      <div className="skills-filter">
-        <div className="skills-filter-pills">
-          <button
-            className={`skills-filter-pill ${activeLevel === "all" ? "active" : ""}`}
-            onClick={() => setActiveLevel("all")}
-          >
-            All levels
-          </button>
-          {LEVELS.map((level) => (
-            <button
-              key={level}
-              className={`skills-filter-pill ${activeLevel === level ? "active" : ""}`}
-              onClick={() => setActiveLevel(level)}
+        <div className="skills-filter-tools">
+          <label className={`skills-filter-select ${activeLevel !== "all" ? "active" : ""}`}>
+            <span className="sr-only">Level</span>
+            <select
+              value={activeLevel}
+              onChange={(e) => setActiveLevel(e.target.value as SkillLevel | "all")}
             >
-              {levelLabel(level)}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="skills-filter">
-        <div className="skills-filter-pills">
-          <button
-            className={`skills-filter-pill ${activeStage === "all" ? "active" : ""}`}
-            onClick={() => setActiveStage("all")}
-          >
-            All steps
-          </button>
-          {STAGE_FILTERS.map((stage) => (
-            <button
-              key={stage.id}
-              className={`skills-filter-pill ${activeStage === stage.id ? "active" : ""}`}
-              onClick={() => setActiveStage(stage.id)}
+              <option value="all">Any level</option>
+              {LEVELS.map((level) => (
+                <option key={level} value={level}>
+                  {levelLabel(level)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className={`skills-filter-select ${activeStage !== "all" ? "active" : ""}`}>
+            <span className="sr-only">Build step</span>
+            <select
+              value={activeStage}
+              onChange={(e) => setActiveStage(e.target.value as StageId | "all")}
             >
-              {stage.label} · AI {stage.ai}
+              <option value="all">Any step</option>
+              {STAGE_FILTERS.map((stage) => (
+                <option key={stage.id} value={stage.id}>
+                  {stage.label} (AI {stage.ai})
+                </option>
+              ))}
+            </select>
+          </label>
+          <span className="skills-filter-count" aria-live="polite">
+            {filtered.length} skill{filtered.length !== 1 ? "s" : ""}
+          </span>
+          {isFiltered && (
+            <button type="button" className="skills-filter-clear" onClick={clearFilters}>
+              Clear
             </button>
-          ))}
+          )}
         </div>
       </div>
 
@@ -134,7 +135,15 @@ export function SkillsDirectory() {
             </Fragment>
           ))}
         </AnimatePresence>
-        {guideAt >= filtered.length && <LearnCTA />}
+        {filtered.length === 0 && (
+          <p className="skills-filter-empty">
+            No skills match all three filters.{" "}
+            <button type="button" className="skills-filter-clear" onClick={clearFilters}>
+              Clear filters
+            </button>
+          </p>
+        )}
+        {filtered.length > 0 && guideAt >= filtered.length && <LearnCTA />}
       </div>
     </>
   );

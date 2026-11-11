@@ -530,8 +530,7 @@ export function getSkillsByLevel(level: SkillLevel): Skill[] {
 }
 
 export function getStageLabel(stageId: StageId): string {
-  const stage = STAGES.find((s) => s.id === stageId);
-  return stage ? `${stage.label} · AI ${stage.ai}` : stageId;
+  return STAGES.find((s) => s.id === stageId)?.label ?? stageId;
 }
 
 export function getCategoryLabel(categoryId: CategoryId): string {
