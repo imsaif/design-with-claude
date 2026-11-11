@@ -1526,6 +1526,80 @@
   color: var(--text-dim);
 }
 
+/* Level and step: secondary filters, so dropdowns beside the category pills, not more pill rows. */
+.skills-filter-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.skills-filter-select {
+  position: relative;
+  display: inline-flex;
+}
+
+.skills-filter-select select {
+  appearance: none;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.9375rem;
+  padding: 0.5rem 2.25rem 0.5rem 1rem;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.skills-filter-select::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  color: var(--text-muted);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.skills-filter-select select:hover {
+  border-color: var(--border-accent);
+  color: var(--text);
+}
+
+.skills-filter-select.active select {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.skills-filter-select.active::after {
+  color: var(--accent);
+}
+
+.skills-filter-clear {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.9375rem;
+  background: none;
+  border: none;
+  padding: 0.25rem 0;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.skills-filter-empty {
+  grid-column: 1 / -1;
+  padding: 3rem 0;
+  text-align: center;
+  color: var(--text-muted);
+}
+
 /* Grid */
 .skills-grid {
   max-width: 1200px;

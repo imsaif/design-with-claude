@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   type Skill,
   getCategoryLabel,
+  getStageLabel,
   getInstallCommand,
   getGithubUrl,
 } from "@/app/data/skills";
@@ -59,6 +60,7 @@ export function SkillCard({ skill, isExpanded, onToggle }: SkillCardProps) {
           {getCategoryLabel(skill.category)}
         </span>
         <span className="skill-card-tag">Level: {levelLabel}</span>
+        <span className="skill-card-tag">Step: {getStageLabel(skill.stage)}</span>
       </div>
 
       <AnimatePresence>
