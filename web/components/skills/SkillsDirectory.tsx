@@ -7,11 +7,15 @@ import { SkillCard } from "./SkillCard";
 import {
   SKILLS,
   CATEGORIES,
+  STAGES,
   type CategoryId,
   type SkillLevel,
+  type StageId,
 } from "@/app/data/skills";
 
 const LEVELS: SkillLevel[] = ["beginner", "intermediate", "advanced"];
+// A step with no command yet (Empathy) would filter to an empty grid, so it is left out here.
+const STAGE_FILTERS = STAGES.filter((st) => SKILLS.some((s) => s.stage === st.id));
 
 function levelLabel(level: SkillLevel): string {
   return level.charAt(0).toUpperCase() + level.slice(1);
@@ -22,6 +26,7 @@ export function SkillsDirectory() {
     "all"
   );
   const [activeLevel, setActiveLevel] = useState<SkillLevel | "all">("all");
+  const [activeStage, setActiveStage] = useState<StageId | "all">("all");
   const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
 
   const filtered = useMemo(
@@ -29,9 +34,10 @@ export function SkillsDirectory() {
       SKILLS.filter(
         (s) =>
           (activeCategory === "all" || s.category === activeCategory) &&
-          (activeLevel === "all" || s.level === activeLevel)
+          (activeLevel === "all" || s.level === activeLevel) &&
+          (activeStage === "all" || s.stage === activeStage)
       ),
-    [activeCategory, activeLevel]
+    [activeCategory, activeLevel, activeStage]
   );
 
   const guideAt = Math.min(11, filtered.length);
@@ -76,6 +82,26 @@ export function SkillsDirectory() {
               onClick={() => setActiveLevel(level)}
             >
               {levelLabel(level)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="skills-filter">
+        <div className="skills-filter-pills">
+          <button
+            className={`skills-filter-pill ${activeStage === "all" ? "active" : ""}`}
+            onClick={() => setActiveStage("all")}
+          >
+            All steps
+          </button>
+          {STAGE_FILTERS.map((stage) => (
+            <button
+              key={stage.id}
+              className={`skills-filter-pill ${activeStage === stage.id ? "active" : ""}`}
+              onClick={() => setActiveStage(stage.id)}
+            >
+              {stage.label} · AI {stage.ai}
             </button>
           ))}
         </div>

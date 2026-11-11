@@ -15,11 +15,32 @@ export interface Category {
 
 export type SkillLevel = "beginner" | "intermediate" | "advanced";
 
+// The six build steps from Anthropic's "AI Fluency for Builders" course, each rated for
+// where AI stands. Empathy has no command yet; it is listed so the gap stays visible.
+export type StageId = "empathy" | "design" | "architecture" | "implementation" | "judgment" | "shipping";
+export type AiStanding = "weak" | "moderate" | "strong";
+
+export interface Stage {
+  id: StageId;
+  label: string;
+  ai: AiStanding;
+}
+
+export const STAGES: Stage[] = [
+  { id: "empathy", label: "Empathy", ai: "weak" },
+  { id: "design", label: "Design", ai: "moderate" },
+  { id: "architecture", label: "Architecture", ai: "moderate" },
+  { id: "implementation", label: "Implementation", ai: "strong" },
+  { id: "judgment", label: "Judgment", ai: "weak" },
+  { id: "shipping", label: "Shipping", ai: "moderate" },
+];
+
 export interface Skill {
   slug: string;
   name: string;
   description: string;
   category: CategoryId;
+  stage: StageId;
   level: SkillLevel;
   icon: string;
 }
@@ -44,6 +65,7 @@ export const SKILLS: Skill[] = [
     name: "Guide",
     description: "Use when you have an idea and nothing else.",
     category: "core",
+    stage: "shipping",
     level: "beginner",
     icon: "⌖",
   },
@@ -54,6 +76,7 @@ export const SKILLS: Skill[] = [
     name: "Design Brief",
     description: "Use when a design request is broad or unclear and you do not know which specialist it needs.",
     category: "core",
+    stage: "architecture",
     level: "beginner",
     icon: "⊛",
   },
@@ -64,6 +87,7 @@ export const SKILLS: Skill[] = [
     name: "Visual Hierarchy Specialist",
     description: "Use when everything on a screen shouts equally.",
     category: "core",
+    stage: "design",
     level: "beginner",
     icon: ICONS[0],
   },
@@ -72,6 +96,7 @@ export const SKILLS: Skill[] = [
     name: "Interaction Designer",
     description: "Use when deciding how something should behave rather than how it looks.",
     category: "core",
+    stage: "design",
     level: "advanced",
     icon: ICONS[1],
   },
@@ -80,6 +105,7 @@ export const SKILLS: Skill[] = [
     name: "Design System Architect",
     description: "Use when a design system needs structure rather than more components.",
     category: "core",
+    stage: "architecture",
     level: "advanced",
     icon: ICONS[2],
   },
@@ -88,6 +114,7 @@ export const SKILLS: Skill[] = [
     name: "Accessibility Specialist",
     description: "Use when a screen might fail WCAG.",
     category: "core",
+    stage: "judgment",
     level: "intermediate",
     icon: ICONS[3],
   },
@@ -96,6 +123,7 @@ export const SKILLS: Skill[] = [
     name: "Anti-Slop Designer",
     description: "Use when a UI looks machine-made rather than decided.",
     category: "core",
+    stage: "design",
     level: "intermediate",
     icon: "◆",
   },
@@ -104,6 +132,7 @@ export const SKILLS: Skill[] = [
     name: "Design Critic",
     description: "Use when you want an honest read on a design instead of encouragement.",
     category: "core",
+    stage: "judgment",
     level: "intermediate",
     icon: "⊗",
   },
@@ -112,6 +141,7 @@ export const SKILLS: Skill[] = [
     name: "Design Triage",
     description: "Use when a dwic audit report is full of findings and there is no plan.",
     category: "core",
+    stage: "judgment",
     level: "intermediate",
     icon: "≡",
   },
@@ -120,6 +150,7 @@ export const SKILLS: Skill[] = [
     name: "Design Enforce",
     description: "Use when code has drifted off the design system.",
     category: "core",
+    stage: "implementation",
     level: "intermediate",
     icon: "\u25c8",
   },
@@ -128,6 +159,7 @@ export const SKILLS: Skill[] = [
     name: "Design Grill",
     description: "Use when a design keeps getting reinvented every session.",
     category: "core",
+    stage: "architecture",
     level: "intermediate",
     icon: "?",
   },
@@ -138,6 +170,7 @@ export const SKILLS: Skill[] = [
     name: "Typography Specialist",
     description: "Use when type is doing no work.",
     category: "visual",
+    stage: "design",
     level: "beginner",
     icon: ICONS[4],
   },
@@ -146,6 +179,7 @@ export const SKILLS: Skill[] = [
     name: "Color Specialist",
     description: "Use when colour is failing.",
     category: "visual",
+    stage: "design",
     level: "beginner",
     icon: ICONS[5],
   },
@@ -154,6 +188,7 @@ export const SKILLS: Skill[] = [
     name: "Spacing & Layout Specialist",
     description: "Use when spacing looks arbitrary.",
     category: "visual",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[6],
   },
@@ -164,6 +199,7 @@ export const SKILLS: Skill[] = [
     name: "Motion Designer",
     description: "Use when animation feels wrong.",
     category: "interaction",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[7],
   },
@@ -172,6 +208,7 @@ export const SKILLS: Skill[] = [
     name: "Form Designer",
     description: "Use when a form is losing people.",
     category: "interaction",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[8],
   },
@@ -180,6 +217,7 @@ export const SKILLS: Skill[] = [
     name: "Navigation Specialist",
     description: "Use when people get lost.",
     category: "interaction",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[9],
   },
@@ -190,6 +228,7 @@ export const SKILLS: Skill[] = [
     name: "Dashboard Designer",
     description: "Use when a dashboard is dense but not useful.",
     category: "product",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[10],
   },
@@ -198,6 +237,7 @@ export const SKILLS: Skill[] = [
     name: "Mobile Specialist",
     description: "Use when a design will be used on phones.",
     category: "product",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[11],
   },
@@ -206,6 +246,7 @@ export const SKILLS: Skill[] = [
     name: "Responsive Design Specialist",
     description: "Use when a layout breaks between sizes.",
     category: "product",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[12],
   },
@@ -214,6 +255,7 @@ export const SKILLS: Skill[] = [
     name: "Landing Page Specialist",
     description: "Use when a landing page is not converting.",
     category: "product",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[13],
   },
@@ -224,6 +266,7 @@ export const SKILLS: Skill[] = [
     name: "Content Strategist",
     description: "Use when the words inside a product are doing damage.",
     category: "content-ia",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[14],
   },
@@ -232,6 +275,7 @@ export const SKILLS: Skill[] = [
     name: "UI Copywriter",
     description: "Use when writing marketing or landing copy.",
     category: "content-ia",
+    stage: "design",
     level: "intermediate",
     icon: "✍",
   },
@@ -240,6 +284,7 @@ export const SKILLS: Skill[] = [
     name: "Information Architect",
     description: "Use when users cannot find things.",
     category: "content-ia",
+    stage: "architecture",
     level: "intermediate",
     icon: ICONS[15],
   },
@@ -248,6 +293,7 @@ export const SKILLS: Skill[] = [
     name: "Conversational UI Designer",
     description: "Use when designing a chat or assistant interface.",
     category: "content-ia",
+    stage: "design",
     level: "advanced",
     icon: ICONS[16],
   },
@@ -258,6 +304,7 @@ export const SKILLS: Skill[] = [
     name: "Healthcare UX Specialist",
     description: "Use when designing clinical or patient-facing interfaces.",
     category: "industry",
+    stage: "design",
     level: "advanced",
     icon: ICONS[17],
   },
@@ -266,6 +313,7 @@ export const SKILLS: Skill[] = [
     name: "B2B SaaS Specialist",
     description: "Use when building enterprise software.",
     category: "industry",
+    stage: "design",
     level: "advanced",
     icon: ICONS[18],
   },
@@ -274,6 +322,7 @@ export const SKILLS: Skill[] = [
     name: "E-commerce Specialist",
     description: "Use when shoppers cannot find or evaluate products.",
     category: "industry",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[19],
   },
@@ -282,6 +331,7 @@ export const SKILLS: Skill[] = [
     name: "Checkout Specialist",
     description: "Use when a cart or checkout is losing people.",
     category: "industry",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[20],
   },
@@ -292,6 +342,7 @@ export const SKILLS: Skill[] = [
     name: "Dark Mode Specialist",
     description: "Use when dark mode looks wrong.",
     category: "specialized",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[21],
   },
@@ -300,6 +351,7 @@ export const SKILLS: Skill[] = [
     name: "Error Handling Specialist",
     description: "Use when things go wrong badly.",
     category: "specialized",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[22],
   },
@@ -308,6 +360,7 @@ export const SKILLS: Skill[] = [
     name: "Onboarding Specialist",
     description: "Use when new users leave before their first success.",
     category: "specialized",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[23],
   },
@@ -316,6 +369,7 @@ export const SKILLS: Skill[] = [
     name: "Performance Specialist",
     description: "Use when a product feels slow even when it is not.",
     category: "specialized",
+    stage: "design",
     level: "advanced",
     icon: ICONS[24],
   },
@@ -324,6 +378,7 @@ export const SKILLS: Skill[] = [
     name: "Data Visualization Specialist",
     description: "Use when a chart misleads or confuses.",
     category: "specialized",
+    stage: "design",
     level: "advanced",
     icon: ICONS[25],
   },
@@ -332,6 +387,7 @@ export const SKILLS: Skill[] = [
     name: "Table Designer",
     description: "Use when a data table is hard to use.",
     category: "specialized",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[26],
   },
@@ -340,6 +396,7 @@ export const SKILLS: Skill[] = [
     name: "Search Specialist",
     description: "Use when search is failing users.",
     category: "specialized",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[27],
   },
@@ -348,6 +405,7 @@ export const SKILLS: Skill[] = [
     name: "Brand Designer",
     description: "Use when a product looks like a template with no personality.",
     category: "specialized",
+    stage: "design",
     level: "intermediate",
     icon: ICONS[28],
   },
@@ -356,6 +414,7 @@ export const SKILLS: Skill[] = [
     name: "Internationalization Designer",
     description: "Use when a product has to work in more than one language.",
     category: "specialized",
+    stage: "design",
     level: "advanced",
     icon: "🌐",
   },
@@ -364,6 +423,7 @@ export const SKILLS: Skill[] = [
     name: "Auth & Security UX Specialist",
     description: "Use when a login or security flow feels either unsafe or full of friction.",
     category: "product",
+    stage: "design",
     level: "advanced",
     icon: "🔐",
   },
@@ -372,6 +432,7 @@ export const SKILLS: Skill[] = [
     name: "Drag & Drop Specialist",
     description: "Use when building drag and drop or direct manipulation.",
     category: "interaction",
+    stage: "design",
     level: "advanced",
     icon: "⤭",
   },
@@ -380,6 +441,7 @@ export const SKILLS: Skill[] = [
     name: "Print & Export Designer",
     description: "Use when something has to leave the screen.",
     category: "specialized",
+    stage: "design",
     level: "advanced",
     icon: "🖨",
   },
@@ -390,6 +452,7 @@ export const SKILLS: Skill[] = [
     name: "Setup Guide",
     description: "Use when someone is starting from nothing and the terminal is unfamiliar.",
     category: "technical",
+    stage: "implementation",
     level: "beginner",
     icon: "⌨",
   },
@@ -398,6 +461,7 @@ export const SKILLS: Skill[] = [
     name: "Code Explainer",
     description: "Use when a designer needs to understand code that already works.",
     category: "technical",
+    stage: "implementation",
     level: "beginner",
     icon: "📖",
   },
@@ -406,6 +470,7 @@ export const SKILLS: Skill[] = [
     name: "Database Setup",
     description: "Use when a project needs to store data and has no database yet.",
     category: "technical",
+    stage: "implementation",
     level: "intermediate",
     icon: "🗄",
   },
@@ -414,6 +479,7 @@ export const SKILLS: Skill[] = [
     name: "Environment Setup",
     description: "Use when handling secrets and config.",
     category: "technical",
+    stage: "implementation",
     level: "beginner",
     icon: "🔑",
   },
@@ -422,6 +488,7 @@ export const SKILLS: Skill[] = [
     name: "Auth Implementation",
     description: "Use when a project needs real working login and signup rather than advice.",
     category: "technical",
+    stage: "implementation",
     level: "advanced",
     icon: "🔓",
   },
@@ -430,6 +497,7 @@ export const SKILLS: Skill[] = [
     name: "Deploy to Vercel",
     description: "Use when a project runs locally but is not on the internet yet, or a Vercel deploy is failing.",
     category: "technical",
+    stage: "shipping",
     level: "beginner",
     icon: "🚀",
   },
@@ -438,6 +506,7 @@ export const SKILLS: Skill[] = [
     name: "Debug Helper",
     description: "Use when something is broken and you need it diagnosed.",
     category: "technical",
+    stage: "implementation",
     level: "beginner",
     icon: "🔧",
   },
@@ -446,6 +515,7 @@ export const SKILLS: Skill[] = [
     name: "Briefing Claude for Design",
     description: "Use when Claude keeps building the wrong UI and you are re-rolling prompts.",
     category: "technical",
+    stage: "architecture",
     level: "beginner",
     icon: "◔",
   },
@@ -457,6 +527,11 @@ export function getSkillsByCategory(categoryId: CategoryId): Skill[] {
 
 export function getSkillsByLevel(level: SkillLevel): Skill[] {
   return SKILLS.filter((s) => s.level === level);
+}
+
+export function getStageLabel(stageId: StageId): string {
+  const stage = STAGES.find((s) => s.id === stageId);
+  return stage ? `${stage.label} · AI ${stage.ai}` : stageId;
 }
 
 export function getCategoryLabel(categoryId: CategoryId): string {

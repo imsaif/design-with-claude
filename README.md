@@ -126,6 +126,22 @@ Key requirements: data visualization, dark theme, WCAG AA compliance
 
 ## Commands
 
+### By build step
+
+Every command belongs to one of the six build steps in Anthropic's *AI Fluency for Builders*
+course, each rated for where AI stands. Where AI is strong, a command acts. Where it is weak,
+the command does the groundwork and hands the decision back to you. The library page filters
+by step; `web/app/data/skills.ts` is the source for this table.
+
+| Step | AI | Commands |
+|---|---|---|
+| Empathy | weak | none yet |
+| Design | moderate | the domain specialists below |
+| Architecture | moderate | `design-brief`, `design-grill`, `design-system-architect`, `information-architect`, `briefing-claude` |
+| Implementation | strong | `auth-implementation`, `code-explainer`, `database-setup`, `debug-helper`, `design-enforce`, `environment-setup`, `setup-guide` |
+| Judgment | weak | `accessibility-specialist`, `design-critic`, `design-triage` |
+| Shipping | moderate | `deploy-to-vercel`, `guide` |
+
 ### Start here
 
 For someone who has an idea and nothing else. Everything below this assumes a project
