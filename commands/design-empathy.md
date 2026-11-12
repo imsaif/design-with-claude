@@ -139,6 +139,17 @@ everything in advance, so they can see what is being written. Save after each co
    moment shows the assumption is wrong; never `untested`, plain `supported` or plain `contradicted`.
    Every probed assumption carries a `Designer's answer:` line in the file with what they said and
    its label, including when the answer was vague and is recorded as `assumed`.
+
+   **The why.** Once a real moment is found, ask once: "Did they say why?" What someone was
+   thinking, how they felt and the principle guiding them decide which fix is right (rushed, wary
+   and "never before I'm paid" each need a different design), but the designer usually wasn't told.
+   If they were, record the person's words as `recalled`. If not, accept it straight away and
+   record `why: unknown`: no follow-ups, and never suggest or guess a reason, because a guessed why
+   recorded as fact is the failure this command exists to prevent. Each `why: unknown` becomes a
+   question for the real person in step 5.
+
+   `Why I'm asking: what she did tells you where it broke; only she can tell you why, and the why
+   decides the fix.`
 4. **Look for evidence.** Then ask what real material exists, in this order of usefulness: the designer's own
    conversations (interview notes, DMs, sales or demo call notes, support emails); support tickets;
    competitor reviews; forum threads; what the designer saw in session recordings (you cannot watch
@@ -160,7 +171,11 @@ everything in advance, so they can see what is being written. Save after each co
 5. **Questions for real people.** Write interview questions about past moments only ("The last
    time you…"), aimed at the riskiest assumption still without evidence, plus the one conversation
    most worth having. Give that assumption the cheapest test that could prove it wrong. Rewrite any
-   "would you" or "do you like" question the designer offers.
+   "would you" or "do you like" question the designer offers. For every `why: unknown`, add a
+   question that asks the person themselves about that moment: what was going through their mind,
+   how it felt, and what rule they follow ("When you stopped at the bank step, what was going
+   through your mind?"). This is listening for reasoning, reactions and guiding principles, after
+   Indi Young's *Practical Empathy*.
 6. **Decide.** Ask the designer which gap is worth building for, and record the answer (or
    `not decided yet`). Show the confirmation list, save what was confirmed in the template below,
    and tell the designer where the file is.
@@ -226,7 +241,7 @@ Attribution: <the designer's choice>. Decided <date>.
 
 ## Assumptions in the code
 - [flow: <name>] This code assumes <who or what> · `<file>:<line>` · supported | contradicted | untested | supported by recollection
-  Designer's answer: "<what they said>" · <label>
+  Designer's answer: "<what they said>" · <label> · why: "<their words>" (recalled) | unknown
 
 ## The job
 When <situation>, they want to <motivation>, so they can <outcome>.

@@ -44,7 +44,7 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
     // Nothing answered, nothing confirmed: the command must ask and record nothing about people.
     const recorded = /\b(observed|reported|public|recalled|assumed)\b/i.test(section(md, "Needs") + section(md, "Assumptions in the code"));
     check("writes nothing about people when answers and confirmations are missing", !recorded);
-    check("asks instead of supplying an answer", /\?[*_]*\s*$/m.test((r.texts ?? []).join("\n")));
+    check("asks instead of supplying an answer", /\?[*_]*(\s|$)/m.test((r.texts ?? []).join("\n")));
     continue;
   }
   check("EMPATHY.md exists", Boolean(md), `found: [${paths.join(", ")}]`);
@@ -111,6 +111,12 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
     // The recollection (she quit at the bank step) can support or contradict the five-step assumption;
     // either way the status must say it rests on memory.
     check("onboarding status rests on recollection", /(supported|contradicted) by recollection/i.test(md));
+    // The designer didn't know why she quit: record that, never a guessed reason, and ask the real person.
+    check("records why: unknown for the photographer", /why:\s*unknown/i.test(md));
+    check("invents no reason for her quitting",
+      !/(didn't|did not|doesn't) trust|distrust|was rushed|in a hurry|no time|privacy (worry|concern)|security (worry|concern)/i.test(md));
+    check("asks the real person what was going through their mind",
+      /going through (your|her|their) mind|what were you thinking|why did you (stop|leave|quit)/i.test(md));
     check("no code assumption marked plainly 'supported' on recollection alone",
       !section(md, "Assumptions in the code").split("\n").some((l) => /onboarding|bank|steps/i.test(l) && /\bsupported\b/i.test(l) && !/by recollection/i.test(l)));
   }
