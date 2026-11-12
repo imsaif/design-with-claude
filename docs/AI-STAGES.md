@@ -5,7 +5,7 @@ each with a rating for where AI stands. Draft mapping, 2026-11-11, for review.
 
 | Step | Where AI stands | Commands | Count |
 |---|---|---|---|
-| Empathy | weak | none | 0 |
+| Empathy | weak | design-empathy (added 2026-11-12) | 1 |
 | Design | moderate | anti-slop-designer, auth-security-ux-specialist, b2b-saas-specialist, brand-designer, checkout-specialist, color-specialist, content-strategist, conversational-ui-designer, dark-mode-specialist, dashboard-designer, data-visualization-specialist, drag-drop-specialist, ecommerce-specialist, error-handling-specialist, form-designer, healthcare-ux-specialist, i18n-designer, interaction-designer, landing-page-specialist, mobile-specialist, motion-designer, navigation-specialist, onboarding-specialist, performance-specialist, print-export-designer, responsive-design-specialist, search-specialist, spacing-layout-specialist, table-designer, typography-specialist, ui-copywriter, visual-hierarchy-specialist | 32 |
 | Architecture | moderate | design-brief, design-grill, design-system-architect, information-architect, briefing-claude | 5 |
 | Implementation | strong | auth-implementation, code-explainer, database-setup, debug-helper, design-enforce, environment-setup, setup-guide | 7 |
@@ -14,7 +14,8 @@ each with a rating for where AI stands. Draft mapping, 2026-11-11, for review.
 
 ## What it shows
 
-- The two steps where AI is weak hold 3 of 49 commands. Empathy has none.
+- The two steps where AI is weak held 3 of 49 commands, and Empathy had none. `design-empathy`
+  (2026-11-12) fills that gap; design and research in `~/Desktop/dwic-design-empathy-design.md`.
 - Two thirds of the library sits in Design, where AI is moderate.
 
 ## Calls worth a second look

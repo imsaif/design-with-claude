@@ -163,6 +163,15 @@ export const SKILLS: Skill[] = [
     level: "intermediate",
     icon: "?",
   },
+  {
+    slug: "design-empathy",
+    name: "Design Empathy",
+    description: "Use when you are designing for users you have only imagined.",
+    category: "core",
+    stage: "empathy",
+    level: "intermediate",
+    icon: "◉",
+  },
 
   // Visual Design
   {

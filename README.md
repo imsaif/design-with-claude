@@ -28,7 +28,7 @@ Get a token at [designwithclaude.com/get-started](https://designwithclaude.com/g
 
 ## The free library — dwic's open knowledge base
 
-This repo also ships **49 design skills across 8 categories** (39 design specialists and 8 technical guides for designers) as plain Claude Code slash commands. No runtime, no dependencies, no API keys. Browse them at [designwithclaude.com/library](https://designwithclaude.com/library).
+This repo also ships **50 design skills across 8 categories** (40 design specialists and 8 technical guides for designers) as plain Claude Code slash commands. No runtime, no dependencies, no API keys. Browse them at [designwithclaude.com/library](https://designwithclaude.com/library).
 
 These aren't a separate product. They're the **same knowledge base dwic runs on**. Each specialist's expertise lives in a markdown role prompt under `commands/`, and dwic's MCP specialists load those exact files. When you ask dwic's `color-specialist` inside Claude Code, its expertise comes from the same `commands/color-specialist.md` that the free `/color-specialist` slash command loads.
 
@@ -81,7 +81,7 @@ This gives you `/design-brief`, `/accessibility-specialist`, etc. directly.
 /design-brief Build a SaaS analytics dashboard with dark mode and accessibility focus
 ```
 
-The master command analyzes your brief, identifies the relevant design domains (out of 48), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
+The master command analyzes your brief, identifies the relevant design domains (out of 49), and returns structured guidance — token recommendations, component specs, layout decisions, and implementation notes.
 
 When invoked inside a code project, commands are context-aware: they detect your stack, read your existing files, and generate output that matches your conventions.
 
@@ -93,7 +93,7 @@ When invoked inside a code project, commands are context-aware: they detect your
 Product type: B2B SaaS dashboard
 Key requirements: data visualization, dark theme, WCAG AA compliance
 
-## Relevant Domains (7 of 48)
+## Relevant Domains (7 of 49)
 1. Dashboard Designer — KPI cards, chart layout, data density
 2. Dark Mode Specialist — surface hierarchy, elevation tokens, contrast
 3. Accessibility Specialist — WCAG AA, focus management, screen readers
@@ -135,7 +135,7 @@ by step; `web/app/data/skills.ts` is the source for this table.
 
 | Step | AI | Commands |
 |---|---|---|
-| Empathy | weak | none yet |
+| Empathy | weak | `design-empathy` |
 | Design | moderate | the domain specialists below |
 | Architecture | moderate | `design-brief`, `design-grill`, `design-system-architect`, `information-architect`, `briefing-claude` |
 | Implementation | strong | `auth-implementation`, `code-explainer`, `database-setup`, `debug-helper`, `design-enforce`, `environment-setup`, `setup-guide` |
@@ -160,10 +160,11 @@ already exists; `guide` is what you run before there is one.
 ### Design Process
 
 These act on the design *process* rather than a domain. Listed in the order you'd
-normally use them: pin the decisions, check the code obeys them, work the fix list.
+normally use them: learn who it's for, pin the decisions, check the code obeys them, work the fix list.
 
 | Command | Use when... |
 |---|---|
+| `design-empathy` | You're designing for users you've only imagined — turns interview notes, support emails and public reviews into an `EMPATHY.md` where every need cites real words, then hands you the call on which gap to build for |
 | `design-grill` | Decisions need pinning down before code — interviews you, then writes the binding records later sessions must obey |
 | `design-enforce` | A system exists but the code may be ignoring it — raw values where a token holds that value, off-scale numbers, reinvented components |
 | `design-triage` | An audit came back a pile rather than one obvious problem — ranks findings by what costs most to leave broken, then works them in order |

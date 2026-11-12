@@ -5,14 +5,14 @@
     "email": "imsaif@users.noreply.github.com"
   },
   "metadata": {
-    "description": "A product designer inside your terminal: audit your design system, then fix it with 49 design skills"
+    "description": "A product designer inside your terminal: audit your design system, then fix it with 50 design skills"
   },
   "plugins": [
     {
       "name": "design-with-claude",
       "source": "./",
-      "description": "Audit your design system with npx dwic-audit@1.0.0-alpha.12, then fix what it finds with 49 design skills (39 specialists and 8 technical guides): accessibility, color, typography, spacing, motion, forms, navigation, copy, and more",
-      "version": "1.0.8",
+      "description": "Audit your design system with npx dwic-audit@1.0.0-alpha.12, then fix what it finds with 50 design skills (40 specialists and 8 technical guides): accessibility, color, typography, spacing, motion, forms, navigation, copy, and more",
+      "version": "1.0.9",
       "category": "design",
       "tags": ["design", "ux", "ui", "accessibility", "design-system", "agents"],
       "keywords": ["design", "ux", "ui", "accessibility", "design-system"]
