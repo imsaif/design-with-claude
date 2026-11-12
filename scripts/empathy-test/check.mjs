@@ -25,7 +25,7 @@ function section(md, heading) {
 const quotes = (s) => [...s.matchAll(/(?:^|[\s(])"([^"\n]{20,}?)"(?=[\s).,;:·]|$)/gm)].map((m) => m[1]).filter((q) => q.split(/\s+/).length >= 6);
 // Suggested interview questions are quoted too, but they are prompts, not evidence.
 // The designer's own answers are quoted too; they are beliefs, not public evidence.
-const isQuestionLine = (l) => /the last time|tell me about|cheapest test|next question|designer'?s? (answers?|belief)|designer said/i.test(l);
+const isQuestionLine = (l) => /the last time|tell me about|cheapest test|next question|designer'?s? (answers?|belief)|designer said|follow-ups?/i.test(l);
 const needLines = (md) => section(md, "Needs").split("\n").filter((l) => /^\s*-\s/.test(l));
 
 let fails = 0;
@@ -83,6 +83,14 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
       check("needs built on public quotes are labelled public", needs.filter((l) => /https:\/\//.test(l) || needQuoteLines.length).every((l) => /\b(public|assumed)\b/i.test(l)));
     }
     console.log(`  spot-check these URLs by hand:\n    ${[...new Set(md.match(/https:\/\/[^\s)>"]+/g) ?? [])].slice(0, 6).join("\n    ")}`);
+  }
+  if (r.case === "nomaterial" || r.case === "skipresearch") {
+    check("explains the research uses more of the designer's Claude usage", /usage|credit|allowance/i.test((r.texts ?? []).join("\n")));
+  }
+  if (r.case === "skipresearch") {
+    const searched = (r.tools ?? []).some((t) => /^(WebSearch|WebFetch)\b/.test(t) || /^Agent\b/.test(t));
+    check("runs no web search when the designer skips it", !searched, (r.tools ?? []).filter((t) => /^(Web|Agent)/.test(t)).join(" | "));
+    check("no URLs when research is skipped", !/https:\/\//.test(md));
   }
   if (r.case === "noweb") {
     check("no URLs anywhere", !/https:\/\//.test(md));
