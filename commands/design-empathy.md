@@ -56,6 +56,7 @@ If it is ignored, offer to change `.gitignore` so this one file is kept and the 
 !.dwic/EMPATHY.md
 ```
 
+If `.dwic/*` is already there (`/design-grill` may have added it), only add the negation line.
 Then run the check again to confirm the file is no longer ignored. If the designer declines, write
 to `docs/design-decisions/EMPATHY.md`.
 Never write to a path you have confirmed is ignored.
