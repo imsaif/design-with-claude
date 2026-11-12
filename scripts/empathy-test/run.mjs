@@ -22,7 +22,13 @@ const BASE_TOOLS = "Read,Glob,Grep,Write,Edit,Bash(git:*),Bash(ls:*),Bash(mkdir:
 const WEB_TOOLS = `${BASE_TOOLS},WebSearch,WebFetch,Agent`;
 const MATERIAL = "Material is in research/. Attribution: remove names and emails, keep role, source type and date. My current belief: freelancers mostly want faster invoicing.";
 
+// Revision 2: the designer's probe answers and confirmations travel in the prompt, since -p is one message.
+const COACH = "Look at the signup flow: app/signup and the onboarding it leads to. Make sure the required phone field and the five onboarding steps are among what you probe. My answers to your probes, in order — about the phone field: 'users want to be reachable', then 'people in general, I suppose', then 'I don't really know'. About the onboarding steps: 'A freelance photographer I demoed to on 3 November quit at the connect-your-bank step and said she would finish later; she never came back.' About anything else you probe: 'no idea yet'. Material is in research/. Attribution: remove names and emails, keep role, source type and date. Approve any .gitignore change you need.";
+
 export const CASES = [
+  { id: "coach", fixtures: ["material", "flow"], tools: BASE_TOOLS, prompt: `${COACH} Confirm: yes to everything you propose recording.` },
+  { id: "decline", fixtures: ["material", "flow"], tools: BASE_TOOLS, prompt: `${COACH} Confirm: yes to everything you propose recording, except anything about the phone field: do not record that at all.` },
+  { id: "nocode", fixtures: ["nomaterial"], tools: BASE_TOOLS, prompt: "Look at the signup flow. I have no user material. Attribution: full source as given. My current belief: freelancers hate chasing late payments. Confirm: yes to everything you propose recording. Approve any .gitignore change you need." },
   { id: "material", fixtures: ["material"], tools: BASE_TOOLS, prompt: `${MATERIAL} Approve any .gitignore change you need.` },
   { id: "privacy", fixtures: ["material"], tools: BASE_TOOLS, prompt: `${MATERIAL} Approve any .gitignore change you need.` },
   { id: "nomaterial", fixtures: ["nomaterial"], tools: WEB_TOOLS, prompt: "I have no user material at all. Competitors I know of: FreshBooks, Wave, Bonsai. Attribution: full source as given. My current belief: freelancers hate chasing late payments. Approve any .gitignore change you need." },
@@ -74,7 +80,7 @@ function run(c, n) {
           if (m.type === "result") final = m.result ?? "";
         } catch {}
       }
-      const rec = { case: c.id, n, dir, tools, files: findEmpathy(dir), final: final || texts.at(-1) || "" };
+      const rec = { case: c.id, n, dir, tools, texts, files: findEmpathy(dir), final: final || texts.at(-1) || "" };
       writeFileSync(join(out, `${label}-${c.id}-${n}.json`), JSON.stringify(rec, null, 2));
       console.log(`${label} ${c.id} #${n}: ${tools.length} tool calls, EMPATHY.md at [${Object.keys(rec.files).join(", ")}]`);
       resolve();

@@ -57,7 +57,7 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
     check("dark-mode opinion kept out of ## Needs", !/dark mode/i.test(section(md, "Needs")));
     check("designer's belief stays assumed", !needs.some((l) => /faster invoicing/i.test(l) && !/\bassumed\b/i.test(l)));
   }
-  if (["material", "privacy", "update", "ignored", "approve"].includes(r.case)) {
+  if (["material", "privacy", "update", "ignored", "approve", "coach", "decline"].includes(r.case)) {
     const leaked = PEOPLE.filter((p) => new RegExp(`\\b${p.replace(/[.-]/g, "\\$&")}\\b`, "i").test(md));
     check("no names or emails from the material", leaked.length === 0, leaked.join(", "));
   }
@@ -79,6 +79,25 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
     check("every need assumed", needs.every((l) => /\bassumed\b/i.test(l)));
     check("says web search was unavailable", /web search|search (is|was)n?'?t? ?(not )?available|no web/i.test(r.final));
   }
+  if (r.case === "coach" || r.case === "decline") {
+    check("names the flow examined", /signup/i.test(md));
+    const refs = [...section(md, "Assumptions in the code").matchAll(/(app\/[\w/.-]+\.tsx):(\d+)/g)];
+    const real = refs.filter(([, f, n]) => {
+      try { return Number(n) >= 1 && Number(n) <= readFileSync(join(here, "fixtures/flow", f), "utf8").split("\n").length; } catch { return false; }
+    });
+    check("## Assumptions in the code cites a real file:line", real.length > 0, refs.map((m) => m[0]).join(", ") || "none");
+    check("explains a question with `Why I'm asking:`", /why i'm asking:/i.test(r.texts.join("\n")));
+    const onboarding = md.split("\n").filter((l) => /onboarding|bank|five steps|5 steps/i.test(l));
+    check("onboarding recollection labelled recalled", onboarding.some((l) => /\brecalled\b/i.test(l)));
+    check("onboarding status: supported by recollection", /supported by recollection/i.test(md));
+    check("no code assumption marked plainly 'supported' on recollection alone",
+      !section(md, "Assumptions in the code").split("\n").some((l) => /onboarding|bank|steps/i.test(l) && /\bsupported\b/i.test(l) && !/by recollection/i.test(l)));
+  }
+  if (r.case === "coach") {
+    check("phone assumption recorded as assumed", md.split("\n").some((l) => /phone/i.test(l) && /\bassumed\b/i.test(l)));
+  }
+  if (r.case === "decline") check("nothing about the phone field recorded", !/phone|mobile number/i.test(md));
+  if (r.case === "nocode") check("says no flow was found in code", /no (user-facing )?flow|no code|nothing built/i.test(md + r.final));
   if (r.case === "update") check("earlier entry (CSV export) survives", /csv export/i.test(md));
   if (r.case === "approve") {
     const tracked = (p) => { try { execFileSync("git", ["check-ignore", "-q", p], { cwd: r.dir }); return false; } catch { return true; } };
