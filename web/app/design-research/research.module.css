@@ -21,7 +21,7 @@
 .page {
   --dr-ink: #162036;
   --dr-secondary: #20294C;  /* brand --text-secondary (navy); ~13:1 on white, AAA */
-  --dr-muted: #64748b;      /* brand --text-tertiary (grey); dim/meta only, ~4.6:1 AA */
+  --dr-muted: #475569;      /* brand --text-tertiary (grey); dim/meta only, 7.6:1 on white */
   --dr-line: #e6ebf5;
   --dr-line-strong: #d8dde8;
   --dr-divider: #cbd4e2;    /* section separators — deliberately visible */

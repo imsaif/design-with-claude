@@ -19,7 +19,7 @@
   --surface-elevated: #ffffff;
   --text-primary: #162036;
   --text-secondary: #20294C;
-  --text-tertiary: #64748b;
+  --text-tertiary: #475569; /* 7.6:1 on white, 6.7:1 on tag chips; #64748b failed AA on chips (4.24:1) */
   --text-disabled: #94a3b8;
   --text-hero: #162036;
   --border-primary: #e5e7eb;
