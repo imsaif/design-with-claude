@@ -12,7 +12,7 @@
       "name": "design-with-claude",
       "source": "./",
       "description": "Audit your design system with npx dwic-audit@1.0.0-alpha.12, then fix what it finds with 50 design skills (40 specialists and 8 technical guides): accessibility, color, typography, spacing, motion, forms, navigation, copy, and more",
-      "version": "1.0.10",
+      "version": "1.0.11",
       "category": "design",
       "tags": ["design", "ux", "ui", "accessibility", "design-system", "agents"],
       "keywords": ["design", "ux", "ui", "accessibility", "design-system"]
