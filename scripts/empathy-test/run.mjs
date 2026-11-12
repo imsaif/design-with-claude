@@ -20,7 +20,9 @@ mkdirSync(out, { recursive: true });
 
 const BASE_TOOLS = "Read,Glob,Grep,Write,Edit,Bash(git:*),Bash(ls:*),Bash(mkdir:*),Skill";
 const WEB_TOOLS = `${BASE_TOOLS},WebSearch,WebFetch,Agent`;
-const MATERIAL = "Material is in research/. Attribution: remove names and emails, keep role, source type and date. My current belief: freelancers mostly want faster invoicing.";
+// Every case: -p cannot answer mid-run, so unanswered probes and confirmations are settled up front.
+const ALWAYS = "Any probe I haven't answered above: my answer is 'no idea yet', every time. Confirmations: yes to everything you propose recording, unless I said otherwise above.";
+const MATERIAL ="Material is in research/. Attribution: remove names and emails, keep role, source type and date. My current belief: freelancers mostly want faster invoicing.";
 
 // Revision 2: the designer's probe answers and confirmations travel in the prompt, since -p is one message.
 const COACH = "Look at the signup flow: app/signup and the onboarding it leads to. Make sure the required phone field and the five onboarding steps are among what you probe. My answers to your probes, in order — about the phone field: 'users want to be reachable', then 'people in general, I suppose', then 'I don't really know'. About the onboarding steps: 'A freelance photographer I demoed to on 3 November quit at the connect-your-bank step and said she would finish later; she never came back.' About anything else you probe: 'no idea yet'. Material is in research/. Attribution: remove names and emails, keep role, source type and date. Approve any .gitignore change you need.";
@@ -62,7 +64,7 @@ function prepare(c) {
 function run(c, n) {
   const dir = prepare(c);
   return new Promise((resolve) => {
-    const child = spawn("claude", ["--setting-sources", "project", "-p", `/design-with-claude:design-empathy ${c.prompt}`,
+    const child = spawn("claude", ["--setting-sources", "project", "-p", `/design-with-claude:design-empathy ${c.prompt} ${ALWAYS}`,
       "--plugin-dir", pluginDir, "--strict-mcp-config", "--model", "sonnet", "--max-budget-usd", "2.00",
       "--allowedTools", c.tools, "--output-format", "stream-json", "--verbose"], { cwd: dir, stdio: ["ignore", "pipe", "pipe"] });
     let buf = "";

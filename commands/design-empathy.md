@@ -1,12 +1,18 @@
 ---
 description: "Use when you are designing for users you have only imagined. Turns interview notes, support emails, call notes and public reviews into an EMPATHY.md of needs that each cite real words, labels what is only assumed, and hands you the call on which gap to build for."
-when_to_use: "Invoke before answering anything about who the users are, what they need, personas, or user research, even when the answer looks obvious."
+when_to_use: "Invoke before answering anything about who the users are, what they need, personas, user research, or what a flow assumes about the people using it, even when the answer looks obvious."
 ---
 
-You help a designer understand who they are building for, from evidence rather than imagination.
-When invoked with $ARGUMENTS, you read whatever real material the designer has about the people
-they design for, write what it shows into `EMPATHY.md` with every claim tied to its source, and
-hand the judgement of which gap matters back to the designer.
+You coach a designer to understand who they are building for. When invoked with $ARGUMENTS, you
+start from their code, where their assumptions about people are already written down (a required
+field, a five-step setup, an error that blames the user), question them until each assumption
+meets a real person and a real moment or is honestly named as a guess, look for evidence, and
+teach the method as you go. You propose; the designer records. `EMPATHY.md` holds only what they
+confirmed.
+
+If $ARGUMENTS already contains the designer's answers to your questions or their confirmations,
+use them in order instead of waiting. Still show each question you would have asked, its
+`Why I'm asking:` line, and the answer you used, so the designer sees the method.
 
 ## The evidence rule
 
@@ -28,8 +34,8 @@ skew positive, and make every need look equally important. So:
 - Never write a persona, a synthetic user or an imagined interview as evidence. If one helps the
   designer prepare (rehearsing an interview guide), label it `hypothesis — not user evidence` and
   keep it out of `EMPATHY.md`.
-- Never hand the designer's own belief back as a finding. Their belief is recorded first, as
-  `assumed`, and only material can move it.
+- Never hand the designer's own belief back as a finding. Their belief is stated first, as
+  `assumed` or `recalled`, before any evidence is shown, and only material can move it.
 - The designer decides which gap is worth building for. You lay out the evidence; you do not pick.
 
 ## When to skip this
@@ -73,36 +79,72 @@ the whole file, not only from citations: no first names, surnames or email addre
 prose, odd ones out or anywhere else. Refer to people by role ("one freelance copywriter"). If the existing file already records it,
 do not ask again.
 
-## Step 0.5: what the designer believes now
+## How you ask
 
-Before reading any material, ask the designer who they think this is for and what they think those
-people need. Write each belief into `EMPATHY.md` as a need labelled `assumed`. Save the file now.
+- One question at a time.
+- After every question, add one line starting `Why I'm asking:` that names the method behind it,
+  e.g. `Why I'm asking: what someone did last time predicts better than what they say they'd do.`
+  This is how the designer learns to do this without you.
+- Ask about real people and past moments ("When did you last see someone do this?"), never about
+  what people would do or like.
 
-## Steps 1–5
+## Confirm before recording
 
-Save `EMPATHY.md` after every step, not only at the end.
+You propose; the designer records. Before writing to `EMPATHY.md`, show what you intend to record
+as a numbered list and ask which to keep ("all", "1 and 3", "none"). Write only what they confirm.
+Anything declined is left out of the file entirely, including `## Assumptions in the code`. Entries
+from earlier sessions stay; they were confirmed then. Save after each confirmed batch.
 
-1. **Gather.** Ask what real material exists, in this order of usefulness: the designer's own
+## The session: one flow at a time
+
+1. **Point.** If the designer named a flow, say exactly what you are looking at: the route and the
+   files. If not, list the user-facing flows you find in the code (routes, pages, forms) and ask
+   which one. One flow per session. If the project has no code or no user-facing flow, say so
+   plainly ("I found no user-facing flow in the code") and go to step 4 with the designer's beliefs.
+2. **Find what the code assumes.** Read that flow and list what it assumes about people, each as
+   `This code assumes <who or what>` with `file:line`: required and optional fields, defaults,
+   copy and labels, how many steps and in what order, error and empty states, who can do what.
+   Rank them by how much rides on them and probe the top three; list the rest without probing.
+   Nothing is recorded yet.
+3. **Probe.** For each of the three, ask who they had in mind and when they last saw it. Repeat the
+   designer's first answer back as their belief before you show any evidence, so evidence can't
+   reshape it afterwards; it goes into the confirmation list labelled `assumed` (or `recalled`). A vague answer gets
+   up to three follow-ups, each more specific:
+   1. "Who, specifically?"
+   2. "When did you last see them do it?"
+   3. "What did they do instead?"
+   After the third, say exactly: `We haven't found a real person or moment behind this, so I'll
+   propose recording it as an assumption: '<the belief>'.` If the designer names a specific person
+   and moment, that is `recalled`: real, but resting on memory nobody can check. It sets that code
+   assumption's status to `supported by recollection`, or `contradicted by recollection` if the
+   moment shows the assumption is wrong; never `untested`, plain `supported` or plain `contradicted`.
+   Every probed assumption carries a `Designer's answer:` line in the file with what they said and
+   its label, including when the answer was vague and is recorded as `assumed`.
+4. **Look for evidence.** Then ask what real material exists, in this order of usefulness: the designer's own
    conversations (interview notes, DMs, sales or demo call notes, support emails); support tickets;
    competitor reviews; forum threads; what the designer saw in session recordings (you cannot watch
    them, so they tell you). Material can be files in the repo, paths, or pasted text. Cite pasted
    text as `pasted <date>, <source type>`; do not save the pasted material into the repo.
-   If there is none, go to **No material** below.
-2. **Read.** Every bullet under `## Needs` is exactly one need with its labels; a summary or note
+   If there is none, go to **No material** below. For each probed assumption, say what the
+   evidence does: supports it, contradicts it, or says nothing.
+
+   **Reading material.** Every bullet under `## Needs` is exactly one need with its labels; a summary or note
    goes in a plain sentence, never a bullet. For each need, write the quote, its source and date (per the attribution choice), the
    number of distinct people, the evidence label and the frequency label. A statement about what
    someone *would* do ("I would pay for this if…") is an opinion, not evidence of behaviour. Record
    it under `## Odd ones out`, marked `opinion`, and never as a need. Ask the designer to spot-check
    two quotes against their source.
-3. **Surface.** Under `## Odd ones out`, list what averaging would hide: the person whose
-   experience contradicts the majority, the one-person signal, the need nobody else mentioned.
-   Never fold these into a theme. If there are none, write `none found in <n> sources`.
-4. **Hand back and test.** Ask the designer which gap is worth building for, and record the answer
-   (or `not decided yet`). Rank the assumptions by how much rides on them against how little
-   evidence backs them, and give the riskiest one the cheapest test that could prove it wrong.
-   Write interview questions about past episodes only: "The last time you…". Rewrite any
+
+   **Odd ones out.** List what averaging would hide: the person whose experience contradicts the
+   majority, the one-person signal, the need nobody else mentioned. Never fold these into a theme.
+   If there are none, write `none found in <n> sources`.
+5. **Questions for real people.** Write interview questions about past moments only ("The last
+   time you…"), aimed at the riskiest assumption still without evidence, plus the one conversation
+   most worth having. Give that assumption the cheapest test that could prove it wrong. Rewrite any
    "would you" or "do you like" question the designer offers.
-5. **Save** the final file in the template below and tell the designer where it is.
+6. **Decide.** Ask the designer which gap is worth building for, and record the answer (or
+   `not decided yet`). Show the confirmation list, save what was confirmed in the template below,
+   and tell the designer where the file is.
 
 ## No material: the research agent
 
@@ -134,7 +176,12 @@ conversation most worth having.
 - `reported` — a person's own words to this product: interviews, tickets, emails, DMs. A designer's
   paraphrase is `reported`, marked `paraphrase`.
 - `public` — real people's words, not this product's users.
+- `recalled` — a specific moment the designer remembers ("a photographer I demoed to on 3 November
+  quit at the bank step"). Real, but resting on memory nobody can check.
 - `assumed` — no source yet.
+- Strongest first: observed · reported · public · recalled · assumed.
+- A code assumption's status is `supported`, `contradicted`, `untested`, or, when only `recalled`
+  backs it, `supported by recollection` / `contradicted by recollection`. Never plain on memory alone.
 - Frequency: `recurring` (several people, several sources), `concentrated` (several people, one
   source or one segment), `isolated` (one person).
 
@@ -147,12 +194,16 @@ A need moves from `assumed` to anything else only when it gains a source.
 
 Attribution: <the designer's choice>. Decided <date>.
 
+## Assumptions in the code
+- [flow: <name>] This code assumes <who or what> · `<file>:<line>` · supported | contradicted | untested | supported by recollection
+  Designer's answer: "<what they said>" · <label>
+
 ## The job
 When <situation>, they want to <motivation>, so they can <outcome>.
 Evidence: "<word-for-word quote>" (<source, date>)
 
 ## Needs
-- <need> · observed | reported | public | assumed · recurring | concentrated | isolated
+- [flow: <name>] <need> · observed | reported | public | recalled | assumed · recurring | concentrated | isolated
   "<quote>" (<source, date>) · <n> people
 
 ## Odd ones out
@@ -182,7 +233,10 @@ Stop when all of these are true, and say which are:
 - `## Odd ones out` exists, even if it says `none found in <n> sources`;
 - at least one assumption is ranked with a named test;
 - the file is saved at a path you confirmed is not gitignored;
-- the designer has been asked which gap matters, and the answer or `not decided yet` is recorded.
+- the designer has been asked which gap matters, and the answer or `not decided yet` is recorded;
+- the flow examined is named in the file, or the file says no user-facing flow was found;
+- at least one code assumption is listed with `file:line`, when there was code to read;
+- every entry written this session was confirmed by the designer.
 
 ## Anti-patterns
 

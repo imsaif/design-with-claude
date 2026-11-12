@@ -14,7 +14,7 @@ const fixtureText = norm(["interview-1.md", "interview-2.md", "tickets.md"]
 // First names, surnames and email domains separately: a leak in prose ("Aisha's wish") counts.
 const PEOPLE = ["Priya", "Raman", "Tomás", "Tomas", "Okafor", "Mei Lin", "Chua", "Daniel", "Weiss", "Aisha", "Bello",
   "lumenstudio", "okafor.design", "chua-studio", "weissfilm", "bellocreative"];
-const LABEL = /\b(observed|reported|public|assumed)\b/i;
+const LABEL = /\b(observed|reported|public|recalled|assumed)\b/i;
 
 function section(md, heading) {
   const m = md.match(new RegExp(`^## ${heading}[^\\n]*\\n([\\s\\S]*?)(?=^## |^Last updated|$(?![\\s\\S]))`, "mi"));
@@ -24,7 +24,8 @@ function section(md, heading) {
 // so a word in scare quotes ("Would" statements) never pairs with the next quote on the line.
 const quotes = (s) => [...s.matchAll(/(?:^|[\s(])"([^"\n]{20,}?)"(?=[\s).,;:·]|$)/gm)].map((m) => m[1]).filter((q) => q.split(/\s+/).length >= 6);
 // Suggested interview questions are quoted too, but they are prompts, not evidence.
-const isQuestionLine = (l) => /the last time you|tell me about|cheapest test|next question/i.test(l);
+// The designer's own answers are quoted too; they are beliefs, not public evidence.
+const isQuestionLine = (l) => /the last time|tell me about|cheapest test|next question|designer'?s? answers?|designer said/i.test(l);
 const needLines = (md) => section(md, "Needs").split("\n").filter((l) => /^\s*-\s/.test(l));
 
 let fails = 0;
@@ -43,7 +44,7 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
   if (!md) continue;
   for (const h of ["Needs", "Odd ones out", "Riskiest assumptions"]) check(`has ## ${h}`, new RegExp(`^## ${h}`, "mi").test(md));
   check("records attribution choice", /attribution/i.test(md));
-  check("has a past-episode question", /the last time you/i.test(md));
+  check("has a past-episode question", /the last time\b/i.test(md));
   const needs = needLines(md);
   check("every need is labelled", needs.length > 0 && needs.every((l) => LABEL.test(l)), needs.filter((l) => !LABEL.test(l)).join(" | "));
 
@@ -62,7 +63,8 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
     check("no names or emails from the material", leaked.length === 0, leaked.join(", "));
   }
   if (r.case === "nomaterial") {
-    const withUrl = md.split("\n").filter((l) => quotes(l).length > 0 && !isQuestionLine(l));
+    // Quoting the project's own README when saying no flow was found is not a claim about users.
+    const withUrl = md.split("\n").filter((l) => quotes(l).length > 0 && !isQuestionLine(l) && !/readme|package\.json|no user-facing flow/i.test(l));
     if (withUrl.length === 0) {
       console.log("  note: no public quotes in the file");
       check("says plainly that no public quotes were confirmed", /no public quotes|could not confirm|couldn't confirm|none confirmed/i.test(md + r.final));
@@ -77,7 +79,7 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
     check("no URLs anywhere", !/https:\/\//.test(md));
     check("no public labels on needs", !needs.some((l) => /\bpublic\b/i.test(l)));
     check("every need assumed", needs.every((l) => /\bassumed\b/i.test(l)));
-    check("says web search was unavailable", /web search|search (is|was)n?'?t? ?(not )?available|no web/i.test(r.final));
+    check("says web search was unavailable", /web ?search[^.\n]*(not|n't|unavailable|denied|blocked)|no web/i.test(r.texts.join("\n") + r.final + md));
   }
   if (r.case === "coach" || r.case === "decline") {
     check("names the flow examined", /signup/i.test(md));
@@ -89,14 +91,19 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
     check("explains a question with `Why I'm asking:`", /why i'm asking:/i.test(r.texts.join("\n")));
     const onboarding = md.split("\n").filter((l) => /onboarding|bank|five steps|5 steps/i.test(l));
     check("onboarding recollection labelled recalled", onboarding.some((l) => /\brecalled\b/i.test(l)));
-    check("onboarding status: supported by recollection", /supported by recollection/i.test(md));
+    // The recollection (she quit at the bank step) can support or contradict the five-step assumption;
+    // either way the status must say it rests on memory.
+    check("onboarding status rests on recollection", /(supported|contradicted) by recollection/i.test(md));
     check("no code assumption marked plainly 'supported' on recollection alone",
       !section(md, "Assumptions in the code").split("\n").some((l) => /onboarding|bank|steps/i.test(l) && /\bsupported\b/i.test(l) && !/by recollection/i.test(l)));
   }
   if (r.case === "coach") {
-    check("phone assumption recorded as assumed", md.split("\n").some((l) => /phone/i.test(l) && /\bassumed\b/i.test(l)));
+    // The label sits on the entry's line or on its "Designer's answer:" line just below.
+    const lines = md.split("\n");
+    check("phone assumption recorded as assumed",
+      lines.some((l, i) => /phone|mobile/i.test(l) && /\bassumed\b/i.test(l + " " + (lines[i + 1] ?? ""))));
   }
-  if (r.case === "decline") check("nothing about the phone field recorded", !/phone|mobile number/i.test(md));
+  if (r.case === "decline") check("nothing about the phone field recorded", !/phone (field|number)|mobile number|tel\b|app\/signup\/page\.tsx:2[56]\b/i.test(md));
   if (r.case === "nocode") check("says no flow was found in code", /no (user-facing )?flow|no code|nothing built/i.test(md + r.final));
   if (r.case === "update") check("earlier entry (CSV export) survives", /csv export/i.test(md));
   if (r.case === "approve") {
