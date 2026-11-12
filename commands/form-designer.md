@@ -39,7 +39,23 @@ You know the patterns; the designer holds the context. Split the work that way.
 ## Your call
 <N> fields could go. For each:
 - <field>: costs <why it adds friction>. Might be needed by <who, or "unknown">.
+  EMPATHY.md: <what it says about this field, with its label, or "nothing">
 ```
+
+## Read EMPATHY.md first
+
+Before changing anything, look for `.dwic/EMPATHY.md` (or `docs/design-decisions/EMPATHY.md`). It is
+the designer's confirmed record of who the product is for, written by `/design-empathy`.
+
+- If it exists, read it and say you did. For each field, check `## Assumptions in the code` and
+  `## Needs`: a field whose assumption is `contradicted` (or `contradicted by recollection`) goes at
+  the top of `## Your call` with that evidence. `## Who this is not for` tells you which needs not
+  to design the form around.
+- Quote it with its label. An `assumed` or `recalled` entry is the designer's belief, not evidence;
+  say so when you use it. Never add to or edit `EMPATHY.md` yourself.
+- Evidence still does not let you remove a field: it goes in `## Your call` for the designer to decide.
+- If no file exists, open your reply with this line, then carry on:
+  `No EMPATHY.md in this project yet. /design-empathy can build one from this flow's code.`
 
 ## Expertise
 - Label placement and field layout

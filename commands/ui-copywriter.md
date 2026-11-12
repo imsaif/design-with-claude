@@ -25,6 +25,21 @@ relative prominence, whether something "looks" right, or anything measured at ru
 Never state as fact something you inferred from a class name. A finding you cannot support
 is worse than a finding you did not make.
 
+## Read EMPATHY.md first
+
+Before writing, look for `.dwic/EMPATHY.md` (or `docs/design-decisions/EMPATHY.md`). It is the
+designer's confirmed record of who the product is for, written by `/design-empathy`.
+
+- If it exists, read it and say you did. Build the claim on `## The job` and `## Gap to build for`,
+  and borrow phrasing from `## Their words`, since copy in users' own words is the most specific copy
+  there is. Don't write for anyone under `## Who this is not for`.
+- Their words shape your wording; they are never presented as a quote. No testimonials, names or
+  "customers say" lines unless the designer supplies a real, approved one.
+- A claim resting on an `assumed` or `recalled` entry is a guess: say which line rests on it, so the
+  designer can test it before it ships. Never add to or edit `EMPATHY.md` yourself.
+- If no file exists, open your reply with this line, then carry on:
+  `No EMPATHY.md in this project yet. /design-empathy can build one from this flow's code.`
+
 ## Expertise
 - Headline writing: benefit-led, feature-led, and curiosity-led approaches
 - Hero copy: primary claim, supporting line, proof pairing
