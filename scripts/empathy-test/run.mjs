@@ -29,6 +29,7 @@ export const CASES = [
   { id: "noweb", fixtures: ["nomaterial"], tools: BASE_TOOLS, prompt: "I have no user material at all. Competitors I know of: FreshBooks, Wave, Bonsai. Attribution: full source as given. My current belief: freelancers hate chasing late payments. Approve any .gitignore change you need." },
   { id: "update", fixtures: ["material", "update-extra"], tools: BASE_TOOLS, prompt: `${MATERIAL} Approve any .gitignore change you need.` },
   { id: "ignored", fixtures: ["material"], ignoreDwic: true, tools: BASE_TOOLS, prompt: `${MATERIAL} Do not change .gitignore.` },
+  { id: "approve", fixtures: ["material"], ignoreDwic: true, tools: BASE_TOOLS, prompt: `${MATERIAL} Yes, change .gitignore so EMPATHY.md is saved, but keep the rest of .dwic/ ignored.` },
 ];
 
 function findEmpathy(dir, rel = "") {

@@ -1,5 +1,6 @@
 // node scripts/empathy-test/check.mjs <label>
 // Grades every results/<label>-*.json written by run.mjs. Exits 1 on any FAIL.
+import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -10,8 +11,9 @@ const norm = (s) => s.replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replac
 
 const fixtureText = norm(["interview-1.md", "interview-2.md", "tickets.md"]
   .map((f) => readFileSync(join(here, "fixtures/material/research", f), "utf8")).join("\n"));
-const PEOPLE = ["Priya", "Raman", "priya.raman@lumenstudio.co", "Tomás", "Okafor", "tomas@okafor.design",
-  "Mei Lin", "Chua", "meilin@chua-studio.sg", "Daniel Weiss", "dan.weiss@weissfilm.de", "Aisha Bello", "aisha@bellocreative.ng"];
+// First names, surnames and email domains separately: a leak in prose ("Aisha's wish") counts.
+const PEOPLE = ["Priya", "Raman", "Tomás", "Tomas", "Okafor", "Mei Lin", "Chua", "Daniel", "Weiss", "Aisha", "Bello",
+  "lumenstudio", "okafor.design", "chua-studio", "weissfilm", "bellocreative"];
 const LABEL = /\b(observed|reported|public|assumed)\b/i;
 
 function section(md, heading) {
@@ -52,28 +54,38 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
     const missing = qs.filter((q) => !pieces(q).every((p) => fixtureText.includes(p)));
     check("every quote appears verbatim in the material", qs.length > 0 && missing.length === 0, missing.length ? missing.join(" | ") : "no quotes found");
     check("outlier (deposit up front) under Odd ones out", /deposit/i.test(section(md, "Odd ones out")));
-    check("dark-mode hypothetical not cited as observed/reported need",
-      !needs.some((l) => /dark mode/i.test(l) && /\b(observed|reported)\b/i.test(l)));
+    check("dark-mode opinion kept out of ## Needs", !/dark mode/i.test(section(md, "Needs")));
     check("designer's belief stays assumed", !needs.some((l) => /faster invoicing/i.test(l) && !/\bassumed\b/i.test(l)));
   }
-  if (r.case === "privacy" || r.case === "material") {
-    const leaked = PEOPLE.filter((p) => md.includes(p));
+  if (["material", "privacy", "update", "ignored", "approve"].includes(r.case)) {
+    const leaked = PEOPLE.filter((p) => new RegExp(`\\b${p.replace(/[.-]/g, "\\$&")}\\b`, "i").test(md));
     check("no names or emails from the material", leaked.length === 0, leaked.join(", "));
   }
   if (r.case === "nomaterial") {
-    const pub = quotes(md);
     const withUrl = md.split("\n").filter((l) => quotes(l).length > 0 && !isQuestionLine(l));
-    check("every quote carries an https URL", pub.length > 0 && withUrl.every((l) => /https:\/\//.test(l)), withUrl.filter((l) => !/https:\/\//.test(l)).join(" | "));
-    check("quotes labelled public", withUrl.every((l) => /\bpublic\b/i.test(l) || /\bpublic\b/i.test(md)));
+    if (withUrl.length === 0) {
+      console.log("  note: no public quotes in the file");
+      check("says plainly that no public quotes were confirmed", /no public quotes|could not confirm|couldn't confirm|none confirmed/i.test(md + r.final));
+    } else {
+      check("every evidence quote carries an https URL", withUrl.every((l) => /https:\/\//.test(l)), withUrl.filter((l) => !/https:\/\//.test(l)).join(" | "));
+      const needQuoteLines = section(md, "Needs").split("\n").filter((l) => quotes(l).length > 0 && !isQuestionLine(l));
+      check("needs built on public quotes are labelled public", needs.filter((l) => /https:\/\//.test(l) || needQuoteLines.length).every((l) => /\b(public|assumed)\b/i.test(l)));
+    }
     console.log(`  spot-check these URLs by hand:\n    ${[...new Set(md.match(/https:\/\/[^\s)>"]+/g) ?? [])].slice(0, 6).join("\n    ")}`);
   }
   if (r.case === "noweb") {
-    check("no URLs", !/https:\/\//.test(section(md, "Needs")));
-    check("no public labels", !/\bpublic\b/i.test(section(md, "Needs")));
+    check("no URLs anywhere", !/https:\/\//.test(md));
+    check("no public labels on needs", !needs.some((l) => /\bpublic\b/i.test(l)));
     check("every need assumed", needs.every((l) => /\bassumed\b/i.test(l)));
     check("says web search was unavailable", /web search|search (is|was)n?'?t? ?(not )?available|no web/i.test(r.final));
   }
   if (r.case === "update") check("earlier entry (CSV export) survives", /csv export/i.test(md));
+  if (r.case === "approve") {
+    const tracked = (p) => { try { execFileSync("git", ["check-ignore", "-q", p], { cwd: r.dir }); return false; } catch { return true; } };
+    check("saved to .dwic/EMPATHY.md", path === ".dwic/EMPATHY.md", path);
+    check("git would track .dwic/EMPATHY.md", tracked(".dwic/EMPATHY.md"));
+    check("rest of .dwic/ stays ignored", !tracked(".dwic/report.json"));
+  }
   if (r.case === "ignored") {
     check("saved to docs/design-decisions/", path === "docs/design-decisions/EMPATHY.md", path);
     check("nothing written to ignored .dwic/", !paths.includes(".dwic/EMPATHY.md"));

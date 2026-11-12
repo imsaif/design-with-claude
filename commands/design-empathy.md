@@ -47,8 +47,17 @@ skew positive, and make every need look equally important. So:
 git check-ignore -q .dwic/EMPATHY.md && echo IGNORED
 ```
 
-If it is ignored, offer to add `!.dwic/EMPATHY.md` to `.gitignore` (and `!.dwic/` above it if the
-whole folder is ignored). If the designer declines, write to `docs/design-decisions/EMPATHY.md`.
+If it is ignored, offer to change `.gitignore` so this one file is kept and the rest of `.dwic/`
+(audit reports) stays ignored. Git cannot re-include a file inside an ignored folder, so replace a
+`.dwic/` line with these two lines, in this order:
+
+```
+.dwic/*
+!.dwic/EMPATHY.md
+```
+
+Then run the check again to confirm the file is no longer ignored. If the designer declines, write
+to `docs/design-decisions/EMPATHY.md`.
 Never write to a path you have confirmed is ignored.
 
 **Existing file.** If an `EMPATHY.md` already exists, read it. You are updating it: keep every
@@ -58,7 +67,9 @@ entry it holds unless new material contradicts it, and say what you changed.
 any quote, ask how quotes should be attributed: the full source as given, or names and emails
 removed (role, source type and date only). Offer no default. Write the answer as the first line
 under the title, e.g. `Attribution: names and emails removed (role, source type, date). Decided
-<date>.` Later runs follow that line without asking. If the existing file already records it,
+<date>.` Later runs follow that line without asking. When names are removed, they are removed from
+the whole file, not only from citations: no first names, surnames or email addresses in notes,
+prose, odd ones out or anywhere else. Refer to people by role ("one freelance copywriter"). If the existing file already records it,
 do not ask again.
 
 ## Step 0.5: what the designer believes now
@@ -76,10 +87,11 @@ Save `EMPATHY.md` after every step, not only at the end.
    them, so they tell you). Material can be files in the repo, paths, or pasted text. Cite pasted
    text as `pasted <date>, <source type>`; do not save the pasted material into the repo.
    If there is none, go to **No material** below.
-2. **Read.** For each need, write the quote, its source and date (per the attribution choice), the
+2. **Read.** Every bullet under `## Needs` is exactly one need with its labels; a summary or note
+   goes in a plain sentence, never a bullet. For each need, write the quote, its source and date (per the attribution choice), the
    number of distinct people, the evidence label and the frequency label. A statement about what
-   someone *would* do ("I would pay for this if…") is an opinion: it is not evidence of behaviour,
-   so it never carries `observed` or `reported` for that behaviour. Ask the designer to spot-check
+   someone *would* do ("I would pay for this if…") is an opinion, not evidence of behaviour. Record
+   it under `## Odd ones out`, marked `opinion`, and never as a need. Ask the designer to spot-check
    two quotes against their source.
 3. **Surface.** Under `## Odd ones out`, list what averaging would hide: the person whose
    experience contradicts the majority, the one-person signal, the need nobody else mentioned.
@@ -102,7 +114,8 @@ Do not stop the designer. If the session has web search, start a research subage
 Then, before anything enters `EMPATHY.md`, open each URL yourself and confirm the quote is on the
 page. Drop any quote you cannot confirm. Every quote from this research carries its full `https://`
 URL on the same line, wherever it appears in the file, including `## Odd ones out` and any quote you
-mention only to set aside. Label everything kept `public`: real people, but not this
+mention only to set aside. If no quote survives the check, write `No public quotes confirmed`
+under `## Needs` and say so to the designer. Label everything kept `public`: real people, but not this
 product's users. With fewer than 50 reviews behind a theme, mark it `early signal`. Add the line
 `Public sources lean toward people who complain.` under `## Needs`.
 
