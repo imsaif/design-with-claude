@@ -4,6 +4,7 @@ import { Fragment, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LearnCTA } from "@/components/skills/LearnCTA";
 import { SkillCard } from "./SkillCard";
+import { FilterSelect } from "./FilterSelect";
 import {
   SKILLS,
   CATEGORIES,
@@ -69,34 +70,24 @@ export function SkillsDirectory() {
           ))}
         </div>
         <div className="skills-filter-tools">
-          <label className={`skills-filter-select ${activeLevel !== "all" ? "active" : ""}`}>
-            <span className="sr-only">Level</span>
-            <select
-              value={activeLevel}
-              onChange={(e) => setActiveLevel(e.target.value as SkillLevel | "all")}
-            >
-              <option value="all">Any level</option>
-              {LEVELS.map((level) => (
-                <option key={level} value={level}>
-                  {levelLabel(level)}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className={`skills-filter-select ${activeStage !== "all" ? "active" : ""}`}>
-            <span className="sr-only">Build step</span>
-            <select
-              value={activeStage}
-              onChange={(e) => setActiveStage(e.target.value as StageId | "all")}
-            >
-              <option value="all">Any step</option>
-              {STAGE_FILTERS.map((stage) => (
-                <option key={stage.id} value={stage.id}>
-                  {stage.label} (AI {stage.ai})
-                </option>
-              ))}
-            </select>
-          </label>
+          <FilterSelect<SkillLevel | "all">
+            label="Level"
+            value={activeLevel}
+            onChange={setActiveLevel}
+            options={[
+              { value: "all", label: "Any level" },
+              ...LEVELS.map((level) => ({ value: level, label: levelLabel(level) })),
+            ]}
+          />
+          <FilterSelect<StageId | "all">
+            label="Build step"
+            value={activeStage}
+            onChange={setActiveStage}
+            options={[
+              { value: "all", label: "Any step" },
+              ...STAGE_FILTERS.map((stage) => ({ value: stage.id, label: stage.label })),
+            ]}
+          />
           <span className="skills-filter-count" aria-live="polite">
             {filtered.length} skill{filtered.length !== 1 ? "s" : ""}
           </span>

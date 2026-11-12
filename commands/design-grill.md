@@ -19,19 +19,28 @@ Do not run this because it is thorough. Run it when decisions are being made tha
 Artifacts that are not tracked by git do not survive. Check first:
 
 ```
-git check-ignore -q .dwic/ && echo IGNORED
+git check-ignore -q .dwic/DESIGN-CONTEXT.md && echo IGNORED
 ```
 
-If `.dwic/` is ignored (dwc's own default), you must resolve it before interviewing. Tell the user plainly and offer the fix:
+Check the file, not the folder: once the folder's contents are ignored with `.dwic/*`, the folder
+itself no longer reports as ignored, but the file inside it can be.
 
-> `.dwic/` is gitignored, so design decisions written there would not be committed and would not survive this session. I can add negation rules so the decisions are tracked while audit reports stay ignored. Proceed?
+If it is ignored (dwc's own repo ignores `.dwic/`), you must resolve it before interviewing. Tell the user plainly and offer the fix:
 
-On approval, append to `.gitignore`:
+> `.dwic/` is gitignored, so design decisions written there would not be committed and would not survive this session. I can change the rule so the decisions are tracked while audit reports stay ignored. Proceed?
+
+On approval, edit `.gitignore`. Git cannot re-include a file inside an ignored folder, so a
+`.dwic/` line must become `.dwic/*`, followed by the negations, in this order:
 
 ```
+.dwic/*
 !.dwic/DESIGN-CONTEXT.md
 !.dwic/decisions/
 ```
+
+If `.dwic/*` is already there (another dwic command, such as `/design-empathy`, may have added it),
+only add the two negation lines. Then run the check again and confirm the file is no longer
+ignored.
 
 If the user declines, write to `docs/design-decisions/` instead. **Never write design decisions to a path you have confirmed is ignored.** If you cannot verify, say so and ask.
 
