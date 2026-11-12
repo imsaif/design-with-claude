@@ -18,6 +18,7 @@ import ChatBubbleBottomCenterTextIcon from "@heroicons/react/24/outline/ChatBubb
 import MapIcon from "@heroicons/react/24/outline/MapIcon";
 import ChatBubbleLeftRightIcon from "@heroicons/react/24/outline/ChatBubbleLeftRightIcon";
 import HeartIcon from "@heroicons/react/24/outline/HeartIcon";
+import UserGroupIcon from "@heroicons/react/24/outline/UserGroupIcon";
 import BuildingOffice2Icon from "@heroicons/react/24/outline/BuildingOffice2Icon";
 import ShoppingBagIcon from "@heroicons/react/24/outline/ShoppingBagIcon";
 import CreditCardIcon from "@heroicons/react/24/outline/CreditCardIcon";
@@ -98,6 +99,7 @@ const SKILL_ICON_MAP: Record<string, HeroIcon> = {
   "ui-copywriter": PencilSquareIcon,
   "design-critic": ScaleIcon,
   "design-grill": QuestionMarkCircleIcon,
+  "design-empathy": UserGroupIcon,
   "design-enforce": ShieldExclamationIcon,
   "design-triage": QueueListIcon,
   "briefing-claude": DocumentTextIcon,
