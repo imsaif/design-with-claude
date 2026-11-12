@@ -25,7 +25,7 @@ function section(md, heading) {
 const quotes = (s) => [...s.matchAll(/(?:^|[\s(])"([^"\n]{20,}?)"(?=[\s).,;:·]|$)/gm)].map((m) => m[1]).filter((q) => q.split(/\s+/).length >= 6);
 // Suggested interview questions are quoted too, but they are prompts, not evidence.
 // The designer's own answers are quoted too; they are beliefs, not public evidence.
-const isQuestionLine = (l) => /the last time|tell me about|cheapest test|next question|designer'?s? answers?|designer said/i.test(l);
+const isQuestionLine = (l) => /the last time|tell me about|cheapest test|next question|designer'?s? (answers?|belief)|designer said/i.test(l);
 const needLines = (md) => section(md, "Needs").split("\n").filter((l) => /^\s*-\s/.test(l));
 
 let fails = 0;
@@ -40,6 +40,13 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
   const paths = Object.keys(r.files);
   const path = paths.find((p) => p === ".dwic/EMPATHY.md") ?? paths.find((p) => p.startsWith("docs/design-decisions/")) ?? paths[0];
   const md = path ? r.files[path] : "";
+  if (r.case === "partial") {
+    // Nothing answered, nothing confirmed: the command must ask and record nothing about people.
+    const recorded = /\b(observed|reported|public|recalled|assumed)\b/i.test(section(md, "Needs") + section(md, "Assumptions in the code"));
+    check("writes nothing about people when answers and confirmations are missing", !recorded);
+    check("asks instead of supplying an answer", /\?[*_]*\s*$/m.test((r.texts ?? []).join("\n")));
+    continue;
+  }
   check("EMPATHY.md exists", Boolean(md), `found: [${paths.join(", ")}]`);
   if (!md) continue;
   for (const h of ["Needs", "Odd ones out", "Riskiest assumptions"]) check(`has ## ${h}`, new RegExp(`^## ${h}`, "mi").test(md));
@@ -52,7 +59,9 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
     const qs = quotes(section(md, "Needs") + section(md, "Their words") + section(md, "The job"));
     // A quote may be trimmed or elided ("…"), never reworded: each piece must appear verbatim.
     const pieces = (q) => norm(q).split(/\.\.\.|…|\[\.\.\.\]/).map((p) => p.trim().replace(/^[.,;:!?]+|[.,;:!?]+$/g, "").trim()).filter(Boolean);
-    const missing = qs.filter((q) => !pieces(q).every((p) => fixtureText.includes(p)));
+    // The probe questions themselves ("When did you last see them do it?") are not evidence quotes.
+    const isProbe = (q) => /\?$/.test(q.trim()) || /last seen|specifically|did they do instead/i.test(q);
+    const missing = qs.filter((q) => !isProbe(q)).filter((q) => !pieces(q).every((p) => fixtureText.includes(p)));
     check("every quote appears verbatim in the material", qs.length > 0 && missing.length === 0, missing.length ? missing.join(" | ") : "no quotes found");
     check("outlier (deposit up front) under Odd ones out", /deposit/i.test(section(md, "Odd ones out")));
     check("dark-mode opinion kept out of ## Needs", !/dark mode/i.test(section(md, "Needs")));
@@ -77,7 +86,7 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
   }
   if (r.case === "noweb") {
     check("no URLs anywhere", !/https:\/\//.test(md));
-    check("no public labels on needs", !needs.some((l) => /\bpublic\b/i.test(l)));
+    check("no public labels on needs", !needs.some((l) => /·\s*public\s*·/i.test(l)));
     check("every need assumed", needs.every((l) => /\bassumed\b/i.test(l)));
     check("says web search was unavailable", /web ?search[^.\n]*(not|n't|unavailable|denied|blocked)|no web/i.test(r.texts.join("\n") + r.final + md));
   }
@@ -98,14 +107,34 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
       !section(md, "Assumptions in the code").split("\n").some((l) => /onboarding|bank|steps/i.test(l) && /\bsupported\b/i.test(l) && !/by recollection/i.test(l)));
   }
   if (r.case === "coach") {
-    // The label sits on the entry's line or on its "Designer's answer:" line just below.
-    const lines = md.split("\n");
-    check("phone assumption recorded as assumed",
-      lines.some((l, i) => /phone|mobile/i.test(l) && /\bassumed\b/i.test(l + " " + (lines[i + 1] ?? ""))));
+    // Vague answers ×3 mean: status untested (never promoted), answer labelled assumed.
+    const al = section(md, "Assumptions in the code").split("\n");
+    const i = al.findIndex((l) => /phone|mobile/i.test(l));
+    check("phone entry status stays untested", i >= 0 && /\buntested\b/i.test(al[i]) && !/\b(supported|contradicted)\b/i.test(al[i]), al[i] ?? "no phone entry");
+    check("phone answer labelled assumed", i >= 0 && /\bassumed\b/i.test(al[i + 1] ?? ""), al[i + 1] ?? "");
   }
-  if (r.case === "decline") check("nothing about the phone field recorded", !/phone (field|number)|mobile number|tel\b|app\/signup\/page\.tsx:2[56]\b/i.test(md));
-  if (r.case === "nocode") check("says no flow was found in code", /no (user-facing )?flow|no code|nothing built/i.test(md + r.final));
-  if (r.case === "update") check("earlier entry (CSV export) survives", /csv export/i.test(md));
+  if (r.case === "decline") check("nothing about the phone field recorded",
+    !/\bphone (field|number)|mobile|\btel\b|reachable|app\/signup\/page\.tsx:(1[12]|2[56])\b/i.test(md));
+  if (["coach", "decline", "material", "privacy", "update", "nocode", "approve", "ignored"].includes(r.case)) {
+    // Confirm-first: the proposal list is shown before anything is written, even with a standing yes.
+    check("shows a numbered list of what it proposes to record",
+      // The heading in any form (bold or ##), then a numbered list within a few lines.
+      /proposed for `?empathy\.md`?[^\n]*\n(?:[^\n]*\n){0,3}?\s*1[.)]\s/i.test((r.texts ?? []).join("\n")));
+  }
+  if (["material", "privacy", "update", "ignored", "approve", "coach", "decline"].includes(r.case)) {
+    // Ticket senders give no role; one must not be guessed from their email domain.
+    check("no role guessed from an email domain", !/film|creative agency|bello ?creative/i.test(md));
+  }
+  if (r.case === "nocode") {
+    check("says no flow was found in code", /no (user-facing )?flow|no code|nothing built/i.test(md + r.final));
+    check("asks the designer for their beliefs, with a Why line",
+      /who[^?\n]*(for|have in mind|think|specifically)[^?\n]*\?/i.test((r.texts ?? []).join("\n")) && /why i'm asking:/i.test((r.texts ?? []).join("\n")));
+  }
+  if (r.case === "update") {
+    const kept = /- Users want CSV export · assumed · isolated/.test(md);
+    check("earlier entry kept as is, or its change was proposed first",
+      kept || /csv[^\n]*\n?[^\n]*(propos|change|update)/i.test((r.texts ?? []).join("\n")));
+  }
   if (r.case === "approve") {
     const tracked = (p) => { try { execFileSync("git", ["check-ignore", "-q", p], { cwd: r.dir }); return false; } catch { return true; } };
     check("saved to .dwic/EMPATHY.md", path === ".dwic/EMPATHY.md", path);

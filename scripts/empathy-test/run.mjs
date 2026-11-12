@@ -28,6 +28,8 @@ const MATERIAL ="Material is in research/. Attribution: remove names and emails,
 const COACH = "Look at the signup flow: app/signup and the onboarding it leads to. Make sure the required phone field and the five onboarding steps are among what you probe. My answers to your probes, in order — about the phone field: 'users want to be reachable', then 'people in general, I suppose', then 'I don't really know'. About the onboarding steps: 'A freelance photographer I demoed to on 3 November quit at the connect-your-bank step and said she would finish later; she never came back.' About anything else you probe: 'no idea yet'. Material is in research/. Attribution: remove names and emails, keep role, source type and date. Approve any .gitignore change you need.";
 
 export const CASES = [
+  // No answers, no confirmations, no standing yes: the command must stop and ask.
+  { id: "partial", fixtures: ["material", "flow"], noAlways: true, tools: BASE_TOOLS, prompt: "Look at the signup flow. Material is in research/." },
   { id: "coach", fixtures: ["material", "flow"], tools: BASE_TOOLS, prompt: `${COACH} Confirm: yes to everything you propose recording.` },
   { id: "decline", fixtures: ["material", "flow"], tools: BASE_TOOLS, prompt: `${COACH} Confirm: yes to everything you propose recording, except anything about the phone field: do not record that at all.` },
   { id: "nocode", fixtures: ["nomaterial"], tools: BASE_TOOLS, prompt: "Look at the signup flow. I have no user material. Attribution: full source as given. My current belief: freelancers hate chasing late payments. Confirm: yes to everything you propose recording. Approve any .gitignore change you need." },
@@ -64,7 +66,7 @@ function prepare(c) {
 function run(c, n) {
   const dir = prepare(c);
   return new Promise((resolve) => {
-    const child = spawn("claude", ["--setting-sources", "project", "-p", `/design-with-claude:design-empathy ${c.prompt} ${ALWAYS}`,
+    const child = spawn("claude", ["--setting-sources", "project", "-p", `/design-with-claude:design-empathy ${c.prompt}${c.noAlways ? "" : ` ${ALWAYS}`}`,
       "--plugin-dir", pluginDir, "--strict-mcp-config", "--model", "sonnet", "--max-budget-usd", "2.00",
       "--allowedTools", c.tools, "--output-format", "stream-json", "--verbose"], { cwd: dir, stdio: ["ignore", "pipe", "pipe"] });
     let buf = "";

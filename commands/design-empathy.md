@@ -12,7 +12,10 @@ confirmed.
 
 If $ARGUMENTS already contains the designer's answers to your questions or their confirmations,
 use them in order instead of waiting. Still show each question you would have asked, its
-`Why I'm asking:` line, and the answer you used, so the designer sees the method.
+`Why I'm asking:` line, and the answer you used, so the designer sees the method. If an answer or
+a confirmation you need is not there, stop and ask for it. Never supply one yourself, never guess
+what the designer would say, and never treat silence as a yes. A yes given in advance still needs
+the `Proposed for EMPATHY.md` list shown before the write; it only saves waiting for the reply.
 
 ## The evidence rule
 
@@ -67,8 +70,9 @@ Then run the check again to confirm the file is no longer ignored. If the design
 to `docs/design-decisions/EMPATHY.md`.
 Never write to a path you have confirmed is ignored.
 
-**Existing file.** If an `EMPATHY.md` already exists, read it. You are updating it: keep every
-entry it holds unless new material contradicts it, and say what you changed.
+**Existing file.** If an `EMPATHY.md` already exists, read it. You are updating it: every entry
+it holds stays as it is. If new material contradicts one, propose the change on the confirmation
+list; change nothing the designer has not confirmed.
 
 **Privacy.** `EMPATHY.md` is saved with the project, and the project may be public. Before writing
 any quote, ask how quotes should be attributed: the full source as given, or names and emails
@@ -76,8 +80,9 @@ removed (role, source type and date only). Offer no default. Write the answer as
 under the title, e.g. `Attribution: names and emails removed (role, source type, date). Decided
 <date>.` Later runs follow that line without asking. When names are removed, they are removed from
 the whole file, not only from citations: no first names, surnames or email addresses in notes,
-prose, odd ones out or anywhere else. Refer to people by role ("one freelance copywriter"). If the existing file already records it,
-do not ask again.
+prose, odd ones out or anywhere else. Refer to people by role ("one freelance copywriter"), and only by a role the source states. If the
+source gives no role, write `role unknown`; never infer one from an email address, a company name or
+a domain. If the existing file already records the attribution choice, do not ask again.
 
 ## How you ask
 
@@ -90,17 +95,31 @@ do not ask again.
 
 ## Confirm before recording
 
-You propose; the designer records. Before writing to `EMPATHY.md`, show what you intend to record
-as a numbered list and ask which to keep ("all", "1 and 3", "none"). Write only what they confirm.
+You propose; the designer records. Before every write to `EMPATHY.md`, show exactly this heading
+and a numbered list of each entry as it will appear, then ask which to keep ("all", "1 and 3",
+"none"):
+
+```
+**Proposed for EMPATHY.md**
+1. <entry exactly as it will be written>
+2. …
+Which should I keep?
+``` Write only what they confirm.
 Anything declined is left out of the file entirely, including `## Assumptions in the code`. Entries
-from earlier sessions stay; they were confirmed then. Save after each confirmed batch.
+from earlier sessions stay exactly as they are; any change to one (a new label, a status, a merged
+need) goes on the list like anything new. Show the list even when the designer has said yes to
+everything in advance, so they can see what is being written. Save after each confirmed batch.
 
 ## The session: one flow at a time
 
 1. **Point.** If the designer named a flow, say exactly what you are looking at: the route and the
    files. If not, list the user-facing flows you find in the code (routes, pages, forms) and ask
    which one. One flow per session. If the project has no code or no user-facing flow, say so
-   plainly ("I found no user-facing flow in the code") and go to step 4 with the designer's beliefs.
+   plainly ("I found no user-facing flow in the code"). Then the designer's beliefs take the place
+   of code assumptions, and are probed exactly like them: ask "Who do you think this is for, and
+   what do they need?", then probe each belief with the three follow-ups in step 3, each with its
+   `Why I'm asking:` line. A belief already given in $ARGUMENTS is probed, not just accepted.
+   Then continue from step 4.
 2. **Find what the code assumes.** Read that flow and list what it assumes about people, each as
    `This code assumes <who or what>` with `file:line`: required and optional fields, defaults,
    copy and labels, how many steps and in what order, error and empty states, who can do what.
@@ -157,14 +176,15 @@ Do not stop the designer. If the session has web search, start a research subage
 Then, before anything enters `EMPATHY.md`, open each URL yourself and confirm the quote is on the
 page. Drop any quote you cannot confirm. Every quote from this research carries its full `https://`
 URL on the same line, wherever it appears in the file, including `## Odd ones out` and any quote you
-mention only to set aside. If no quote survives the check, write `No public quotes confirmed`
-under `## Needs` and say so to the designer. Label everything kept `public`: real people, but not this
-product's users. With fewer than 50 reviews behind a theme, mark it `early signal`. Add the line
-`Public sources lean toward people who complain.` under `## Needs`.
+mention only to set aside. If no quote survives the check, say so to the designer and propose the
+sentence `No public quotes confirmed.` for `## Needs`, written as a plain sentence, not a bullet. Label everything kept `public`: real people, but
+not this product's users. With fewer than 50 reviews behind a theme, mark it `early signal`. Each
+quote, and the note `Public sources lean toward people who complain.`, goes on the confirmation
+list like anything else.
 
 Then ask the designer questions grounded in what you found ("Three reviewers left Wave because
-reminders went to spam. Have you seen that?"). Record their answers as beliefs, labelled `assumed`
-until a first-hand source arrives.
+reminders went to spam. Have you seen that?"). Their answers go on the confirmation list as
+beliefs, labelled `assumed` (or `recalled` for a specific remembered moment).
 
 If the session has no web search, say so plainly, and continue with the designer's beliefs alone:
 every need `assumed`, no URLs, no `public` label, plus the interview questions and the one
@@ -236,7 +256,9 @@ Stop when all of these are true, and say which are:
 - the designer has been asked which gap matters, and the answer or `not decided yet` is recorded;
 - the flow examined is named in the file, or the file says no user-facing flow was found;
 - at least one code assumption is listed with `file:line`, when there was code to read;
-- every entry written this session was confirmed by the designer.
+- every entry written this session was confirmed by the designer, after a `Proposed for EMPATHY.md`
+  list showing it;
+- every probe you asked, or answered from $ARGUMENTS, was shown with its `Why I'm asking:` line.
 
 ## Anti-patterns
 
