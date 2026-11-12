@@ -184,6 +184,18 @@ The `design-` prefix marks commands that act on the design *process* rather than
   and it contradicts the evidence rule above. But `anti-slop-designer.md` and
   `design-grill.md` open with "You are a senior designer": there the word sets the agent's
   judgment level and does real work in the prompt. Don't "fix" those for consistency.
+- **Git cannot re-include a file inside an ignored folder.** `!.dwic/EMPATHY.md` after a
+  `.dwic/` line does nothing, so design-grill's advice never saved `DESIGN-CONTEXT.md` or
+  `decisions/` (found 2026-11-12). The working form is `.dwic/*` followed by the negations.
+  Any command that tells users to keep one file in a hidden folder must use that form and
+  re-run `git check-ignore` on the file itself, not the folder. Prove a gitignore rule in a
+  scratch repo before shipping advice about it.
+- **Headless tests that pre-answer everything hide the interactive path.** `claude -p` takes
+  one message, so the `scripts/empathy-test/` cases type the designer's answers and a standing
+  "yes" up front. In that mode a command can skip showing questions or confirmation lists and
+  still pass. Keep one case with no answers at all (`partial`), assert on what the command
+  showed, not only what it wrote, and run a real interactive session before calling a
+  conversational command done.
 
 ## Session History
 
