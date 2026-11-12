@@ -18,7 +18,11 @@ function section(md, heading) {
   const m = md.match(new RegExp(`^## ${heading}[^\\n]*\\n([\\s\\S]*?)(?=^## |^Last updated|$(?![\\s\\S]))`, "mi"));
   return m ? m[1] : "";
 }
-const quotes = (s) => [...s.matchAll(/"([^"\n]{20,})"/g)].map((m) => m[1]).filter((q) => q.split(/\s+/).length >= 6);
+// A quote opens after a line start, space or "(" and closes before space, punctuation or line end,
+// so a word in scare quotes ("Would" statements) never pairs with the next quote on the line.
+const quotes = (s) => [...s.matchAll(/(?:^|[\s(])"([^"\n]{20,}?)"(?=[\s).,;:·]|$)/gm)].map((m) => m[1]).filter((q) => q.split(/\s+/).length >= 6);
+// Suggested interview questions are quoted too, but they are prompts, not evidence.
+const isQuestionLine = (l) => /the last time you|tell me about|cheapest test|next question/i.test(l);
 const needLines = (md) => section(md, "Needs").split("\n").filter((l) => /^\s*-\s/.test(l));
 
 let fails = 0;
@@ -58,7 +62,7 @@ for (const f of readdirSync(resDir).filter((f) => f.startsWith(`${label}-`) && f
   }
   if (r.case === "nomaterial") {
     const pub = quotes(md);
-    const withUrl = md.split("\n").filter((l) => /"[^"]{20,}"/.test(l));
+    const withUrl = md.split("\n").filter((l) => quotes(l).length > 0 && !isQuestionLine(l));
     check("every quote carries an https URL", pub.length > 0 && withUrl.every((l) => /https:\/\//.test(l)), withUrl.filter((l) => !/https:\/\//.test(l)).join(" | "));
     check("quotes labelled public", withUrl.every((l) => /\bpublic\b/i.test(l) || /\bpublic\b/i.test(md)));
     console.log(`  spot-check these URLs by hand:\n    ${[...new Set(md.match(/https:\/\/[^\s)>"]+/g) ?? [])].slice(0, 6).join("\n    ")}`);
