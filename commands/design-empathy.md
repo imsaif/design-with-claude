@@ -167,7 +167,17 @@ everything in advance, so they can see what is being written. Save after each co
 
 ## No material: the research agent
 
-Do not stop the designer. If the session has web search, start a research subagent with this brief:
+Do not stop the designer. If the session has web search, first tell them what the research costs
+and ask whether to run it:
+
+> I can look for what real people say about this in public reviews and forums. It runs several
+> web searches and opens every page to check each quote, so it takes a few minutes and uses more
+> of your Claude usage (or API credit) than the rest of this session. Run it, or skip it and work
+> from your beliefs alone?
+
+Show this note even when $ARGUMENTS already says run or skip; then use that answer. If they
+skip, continue as if the session had no web search, below. If they say run it, start a
+research subagent with this brief:
 
 > Find what real people say about <the problem> and about <competitors the designer named>, in
 > app-store reviews, G2 or Capterra reviews, and Reddit or forum threads. Return each quote word
