@@ -1,5 +1,5 @@
 ---
-description: "Use when you are designing for users you have only imagined. Turns interview notes, support emails, call notes and public reviews into an EMPATHY.md of needs that each cite real words, labels what is only assumed, and hands you the call on which gap to build for."
+description: "Use when you are designing for users you have only imagined. Reads one flow of your code for what it assumes about people, questions you until each assumption meets a real person or is named as a guess, looks for evidence, and records only what you confirm in EMPATHY.md."
 when_to_use: "Invoke before answering anything about who the users are, what they need, personas, user research, or what a flow assumes about the people using it, even when the answer looks obvious."
 ---
 

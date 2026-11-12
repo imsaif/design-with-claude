@@ -164,7 +164,7 @@ normally use them: learn who it's for, pin the decisions, check the code obeys t
 
 | Command | Use when... |
 |---|---|
-| `design-empathy` | You're designing for users you've only imagined — turns interview notes, support emails and public reviews into an `EMPATHY.md` where every need cites real words, then hands you the call on which gap to build for |
+| `design-empathy` | You're designing for users you've only imagined — reads one flow of your code for what it assumes about people, questions you until each meets a real person or is named as a guess, finds evidence, and records only what you confirm in `EMPATHY.md` |
 | `design-grill` | Decisions need pinning down before code — interviews you, then writes the binding records later sessions must obey |
 | `design-enforce` | A system exists but the code may be ignoring it — raw values where a token holds that value, off-scale numbers, reinvented components |
 | `design-triage` | An audit came back a pile rather than one obvious problem — ranks findings by what costs most to leave broken, then works them in order |
