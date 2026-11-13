@@ -56,7 +56,6 @@ export function StepSlider({ courseUrl }: { courseUrl: string }) {
                 if (ev.key === "End") { ev.preventDefault(); go(STEPS.length - 1); }
               }}
             >
-              {step.ai === "strong" && <span className={e.strongest} aria-hidden="true">▼ AI strongest</span>}
               <span className={e.dot} aria-hidden="true" />
               <span className={e.stopName}>{step.name}</span>
             </button>
@@ -66,14 +65,8 @@ export function StepSlider({ courseUrl }: { courseUrl: string }) {
 
       <div className={e.stepPanel} aria-live="polite">
         <div className={e.stepHead}>
-          <p className={e.stepTitle}>
-            <span className={e.stepCount}>{i + 1}/{STEPS.length}</span> {s.name}
-          </p>
+          <p className={e.stepTitle}>{s.name}</p>
           <span className={`${e.rating} ${s.ai === "weak" ? e.ratingWeak : s.ai === "strong" ? e.ratingStrong : ""}`}>AI {s.ai}</span>
-          <span className={e.stepNav}>
-            <button type="button" className={e.navBtn} onClick={() => go(i - 1, false)} disabled={i === 0} aria-label="Previous step">←</button>
-            <button type="button" className={e.navBtn} onClick={() => go(i + 1, false)} disabled={i === STEPS.length - 1} aria-label="Next step">→</button>
-          </span>
         </div>
         <p className={e.stepText}>{s.text}</p>
       </div>
