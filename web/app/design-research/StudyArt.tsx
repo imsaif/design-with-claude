@@ -12,7 +12,7 @@ type ArtKind = "terminal" | "accessibility" | "empathy" | "soon";
 const ICON: Record<ArtKind, string> = {
   terminal: "file-code", // the code the terminal produces
   accessibility: "hide", // eye-off — the accessibility angle
-  empathy: "headphone", // listening to the people you build for
+  empathy: "bulb", // understanding how the people you build for think
   soon: "clock", // in the pipeline
 };
 
