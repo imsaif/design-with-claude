@@ -17,7 +17,7 @@ const STEPS = [
 const LEVEL: Record<string, number> = { weak: 1, moderate: 2, strong: 3 };
 const SHADE: Record<number, string> = { 1: e.segWeak, 2: e.segModerate, 3: e.segStrong };
 
-export function StepSlider({ courseUrl }: { courseUrl: string }) {
+export function StepSlider() {
   const [i, setI] = useState(0);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const go = (n: number, focus = true) => {
@@ -71,10 +71,6 @@ export function StepSlider({ courseUrl }: { courseUrl: string }) {
         <p className={e.stepText}>{s.text}</p>
       </div>
 
-      <figcaption className={e.vcap}>
-        Ratings from Anthropic&rsquo;s{" "}
-        <a href={courseUrl} target="_blank" rel="noopener noreferrer">AI Fluency for Builders</a> course; descriptions are ours.
-      </figcaption>
     </figure>
   );
 }

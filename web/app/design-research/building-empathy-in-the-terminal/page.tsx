@@ -81,7 +81,7 @@ export default function BuildingEmpathyInTheTerminal() {
           <span>13 November 2026</span>
         </div>
 
-        <StepSlider courseUrl={COURSE_URL} />
+        <StepSlider />
 
         <p className={styles.caption}>
           With Claude Code you can go from an idea to something live in an afternoon, and nothing in that loop asks who
