@@ -11,6 +11,7 @@ const PAGE_TITLE = "Building empathy in the terminal";
 const PAGE_DESCRIPTION =
   "AI coding tools let designers ship without meeting a user, and empathy is the step AI is weakest at. How dwic puts it back inside the terminal: reading your code for the assumptions it makes about people, questioning you without inventing users, and handing the why back to the real person.";
 const DATE_PUBLISHED = "2026-11-13";
+const COURSE_URL = "https://academy.claude.com/courses/ai-fluency-for-builders";
 
 export const metadata = {
   title: `${PAGE_TITLE} · Design Research · designwithclaude`,
@@ -38,14 +39,6 @@ const jsonLd = {
 };
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
-
-function Spot({ name }: { name: string }) {
-  return (
-    <div className={e.spot} aria-hidden="true">
-      <img src={`/doodles/${name}.svg`} alt="" />
-    </div>
-  );
-}
 
 const STEPS = [
   { name: "Empathy", ai: "weak" },
@@ -86,13 +79,9 @@ export default function BuildingEmpathyInTheTerminal() {
         <p className={styles.eyebrow}>Essay &middot; November 2026</p>
         <h1 className={styles.title}>Building empathy in the terminal</h1>
         <p className={styles.lede}>
-          I was going through Anthropic&rsquo;s{" "}
-          <a href="https://academy.claude.com/courses/ai-fluency-for-builders" {...ext}>
-            AI Fluency for Builders
-          </a>{" "}
-          course and one page stopped me. It splits building into six steps and tags each one with where AI stands.
-          Implementation: AI strong. Empathy: AI weak. &ldquo;AI can surface data and personas, it can&rsquo;t feel the
-          gap.&rdquo;
+          Anthropic&rsquo;s <a href={COURSE_URL} {...ext}>AI Fluency for Builders</a> course rates where AI stands in each
+          step of building. Implementation: AI strong. Empathy: AI weak. &ldquo;AI can surface data and personas, it
+          can&rsquo;t feel the gap.&rdquo;
         </p>
         <div className={styles.meta}>
           <span>By <b>Imran Mohammed</b></span>
@@ -115,113 +104,74 @@ export default function BuildingEmpathyInTheTerminal() {
             ))}
           </div>
           <figcaption className={e.vcap}>
-            Ratings from Anthropic&rsquo;s{" "}
-            <a href="https://academy.claude.com/courses/ai-fluency-for-builders" {...ext}>
-              AI Fluency for Builders
-            </a>{" "}
-            course.
+            Ratings from Anthropic&rsquo;s <a href={COURSE_URL} {...ext}>AI Fluency for Builders</a> course.
           </figcaption>
         </figure>
 
         <p className={styles.caption}>
-          That tag stayed with me for days. A lot of designers now build with Claude Code. You can go from an idea to
-          something live in an afternoon, and nothing in that loop ever asks you who it&rsquo;s for. The step AI is
-          worst at is the one that quietly disappears first.
-        </p>
-        <p className={styles.caption}>
-          This is the story of how I tried to put that step back, inside the terminal, without letting the AI pretend
-          to be the user. Along the way I had to unlearn a few things about empathy myself, so I&rsquo;ve written those
-          up too. You can use most of this without dwic at all.
+          With Claude Code you can go from an idea to something live in an afternoon, and nothing in that loop asks who
+          it&rsquo;s for. This is how I tried to put that step back inside the terminal, without letting the AI pretend
+          to be the user. Most of it works without dwic too.
         </p>
 
         <section className={styles.section}>
-          <Spot name="headphone" />
-          <h2 className={styles.sectionHead}>What empathy actually means in product work</h2>
+          <h2 className={styles.sectionHead}>What empathy means in product work</h2>
           <p className={styles.caption}>
-            When designers say empathy, we often mean feeling for someone. That&rsquo;s not quite the useful kind here.
-            Indi Young, who has spent years on this, calls the useful kind cognitive empathy: understanding how another
-            person thinks. What they were trying to do, what went through their mind, how they reacted, and the rules
-            they live by.
+            Not feeling for someone. Indi Young calls the useful kind cognitive empathy: understanding how another person
+            thinks. In <a href="https://alistapart.com/article/a-new-way-to-listen" {...ext}>A New Way to Listen</a>, she
+            asks people to recall what went through their mind during something they did, and listens for the whys, not
+            their opinions. Her line for the listener: &ldquo;It&rsquo;s her mind, and you&rsquo;re the tourist.&rdquo;
           </p>
           <p className={styles.caption}>
-            In <a href="https://alistapart.com/article/a-new-way-to-listen" {...ext}>A New Way to Listen</a>, she
-            describes sitting with someone and asking them to recall what went through their mind during something they
-            actually did, then listening for the whys underneath: the indecision, the emotion, the trade-offs. Not their
-            opinions. Not their feature requests. Her line for the listener is one I keep coming back to: &ldquo;It&rsquo;s
-            her mind, and you&rsquo;re the tourist.&rdquo;
-          </p>
-          <p className={styles.caption}>
-            That gives us a useful test. Empathy isn&rsquo;t how sure you feel about your users. It&rsquo;s how much you
-            actually know about how they think, and how much of that came from them rather than from you.
+            So empathy isn&rsquo;t how sure you feel about your users. It&rsquo;s how much you know about how they think,
+            and how much of that came from them.
           </p>
         </section>
 
         <section className={styles.section}>
-          <Spot name="microscope" />
           <h2 className={styles.sectionHead}>Three things that shaped the design</h2>
-          <p className={styles.caption}>
-            Three findings about understanding users, and about where AI helps or hurts, changed how I built this.
-          </p>
+
           <h3 className={e.subHead}>1. What people did beats what they say they will do</h3>
           <p className={styles.caption}>
-            You know this one. What I hadn&rsquo;t appreciated is the size of the gap. A{" "}
-            <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>review of 47 experiments</a> found that when what
-            people intend changes, what they actually do changes by only about half as much. So in dwic it isn&rsquo;t a
-            guideline, it&rsquo;s a rule: every question is about a moment that already happened.
+            You know this one. The surprise is the size of the gap: across{" "}
+            <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>47 experiments</a>, behaviour moved only about half as
+            much as intention. So every dwic question is about a moment that already happened.
           </p>
           <figure className={e.viz} role="img" aria-label="Behaviour changes about half as much as intention: 0.66 against 0.36">
             <span className={e.vlabel}>When intention moves, behaviour moves about half as far</span>
             <div className={e.barRow}><span>What people say they&rsquo;ll do</span><div className={`${e.bar} ${e.barFull}`}>0.66</div></div>
             <div className={e.barRow}><span>What they actually do</span><div className={`${e.bar} ${e.barHalf}`}>0.36</div></div>
             <figcaption className={e.vcap}>
-              Average effect sizes across 47 experiments,{" "}
-              <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>Webb and Sheeran (2006)</a>.
+              Average effect sizes, <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>Webb and Sheeran (2006)</a>.
             </figcaption>
           </figure>
-          <h3 className={e.subHead}>2. AI-made users fail exactly where the gaps are</h3>
+
+          <h3 className={e.subHead}>2. AI-made users fail where the gaps are</h3>
           <p className={styles.caption}>
-            It&rsquo;s tempting to ask an AI to role-play your user. When Nielsen Norman Group{" "}
+            When Nielsen Norman Group{" "}
             <a href="https://www.nngroup.com/articles/synthetic-users-vs-human-respondents/" {...ext}>compared synthetic and real users</a>,
-            the synthetic answers clustered around the average and lost the variety real people show. That&rsquo;s a
-            problem because the unusual answer, the person who does it differently, is often where the real opportunity
-            is. NN/g also found synthetic users{" "}
-            <a href="https://www.nngroup.com/articles/synthetic-users/" {...ext}>overly positive and shallow</a>,
-            treating every need as equally important, which makes them useless for deciding what matters.
+            the synthetic answers clustered around the average and lost the unusual ones, which is often where the real
+            problem is. They were also{" "}
+            <a href="https://www.nngroup.com/articles/synthetic-users/" {...ext}>overly positive and shallow</a>. An AI
+            persona is a very confident average.
           </p>
-          <p className={styles.caption}>
-            The way I think about it: an AI persona is a very confident average. It sounds like a person, but it has
-            never paid an invoice late or rage-quit a setup screen.
-          </p>
+
           <h3 className={e.subHead}>3. Personas don&rsquo;t do what we hope</h3>
           <p className={styles.caption}>
-            Even human-made personas struggle.{" "}
-            <a href="https://quantuxbook.com/papers/Chapman-Milham-Personas-HFES2006-0139-0330.pdf" {...ext}>There&rsquo;s no way to check a persona for accuracy</a>,
-            and a{" "}
-            <a href="https://research.google/pubs/how-do-designers-and-user-experience-professionals-actually-perceive-and-use-personas/" {...ext}>study of how designers actually use them</a>{" "}
-            found they&rsquo;re rarely consulted when real decisions are made. They tend to describe the user we already
-            had in mind.
-          </p>
-          <p className={styles.caption}>
-            So the first rule for dwic wrote itself. It would never invent a user, a quote or an interview. If
-            there&rsquo;s no evidence, it says so, out loud.
+            <a href="https://quantuxbook.com/papers/Chapman-Milham-Personas-HFES2006-0139-0330.pdf" {...ext}>You can&rsquo;t check a persona for accuracy</a>,
+            and designers{" "}
+            <a href="https://research.google/pubs/how-do-designers-and-user-experience-professionals-actually-perceive-and-use-personas/" {...ext}>rarely consult them</a>{" "}
+            when real decisions are made. So dwic&rsquo;s first rule: never invent a user, a quote or an interview. If
+            there&rsquo;s no evidence, say so.
           </p>
         </section>
 
         <section className={styles.section}>
-          <Spot name="folder-empty" />
           <h2 className={styles.sectionHead}>How it&rsquo;s meant to work, and how it actually goes</h2>
           <p className={styles.caption}>
-            In the textbook version, empathy comes first. Before anyone designs a screen, someone talks to the people
-            it&rsquo;s for: listening sessions, interviews, watching them do the real task. The notes get pulled together
-            into patterns, what people are trying to do and where they get stuck, and only then does design start. When
-            the design is built, it goes back in front of real people, and what you learn feeds the next round. In a
-            team, there&rsquo;s often a researcher whose job is to keep that loop running.
-          </p>
-          <p className={styles.caption}>
-            Building with an AI coding tool tends to skip straight past all of it. You have an idea in the morning and a
-            working signup flow by lunch. Often you&rsquo;re the designer, the researcher and the developer at once.
-            There&rsquo;s no researcher, no interview notes, and frequently no users yet, because the product didn&rsquo;t
-            exist until today. The understanding of who it&rsquo;s for is whatever was in your head when you typed the
+            In the textbook version, you listen to people first, find the patterns, then design, then test with people
+            again. Building with an AI tool skips all of it. You&rsquo;re often the designer, researcher and developer at
+            once, with no notes and no users yet. Who it&rsquo;s for is whatever was in your head when you typed the
             prompt.
           </p>
           <figure className={e.viz} role="img" aria-label="The research loop: listen, find patterns, build, test with people, repeat. Building with AI: idea, prompt, shipped. Nobody else gets asked.">
@@ -248,34 +198,20 @@ export default function BuildingEmpathyInTheTerminal() {
             </div>
           </figure>
           <p className={styles.caption}>
-            My first version of dwic assumed the textbook. It was an evidence organiser: give it interview notes and
-            support emails, and it pulled out needs with real quotes and where they came from. It worked, and it was the
-            wrong thing, because most people building this way have nothing to give it.
-          </p>
-          <p className={styles.caption}>
-            What I actually wanted was something that fits how people really build now. Not a research tool waiting for
-            research that never happens. Something that helps you build empathy from wherever you are. One that
-            questions you back, pushes on the vague bits, and teaches you the method as you go, so the real
-            conversations with users are sharper when they come.
-          </p>
-          <p className={styles.caption}>
-            And then I noticed that everyone does have evidence of one thing. What they believe about their users.
-            It&rsquo;s sitting in their code.
+            My first version assumed the textbook: it organised interview notes most people don&rsquo;t have. What I
+            wanted was something that helps you build empathy from wherever you are. Then I noticed everyone does have
+            evidence of one thing: what they believe about their users. It&rsquo;s in their code.
           </p>
         </section>
 
         <section className={styles.section}>
-          <Spot name="file-code" />
           <h2 className={styles.sectionHead}>Your code already says who you think your users are</h2>
           <p className={styles.caption}>
-            Every decision about people ends up somewhere in the code. We just don&rsquo;t read it that way, because we
-            wrote it, and to us it&rsquo;s just &ldquo;the form&rdquo;. Once you know something, it&rsquo;s very hard to
-            imagine not knowing it. It&rsquo;s called the{" "}
-            <a href="https://doi.org/10.1086/261651" {...ext}>curse of knowledge</a>. In a well-known Stanford study,
-            people tapped out famous songs on a table and predicted listeners would name about half; listeners got about
-            1 in 40, because only the tappers could hear the tune in their heads (
+            We don&rsquo;t read our own code as claims about people, because we wrote it. That&rsquo;s the{" "}
+            <a href="https://doi.org/10.1086/261651" {...ext}>curse of knowledge</a>. In a Stanford study, people tapping
+            famous songs expected listeners to name half; listeners named about 1 in 40 (
             <a href="https://hbr.org/2006/12/the-curse-of-knowledge" {...ext}>Heath and Heath, HBR</a>). Designers
-            looking at their own forms are the tappers.
+            reading their own forms are the tappers.
           </p>
           <figure className={e.viz} role="img" aria-label="Three lines of code read as claims about people">
             <span className={e.vlabel}>Read a line of code as a sentence about people</span>
@@ -283,32 +219,16 @@ export default function BuildingEmpathyInTheTerminal() {
             <div className={e.claim}><pre className={e.claimCode}>{`const STEPS = [5 steps]\n// all required before first invoice`}</pre><span className={e.arrow}>→</span><p className={e.claimText}>People will push through all five before they get any value.</p></div>
             <div className={e.claim}><pre className={e.claimCode}>{`"You entered an invalid phone number."`}</pre><span className={e.arrow}>→</span><p className={e.claimText}>When something goes wrong, it&rsquo;s the user&rsquo;s mistake.</p></div>
           </figure>
-          <p className={styles.caption}>Here&rsquo;s where assumptions about people usually hide:</p>
-          <div className={e.tableWrap}>
-            <table className={e.table}>
-              <thead><tr><th scope="col">In the code</th><th scope="col">What it assumes about people</th></tr></thead>
-              <tbody>
-                <tr><td>required phone field</td><td>Everyone has a number, and is happy to hand it over before seeing any value.</td></tr>
-                <tr><td>5-step setup</td><td>People will push through all five before they get anything, in this order.</td></tr>
-                <tr><td>&ldquo;You entered an invalid…&rdquo;</td><td>When something goes wrong, the user is the one who made the mistake.</td></tr>
-                <tr><td>default values</td><td>Most people want what you picked for them.</td></tr>
-                <tr><td>empty states</td><td>People know what to do when there&rsquo;s nothing there yet.</td></tr>
-                <tr><td>roles and permissions</td><td>Who is allowed to do what, and that they&rsquo;ll accept it.</td></tr>
-              </tbody>
-            </table>
-          </div>
           <div className={e.try}>
             <span className={e.tryLabel}>Try this yourself</span>
             <p>
-              Open one flow you&rsquo;ve built, say signup. For every required field, step, default and error message,
-              write one sentence starting &ldquo;This assumes people…&rdquo;. Then circle the three you&rsquo;d be most
-              embarrassed to have wrong. Those are your riskiest assumptions.
+              Take one flow. For every required field, step, default and error message, write a sentence starting
+              &ldquo;This assumes people…&rdquo;. Circle the three you&rsquo;d least like to be wrong about.
             </p>
           </div>
           <p className={styles.caption}>
-            That exercise is what <code>/design-empathy</code> does with you in the terminal. You point it at one flow,
-            it reads the code, lists what it assumes about people with the exact file and line, ranks them, and asks you
-            about the riskiest three.
+            That&rsquo;s what <code>/design-empathy</code> does with you. Point it at one flow and it lists what the code
+            assumes about people, with the file and line, then asks you about the riskiest three.
           </p>
           <figure>
             <div className={e.term} role="img" aria-label="Example terminal session. dwic names an assumption in the code and asks who the designer had in mind. The unknown why becomes a question for the user.">
@@ -316,38 +236,21 @@ export default function BuildingEmpathyInTheTerminal() {
               <p>This code assumes every new account will finish all five setup steps, including connecting a bank, before sending a first invoice.  <span className={e.termDim}>app/onboarding/page.tsx:5</span></p>
               <p>Who did you have in mind, and when did you last see someone go through it?</p>
               <p className={e.termDim}>Why I&rsquo;m asking: what someone did last time predicts better than what they say they&rsquo;d do.</p>
-              <p className={e.termYou}>› A freelance photographer I demoed to on 3 November quit at the bank step. Said she&rsquo;d finish later. Never came back.</p>
+              <p className={e.termYou}>› A freelance photographer I demoed to on 3 November quit at the bank step. Never came back.</p>
               <p>That&rsquo;s a real moment, so I&rsquo;ll propose recording it as recalled. Did she say why?</p>
               <p className={e.termYou}>› No.</p>
               <p>Then I&rsquo;ll record why: unknown, and add a question for her: &ldquo;When you stopped at the bank step, what was going through your mind?&rdquo;</p>
             </div>
-            <figcaption className={e.vcap}>From the test project I built dwic against. In real use you answer as you go.</figcaption>
+            <figcaption className={e.vcap}>From the test project dwic was built against.</figcaption>
           </figure>
         </section>
 
         <section className={styles.section}>
-          <Spot name="question" />
-          <h2 className={styles.sectionHead}>How to question your own assumptions without wearing yourself out</h2>
+          <h2 className={styles.sectionHead}>Questioning yourself without wearing yourself out</h2>
           <p className={styles.caption}>
-            This was the part I thought about most. If you tell dwic &ldquo;users want it to be simple&rdquo;, should it
-            keep pushing until you name a real person? Being questioned about your own assumptions is useful, and also
-            tiring. Advait Sarkar makes the same point in{" "}
-            <a href="https://arxiv.org/html/2411.02263v2" {...ext}>AI Should Challenge, Not Obey</a>: an AI that keeps
-            challenging you can wear you out, and then you stop listening to it.
-          </p>
-          <p className={styles.caption}>
-            I settled on three questions, each one narrower than the last. They work just as well if you ask them of
-            yourself:
-          </p>
-          <ol className={e.list}>
-            <li><strong>Who, specifically?</strong> Not &ldquo;users&rdquo;. One person you could name.</li>
-            <li><strong>When did you last see them do it?</strong> A real moment, with a rough date.</li>
-            <li><strong>What did they do instead?</strong> What actually happened, not what should have.</li>
-          </ol>
-          <p className={styles.caption}>
-            Here&rsquo;s how a vague belief usually travels through them: &ldquo;Users want it simple&rdquo; becomes
-            &ldquo;freelancers&rdquo;, becomes &ldquo;Priya, last Thursday&rdquo;, becomes &ldquo;she gave up and sent the
-            invoice from Word&rdquo;. That last line is something you can actually design for.
+            Being questioned about your assumptions is useful and tiring. Advait Sarkar warns in{" "}
+            <a href="https://arxiv.org/html/2411.02263v2" {...ext}>AI Should Challenge, Not Obey</a> that an AI that keeps
+            challenging you wears you out. So dwic asks three questions, each narrower than the last, then stops:
           </p>
           <figure className={e.viz} role="img" aria-label="Three questions narrow a vague belief to a real moment. It ends with: she sent it from Word.">
             <span className={e.vlabel}>Three questions, from a belief to a moment</span>
@@ -362,25 +265,16 @@ export default function BuildingEmpathyInTheTerminal() {
             </div>
           </figure>
           <p className={styles.caption}>
-            If after three questions there&rsquo;s still no real person or moment, dwic stops and says so plainly: we
-            haven&rsquo;t found anyone behind this, so it goes down as an assumption. No fourth push, and no pretending a
-            guess is a finding. Saying &ldquo;this is a guess&rdquo; out loud is useful in itself. It tells you exactly
-            what to go and find out.
-          </p>
-          <p className={styles.caption}>
-            After every question there&rsquo;s one short line explaining why it asked. I added that because I wanted
-            people to learn the method, not just get through the session. After a few sessions you start asking yourself
-            these questions before you write the code.
+            If there&rsquo;s still no real person after three, it says so and records the belief as an assumption. And
+            every question carries one line explaining why it asked, so you learn to ask it yourself.
           </p>
         </section>
 
         <section className={styles.section}>
-          <Spot name="tag" />
           <h2 className={styles.sectionHead}>Say how you know what you know</h2>
           <p className={styles.caption}>
-            I asked myself what would make me wince if dwic got this wrong in front of a designer. The answer came
-            quickly. Inventing users or quotes and calling it evidence. Recording it as an empathy point without anyone
-            confirming it.
+            What would make me wince is dwic inventing users or quotes, calling it evidence, and recording it without
+            anyone confirming. So it proposes, and you decide what gets written.
           </p>
           <figure className={e.viz} role="img" aria-label="dwic asks and proposes. You choose what to keep. dwic writes only that to EMPATHY.md.">
             <span className={e.vlabel}>dwic writes nothing without you</span>
@@ -391,11 +285,7 @@ export default function BuildingEmpathyInTheTerminal() {
               <div className={`${e.flowNode} ${e.flowFile}`}><b>EMPATHY.md</b>dwic writes only 1 and 3</div>
             </div>
           </figure>
-          <p className={styles.caption}>
-            So two rules. First, nothing gets written down until you&rsquo;ve seen the list of what dwic wants to record
-            and said yes. It proposes, you decide. Second, every point is labelled by how it&rsquo;s known. This is a
-            habit worth stealing for any research doc:
-          </p>
+          <p className={styles.caption}>And every point is labelled by how it&rsquo;s known, a habit worth stealing for any research doc:</p>
           <figure className={e.viz} role="img" aria-label="Five evidence labels, strongest first: observed, reported, public, recalled, assumed.">
             <span className={e.vlabel}>How it&rsquo;s known, strongest first</span>
             {RUNGS.map((r) => (
@@ -411,19 +301,15 @@ export default function BuildingEmpathyInTheTerminal() {
             ))}
           </figure>
           <p className={styles.caption}>
-            &ldquo;Recalled&rdquo; came out of a real problem. When the questioning works and you name a real person and
-            moment, that&rsquo;s clearly more than a guess. But it&rsquo;s your memory, and nobody can check it. Without
-            its own label, a confident designer can quietly turn memories into evidence. With it, you can see at a glance
-            how much of your understanding rests on things you remember versus things people told you.
+            &ldquo;Recalled&rdquo; matters most. A real moment you remember is more than a guess, but nobody can check
+            it. Without its own label, memories quietly become evidence.
           </p>
         </section>
 
         <section className={styles.section}>
-          <Spot name="bulb" />
-          <h2 className={styles.sectionHead}>The why belongs to the user, not to you</h2>
+          <h2 className={styles.sectionHead}>The why belongs to the user</h2>
           <p className={styles.caption}>
-            Knowing what someone did is half of it. Indi Young&rsquo;s point is that the why decides what you should
-            build. Take the photographer who quit at the bank step:
+            Knowing what someone did is half of it. The why decides what you build:
           </p>
           <figure className={e.viz} role="img" aria-label="One behaviour with three possible reasons, leading to three different designs.">
             <div className={e.root}>She quit at the connect-your-bank step.</div>
@@ -436,109 +322,64 @@ export default function BuildingEmpathyInTheTerminal() {
                 </div>
               ))}
             </div>
-            <figcaption className={e.vcap}>Same behaviour, three whys, three different products. Only she knows which one is true.</figcaption>
+            <figcaption className={e.vcap}>Same behaviour, three whys, three different products.</figcaption>
           </figure>
           <p className={styles.caption}>
-            Get the why wrong and you can build the right-looking fix for the wrong problem.
+            But as a builder you usually don&rsquo;t know the why, and pushing you would only produce a guess. So dwic
+            asks once, &ldquo;Did she say why?&rdquo; If not, it records <code>why: unknown</code> and turns it into Young&rsquo;s
+            question for the real person: what was going through your mind?
           </p>
-          <p className={styles.caption}>
-            My first thought was to have dwic probe the designer for the why. Then I realised: as a builder, you usually
-            don&rsquo;t know. She didn&rsquo;t tell you. If a tool keeps pushing you, you&rsquo;ll guess, and a guess
-            written down as fact is exactly what I was trying to prevent.
-          </p>
-          <p className={styles.caption}>
-            So dwic asks once. Did she say why? If she did, it records her words. If not, it writes{" "}
-            <code>why: unknown</code> and turns it into a question for her: &ldquo;When you stopped at the bank step, what
-            was going through your mind?&rdquo; That&rsquo;s Young&rsquo;s listening question, handed to the person who
-            can actually go and ask it.
-          </p>
-          <div className={e.try}>
-            <span className={e.tryLabel}>Try this yourself</span>
-            <p>
-              Look at the last thing you learnt about a user. Next to it, write the why. If the honest answer is
-              &ldquo;I&rsquo;m guessing&rdquo;, write &ldquo;why: unknown&rdquo; instead, and turn it into one question
-              you&rsquo;d ask them about that exact moment.
-            </p>
-          </div>
         </section>
 
         <section className={styles.section}>
-          <Spot name="search" />
           <h2 className={styles.sectionHead}>What if you have no users yet?</h2>
           <p className={styles.caption}>
-            I wasn&rsquo;t sure whether dwic should stop you here and say &ldquo;go talk to someone first&rdquo;.
-            It&rsquo;s the purist answer. But I couldn&rsquo;t find any research showing that blocking people works, and
-            in practice they&rsquo;d just skip the command and carry on with no empathy step at all.
-          </p>
-          <p className={styles.caption}>
-            So it doesn&rsquo;t block you. There&rsquo;s evidence even with zero users: people talk about their problems
-            in public, in app-store reviews of the tools you&rsquo;d compete with, and in forums. dwic can send a research
-            agent to look. Every quote has to come with its link, and dwic opens each page to check the quote is really
-            there before showing it to you. It&rsquo;s all labelled public, because these are real people but not your
-            users, and I&rsquo;d expect reviews and forums to lean towards people with a complaint, so it says that too.
-          </p>
-          <p className={styles.caption}>
-            Then I asked a question I hadn&rsquo;t thought about: who pays for that search? It&rsquo;s you, not dwic. It
-            runs on your own Claude account and it&rsquo;s the heaviest part of a session, so dwic tells you before it
-            starts and lets you skip it. Tools that spend your money in the background lose trust fast, and empathy for
-            the person using your tool counts too.
+            dwic doesn&rsquo;t block you. It can send a research agent to find what real people say in public reviews and
+            forums, checking every quote is really on its page and labelling it public. That search runs on your own
+            Claude account, so dwic tells you before it starts and lets you skip it.
           </p>
         </section>
 
         <section className={styles.section}>
-          <Spot name="checklist" />
           <h2 className={styles.sectionHead}>What it doesn&rsquo;t do yet</h2>
           <p className={styles.caption}>
-            It&rsquo;s early. So far the only person who has used it is the one who built it, which, by its own labels,
-            is the weakest kind of evidence there is. It needs designers who didn&rsquo;t build it.
-          </p>
-          <p className={styles.caption}>
-            It also stops short of where Indi Young would take it. It records what people did and asks for the why, but
-            it doesn&rsquo;t yet help you listen for reasoning, reactions and guiding principles in your own interview
-            notes. That&rsquo;s the next thing I want to build.
+            It&rsquo;s early, and so far only its builder has used it, the weakest evidence there is by its own labels.
+            It also doesn&rsquo;t yet help you listen for reasoning in your own interview notes. That&rsquo;s next.
           </p>
         </section>
 
         <section className={styles.section}>
-          <Spot name="target" />
           <h2 className={styles.sectionHead}>Why do this in the terminal, with dwic</h2>
-          <p className={styles.caption}>
-            You can do everything above with a notebook. In practice, I don&rsquo;t, and I suspect you don&rsquo;t
-            either. The reasons are the same ones this whole piece is about, and they&rsquo;re what dwic is built around.
-          </p>
+          <p className={styles.caption}>You could do all of this with a notebook. In practice, few of us do. dwic helps because:</p>
           <ul className={e.list}>
-            <li><strong>You can&rsquo;t see your own assumptions.</strong> That&rsquo;s the curse of knowledge. dwic reads the flow you point it at and lists what the code assumes about people, with the file and line, so you&rsquo;re looking at your decisions as claims instead of as &ldquo;the form&rdquo;.</li>
-            <li><strong>You won&rsquo;t push yourself three times.</strong> Asking yourself &ldquo;who, specifically?&rdquo; and then &ldquo;when did you last see it?&rdquo; is easy to skip on your own. dwic asks, follows up, and stops after three so it doesn&rsquo;t wear you out.</li>
-            <li><strong>It teaches while it asks.</strong> Every question comes with a &ldquo;Why I&rsquo;m asking&rdquo; line. After a few sessions you start asking these questions before you write the code.</li>
-            <li><strong>It won&rsquo;t let a guess pass as a fact.</strong> No invented users or quotes, every point labelled by how it&rsquo;s known, the why left as unknown until the real person tells you, and nothing recorded until you say yes.</li>
-            <li><strong>What you learn sticks around and gets used.</strong> It saves to <code>.dwic/EMPATHY.md</code> in your project, so the next session starts from it, and dwic&rsquo;s copy and form commands read it. Copy borrows your users&rsquo; own words. Forms flag a field your evidence contradicts and leave the call to you.</li>
-            <li><strong>It&rsquo;s where you&rsquo;re already building.</strong> No separate research tool, no switching context. It runs in the same Claude Code session as your code, on one flow at a time.</li>
+            <li><strong>It shows assumptions you can&rsquo;t see</strong> in your own code, with the file and line.</li>
+            <li><strong>It asks the follow-ups you&rsquo;d skip</strong> on yourself, and stops after three.</li>
+            <li><strong>It won&rsquo;t let a guess pass as a fact,</strong> and writes nothing until you say yes.</li>
+            <li><strong>What you learn gets used:</strong> dwic&rsquo;s copy and form commands read <code>.dwic/EMPATHY.md</code>.</li>
           </ul>
-          <p className={styles.caption}>dwic is free as a Claude Code plugin. In Claude Code:</p>
+          <p className={styles.caption}>dwic is free as a Claude Code plugin:</p>
           <pre className={styles.code}>{`/plugin marketplace add imsaif/design-with-claude
 /plugin install design-with-claude@design-with-claude
 /reload-plugins`}</pre>
           <p className={styles.caption}>
-            Then point it at one flow: <code>/design-with-claude:design-empathy the signup flow</code>. What you confirm
-            is saved in <code>.dwic/EMPATHY.md</code>, and dwic&rsquo;s copy and form commands read it when they write.
+            Then run <code>/design-with-claude:design-empathy the signup flow</code>. If you try it, I&rsquo;d like to hear
+            where it felt wrong.
           </p>
-          <p className={styles.caption}>If you try it, I&rsquo;d really like to hear where it felt wrong.</p>
         </section>
 
         <div className={styles.method}>
           <h3>Sources</h3>
           <ul className={e.list}>
-            <li>Anthropic, <em>AI Fluency for Builders</em>, &ldquo;The Builder&rsquo;s Toolkit&rdquo;. <a href="https://academy.claude.com/courses/ai-fluency-for-builders" {...ext}>academy.claude.com</a></li>
-            <li>Indi Young (2015), A New Way to Listen, A List Apart, from <em>Practical Empathy</em>. <a href="https://alistapart.com/article/a-new-way-to-listen" {...ext}>alistapart.com</a></li>
+            <li>Anthropic, <em>AI Fluency for Builders</em>. <a href={COURSE_URL} {...ext}>academy.claude.com</a></li>
+            <li>Indi Young (2015), A New Way to Listen, A List Apart. <a href="https://alistapart.com/article/a-new-way-to-listen" {...ext}>alistapart.com</a></li>
             <li>Webb and Sheeran (2006), Does changing behavioral intentions engender behavior change? <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>eprints.whiterose.ac.uk</a></li>
             <li>Nielsen Norman Group, Synthetic Users vs Human Respondents. <a href="https://www.nngroup.com/articles/synthetic-users-vs-human-respondents/" {...ext}>nngroup.com</a></li>
-            <li>Nielsen Norman Group, Synthetic Users: If, When, and How to Use AI-Generated &ldquo;Research&rdquo;. <a href="https://www.nngroup.com/articles/synthetic-users/" {...ext}>nngroup.com</a></li>
+            <li>Nielsen Norman Group, Synthetic Users. <a href="https://www.nngroup.com/articles/synthetic-users/" {...ext}>nngroup.com</a></li>
             <li>Chapman and Milham (2006), The personas&rsquo; new clothes. <a href="https://quantuxbook.com/papers/Chapman-Milham-Personas-HFES2006-0139-0330.pdf" {...ext}>quantuxbook.com</a></li>
-            <li>Matthews, Judge and Whittaker (CHI 2012), How do designers and UX professionals actually perceive and use personas? <a href="https://research.google/pubs/how-do-designers-and-user-experience-professionals-actually-perceive-and-use-personas/" {...ext}>research.google</a></li>
-            <li>Chip Heath and Dan Heath (2006), The Curse of Knowledge, Harvard Business Review, on Elizabeth Newton&rsquo;s 1990 tapping study. <a href="https://hbr.org/2006/12/the-curse-of-knowledge" {...ext}>hbr.org</a></li>
+            <li>Matthews, Judge and Whittaker (CHI 2012), How designers perceive and use personas. <a href="https://research.google/pubs/how-do-designers-and-user-experience-professionals-actually-perceive-and-use-personas/" {...ext}>research.google</a></li>
+            <li>Heath and Heath (2006), The Curse of Knowledge, Harvard Business Review. <a href="https://hbr.org/2006/12/the-curse-of-knowledge" {...ext}>hbr.org</a></li>
             <li>Camerer, Loewenstein and Weber (1989), The curse of knowledge in economic settings. <a href="https://doi.org/10.1086/261651" {...ext}>doi.org</a></li>
             <li>Advait Sarkar (2024), AI Should Challenge, Not Obey. <a href="https://arxiv.org/html/2411.02263v2" {...ext}>arxiv.org</a></li>
-            <li>Illustrations: <a href="https://github.com/svatsa159/react-doodle-icons" {...ext}>react-doodle-icons</a> (MIT).</li>
           </ul>
         </div>
       </main>

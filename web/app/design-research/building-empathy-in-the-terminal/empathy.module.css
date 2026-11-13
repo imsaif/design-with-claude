@@ -3,8 +3,6 @@
    --fs-* type tokens (no hex, no px type). Diagrams are role="img" with an aria-label;
    doodle icons are decorative and aria-hidden. */
 
-.spot { width: 4rem; margin: 0 0 1rem; }
-.spot img { width: 100%; height: auto; display: block; }
 
 .subHead {
   font-size: var(--fs-h3);
