@@ -1,0 +1,88 @@
+/* Your design made it into code — article-specific visuals.
+   Sits inside research.module.css's .page and uses the shared --dr-* colour and --fs-* type tokens.
+   Exception: the pricing-card mock uses literal hex on purpose. Those colours ARE the example
+   (the brand blue, the hand-typed orange, the faded grey), and the contrast figures in the copy
+   are calculated from exactly these values. Don't tokenise them. */
+
+.list {
+  font-size: var(--fs-prose);
+  line-height: 1.65;
+  color: var(--dr-secondary);
+  margin: 0 0 2rem;
+  padding-left: 1.4em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.list a { color: var(--dr-accent); text-decoration: underline; text-underline-offset: 3px; }
+
+.viz {
+  border: 1px solid var(--dr-line-strong);
+  border-radius: 12px;
+  background: var(--dr-surface);
+  padding: 1.25rem;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.vlabel { font-size: var(--fs-eyebrow); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dr-muted); }
+.vcap { font-size: var(--fs-caption); color: var(--dr-muted); margin: 0; }
+
+/* which one for what */
+.tableWrap { overflow-x: auto; margin: 0 0 1rem; border: 1px solid var(--dr-line-strong); border-radius: 12px; background: var(--dr-surface); }
+.table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); color: var(--dr-secondary); }
+.tableCap { caption-side: top; text-align: left; padding: 0.9rem 0.75rem 0.4rem; font-size: var(--fs-eyebrow); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dr-muted); }
+.table th, .table td { text-align: left; padding: 0.6rem 0.75rem; border-top: 1px solid var(--dr-line); vertical-align: top; }
+.table thead th { border-top: none; font-size: var(--fs-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; color: var(--dr-muted); font-weight: 600; }
+.table tbody th { font-weight: 600; color: var(--dr-ink); }
+.win { color: var(--dr-ink); font-weight: 600; }
+
+/* worked example: the pricing card */
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.col { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.ctag { font-size: var(--fs-eyebrow); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dr-muted); }
+.pc { position: relative; background: #ffffff; color: #162036; border: 1px solid #e2e1dc; border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.pc p { margin: 0; }
+.pcName { font-weight: 600; font-size: var(--fs-body); }
+.pcPrice { font-size: var(--fs-h3); font-weight: 700; line-height: 1.1; }
+.pcPrice span { font-size: var(--fs-caption); font-weight: 400; color: #475569; }
+.pcCap { font-size: var(--fs-caption); line-height: 1.5; color: #475569; }
+.pcBtn { position: relative; align-self: flex-start; margin-top: 0.4rem; background: #2f4fb3; color: #ffffff; border-radius: 8px; padding: 0.55rem 0.9rem; font-size: var(--fs-caption); font-weight: 600; }
+.pcLate { box-shadow: 0 10px 24px rgba(22, 32, 54, 0.22); padding: 13px; }
+.pcLate .pcCap { color: #a0a8b8; }
+.pcLate .pcBtn { background: #ff6a3d; }
+.pin {
+  display: inline-grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%;
+  background: var(--dr-error-text); color: var(--dr-surface); font-size: var(--fs-eyebrow);
+  font-style: normal; font-weight: 700; flex: none; vertical-align: middle; margin-left: 0.25rem;
+}
+.pinCorner { position: absolute; top: -0.6rem; right: -0.6rem; margin: 0; }
+.pinFoot { position: absolute; bottom: -0.6rem; left: -0.6rem; margin: 0; }
+.changes { list-style: none; padding: 0; margin: 0.5rem 0 0; display: flex; flex-direction: column; gap: 0.75rem; font-size: var(--fs-body); line-height: 1.55; color: var(--dr-secondary); }
+.changes li { display: flex; gap: 0.6rem; align-items: flex-start; }
+.changes li .pin { margin: 0.1rem 0 0; }
+.changes li > div { min-width: 0; }
+.changes b { color: var(--dr-ink); }
+
+/* the same change, in code */
+.diff { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: var(--fs-caption); border: 1px solid var(--dr-line); border-radius: 8px; overflow-x: auto; }
+.diff p { margin: 0; padding: 0.3rem 0.75rem; white-space: pre; }
+.del { color: var(--dr-muted); }
+.add { color: var(--dr-error-text); background: var(--dr-soft); font-weight: 600; }
+
+/* try this yourself */
+.try { background: var(--dr-soft); border-left: 3px solid var(--dr-ink); border-radius: 0 10px 10px 0; padding: 1rem 1.25rem; margin: 0 0 2rem; }
+.tryLabel { font-size: var(--fs-eyebrow); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dr-ink); display: block; margin-bottom: 0.4rem; }
+.try p { font-size: var(--fs-body); line-height: 1.6; color: var(--dr-secondary); margin: 0; }
+
+/* dwic commands by moment */
+.kit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.5rem; }
+.kgroup { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.kwhen { font-size: var(--fs-eyebrow); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dr-ink); }
+.kgroup ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; font-size: var(--fs-caption); line-height: 1.55; color: var(--dr-secondary); }
+.kgroup code { font-weight: 600; color: var(--dr-ink); }
+
+@media (max-width: 640px) {
+  .cards, .kit { grid-template-columns: 1fr; }
+}

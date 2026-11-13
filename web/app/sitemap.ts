@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/design-research/ai-generated-frontends/data`, lastModified, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/design-research/agentic-terminal`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/design-research/building-empathy-in-the-terminal`, lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/design-research/your-design-made-it-into-code`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/get-started`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/library`, lastModified, changeFrequency: "weekly", priority: 0.7 },
   ];
