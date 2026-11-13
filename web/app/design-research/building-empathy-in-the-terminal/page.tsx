@@ -88,6 +88,31 @@ export default function BuildingEmpathyInTheTerminal() {
           to be the user.
         </p>
 
+        <figure>
+          <div className={e.term} role="img" aria-label="Example run of /design-empathy on a signup flow. It lists three assumptions in the code with file and line, asks who the designer had in mind, records the answer as recalled with why unknown, and writes to EMPATHY.md only after the designer says yes.">
+            <p className={e.termCap}>Example run · a test project&rsquo;s signup flow</p>
+            <p className={e.termYou}>&gt; /design-with-claude:design-empathy the signup flow</p>
+            <p className={e.termDim}>Reading app/onboarding/page.tsx, app/signup/form.tsx</p>
+            <p>{`What this flow assumes about people:
+  1. Everyone will finish all five setup steps before their first invoice.   page.tsx:5
+  2. Everyone has a phone number and will give it up front.                   form.tsx:12
+  3. A failed phone number is the user\u2019s mistake.                           form.tsx:31`}</p>
+            <p>Starting with 1. Who did you have in mind, and when did you last see someone go through it?</p>
+            <p className={e.termDim}>Why I&rsquo;m asking: what someone did last time predicts better than what they say they&rsquo;d do.</p>
+            <p className={e.termYou}>› A freelance photographer I demoed to on 3 November quit at the bank step.</p>
+            <p>Did she say why?</p>
+            <p className={e.termYou}>› No.</p>
+            <p>{`Proposed for EMPATHY.md:
+  1. recalled  A freelance photographer quit at the bank step (demo, 3 Nov).
+               why: unknown \u2192 ask her: \u201cWhen you stopped at the bank step,
+               what was going through your mind?\u201d
+Keep it?`}</p>
+            <p className={e.termYou}>› Yes.</p>
+            <p className={e.termDim}>Wrote 1 point to .dwic/EMPATHY.md. Nothing else was saved.</p>
+          </div>
+          <figcaption className={e.vcap}>Shortened from a run against the test project dwic was built against.</figcaption>
+        </figure>
+
         <section className={styles.section}>
           <h2 className={styles.sectionHead}>What empathy means in product work</h2>
           <p className={styles.caption}>
@@ -174,19 +199,6 @@ export default function BuildingEmpathyInTheTerminal() {
             That&rsquo;s what <code>/design-empathy</code> does with you. Point it at one flow and it lists what the code
             assumes about people, with the file and line, then asks you about the riskiest three.
           </p>
-          <figure>
-            <div className={e.term} role="img" aria-label="Example terminal session. dwic names an assumption in the code and asks who the designer had in mind. The unknown why becomes a question for the user.">
-              <p className={e.termCap}>Example session · a test project&rsquo;s signup flow</p>
-              <p>This code assumes every new account finishes all five setup steps before its first invoice. One of them is connecting a bank.  <span className={e.termDim}>app/onboarding/page.tsx:5</span></p>
-              <p>Who did you have in mind, and when did you last see someone go through it?</p>
-              <p className={e.termDim}>Why I&rsquo;m asking: what someone did last time predicts better than what they say they&rsquo;d do.</p>
-              <p className={e.termYou}>› A freelance photographer I demoed to on 3 November quit at the bank step. Never came back.</p>
-              <p>That&rsquo;s a real moment, so I&rsquo;ll propose recording it as recalled. Did she say why?</p>
-              <p className={e.termYou}>› No.</p>
-              <p>Then I&rsquo;ll record why: unknown, and add a question for her: &ldquo;When you stopped at the bank step, what was going through your mind?&rdquo;</p>
-            </div>
-            <figcaption className={e.vcap}>From the test project dwic was built against.</figcaption>
-          </figure>
         </section>
 
         <section className={styles.section}>
