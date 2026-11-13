@@ -26,6 +26,14 @@ export const metadata = {
 // One study today. The structure holds many.
 const STUDIES = [
   {
+    slug: "/design-research/building-empathy-in-the-terminal",
+    updated: "November 2026",
+    title: "Building empathy in the terminal",
+    summary:
+      "AI coding tools let you ship without meeting a user, and empathy is the step AI is weakest at. How dwic reads your code for the assumptions it makes about people, and questions you without inventing users.",
+    art: "empathy" as const,
+  },
+  {
     slug: "/design-research/agentic-terminal",
     updated: "Updated July 2026",
     title: "Design tools aren't the future. The terminal is.",

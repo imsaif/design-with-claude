@@ -6,12 +6,13 @@
  * (#162036 = --dr-ink). Purely decorative — the card thumb is aria-hidden.
  */
 
-type ArtKind = "terminal" | "accessibility" | "soon";
+type ArtKind = "terminal" | "accessibility" | "empathy" | "soon";
 
 // Swapping a study's icon is a one-line change.
 const ICON: Record<ArtKind, string> = {
   terminal: "file-code", // the code the terminal produces
   accessibility: "hide", // eye-off — the accessibility angle
+  empathy: "bulb", // understanding how the people you build for think
   soon: "clock", // in the pipeline
 };
 
