@@ -87,7 +87,7 @@ export default function BuildingEmpathyInTheTerminal() {
         <h1 className={styles.title}>Building empathy in the terminal</h1>
         <p className={styles.lede}>
           I was going through Anthropic&rsquo;s{" "}
-          <a href="https://anthropic-partners.skilljar.com/path/claude-architect/ai-fluency-for-builders/486159" {...ext}>
+          <a href="https://academy.claude.com/courses/ai-fluency-for-builders" {...ext}>
             AI Fluency for Builders
           </a>{" "}
           course and one page stopped me. It splits building into six steps and tags each one with where AI stands.
@@ -116,7 +116,7 @@ export default function BuildingEmpathyInTheTerminal() {
           </div>
           <figcaption className={e.vcap}>
             Ratings from Anthropic&rsquo;s{" "}
-            <a href="https://anthropic-partners.skilljar.com/path/claude-architect/ai-fluency-for-builders/486159" {...ext}>
+            <a href="https://academy.claude.com/courses/ai-fluency-for-builders" {...ext}>
               AI Fluency for Builders
             </a>{" "}
             course.
@@ -528,7 +528,7 @@ export default function BuildingEmpathyInTheTerminal() {
         <div className={styles.method}>
           <h3>Sources</h3>
           <ul className={e.list}>
-            <li>Anthropic, <em>AI Fluency for Builders</em>, &ldquo;The Builder&rsquo;s Toolkit&rdquo;. <a href="https://anthropic-partners.skilljar.com/path/claude-architect/ai-fluency-for-builders/486159" {...ext}>anthropic-partners.skilljar.com</a> (partner sign-in may be required)</li>
+            <li>Anthropic, <em>AI Fluency for Builders</em>, &ldquo;The Builder&rsquo;s Toolkit&rdquo;. <a href="https://academy.claude.com/courses/ai-fluency-for-builders" {...ext}>academy.claude.com</a></li>
             <li>Indi Young (2015), A New Way to Listen, A List Apart, from <em>Practical Empathy</em>. <a href="https://alistapart.com/article/a-new-way-to-listen" {...ext}>alistapart.com</a></li>
             <li>Webb and Sheeran (2006), Does changing behavioral intentions engender behavior change? <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>eprints.whiterose.ac.uk</a></li>
             <li>Nielsen Norman Group, Synthetic Users vs Human Respondents. <a href="https://www.nngroup.com/articles/synthetic-users-vs-human-respondents/" {...ext}>nngroup.com</a></li>
