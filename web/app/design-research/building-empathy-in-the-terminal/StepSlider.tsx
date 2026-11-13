@@ -20,10 +20,10 @@ const SHADE: Record<number, string> = { 1: e.segWeak, 2: e.segModerate, 3: e.seg
 export function StepSlider({ courseUrl }: { courseUrl: string }) {
   const [i, setI] = useState(0);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
-  const go = (n: number) => {
+  const go = (n: number, focus = true) => {
     const next = Math.max(0, Math.min(STEPS.length - 1, n));
     setI(next);
-    refs.current[next]?.focus();
+    if (focus) refs.current[next]?.focus();
   };
   const s = STEPS[i];
 
@@ -31,7 +31,6 @@ export function StepSlider({ courseUrl }: { courseUrl: string }) {
     <figure className={e.viz}>
       <span className={e.vlabel} id="steps-label">Six build steps, and where AI stands</span>
       <div className={e.slider}>
-        <span className={e.strongest} aria-hidden="true">▼ AI is strongest here</span>
         <div className={e.track} aria-hidden="true">
           {STEPS.slice(0, -1).map((step, n) => {
             // Each segment takes the stronger of the two steps it joins, so the track darkens towards Implementation.
@@ -57,6 +56,7 @@ export function StepSlider({ courseUrl }: { courseUrl: string }) {
                 if (ev.key === "End") { ev.preventDefault(); go(STEPS.length - 1); }
               }}
             >
+              {step.ai === "strong" && <span className={e.strongest} aria-hidden="true">▼ AI strongest</span>}
               <span className={e.dot} aria-hidden="true" />
               <span className={e.stopName}>{step.name}</span>
             </button>
@@ -65,15 +65,17 @@ export function StepSlider({ courseUrl }: { courseUrl: string }) {
       </div>
 
       <div className={e.stepPanel} aria-live="polite">
-        <span className={e.stepCount}>Step {i + 1} of {STEPS.length}</span>
-        <p className={e.stepTitle}>{s.name}</p>
-        <span className={`${e.rating} ${s.ai === "weak" ? e.ratingWeak : s.ai === "strong" ? e.ratingStrong : ""}`}>AI {s.ai}</span>
+        <div className={e.stepHead}>
+          <p className={e.stepTitle}>
+            <span className={e.stepCount}>{i + 1}/{STEPS.length}</span> {s.name}
+          </p>
+          <span className={`${e.rating} ${s.ai === "weak" ? e.ratingWeak : s.ai === "strong" ? e.ratingStrong : ""}`}>AI {s.ai}</span>
+          <span className={e.stepNav}>
+            <button type="button" className={e.navBtn} onClick={() => go(i - 1, false)} disabled={i === 0} aria-label="Previous step">←</button>
+            <button type="button" className={e.navBtn} onClick={() => go(i + 1, false)} disabled={i === STEPS.length - 1} aria-label="Next step">→</button>
+          </span>
+        </div>
         <p className={e.stepText}>{s.text}</p>
-      </div>
-
-      <div className={e.stepNav}>
-        <button type="button" className={e.navBtn} onClick={() => go(i - 1)} disabled={i === 0} aria-label="Previous step">←</button>
-        <button type="button" className={e.navBtn} onClick={() => go(i + 1)} disabled={i === STEPS.length - 1} aria-label="Next step">→</button>
       </div>
 
       <figcaption className={e.vcap}>
