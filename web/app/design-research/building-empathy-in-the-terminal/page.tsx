@@ -39,9 +39,9 @@ const jsonLd = {
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
-function Spot({ name, small = false }: { name: string; small?: boolean }) {
+function Spot({ name }: { name: string }) {
   return (
-    <div className={small ? `${e.spot} ${e.spotSmall}` : e.spot} aria-hidden="true">
+    <div className={e.spot} aria-hidden="true">
       <img src={`/doodles/${name}.svg`} alt="" />
     </div>
   );
@@ -162,8 +162,6 @@ export default function BuildingEmpathyInTheTerminal() {
           <p className={styles.caption}>
             Three findings about understanding users, and about where AI helps or hurts, changed how I built this.
           </p>
-
-          <Spot name="calendar" small />
           <h3 className={e.subHead}>1. What people did beats what they say they will do</h3>
           <p className={styles.caption}>
             You know this one. What I hadn&rsquo;t appreciated is the size of the gap. A{" "}
@@ -180,8 +178,6 @@ export default function BuildingEmpathyInTheTerminal() {
               <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>Webb and Sheeran (2006)</a>.
             </figcaption>
           </figure>
-
-          <Spot name="bot" small />
           <h3 className={e.subHead}>2. AI-made users fail exactly where the gaps are</h3>
           <p className={styles.caption}>
             It&rsquo;s tempting to ask an AI to role-play your user. When Nielsen Norman Group{" "}
@@ -196,8 +192,6 @@ export default function BuildingEmpathyInTheTerminal() {
             The way I think about it: an AI persona is a very confident average. It sounds like a person, but it has
             never paid an invoice late or rage-quit a setup screen.
           </p>
-
-          <Spot name="user-caution" small />
           <h3 className={e.subHead}>3. Personas don&rsquo;t do what we hope</h3>
           <p className={styles.caption}>
             Even human-made personas struggle.{" "}
@@ -483,7 +477,6 @@ export default function BuildingEmpathyInTheTerminal() {
             there before showing it to you. It&rsquo;s all labelled public, because these are real people but not your
             users, and I&rsquo;d expect reviews and forums to lean towards people with a complaint, so it says that too.
           </p>
-          <Spot name="wallet" small />
           <p className={styles.caption}>
             Then I asked a question I hadn&rsquo;t thought about: who pays for that search? It&rsquo;s you, not dwic. It
             runs on your own Claude account and it&rsquo;s the heaviest part of a session, so dwic tells you before it

@@ -5,7 +5,6 @@
 
 .spot { width: 4rem; margin: 0 0 1rem; }
 .spot img { width: 100%; height: auto; display: block; }
-.spotSmall { width: 3rem; margin: 2.5rem 0 0.75rem; }
 
 .subHead {
   font-size: var(--fs-h3);
