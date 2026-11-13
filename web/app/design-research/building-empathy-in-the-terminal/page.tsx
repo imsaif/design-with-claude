@@ -132,43 +132,13 @@ export default function BuildingEmpathyInTheTerminal() {
             So empathy isn&rsquo;t how sure you feel about your users. It&rsquo;s how much you know about how they think,
             and how much of that came from them.
           </p>
-        </section>
-
-        <section className={styles.section}>
-          <h2 className={styles.sectionHead}>Three things that shaped the design</h2>
-
-          <h3 className={e.subHead}>1. What people did beats what they say they will do</h3>
           <p className={styles.caption}>
-            You know this one. The surprise is the size of the gap: across{" "}
-            <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>47 experiments</a>, behaviour moved only about half as
-            much as intention. So every dwic question is about a moment that already happened.
-          </p>
-          <figure className={e.viz} role="img" aria-label="Behaviour changes about half as much as intention: 0.66 against 0.36">
-            <span className={e.vlabel}>When intention moves, behaviour moves about half as far</span>
-            <div className={e.barRow}><span>What people say they&rsquo;ll do</span><div className={`${e.bar} ${e.barFull}`}>0.66</div></div>
-            <div className={e.barRow}><span>What they actually do</span><div className={`${e.bar} ${e.barHalf}`}>0.36</div></div>
-            <figcaption className={e.vcap}>
-              Average effect sizes, <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>Webb and Sheeran (2006)</a>.
-            </figcaption>
-          </figure>
-
-          <h3 className={e.subHead}>2. AI-made users fail where the gaps are</h3>
-          <p className={styles.caption}>
-            When Nielsen Norman Group{" "}
+            That&rsquo;s also why AI can&rsquo;t do it for you. When Nielsen Norman Group{" "}
             <a href="https://www.nngroup.com/articles/synthetic-users-vs-human-respondents/" {...ext}>compared synthetic and real users</a>,
             the synthetic answers clustered around the average and lost the unusual ones, which is often where the real
-            problem is. They were also{" "}
-            <a href="https://www.nngroup.com/articles/synthetic-users/" {...ext}>overly positive and shallow</a>. An AI
-            persona is a very confident average.
-          </p>
-
-          <h3 className={e.subHead}>3. Personas don&rsquo;t do what we hope</h3>
-          <p className={styles.caption}>
-            <a href="https://quantuxbook.com/papers/Chapman-Milham-Personas-HFES2006-0139-0330.pdf" {...ext}>You can&rsquo;t check a persona for accuracy</a>,
-            and designers{" "}
-            <a href="https://research.google/pubs/how-do-designers-and-user-experience-professionals-actually-perceive-and-use-personas/" {...ext}>rarely consult them</a>{" "}
-            when real decisions are made. So dwic&rsquo;s first rule: never invent a user, a quote or an interview. If
-            there&rsquo;s no evidence, say so.
+            problem is. And personas, AI-made or not,{" "}
+            <a href="https://quantuxbook.com/papers/Chapman-Milham-Personas-HFES2006-0139-0330.pdf" {...ext}>can&rsquo;t be checked for accuracy</a>.
+            So dwic&rsquo;s first rule: never invent a user, a quote or an interview.
           </p>
         </section>
 
@@ -256,7 +226,8 @@ export default function BuildingEmpathyInTheTerminal() {
           <p className={styles.caption}>
             Being questioned about your assumptions is useful and tiring. Advait Sarkar warns in{" "}
             <a href="https://arxiv.org/html/2411.02263v2" {...ext}>AI Should Challenge, Not Obey</a> that an AI that keeps
-            challenging you wears you out. So dwic asks three questions, each narrower than the last, then stops:
+            challenging you wears you out. So dwic asks three questions, each narrower than the last and each about a moment that already happened, since{" "}
+            <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>people predict their own behaviour poorly</a>. Then it stops:
           </p>
           <figure className={e.viz} role="img" aria-label="Three questions narrow a vague belief to a real moment. It ends with: she sent it from Word.">
             <span className={e.vlabel}>Three questions, from a belief to a moment</span>
@@ -380,9 +351,7 @@ export default function BuildingEmpathyInTheTerminal() {
             <li>Indi Young (2015), A New Way to Listen, A List Apart. <a href="https://alistapart.com/article/a-new-way-to-listen" {...ext}>alistapart.com</a></li>
             <li>Webb and Sheeran (2006), Does changing behavioral intentions engender behavior change? <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>eprints.whiterose.ac.uk</a></li>
             <li>Nielsen Norman Group, Synthetic Users vs Human Respondents. <a href="https://www.nngroup.com/articles/synthetic-users-vs-human-respondents/" {...ext}>nngroup.com</a></li>
-            <li>Nielsen Norman Group, Synthetic Users. <a href="https://www.nngroup.com/articles/synthetic-users/" {...ext}>nngroup.com</a></li>
             <li>Chapman and Milham (2006), The personas&rsquo; new clothes. <a href="https://quantuxbook.com/papers/Chapman-Milham-Personas-HFES2006-0139-0330.pdf" {...ext}>quantuxbook.com</a></li>
-            <li>Matthews, Judge and Whittaker (CHI 2012), How designers perceive and use personas. <a href="https://research.google/pubs/how-do-designers-and-user-experience-professionals-actually-perceive-and-use-personas/" {...ext}>research.google</a></li>
             <li>Heath and Heath (2006), The Curse of Knowledge, Harvard Business Review. <a href="https://hbr.org/2006/12/the-curse-of-knowledge" {...ext}>hbr.org</a></li>
             <li>Camerer, Loewenstein and Weber (1989), The curse of knowledge in economic settings. <a href="https://doi.org/10.1086/261651" {...ext}>doi.org</a></li>
             <li>Advait Sarkar (2024), AI Should Challenge, Not Obey. <a href="https://arxiv.org/html/2411.02263v2" {...ext}>arxiv.org</a></li>
