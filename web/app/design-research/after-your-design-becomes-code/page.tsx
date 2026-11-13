@@ -5,9 +5,9 @@ import styles from "../research.module.css";
 import d from "./drift.module.css";
 
 const SITE_URL = "https://www.designwithclaude.com";
-const PAGE_PATH = "/design-research/your-design-made-it-into-code";
+const PAGE_PATH = "/design-research/after-your-design-becomes-code";
 const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
-const PAGE_TITLE = "Your design made it into code. Who keeps it right?";
+const PAGE_TITLE = "After your design becomes code";
 const PAGE_DESCRIPTION =
   "Claude Design now lives in Claude, one step from Claude Code, and Anthropic has solved the handoff between them. What nobody has solved is what happens after it: the small changes that each skip the design system, and how to keep a design intact in the repo.";
 const DATE_PUBLISHED = "2026-11-13";
@@ -96,7 +96,7 @@ const KIT = [
   },
 ];
 
-export default function YourDesignMadeItIntoCode() {
+export default function AfterYourDesignBecomesCode() {
   return (
     <>
       <a href="#main-content" className="skip-link">
