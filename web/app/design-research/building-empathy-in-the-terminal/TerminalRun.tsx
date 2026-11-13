@@ -77,7 +77,10 @@ export function TerminalRun() {
       if (chars < l.text.length) t = setTimeout(() => setChars((c) => c + 1), TYPE_MS);
       else t = setTimeout(() => { setChars(0); setLine((n) => n + 1); }, AFTER_TYPE_MS);
     } else if (l.kind === "out" && !thinking && chars === 0) {
+      // Enter the thinking pause; its timer is set on the next pass, once `thinking` is true,
+      // so this state change can't cancel it.
       setThinking(true);
+    } else if (l.kind === "out" && thinking) {
       t = setTimeout(() => { setThinking(false); setChars(1); }, THINK_MS);
     } else if (l.kind === "out" && chars === 1) {
       t = setTimeout(() => { setChars(0); setLine((n) => n + 1); }, 250);
