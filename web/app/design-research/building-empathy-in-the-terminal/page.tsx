@@ -266,31 +266,23 @@ export default function BuildingEmpathyInTheTerminal() {
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionHead}>What if you have no users yet?</h2>
-          <p className={styles.caption}>
-            dwic doesn&rsquo;t block you. It can send a research agent to find what real people say in public reviews and
-            forums, checking every quote is really on its page and labelling it public. That search runs on your own
-            Claude account, so dwic tells you before it starts and lets you skip it.
-          </p>
-        </section>
-
-        <section className={styles.section}>
-          <h2 className={styles.sectionHead}>What it doesn&rsquo;t do yet</h2>
-          <p className={styles.caption}>
-            It&rsquo;s early, and so far only its builder has used it, the weakest evidence there is by its own labels.
-            It also doesn&rsquo;t yet help you listen for reasoning in your own interview notes. That&rsquo;s next.
-          </p>
-        </section>
-
-        <section className={styles.section}>
           <h2 className={styles.sectionHead}>Why do this in the terminal, with dwic</h2>
           <p className={styles.caption}>You could do all of this with a notebook. In practice, few of us do. dwic helps because:</p>
           <ul className={e.list}>
             <li><strong>It shows assumptions you can&rsquo;t see</strong> in your own code, with the file and line.</li>
             <li><strong>It asks the follow-ups you&rsquo;d skip</strong> on yourself, and stops after three.</li>
             <li><strong>It won&rsquo;t let a guess pass as a fact,</strong> and writes nothing until you say yes.</li>
+            <li>
+              <strong>It works before you have users.</strong> It can search public reviews and forums for what real
+              people say, check each quote is on its page, and label it public. That runs on your own Claude account, so
+              it asks first.
+            </li>
             <li><strong>What you learn gets used:</strong> dwic&rsquo;s copy and form commands read <code>.dwic/EMPATHY.md</code>.</li>
           </ul>
+          <p className={styles.caption}>
+            It&rsquo;s early. So far only its builder has used it, the weakest evidence there is by its own labels, and it
+            doesn&rsquo;t yet help you listen for reasoning in your own interview notes. That&rsquo;s next.
+          </p>
           <p className={styles.caption}>dwic is free as a Claude Code plugin:</p>
           <pre className={styles.code}>{`/plugin marketplace add imsaif/design-with-claude
 /plugin install design-with-claude@design-with-claude
