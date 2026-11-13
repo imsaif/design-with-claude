@@ -4,6 +4,7 @@ import { Footer } from "@/components/skills/Footer";
 import styles from "../research.module.css";
 import e from "./empathy.module.css";
 import { StepSlider } from "./StepSlider";
+import { TerminalRun } from "./TerminalRun";
 
 const SITE_URL = "https://www.designwithclaude.com";
 const PAGE_PATH = "/design-research/building-empathy-in-the-terminal";
@@ -88,30 +89,7 @@ export default function BuildingEmpathyInTheTerminal() {
           to be the user.
         </p>
 
-        <figure>
-          <div className={e.term} role="img" aria-label="Example run of /design-empathy on a signup flow. It lists three assumptions in the code with file and line, asks who the designer had in mind, records the answer as recalled with why unknown, and writes to EMPATHY.md only after the designer says yes.">
-            <p className={e.termCap}>Example run · a test project&rsquo;s signup flow</p>
-            <p className={e.termYou}>&gt; /design-with-claude:design-empathy the signup flow</p>
-            <p className={e.termDim}>Reading app/onboarding/page.tsx, app/signup/form.tsx</p>
-            <p>{`What this flow assumes about people:
-  1. Everyone will finish all five setup steps before their first invoice.   page.tsx:5
-  2. Everyone has a phone number and will give it up front.                   form.tsx:12
-  3. A failed phone number is the user\u2019s mistake.                           form.tsx:31`}</p>
-            <p>Starting with 1. Who did you have in mind, and when did you last see someone go through it?</p>
-            <p className={e.termDim}>Why I&rsquo;m asking: what someone did last time predicts better than what they say they&rsquo;d do.</p>
-            <p className={e.termYou}>› A freelance photographer I demoed to on 3 November quit at the bank step.</p>
-            <p>Did she say why?</p>
-            <p className={e.termYou}>› No.</p>
-            <p>{`Proposed for EMPATHY.md:
-  1. recalled  A freelance photographer quit at the bank step (demo, 3 Nov).
-               why: unknown \u2192 ask her: \u201cWhen you stopped at the bank step,
-               what was going through your mind?\u201d
-Keep it?`}</p>
-            <p className={e.termYou}>› Yes.</p>
-            <p className={e.termDim}>Wrote 1 point to .dwic/EMPATHY.md. Nothing else was saved.</p>
-          </div>
-          <figcaption className={e.vcap}>Shortened from a run against the test project dwic was built against.</figcaption>
-        </figure>
+        <TerminalRun />
 
         <section className={styles.section}>
           <h2 className={styles.sectionHead}>What empathy means in product work</h2>
