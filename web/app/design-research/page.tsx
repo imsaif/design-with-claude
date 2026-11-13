@@ -26,6 +26,14 @@ export const metadata = {
 // One study today. The structure holds many.
 const STUDIES = [
   {
+    slug: "/design-research/after-your-design-becomes-code",
+    updated: "November 2026",
+    title: "After your design becomes code",
+    summary:
+      "Claude Design now lives in Claude, and the handoff to Claude Code is solved. What happens after it is not: the small changes that each skip the design system, and how to keep a design intact in the repo.",
+    art: "drift" as const,
+  },
+  {
     slug: "/design-research/building-empathy-in-the-terminal",
     updated: "November 2026",
     title: "Building empathy in the terminal",
