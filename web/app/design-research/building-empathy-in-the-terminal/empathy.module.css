@@ -111,13 +111,17 @@
 .try p { font-size: var(--fs-body); line-height: 1.6; color: var(--dr-secondary); margin: 0; }
 
 /* terminal run — window chrome, caret, staged lines */
-.termFig { margin: 0 0 2rem; display: flex; flex-direction: column; gap: 0.5rem; }
-.termWin { border-radius: 10px; overflow: hidden; background: var(--dr-ink); box-shadow: 0 8px 24px rgba(22, 32, 54, 0.18); }
+.termFig { width: 100%; max-width: 40rem; margin: 0.5rem auto 2.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.termWin {
+  border-radius: 12px; overflow: hidden; background: var(--dr-ink);
+  box-shadow: 0 1px 2px rgba(22, 32, 54, 0.1), 0 10px 24px -6px rgba(22, 32, 54, 0.28), 0 28px 56px -16px rgba(22, 32, 54, 0.32);
+}
 .termBar { display: flex; align-items: center; gap: 0.75rem; padding: 0.55rem 0.9rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
 .termDots { display: inline-flex; gap: 6px; }
 .termDots i { width: 10px; height: 10px; border-radius: 50%; background: var(--dr-surface); opacity: 0.25; }
 .termTitle { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: var(--fs-eyebrow); color: var(--dr-surface); opacity: 0.55; }
-.termWin .term { border-radius: 0; margin: 0; }
+.termWin .term { border-radius: 0; margin: 0; padding: 0.9rem 1rem; line-height: 1.55; }
+.termFig .vcap { text-align: center; }
 .termGhost { visibility: hidden; }
 .termIn { animation: termFade 0.25s ease-out; }
 .termRow { position: relative; }

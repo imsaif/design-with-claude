@@ -15,9 +15,9 @@ const LINES: Line[] = [
   {
     kind: "out",
     text: `What this flow assumes about people:
-  1. Everyone finishes all five setup steps before their first invoice.  page.tsx:5
-  2. Everyone has a phone number and will give it up front.              form.tsx:12
-  3. A failed phone number is the user’s mistake.                        form.tsx:31`,
+  1. Everyone finishes five setup steps before invoicing.  page.tsx:5
+  2. Everyone will give a phone number up front.           form.tsx:12
+  3. A failed phone number is the user’s mistake.          form.tsx:31`,
   },
   { kind: "out", text: "Starting with 1. Who did you have in mind, and when did you last see someone go through it?" },
   { kind: "dim", text: "Why I’m asking: what someone did last time predicts better than what they say they’d do." },
