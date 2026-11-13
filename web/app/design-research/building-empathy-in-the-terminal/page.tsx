@@ -79,14 +79,20 @@ export default function BuildingEmpathyInTheTerminal() {
         <p className={styles.eyebrow}>Essay &middot; November 2026</p>
         <h1 className={styles.title}>Building empathy in the terminal</h1>
         <p className={styles.lede}>
-          Anthropic&rsquo;s <a href={COURSE_URL} {...ext}>AI Fluency for Builders</a> course rates where AI stands in each
-          step of building. Implementation: AI strong. Empathy: AI weak. &ldquo;AI can surface data and personas, it
-          can&rsquo;t feel the gap.&rdquo;
+          AI coding tools let you go from an idea to something live without ever meeting a user. This is how dwic puts
+          empathy back into that loop, inside the terminal: by reading your code for what it assumes about people, and
+          questioning you without ever inventing a user.
         </p>
         <div className={styles.meta}>
           <span>By <b>Imran Mohammed</b></span>
           <span>13 November 2026</span>
         </div>
+
+        <p className={styles.caption}>
+          Anthropic&rsquo;s <a href={COURSE_URL} {...ext}>AI Fluency for Builders</a> course rates where AI stands in
+          each step of building. Empathy, understanding who you&rsquo;re building for, is rated AI weak: &ldquo;AI can
+          surface data and personas, it can&rsquo;t feel the gap.&rdquo;
+        </p>
 
         <figure
           className={e.viz}
@@ -111,7 +117,7 @@ export default function BuildingEmpathyInTheTerminal() {
         <p className={styles.caption}>
           With Claude Code you can go from an idea to something live in an afternoon, and nothing in that loop asks who
           it&rsquo;s for. This is how I tried to put that step back inside the terminal, without letting the AI pretend
-          to be the user. Most of it works without dwic too.
+          to be the user.
         </p>
 
         <section className={styles.section}>
