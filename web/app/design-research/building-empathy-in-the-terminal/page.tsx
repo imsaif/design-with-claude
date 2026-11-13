@@ -280,8 +280,8 @@ export default function BuildingEmpathyInTheTerminal() {
             <li><strong>What you learn gets used:</strong> dwic&rsquo;s copy and form commands read <code>.dwic/EMPATHY.md</code>.</li>
           </ul>
           <p className={styles.caption}>
-            It&rsquo;s early. It doesn&rsquo;t yet help you listen for reasoning in your own interview notes.
-            That&rsquo;s next.
+            It&rsquo;s early. It reads your interview notes for needs and quotes, but it doesn&rsquo;t yet pull out how
+            people reasoned, the thinking Indi Young listens for. That&rsquo;s next.
           </p>
           <p className={styles.caption}>dwic is free as a Claude Code plugin:</p>
           <pre className={styles.code}>{`/plugin marketplace add imsaif/design-with-claude
