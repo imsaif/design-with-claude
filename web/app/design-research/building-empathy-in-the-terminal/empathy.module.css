@@ -134,7 +134,7 @@
 .termIn { animation: termFade 0.25s ease-out; }
 .termRow { position: relative; }
 .termThinking { position: absolute; left: 0; top: 0; opacity: 0.6; animation: termPulse 1s ease-in-out infinite; }
-.caret { display: inline-block; width: 0.55em; height: 1.1em; vertical-align: text-bottom; background: var(--dr-surface); margin-left: 1px; animation: termBlink 1s steps(1) infinite; }
+.caret { display: inline-block; width: 0.55em; height: 1.1em; vertical-align: text-bottom; background: var(--dr-surface); animation: termBlink 1s steps(1) infinite; }
 .replay { background: none; border: none; padding: 0; font: inherit; color: var(--dr-accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .replay:focus-visible { outline: 2px solid var(--dr-ink); outline-offset: 2px; border-radius: 3px; }
 @keyframes termBlink { 50% { opacity: 0; } }
