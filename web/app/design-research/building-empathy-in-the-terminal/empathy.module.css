@@ -113,7 +113,9 @@
 .table th, .table td { text-align: left; padding: 0.6rem 0.75rem; border-top: 1px solid var(--dr-line); vertical-align: top; }
 .table thead th { border-top: none; font-size: var(--fs-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; color: var(--dr-muted); font-weight: 600; }
 .table td:first-child { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: var(--fs-caption); white-space: nowrap; color: var(--dr-ink); }
-.tableWrap { overflow-x: auto; margin: 0 0 2rem; }
+.tableWrap { overflow-x: auto; margin: 0 0 2rem; border: 1px solid var(--dr-line-strong); border-radius: 12px; background: var(--dr-surface); }
+.tableCap { caption-side: top; text-align: left; padding: 0.9rem 0.75rem 0.4rem; font-size: var(--fs-eyebrow); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dr-muted); }
+.table td:last-child { color: var(--dr-muted); font-size: var(--fs-caption); }
 
 /* try this yourself */
 .try { background: var(--dr-soft); border-left: 3px solid var(--dr-ink); border-radius: 0 10px 10px 0; padding: 1rem 1.25rem; margin: 0 0 2rem; }
@@ -165,15 +167,6 @@
 .flowYou { border: 1.5px solid var(--dr-ink); }
 .flowFile { border: 2px solid var(--dr-ink); background: var(--dr-soft); }
 
-/* evidence ladder */
-.rung { display: grid; grid-template-columns: 6.5rem 5.5rem minmax(0, 1fr); gap: 0.75rem; align-items: start; padding-top: 0.6rem; border-top: 1px solid var(--dr-line); }
-.rung:first-child { border-top: none; padding-top: 0; }
-.rungName { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: var(--fs-caption); font-weight: 600; color: var(--dr-ink); }
-.pips { display: flex; gap: 4px; padding-top: 0.3rem; }
-.pip { width: 0.9rem; height: 0.6rem; border-radius: 3px; background: var(--dr-line-strong); }
-.pipOn { background: var(--dr-ink); }
-.rungText { font-size: var(--fs-body); color: var(--dr-secondary); margin: 0; }
-.rungText small { display: block; font-size: var(--fs-caption); color: var(--dr-muted); }
 
 /* one behaviour, three whys */
 .root { border: 2px solid var(--dr-ink); border-radius: 10px; padding: 0.75rem 1rem; text-align: center; font-weight: 600; font-size: var(--fs-body); color: var(--dr-ink); max-width: 26rem; margin: 0 auto; }
@@ -188,7 +181,7 @@
 @media (max-width: 640px) {
   .stop:not(.stopOn) .stopName { visibility: hidden; }
   .strongest { font-size: var(--fs-eyebrow); }
-  .compare, .claim, .branches, .flow, .rung { grid-template-columns: 1fr; }
+  .compare, .claim, .branches, .flow { grid-template-columns: 1fr; }
   .w2, .w3, .w4 { width: 100%; }
   .claim .arrow, .flow .arrow { transform: rotate(90deg); justify-self: start; }
 }

@@ -43,11 +43,11 @@ const jsonLd = {
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
 const RUNGS = [
-  { name: "observed", n: 5, means: "You saw them do it.", ex: "Watched her skip the bank step on a call." },
-  { name: "reported", n: 4, means: "They told you, in their own words.", ex: "“I found out a client was a month late only when I checked my bank.”" },
-  { name: "public", n: 3, means: "Real people, but not your users.", ex: "A competitor’s app-store review." },
-  { name: "recalled", n: 2, means: "Your memory of a real moment.", ex: "“A photographer I demoed to quit at the bank step.”" },
-  { name: "assumed", n: 1, means: "No source yet.", ex: "“Users want it simple.”" },
+  { name: "observed", means: "You saw them do it.", ex: "Watched her skip the bank step on a call." },
+  { name: "reported", means: "They told you, in their own words.", ex: "“I found out a client was a month late only when I checked my bank.”" },
+  { name: "public", means: "Real people, but not your users.", ex: "A competitor’s app-store review." },
+  { name: "recalled", means: "Your memory of a real moment.", ex: "“A photographer I demoed to quit at the bank step.”" },
+  { name: "assumed", means: "No source yet.", ex: "“Users want it simple.”" },
 ];
 
 const WHYS = [
@@ -221,20 +221,19 @@ export default function BuildingEmpathyInTheTerminal() {
             </div>
           </figure>
           <p className={styles.caption}>And every point is labelled by how it&rsquo;s known, a habit worth stealing for any research doc:</p>
-          <figure className={e.viz} role="img" aria-label="Five evidence labels, strongest first: observed, reported, public, recalled, assumed.">
-            <span className={e.vlabel}>How it&rsquo;s known, strongest first</span>
-            {RUNGS.map((r) => (
-              <div className={e.rung} key={r.name}>
-                <span className={e.rungName}>{r.name}</span>
-                <span className={e.pips}>
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <i key={i} className={i <= r.n ? `${e.pip} ${e.pipOn}` : e.pip} />
-                  ))}
-                </span>
-                <p className={e.rungText}>{r.means}<small>{r.ex}</small></p>
-              </div>
-            ))}
-          </figure>
+          <div className={e.tableWrap}>
+            <table className={e.table}>
+              <caption className={e.tableCap}>How it&rsquo;s known, strongest first</caption>
+              <thead>
+                <tr><th scope="col">Label</th><th scope="col">What it means</th><th scope="col">Example</th></tr>
+              </thead>
+              <tbody>
+                {RUNGS.map((r) => (
+                  <tr key={r.name}><td>{r.name}</td><td>{r.means}</td><td>{r.ex}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <p className={styles.caption}>
             &ldquo;Recalled&rdquo; matters most. A real moment you remember is more than a guess, but nobody can check
             it. Without its own label, memories quietly become evidence.
