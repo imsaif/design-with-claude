@@ -3,6 +3,7 @@ import { Nav } from "@/components/skills/Nav";
 import { Footer } from "@/components/skills/Footer";
 import styles from "../research.module.css";
 import e from "./empathy.module.css";
+import { StepSlider } from "./StepSlider";
 
 const SITE_URL = "https://www.designwithclaude.com";
 const PAGE_PATH = "/design-research/building-empathy-in-the-terminal";
@@ -39,15 +40,6 @@ const jsonLd = {
 };
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
-
-const STEPS = [
-  { name: "Empathy", ai: "weak" },
-  { name: "Design", ai: "moderate" },
-  { name: "Architecture", ai: "moderate" },
-  { name: "Implementation", ai: "strong" },
-  { name: "Judgment", ai: "weak" },
-  { name: "Shipping", ai: "moderate" },
-];
 
 const RUNGS = [
   { name: "observed", n: 5, means: "You saw them do it.", ex: "Watched her skip the bank step on a call." },
@@ -88,25 +80,7 @@ export default function BuildingEmpathyInTheTerminal() {
           <span>13 November 2026</span>
         </div>
 
-        <figure
-          className={e.viz}
-          role="img"
-          aria-label="Six build steps and where AI stands. Empathy and Judgment: AI weak. Implementation: AI strong. The rest: moderate."
-        >
-          <span className={e.vlabel}>Six build steps, and where AI stands</span>
-          <div className={e.steps}>
-            {STEPS.map((s, i) => (
-              <div className={s.name === "Empathy" ? `${e.stepCard} ${e.stepCardOn}` : e.stepCard} key={s.name}>
-                <span className={e.stepNum}>{i + 1}</span>
-                <span className={e.stepName}>{s.name}</span>
-                <span className={`${e.rating} ${s.ai === "weak" ? e.ratingWeak : s.ai === "strong" ? e.ratingStrong : ""}`}>AI {s.ai}</span>
-              </div>
-            ))}
-          </div>
-          <figcaption className={e.vcap}>
-            Ratings from Anthropic&rsquo;s <a href={COURSE_URL} {...ext}>AI Fluency for Builders</a> course.
-          </figcaption>
-        </figure>
+        <StepSlider courseUrl={COURSE_URL} />
 
         <p className={styles.caption}>
           With Claude Code you can go from an idea to something live in an afternoon, and nothing in that loop asks who
@@ -203,7 +177,7 @@ export default function BuildingEmpathyInTheTerminal() {
           <figure>
             <div className={e.term} role="img" aria-label="Example terminal session. dwic names an assumption in the code and asks who the designer had in mind. The unknown why becomes a question for the user.">
               <p className={e.termCap}>Example session · a test project&rsquo;s signup flow</p>
-              <p>This code assumes every new account will finish all five setup steps, including connecting a bank, before sending a first invoice.  <span className={e.termDim}>app/onboarding/page.tsx:5</span></p>
+              <p>This code assumes every new account finishes all five setup steps before its first invoice. One of them is connecting a bank.  <span className={e.termDim}>app/onboarding/page.tsx:5</span></p>
               <p>Who did you have in mind, and when did you last see someone go through it?</p>
               <p className={e.termDim}>Why I&rsquo;m asking: what someone did last time predicts better than what they say they&rsquo;d do.</p>
               <p className={e.termYou}>› A freelance photographer I demoed to on 3 November quit at the bank step. Never came back.</p>
@@ -220,8 +194,8 @@ export default function BuildingEmpathyInTheTerminal() {
           <p className={styles.caption}>
             Being questioned about your assumptions is useful and tiring. Advait Sarkar warns in{" "}
             <a href="https://arxiv.org/html/2411.02263v2" {...ext}>AI Should Challenge, Not Obey</a> that an AI that keeps
-            challenging you wears you out. So dwic asks three questions, each narrower than the last and each about a moment that already happened, since{" "}
-            <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>people predict their own behaviour poorly</a>. Then it stops:
+            challenging you wears you out. So dwic asks three questions, each narrower than the last and each about a moment that already happened, since people are{" "}
+            <a href="https://eprints.whiterose.ac.uk/1580" {...ext}>poor at predicting</a> their own behaviour. Then it stops:
           </p>
           <figure className={e.viz} role="img" aria-label="Three questions narrow a vague belief to a real moment. It ends with: she sent it from Word.">
             <span className={e.vlabel}>Three questions, from a belief to a moment</span>
@@ -244,8 +218,8 @@ export default function BuildingEmpathyInTheTerminal() {
         <section className={styles.section}>
           <h2 className={styles.sectionHead}>Say how you know what you know</h2>
           <p className={styles.caption}>
-            What would make me wince is dwic inventing users or quotes, calling it evidence, and recording it without
-            anyone confirming. So it proposes, and you decide what gets written.
+            What would make me wince is Claude Code inventing users or quotes, calling it evidence, and recording it without
+            anyone confirming. So dwic proposes, and you decide what gets written.
           </p>
           <figure className={e.viz} role="img" aria-label="dwic asks and proposes. You choose what to keep. dwic writes only that to EMPATHY.md.">
             <span className={e.vlabel}>dwic writes nothing without you</span>
