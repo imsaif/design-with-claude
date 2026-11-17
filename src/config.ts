@@ -13,7 +13,7 @@ export interface DwicConfig {
 function resolveCommandsDir(): string {
   const fromEnv = process.env.DWIC_COMMANDS_DIR?.trim();
   if (fromEnv) return fromEnv;
-  return fileURLToPath(new URL("../commands/", import.meta.url));
+  return fileURLToPath(new URL("../plugin/commands/", import.meta.url));
 }
 
 export function loadConfig(): DwicConfig {

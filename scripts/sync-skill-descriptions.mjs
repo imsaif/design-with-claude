@@ -2,7 +2,7 @@
 // Single source of truth for what each skill says it is for.
 //
 // The description lived in two places: the `description:` frontmatter of
-// `commands/<slug>.md` (which Claude reads to decide whether to fire a skill)
+// `plugin/commands/<slug>.md` (which Claude reads to decide whether to fire a skill)
 // and a hand-maintained copy in `web/app/data/skills.ts` (which renders the
 // library card a person reads to decide whether to install). Rewriting the 48
 // command descriptions on 2026-08-21 desynced them immediately, which is the
@@ -25,7 +25,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const COMMANDS = join(ROOT, "commands");
+const COMMANDS = join(ROOT, "plugin", "commands");
 const SITE_DATA = join(ROOT, "web", "app", "data", "skills.ts");
 
 // A card line longer than this wraps past the space the card reserves. The
@@ -111,5 +111,5 @@ if (source === before) {
   console.log(`✓ already in sync (${seen.size} skills)`);
 } else {
   writeFileSync(SITE_DATA, source);
-  console.log(`✓ synced ${seen.size} card descriptions from commands/ into web/app/data/skills.ts`);
+  console.log(`✓ synced ${seen.size} card descriptions from plugin/commands/ into web/app/data/skills.ts`);
 }

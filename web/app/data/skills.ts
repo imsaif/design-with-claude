@@ -547,9 +547,9 @@ export function getCategoryLabel(categoryId: CategoryId): string {
 }
 
 export function getInstallCommand(slug: string): string {
-  return `curl -sL https://raw.githubusercontent.com/imsaif/design-with-claude/main/commands/${slug}.md -o .claude/commands/${slug}.md`;
+  return `curl -sL https://raw.githubusercontent.com/imsaif/design-with-claude/main/plugin/commands/${slug}.md -o .claude/commands/${slug}.md`;
 }
 
 export function getGithubUrl(slug: string): string {
-  return `https://github.com/imsaif/design-with-claude/blob/main/commands/${slug}.md`;
+  return `https://github.com/imsaif/design-with-claude/blob/main/plugin/commands/${slug}.md`;
 }

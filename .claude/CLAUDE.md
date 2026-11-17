@@ -7,27 +7,27 @@
 - Persistence: Supabase (profiles + companion_events)
 - See `PROGRESS.md` at the repo root for current state; `00-product-brief.md` + `0{1,2,3,4}-*.md` on Desktop for the canonical plan.
 
-**V1 (still shipping):** 40+ specialized design skills as Claude Code slash commands, available as a plugin or standalone. `commands/*.md` stays intact — the V2 MCP server reuses those files as role prompts.
+**V1 (still shipping):** 40+ specialized design skills as Claude Code slash commands, available as a plugin or standalone. `plugin/commands/*.md` stays intact — the V2 MCP server reuses those files as role prompts.
 
 ## Architecture
 - **V2 MCP server (root):** TypeScript, ESM, `@modelcontextprotocol/sdk` over stdio. Tools live in `src/tools/`. Shared types in `src/tools/types.ts`. Six structured output kinds: palette, type-scale, spacing, component-spec, copy, markdown.
 - **V2 install flow:** `npx dwic-audit@1.0.0-alpha.12 setup --token=imr_xxx --project=<slug> [--scope=user|project]` writes the MCP entry. Uses `claude mcp add-json` when available, falls back to direct `~/.claude.json` edit with timestamped backup, or `.mcp.json` at the cwd for project scope.
 - **V2 gating:** Pre-call `/api/gating/check`, post-call `/api/gating/consume`. Fails open when `DWC_GATING` is off (dev/alpha default).
 - **V2 events:** Post-call emit to `/api/events`. Payload shape defined in `src/api-client.ts` → `EventPayload`. The browser companion (Phase 2) subscribes via Supabase Realtime.
-- **V1 plugin (unchanged):** `.claude-plugin/plugin.json` manifest; `commands/*.md` are the knowledge base for both V1 slash commands and V2 MCP tool role prompts. `/design-brief` is the master command.
+- **V1 plugin:** lives in `plugin/` (manifest `plugin/.claude-plugin/plugin.json`); the root `.claude-plugin/marketplace.json` points at it with `"source": "./plugin"`; `plugin/commands/*.md` are the knowledge base for both V1 slash commands and V2 MCP tool role prompts. `/design-brief` is the master command.
 
 ## Key Files
 - `package.json` (root) — npm package `dwic-audit`, bins: `dwic-audit` → `dist/bin/setup.js` (the `npx dwic-audit@1.0.0-alpha.12` entry — a dispatcher: bare/flag-first runs an audit, `setup`/`uninstall`/`help`/`version` route explicitly) + `dwic-mcp-server` → `dist/server.js` (MCP server, launched by the installed `.mcp.json` via `npx -p dwic-audit@<v> dwic-mcp-server`)
 - `src/server.ts` — MCP server main; registers all tools; wraps handlers with gating + event emission
 - `src/tools/index.ts` — tool registry
 - `src/tools/types.ts` — `ToolDefinition`, `ToolResult`, output payload types
-- `src/tools/loadPrompt.ts` — reads and caches `commands/*.md` role prompts
+- `src/tools/loadPrompt.ts` — reads and caches `plugin/commands/*.md` role prompts
 - `src/bin/setup.ts` — `npx dwic-audit@1.0.0-alpha.12 setup` install flow
 - `scripts/test-mcp-handshake.mjs` — stdio round-trip against `dist/server.js` (`npm run test:mcp`)
 - `scripts/test-setup-dry-run.mjs` — install/uninstall against a tmp project (`npm run test:setup`)
-- `.claude-plugin/plugin.json` — V1 plugin manifest (unchanged)
+- `plugin/.claude-plugin/plugin.json` — V1 plugin manifest
 - `.claude-plugin/marketplace.json` — V1 marketplace catalog (unchanged)
-- `commands/*.md` — role prompts, shared by V1 slash commands and V2 MCP tools
+- `plugin/commands/*.md` — role prompts, shared by V1 slash commands and V2 MCP tools
 - `README.md` — V1 install + command reference (still current for the plugin path)
 - `web/` — landing page; will become the V2 browser companion (Phase 2)
 - `web/lib/dwc/{types,tokens,store}.ts` — shared types + in-memory store (Symbol.for singleton survives HMR) that Phase 3 will port to Supabase
@@ -45,7 +45,7 @@
 **Read `docs/SKILL-QUALITY-STANDARD.md` before writing or editing a command.** It is the
 bar every command is held to, and it doubles as the build spec for new ones.
 
-New commands follow the shape of `commands/design-grill.md` or `commands/design-triage.md`:
+New commands follow the shape of `plugin/commands/design-grill.md` or `plugin/commands/design-triage.md`:
 an evidence rule, a "skip this command when" block, a step-by-step procedure, a literal
 output template, and a falsifiable "done when" condition.
 
@@ -74,7 +74,7 @@ counts. Never hand-edit a count.
 ## Card descriptions are generated, never typed
 
 The library card on `web/app/data/skills.ts` is derived from the **first sentence** of the
-matching `commands/<slug>.md` description. Run `npm run sync-skill-descriptions` after
+matching `plugin/commands/<slug>.md` description. Run `npm run sync-skill-descriptions` after
 editing any description; `npm run build` fails on drift, on a first sentence over 121
 characters, and on a command with no card or a card with no command. Never hand-edit a
 card description — the two copies silently diverged the moment one side changed.
@@ -95,10 +95,10 @@ The `design-` prefix marks commands that act on the design *process* rather than
 - **MCP tool names and slash command names differ for spacing.** The MCP tool is
   `spacing-specialist`; the slash command is `/spacing-layout-specialist`. The audit
   report's "Next steps" names the MCP tool, which free-library users do not have.
-- **`commands/*.md` backs both products.** The same file powers the free slash command
+- **`plugin/commands/*.md` backs both products.** The same file powers the free slash command
   and the paid MCP specialist, so a command edit changes both.
-- **Anything under `commands/` ships as a user-visible command.** Shared partials cannot
-  live there — `commands/_shared/x.md` would appear as `/design-with-claude:_shared:x`.
+- **Anything under `plugin/commands/` ships as a user-visible command.** Shared partials cannot
+  live there — `plugin/commands/_shared/x.md` would appear as `/design-with-claude:_shared:x`.
 - **Run the thing before believing it.** A 25-agent read of all 46 command files found no
   runtime bugs. The first end-to-end CLI run found one in 20 minutes (`dwic audit <path>`
   silently auditing the cwd). Reading prompts is not testing behaviour.
@@ -138,9 +138,14 @@ The `design-` prefix marks commands that act on the design *process* rather than
   constants — `setup.ts`'s copy is written into the user's `.mcp.json` as
   `npx -p dwic-audit@<VERSION>`, so a stale one pins installs to a release that was never
   shipped, with no error anywhere.
+- **The directory only accepts a plugin folder of text and images.** Anthropic's directory
+  refused 1.0.12 (2026-11-13) because the submission was the whole repo: CLI source,
+  `web/`, `package.json` and lockfiles, scripts, a video. Unverified organisations may
+  only ship Markdown, text, JSON, YAML and images. So the plugin lives in `plugin/` and
+  only `plugin/` is submitted. Never put code, lockfiles or media in `plugin/`.
 - **Plugin text must pin every package it runs.** Anthropic's plugin directory blocked 1.0.5
   (review 2026-10-06) because commands and skills ran dwic-audit, vercel and other packages
-  through npx with no version. Write `pkg@x.y.z` everywhere in `commands/`, `skills/`, `.claude-plugin/`,
+  through npx with no version. Write `pkg@x.y.z` everywhere in `plugin/commands/`, `plugin/skills/`, `.claude-plugin/`,
   the README and this file. `npm run sync-version` rewrites every `dwic-audit@<v>` to the
   package version and the build fails on an unversioned dwic-audit run; third-party tools
   (`vercel`, `skills`, `kill-port`) are pinned by hand. This file lives in `.claude/` rather
@@ -152,14 +157,14 @@ The `design-` prefix marks commands that act on the design *process* rather than
   already has. Pushing new commits to `main` without bumping `version` in
   `.claude-plugin/{plugin,marketplace}.json` therefore serves installers the old build, with
   no error anywhere. It sat at 1.0.4 through three merges before that was noticed. Bump it on
-  every release that touches `commands/`, and verify by installing from the *published*
+  every release that touches `plugin/commands/`, and verify by installing from the *published*
   marketplace in a clean directory — the repo being right proves nothing about what users get.
 - **`/plugin install` does not switch a plugin on — `/reload-plugins` does.** Claude Code's
   own string is "Run /reload-plugins to activate successfully installed plugins." Skip that
   line and the commands simply do not exist, silently, for everyone at once. Any install
   instructions we hand out (README, onboarding copy, workshop slides) need all three lines:
   marketplace add, install, reload.
-- **A command's `description` is its entire trigger surface.** Every `commands/*.md`
+- **A command's `description` is its entire trigger surface.** Every `plugin/commands/*.md`
   carries only `description` in frontmatter and none set `disable-model-invocation`, so
   every one is model-invocable and that one line is all Claude reads when deciding whether
   to reach for a skill. A description that names a topic ("Cart UX, payment forms") tells

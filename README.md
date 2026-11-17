@@ -30,7 +30,7 @@ Get a token at [designwithclaude.com/get-started](https://designwithclaude.com/g
 
 This repo also ships **50 design skills across 8 categories** (40 design specialists and 8 technical guides for designers) as plain Claude Code slash commands. No runtime, no dependencies, no API keys. Browse them at [designwithclaude.com/library](https://designwithclaude.com/library).
 
-These aren't a separate product. They're the **same knowledge base dwic runs on**. Each specialist's expertise lives in a markdown role prompt under `commands/`, and dwic's MCP specialists load those exact files. When you ask dwic's `color-specialist` inside Claude Code, its expertise comes from the same `commands/color-specialist.md` that the free `/color-specialist` slash command loads.
+These aren't a separate product. They're the **same knowledge base dwic runs on**. Each specialist's expertise lives in a markdown role prompt under `plugin/commands/`, and dwic's MCP specialists load those exact files. When you ask dwic's `color-specialist` inside Claude Code, its expertise comes from the same `commands/color-specialist.md` that the free `/color-specialist` slash command loads.
 
 The difference is the runtime around them. dwic wires **12 of these specialists** as MCP tools and adds what plain prompts can't: a deterministic audit engine, project memory, and the one-line CLI. The rest of the library is free to drop into Claude Code as slash commands today.
 
@@ -70,7 +70,7 @@ If you prefer shorter command names (no namespace prefix):
 git clone https://github.com/imsaif/design-with-claude.git ~/.design-with-claude
 
 # Copy commands to your user-level commands directory
-cp -r ~/.design-with-claude/commands/ ~/.claude/commands/
+cp -r ~/.design-with-claude/plugin/commands/ ~/.claude/commands/
 ```
 
 This gives you `/design-brief`, `/accessibility-specialist`, etc. directly.
@@ -293,23 +293,23 @@ normally use them: learn who it's for, pin the decisions, check the code obeys t
 
 Each command file is a markdown document containing a design specialist's complete knowledge. When you invoke a command, Claude loads that specialist as context — giving it deep, structured expertise in that domain.
 
-There's no code running, no API calls, no build step. The `commands/` directory IS the product. Claude's intelligence does the rest.
+There's no code running, no API calls, no build step. The `plugin/commands/` directory IS the product. Claude's intelligence does the rest.
 
 ## Alternative: Project-Local Commands
 
 Copy commands into a single project:
 
 ```bash
-cp -r ~/.design-with-claude/commands/ your-project/.claude/commands/
+cp -r ~/.design-with-claude/plugin/commands/ your-project/.claude/commands/
 ```
 
 ## Contributing
 
 ### Adding a new skill
 
-1. Create `commands/your-skill-name.md` with YAML frontmatter (`description` field) and a role statement using `$ARGUMENTS`
+1. Create `plugin/commands/your-skill-name.md` with YAML frontmatter (`description` field) and a role statement using `$ARGUMENTS`
 2. Follow the structure of existing commands: Expertise, Design Principles, Guidelines, Checklist, Anti-patterns, How to respond, What to ask if unclear
-3. Add to the command table in this README and to `commands/design-brief.md`
+3. Add to the command table in this README and to `plugin/commands/design-brief.md`
 
 ## License
 

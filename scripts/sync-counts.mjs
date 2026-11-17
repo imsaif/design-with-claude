@@ -34,7 +34,7 @@ const TECHNICAL_GUIDES = new Set([
 // the plugin manifest and the public marketplace listing.
 const NOT_SPECIALISTS = new Set(["guide", "design-brief"]);
 
-const slugs = readdirSync(join(ROOT, "commands"))
+const slugs = readdirSync(join(ROOT, "plugin", "commands"))
   .filter((f) => f.endsWith(".md"))
   .map((f) => f.slice(0, -3));
 
@@ -46,7 +46,7 @@ const routable = total - 1;
 
 const EDITS = [
   {
-    file: ".claude-plugin/plugin.json",
+    file: "plugin/.claude-plugin/plugin.json",
     re: /(\d+) design skills as slash commands \((\d+) specialists and (\d+) technical guides\)/,
     to: `${total} design skills as slash commands (${specialists} specialists and ${technical} technical guides)`,
   },
@@ -61,12 +61,12 @@ const EDITS = [
     to: `fix what it finds with ${total} design skills (${specialists} specialists and ${technical} technical guides)`,
   },
   {
-    file: "skills/design-with-claude/SKILL.md",
+    file: "plugin/skills/design-with-claude/SKILL.md",
     re: /Routes to (\d+) domain specialists/,
     to: `Routes to ${total} domain specialists`,
   },
   {
-    file: "commands/design-brief.md",
+    file: "plugin/commands/design-brief.md",
     re: /a library of (\d+) specialized agents/,
     to: `a library of ${routable} specialized agents`,
   },
