@@ -15,5 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/design-research/after-your-design-becomes-code`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/get-started`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/library`, lastModified, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${BASE}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
   ];
 }
