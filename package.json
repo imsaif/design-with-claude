@@ -10,7 +10,7 @@
   },
   "files": [
     "dist",
-    "commands",
+    "plugin/commands",
     "README.md",
     "LICENSE"
   ],

@@ -20,5 +20,5 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "web", "commands", "**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "web", "plugin", "**/*.test.ts"]
 }

@@ -39,7 +39,7 @@ function runOnce(c) {
   return new Promise((done) => {
     const child = spawn(
       "claude",
-      ["--setting-sources", "project", "-p", c.prompt, "--plugin-dir", repo, "--strict-mcp-config", "--model", MODEL, "--max-budget-usd", "0.40", "--allowedTools", "Read,Glob,Grep,Skill", "--output-format", "stream-json", "--verbose"],
+      ["--setting-sources", "project", "-p", c.prompt, "--plugin-dir", resolve(repo, "plugin"), "--strict-mcp-config", "--model", MODEL, "--max-budget-usd", "0.40", "--allowedTools", "Read,Glob,Grep,Skill", "--output-format", "stream-json", "--verbose"],
       { cwd, env: { ...process.env, DWIC_EVENTS: "off", DWIC_TELEMETRY: "off", DWIC_API_URL: "http://127.0.0.1:9" }, stdio: ["ignore", "pipe", "ignore"] },
     );
     let buffer = "";

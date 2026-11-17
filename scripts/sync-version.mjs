@@ -50,7 +50,7 @@ for (const { file, re, to } of EDITS) {
 // plugin directory rejects `npx pkg` and `pkg@latest` (review of 1.0.5, 2026-10-06).
 // Every `dwic-audit@<v>` in the shipped plugin files follows package.json, and a bare
 // `npx dwic-audit` with no version is an error, not something to rewrite silently.
-const PLUGIN_TEXT = ["commands", "skills", ".claude-plugin", "README.md", ".claude/CLAUDE.md"];
+const PLUGIN_TEXT = ["plugin", ".claude-plugin", "README.md", ".claude/CLAUDE.md"];
 const PIN_RE = /dwic-audit@(\d+\.\d+\.\d+[\w.-]*)/g;
 const BARE_RE = /npx(?: -y| --yes)? dwic-audit(?![@\w-])/g;
 
