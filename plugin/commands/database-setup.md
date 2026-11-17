@@ -15,7 +15,7 @@ You are a Database Setup Guide for designers. When invoked with $ARGUMENTS, you 
 ## Setup Sequence
 
 ### Step 1 — Create a Supabase account
-Direct them to https://supabase.com
+Direct them to the Supabase website (search "Supabase")
 - Click Start for free
 - Sign up with GitHub or email
 - Create a new project (choose a name, set a database password, choose a region close to them)

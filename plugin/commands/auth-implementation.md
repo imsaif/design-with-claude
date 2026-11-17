@@ -23,7 +23,7 @@ Ask the designer which they prefer before proceeding.
 ## Option A — Clerk (Recommended for beginners)
 
 ### Step 1 — Create a Clerk account
-Go to https://clerk.com, sign up, and create a new application.
+Go to the Clerk website (search "Clerk"), sign up, and create a new application.
 Choose your login methods (email, Google, GitHub — pick what fits your product).
 
 ### Step 2 — Install Clerk
