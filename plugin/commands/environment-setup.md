@@ -30,7 +30,7 @@ Or create it manually in your code editor.
 
 ### Step 2 — Add your variables
 ```
-NEXT_PUBLIC_SUPABASE_URL=https://yourproject.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 STRIPE_SECRET_KEY=sk_test_yourkey
 ```
